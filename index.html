@@ -1761,7 +1761,7 @@ const ATKCAP = 2;
 function tryAtk(e, k) {
   const a = EATK[k], rg = !!(a.shoot || a.bolt); let m = 0, q = 0;
   for (const o of enemies) { const b = EATK[o.atk]; if (o === e || o.def.boss || o.state === 'dead' || !(o.state === 'wind' || o.state === 'dash' || (o.state === 'rec' && b && b.next))) continue; if (b && (b.shoot || b.bolt)) q++; else m++; }
-  if (G.atkGap > 0 || (rg ? q >= 1 : m >= ATKCAP)) { e.wt = 0.7; e.t = rnd(0.15, 0.35); return false; }
+  if (G.atkGap > 0 || (rg ? q >= 1 : m >= ATKCAP)) { e.wt = 0.7; e.t = rnd(0.15, 0.35); e.cm = 0; e.pk = 0; return false; }
   G.atkGap = 0.28; eStart(e, k); return true;
 }
 function ringMove(e, d, dist, dt) { if (dist < 96) eMove(e, e.face + PI, d.spd * 0.5, dt); else if (dist > 142) eMove(e, e.face, d.spd, dt); else { eMove(e, e.face + PI / 2 * e.strafe, d.spd * 0.45, dt); if (Math.random() < dt * 0.4) e.strafe = -e.strafe; } }
@@ -1772,6 +1772,47 @@ function resetEnemy(e) {
 }
 /* v1.6.4: 雑魚 wind-ups (attack tells) start a little earlier — 12% longer warning before the hit */
 for (const k in EATK) if (!EATK[k].wDone) { EATK[k].w *= 1.12; EATK[k].wDone = 1; }
+/* v1.6.4b: 雑魚 AI tune — new light/delayed moves, slower late tracking, longer recoveries (final hit of a combo gets the biggest opening). New moves are already in final values. */
+Object.assign(EATK, {
+  jab: { w: 0.34, tele: 'arc', r: 52, half: 0.95, dmg: 9, kb: 160, rec: 0.55, trk: 3, wDone: 1, tuned: 1 },
+  dslash: { w: 0.5, hold: 0.5, tele: 'arc', r: 56, half: 1.05, dmg: 15, kb: 300, rec: 1.0, trk: 3, wDone: 1, tuned: 1 },
+  dthrust: { w: 0.62, hold: 0.45, tele: 'line', len: 172, wd: 24, dash: 560, dur: 0.2, dmg: 19, kb: 360, rec: 1.1, trk: 2, wDone: 1, tuned: 1 },
+  dclaw: { w: 0.38, hold: 0.4, tele: 'arc', r: 52, half: 1.0, dmg: 12, kb: 240, rec: 0.8, trk: 3, wDone: 1, tuned: 1 }
+});
+for (const k in EATK) { const a = EATK[k]; if (a.tuned) continue; a.tuned = 1; if (!a.wDone) continue;
+  if (a.step) a.rec = Math.round(a.rec * 1.5 * 100) / 100; else if (a.rec > 0.3 && !a.next) a.rec = Math.round(a.rec * 1.3 * 100) / 100;
+  if (a.hold === undefined) a.trk = Math.round(a.trk * 0.55 * 10) / 10; }
+const PERS = {
+  hollow: { ring: 74, hit: 52, sp: 0.5, mv: [0.6, 0.2, 0.2], n: [1, 2] },
+  ghoul: { ring: 70, hit: 50, sp: 0.7, mv: [0.5, 0.15, 0.35], n: [1, 2] },
+  spear: { ring: 112, hit: 150, sp: 0.35, mv: [0.3, 0.4, 0.3], n: [2, 2] },
+  shield: { ring: 72, hit: 62, sp: 0.3, mv: [0.25, 0.15, 0.6], n: [1, 2], adv: 0.75 },
+  knight: { ring: 104, hit: 86, sp: 0.4, mv: [0.3, 0.2, 0.5], n: [1, 2], adv: 0.9 }
+};
+const ri = (a, b) => a + Math.floor(Math.random() * (b - a + 1));
+function mobNew(e, p) { e.pk = 0; e.nd = ri(p.n[0], p.n[1]); e.cm = 0; e.mt = rnd(0.3, 0.8); e.mode = 'hold'; }
+/* approach to just outside reach, strafe / step back / hold for a few beats, then commit. Returns true when it is in range and has decided to commit. */
+function mobSpace(e, d, ty, dist, dt) {
+  const p = PERS[ty] || PERS.knight; if (e.nd === undefined) mobNew(e, p);
+  const spd = d.spd, ps = P.state;
+  if (!e.see) { eMove(e, e.face, spd, dt); return false; }
+  /* reactions: the player drinks -> press in; the player winds up a heavy -> some back off */
+  if (ps === 'heal') { if (!e.hr && dist < 260) { e.hr = 1; e.pk = e.nd; e.t = Math.min(e.t, 0.1); e.mt = 0; } } else e.hr = 0;
+  if (ps === 'heavy' && P.t < 0.4) { if (!e.hv && dist < 170) { e.hv = 1; if (ty !== 'shield' && Math.random() < 0.5) { e.mode = 'flee'; e.mt = 0.7; e.cm = 0; e.t = Math.max(e.t, 0.6); } } } else e.hv = 0;
+  if (ty === 'shield') e.lw = e.mode === 'hold' && !(e.cm > 0) && dist > 78 && !(ps === 'atk' || ps === 'heavy' || ps === 'parry'); 
+  e.mt -= dt;
+  if (e.cm > 0) { e.cm -= dt; if (dist > p.hit) { eMove(e, e.face, spd * (p.adv || 1), dt); } if (e.cm <= 0) { e.pk = 0; e.nd = ri(p.n[0], p.n[1]); } return dist <= p.hit + 4; }
+  if (e.mt <= 0) {
+    e.pk++; const r = Math.random(), m = p.mv; e.mode = r < m[0] ? 'strafe' : r < m[0] + m[1] ? 'back' : 'hold'; e.mt = rnd(0.4, 0.9); if (Math.random() < 0.5) e.strafe = -e.strafe;
+    if (e.pk >= e.nd && e.t <= 0) { e.cm = 1.6; return false; }
+  }
+  if (dist > p.ring + 14) eMove(e, e.face, spd * (p.adv || 0.85), dt);
+  else if (dist < p.ring - 16 || e.mode === 'back') eMove(e, e.face + PI, spd * 0.5, dt);
+  else if (e.mode === 'flee') eMove(e, e.face + PI, spd * 0.9, dt);
+  else if (e.mode === 'strafe') eMove(e, e.face + PI / 2 * e.strafe, spd * p.sp, dt);
+  if (e.mode === 'flee' && dist < p.ring - 16) eMove(e, e.face + PI, spd * 0.9, dt);
+  return false;
+}
 function resetEnemies() {
   if (L) L.inited = 1;
   for (const e of enemies) { resetEnemy(e); if (e.def.boss && ((L.id === 'castle' ? save.mbC[e.key] : L.bossDead) || (e.need === 'lord' && !save.lords[2]))) { e.state = 'dead'; e.t = 99; e.hp = 0; } }
@@ -1785,7 +1826,7 @@ function resetEnemies() {
 }
 function clearTeleOf(e) { for (let i = tele.length - 1; i >= 0; i--) if (tele[i].src === e || tele[i].own === e) tele.splice(i, 1); }
 function eStart(e, k) {
-  const a = EATK[k]; e.state = 'wind'; e.atk = k; e.t = 0; e.hitDone = false; e.flip = !e.flip;
+  const a = EATK[k]; e.state = 'wind'; e.atk = k; e.t = 0; e.hitDone = false; e.flip = !e.flip; e.hl = 0; e.hd = 0; e.lw = false;
   if (a.tele === 'arc') { addTele('arc', a.w, { src: e, r: a.r, half: a.half }); e.saT = e.flip ? 2.3 : -2.3; e.sl = 0; }
   else { addTele('line', a.w, { src: e, len: a.len, w: a.wd }); e.saT = 0; e.sl = -9; }
 }
@@ -1799,9 +1840,9 @@ function eFire(e) {
   const a = EATK[e.atk];
   if (a.shoot) {
     for (const ar of arrows) if (!ar.on) { ar.on = true; ar.x = e.x + Math.cos(e.face) * 16; ar.y = e.y + Math.sin(e.face) * 16; ar.vx = Math.cos(e.face) * 540; ar.vy = Math.sin(e.face) * 540; ar.life = 1.3; ar.dmg = 13 * e.dm; break; }
-    SFX.arrow(); e.state = 'rec'; e.t = a.rec; e.cd = rnd(1.9, 2.6); e.sl = 0; return;
+    SFX.arrow(); e.state = 'rec'; e.t = a.rec; e.cd = rnd(2.7, 3.6); e.sl = 0; return;
   }
-  if (a.bolt) { mShot(e, e.face, 300, 16, { hom: 1.3, life: 2.4 }); SFX.cast(); e.state = 'rec'; e.t = a.rec; e.cd = rnd(2.2, 3); e.sl = 0; return; }
+  if (a.bolt) { mShot(e, e.face, 300, 16, { hom: 1.3, life: 2.4 }); SFX.cast(); e.state = 'rec'; e.t = a.rec; e.cd = rnd(3.1, 4.2); e.sl = 0; return; }
   if (a.tele === 'arc') {
     const s = e.saT; e.sa = e.saT = -s; addSlash(e.x, e.y, e.face, s * 0.62, -s * 0.62, a.r, 0.2, e.type === 'knight' ? '215,205,190' : '190,180,160', 0.5);
     e.type === 'knight' ? SFX.bswing() : SFX.swingH();
@@ -1849,7 +1890,7 @@ function hitEnemy(e, dmg, poise, heavy, bleed, magic) {
   if (e.def.boss && e.state === 'idle' && !mayAggro(e)) { tagText(e, '静観', '#b9a0ff'); return; }
   if (e.iv > 0) { tagText(e, '回避', '#ff9a9a'); return; }
   let mult = 1, crit = false; const rk = resK(e.def); dmg *= rk;
-  if (e.def.sh && e.gd > 0 && (e.state === 'chase' || e.state === 'wind') && Math.abs(angDiff(e.face, Math.atan2(P.y - e.y, P.x - e.x))) < e.def.sh.half) { shieldBlock(e, dmg, poise, heavy); return; }
+  if (e.def.sh && e.gd > 0 && !e.lw && (e.state === 'chase' || e.state === 'wind') && Math.abs(angDiff(e.face, Math.atan2(P.y - e.y, P.x - e.x))) < e.def.sh.half) { shieldBlock(e, dmg, poise, heavy); return; }
   if (e.state === 'stagger') { mult = 1.3; if (heavy && !e.critDone) { mult = (e.def.boss ? 2.0 : 2.3) * (G.critK || 1); crit = true; onCrit(); e.critDone = true; if (e.def.boss) e.t = Math.min(e.t, 0.8); } }
   dmg = Math.max(1, Math.round(dmg * mult * rnd(0.94, 1.06)) || 0); let bl = 0;
   if (bleed) { e.bleed += bleed * bleedMult() * (e.def.boss ? 1 : 1.25) * (e.def.res && e.def.res.bleed !== undefined ? e.def.res.bleed : 1); e.bleedT = 5; if (e.bleed >= e.bleedMax) { e.bleed = 0; if (e.def.boss) e.bleedMax *= 1.12; bl = Math.round((e.def.boss ? 60 : Math.max(26, e.mhp * 0.3)) * bleedMult()); } }
@@ -1942,33 +1983,34 @@ function updEnemy(e, dt) {
       if (!alive || ((dist > 640 || Math.hypot(e.x - e.hx, e.y - e.hy) > 780 || e.lost > 3.5) && !(e.hitT > 0 && dist < 1100))) { e.state = 'return'; e.t = 0; break; }
       const ta = e.see ? pa : Math.atan2(e.ly - e.y, e.lx - e.x), contact = d.r + P.r + 6;
       e.face = turnTo(e.face, ta, 6 * dt);
-      const ty = d.ai || e.type, hold = e.wt > 0; if (hold) e.wt -= dt;
-      if (ty === 'hollow') {
-        if (hold) ringMove(e, d, dist, dt); else if (dist > contact) eMove(e, e.face, d.spd, dt);
-        if (e.t <= 0 && e.see) { const q = Math.random(); if (dist < 60) tryAtk(e, q < 0.22 ? 'slow' : q < 0.5 ? 'slash2' : 'slash'); else if (dist > 85 && dist < 150 && Math.random() < dt * 1.4) tryAtk(e, 'leap'); }
-      } else if (ty === 'ghoul') {
-        if (hold) ringMove(e, d, dist, dt); else if (dist > contact) eMove(e, e.face, d.spd, dt);
-        if (e.t <= 0 && e.see) { if (dist < 58) tryAtk(e, Math.random() < 0.35 ? 'claw3' : 'claw'); else if (dist > 80 && dist < 170 && Math.random() < dt * 2.2) tryAtk(e, 'leap'); }
-      } else if (ty === 'spear') {
-        if (dist > 128 || !e.see) eMove(e, e.face, d.spd, dt); else if (dist < 78) eMove(e, e.face + PI, d.spd * 0.6, dt); else { eMove(e, e.face + PI / 2 * e.strafe, 30, dt); if (Math.random() < dt * 0.5) e.strafe = -e.strafe; }
-        if (e.t <= 0 && e.see && dist < 165) tryAtk(e, dist < 66 ? (Math.random() < 0.35 ? 'spin' : 'poke') : dist < 112 && Math.random() < 0.45 ? 'poke2' : 'thrust');
-      } else if (ty === 'shield') {
-        if (hold) ringMove(e, d, dist, dt); else if (dist > contact) eMove(e, e.face, d.spd, dt);
-        if (e.t <= 0 && e.see && dist < 68) { const q = Math.random(); tryAtk(e, q < 0.34 ? 'bash' : q < 0.62 ? 'slash' : q < 0.82 ? 'slow' : 'slash2'); }
-      } else if (ty === 'archer' || ty === 'acolyte') {
-        const far = ty === 'archer' ? 400 : 300;
-        if (!e.see || dist > far) eMove(e, e.face, d.spd, dt); else if (dist < 125) eMove(e, e.face + PI, d.spd, dt);
+      const ty = d.ai || e.type;
+      if (ty === 'archer' || ty === 'acolyte') {
+        const far = ty === 'archer' ? 400 : 300; e.mt = (e.mt || 0) - dt;
+        if (P.state === 'heal' && !e.hr && e.see && dist < 460) { e.hr = 1; e.cd = Math.min(e.cd, 0.2); e.t = 0; } else if (P.state !== 'heal') e.hr = 0;
+        if (e.mt <= 0) { e.mt = rnd(0.7, 1.6); e.mode = Math.random() < 0.25 ? 'hold' : 'strafe'; if (Math.random() < 0.55) e.strafe = -e.strafe; }
+        if (!e.see || dist > far) eMove(e, e.face, d.spd, dt); else if (dist < 125) eMove(e, e.face + PI, d.spd, dt); else if (e.mode === 'strafe') eMove(e, e.face + PI / 2 * e.strafe, d.spd * 0.65, dt);
         if (e.cd <= 0 && e.t <= 0 && e.see && dist < far + 50) tryAtk(e, ty === 'acolyte' && dist < 110 && Math.random() < 0.6 ? 'nova' : ty === 'archer' ? (Math.random() < 0.3 ? 'shoot2' : 'shoot') : 'bolt');
       } else {
-        if (hold) ringMove(e, d, dist, dt); else if (dist > contact + 4) eMove(e, e.face, d.spd, dt);
-        if (e.t <= 0 && e.see) { if (dist < 92) tryAtk(e, Math.random() < 0.5 ? 'cleave' : 'sweep'); else if (dist > 130 && dist < 280 && Math.random() < dt * 1.1) tryAtk(e, 'charge'); }
+        const rdy = mobSpace(e, d, ty, dist, dt);
+        if (e.see && e.t <= 0 && !rdy && !(e.cm > 0)) {
+          if ((ty === 'hollow' || ty === 'ghoul') && dist > 85 && dist < 150 && Math.random() < dt * 0.9) tryAtk(e, 'leap');
+          else if (ty !== 'hollow' && ty !== 'ghoul' && ty !== 'spear' && ty !== 'shield' && dist > 150 && dist < 280 && Math.random() < dt * 0.8) tryAtk(e, 'charge');
+        }
+        if (rdy && e.t <= 0 && e.see) { const q = Math.random();
+          if (ty === 'hollow') tryAtk(e, q < 0.18 ? 'slow' : q < 0.36 ? 'dslash' : q < 0.56 ? 'slash2' : q < 0.8 ? 'jab' : 'slash');
+          else if (ty === 'ghoul') tryAtk(e, q < 0.3 ? 'claw3' : q < 0.55 ? 'dclaw' : 'claw');
+          else if (ty === 'spear') tryAtk(e, dist < 66 ? (q < 0.35 ? 'spin' : 'poke') : dist < 112 && q < 0.45 ? 'poke2' : q < 0.4 ? 'dthrust' : 'thrust');
+          else if (ty === 'shield') tryAtk(e, q < 0.3 ? 'bash' : q < 0.52 ? 'slash' : q < 0.7 ? 'slow' : q < 0.85 ? 'slash2' : 'dslash');
+          else tryAtk(e, q < 0.5 ? 'cleave' : 'sweep');
+        }
       }
       break; }
     case 'wind':
+      if (e.hd) { e.hl -= dt; e.saT = (e.saT < 0 ? -1 : 1) * 2.9; e.x += (Math.random() - 0.5) * 0.6; if (e.hl <= 0) { e.hd = 0; eFire(e); } break; }
       e.t += dt;
-      if (e.t < A.w - 0.16) e.face = turnTo(e.face, pa, A.trk * dt);
+      if (e.t < A.w - 0.16 && e.t < A.w * (A.tele === 'line' ? 0.5 : 1)) e.face = turnTo(e.face, pa, A.trk * (e.t < A.w * 0.6 ? 1 : 0.12) * dt);
       if (A.step && e.t < A.w - 0.1 && dist > d.r + P.r + 14) eMove(e, e.face, A.step, dt);
-      if (e.t >= A.w) eFire(e);
+      if (e.t >= A.w) { if (A.hold) { e.hd = 1; e.hl = A.hold * rnd(0.9, 1.2); for (const t of tele) if (t.src === e) { t.dur = A.hold / 0.25; t.t = t.dur * 0.75; } } else eFire(e); }
       break;
     case 'dash':
       e.t += dt; e.x += Math.cos(e.face) * A.dash * dt; e.y += Math.sin(e.face) * A.dash * dt;
@@ -1978,7 +2020,7 @@ function updEnemy(e, dt) {
       break;
     case 'rec':
       e.t -= dt; if (e.t < A.rec - 0.2) e.sl = lerp(e.sl, 0, 1 - Math.exp(-8 * dt));
-      if (e.t <= 0) { if (A.next) eStart(e, A.next); else { e.state = 'chase'; e.t = e.type === 'knight' ? rnd(0.4, 0.8) : rnd(0.35, 0.85); } }
+      if (e.t <= 0) { if (A.next) eStart(e, A.next); else { e.state = 'chase'; e.t = e.type === 'knight' ? rnd(0.4, 0.8) : rnd(0.35, 0.85); e.nd = undefined; } }
       break;
     case 'hurt': e.t -= dt; if (e.t <= 0) { e.state = 'chase'; e.t = rnd(0.25, 0.6); } break;
     case 'stagger': e.t -= dt; if (e.t <= 0) { e.state = 'chase'; e.t = d.esc ? 0.2 : 0.5; if (tough(e)) e.grace = d.esc ? 1.4 : 0.9; if (d.sh) e.gd = d.sh.gd; } break;
@@ -4494,7 +4536,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
-  { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具のサブステータスの値がA〜Eの5段階になりました（新しく拾った防具から）', '中ボスのいる部屋の雑魚を少し減らし、中ボス戦の最中は離れた雑魚が加わりにくくしました', '雑魚の攻撃の予兆を少し早めました', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました'] },
+  { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具のサブステータスの値がA〜Eの5段階になりました（新しく拾った防具から）', '中ボスのいる部屋の雑魚を少し減らし、中ボス戦の最中は離れた雑魚が加わりにくくしました', '雑魚の攻撃の予兆を少し早めました', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました', 'モンスターのAIを調整しました'] },
   { v: '1.6.3', d: '2026-11-18', t: '歯ごたえのある亡者たち', items: ['雑魚の亡者が、いまの強さに見合うだけ頑丈になり、攻撃も重くなりました。第1層・夜・第2層・ミニダンジョン、そして地下墓 B1〜B7 まで、「そのあたりで戦うころの強さ」を目安に整え直しています（レベルや強化を重ねれば、ちゃんと楽になります）', 'そのかわり、雑魚の近づいてくる足は約3割ゆっくりに。数を恐れず、間合いを読んで戦えます。攻撃の隙は少し短く、振りかぶりの途中は軽い攻撃では怯まなくなりました（予兆はこれまでどおり赤い枠）', '新しい敵「盾持ちの亡者」「聖都の盾衛士」が登場（第1層・第2層・地下墓 B2 以降）。正面からの軽い攻撃はほとんど防がれ、削られるのは盾の気力。ゼロになる「ガード崩し」で大きく体勢が崩れます。強攻撃、横や背中への回り込み、攻撃直後の隙を狙いましょう', '双刃の影 イズリル（夜の姿・地下墓の個体も）が簡単にひるまされ、連続攻撃で動けなくなる不具合を直しました。体勢が崩れにくくなり、回避の最中は攻撃が当たらず、立て続けに斬られると影に紛れて背後から反撃します', '強敵・精鋭・層の中ボス共通で、短い間に二度ほど怯まされると、しばらく怯まなくなって反撃してきます（頭上に「怯まず」）。崩れから立ち直った直後も、少しのあいだ崩れません']},
   { v: '1.6.2', d: '2026-11-17', t: '最初の手応えへ', items: ['祝福は「触れる」だけでは回復しなくなりました。触れると灯がともって復活地点と転移先になり、「休息」を選んだときだけ HP・FP・灰瓶が満ちて亡者が蘇ります（転移で着いたときも同じです）', 'どの素性もレベル1から。初めの持ち物も控えめにしました（騎士は革鎧と小盾、魔術師は魔法一つ、聖職者は霊鈴なし）', '第1層の亡者が少し丈夫に、少し痛くなり、新しい攻め手が増えました。そのかわり、一度に斬りかかってくるのは二体ほどまで。残りは周りで隙をうかがいます', '体勢を崩す力を武器の種類ごとに見直しました（大剣・特大剣・槌を控えめに）。崩された敵は、しばらく崩れにくくなります', '防具の守りを見直しました（第1層の重装一式で被害 -15% ほど。深い層の防具ほどしっかり堅くなります）', '武器の固有の技は、鍛えるほど本領を発揮するように。タリスマン・防具のサブステータス・致命の一撃も、序盤は控えめに', '霊体を弱めました。助けにはなりますが、強敵を任せきりにはできません（時間とともに薄れます）', '光や火花をおとなしくしました。画面全体が白くなることはもうありません。設定に「エフェクト：標準／控えめ」を追加', '武器が種類ごとに並ぶようになりました（装備・強化・図鑑）。種類で絞り込めます', '侵入者（赤い霊体）は、いったんお休みです', '灰冠の騎士王に関する不具合を調べ、体力がなくなれば必ず斃れるようにしました', 'セーブはそのまま引き継がれます'] },
   { v: '1.6.1', d: '2026-11-17', t: '矢は尽きず', items: ['弓の矢が無限になりました。そのかわり、射るたびのスタミナが少し増え、炎矢・重矢はさらに多く使います', '遠くから射られた敵が、逃げ帰って体力を全回復してしまう不具合を直しました（攻撃を受けた敵は、しばらく追いかけてきます）', '武器を持ち替えたあと、敵の体力が減りきらないことがある問題を直しました', '装備メニューの背景を濃くして、後ろの文字が透けないようにしました', 'ボスや敵の体力が0にならず倒せなくなることがある不具合を直しました', 'どんな耐性があっても、攻撃のダメージが0にならないようにしました'] },
@@ -5060,7 +5102,7 @@ function drawMB(e) {
 }
 /* v1.6.3 shield bearers: the shield is raised in front while they guard, and hangs at the side during recovery, stagger and flinches */
 function drawShield(e, sc) {
-  const big = d => d.sh.big, d = e.def, up = (e.state === 'chase' || e.state === 'wind' || e.state === 'return' || e.state === 'idle') && e.gd > 0, hh = (big(d) ? 17 : 12) * sc, w = (big(d) ? 7 : 5) * sc;
+  const big = d => d.sh.big, d = e.def, up = (e.state === 'chase' || e.state === 'wind' || e.state === 'return' || e.state === 'idle') && e.gd > 0 && !e.lw, hh = (big(d) ? 17 : 12) * sc, w = (big(d) ? 7 : 5) * sc;
   ctx.save(); ctx.translate(e.x, e.y); ctx.rotate(e.face);
   if (!up) { ctx.translate(-1, -e.r * sc * 1.15); ctx.rotate(-0.9); ctx.globalAlpha = 0.9; } else ctx.translate(e.r * sc * 0.85 + (e.bk > 0 ? 3 : 0), 0);
   ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.fillRect(-w / 2 + 2, -hh + 2, w, hh * 2);
