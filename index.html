@@ -868,15 +868,15 @@ const SPELL = {
   h_swarm: { name: '灰喰らいの群れ', short: '群れ', fp: 20, cast: 0.5, dur: 0.85, hidden: 2, desc: '六つの灰玉が敵を追う。墓主の追憶から得る。' }
 };
 const ARM = {
-  rags: { name: '放浪者の襤褸', tier: 1, dw: 2, pn: ['放浪者の頭巾', '放浪者の襤褸', '放浪者の手巻き', '放浪者の脚絆'], cls: '軽装', wt: 3, def: 0.025, desc: '旅の始まりの服。軽いだけが取り柄。', c: ['#6f757f', '#9299a4', '#c3c8d0', '#5a1d1d', 0] },
-  leather: { name: '斥候の革鎧', tier: 1, dw: 5, pn: ['斥候の革帽', '斥候の革鎧', '斥候の革手袋', '斥候の革長靴'], cls: '軽装', wt: 7, def: 0.06, desc: '音を立てない革の鎧。身軽さを保てる。', c: ['#5b4630', '#7a5f3e', '#8a7350', '#2f3a24', 1] },
-  robe: { name: '学匠の法衣', tier: 1, dw: 4, pn: ['学匠の頭巾', '学匠の法衣', '学匠の袖', '学匠の裳裾'], cls: '軽装', wt: 4, def: 0.04, mag: 0.08, fpr: 1, desc: '魔法の威力+8%、FPの自然回復が早まる。守りは薄い。', c: ['#2c3460', '#3d4a86', '#252b4c', '#1a1f3a', 2] },
-  mail: { name: '騎士の鎖鎧', tier: 1, dw: 4, pn: ['騎士の兜', '騎士の鎖鎧', '騎士の手甲', '騎士の脚甲'], cls: '中装', wt: 13, def: 0.105, desc: '城の騎士の鎖帷子。守りと動きの釣り合いが良い。', c: ['#59606b', '#8b93a0', '#aeb6c2', '#1f3d6b', 3] },
-  cloak: { name: '夜警の外套', tier: 2, dw: 3, pn: ['夜警の目深帽', '夜警の外套', '夜警の手套', '夜警の長靴'], cls: '中装', wt: 9, def: 0.095, str: 0.12, night: 1, desc: '夜の城を巡る者の外套。スタミナ回復+12%。軽さの割に守りが堅い。', c: ['#22262e', '#3a4150', '#8f98a8', '#0f1218', 5] },
-  vest: { name: '聖堂騎士の鎧', tier: 2, dw: 4, pn: ['聖堂騎士の兜', '聖堂騎士の鎧', '聖堂騎士の手甲', '聖堂騎士の脚甲'], cls: '中装', wt: 17, def: 0.15, l2: 1, desc: '聖都の騎士の鎧。鎖鎧より重いが、ずっと堅い。', c: ['#8a8d92', '#c8ccd2', '#dfe2e6', '#6a2a2a', 3] },
-  plate: { name: '灰鉄の重鎧', tier: 2, dw: 3, pn: ['灰鉄の角兜', '灰鉄の重鎧', '灰鉄の篭手', '灰鉄の脚甲'], cls: '重装', wt: 22, def: 0.175, pp: [1, 2, 1, 1], desc: '分厚い灰鉄の板金。軽い攻撃に怯まない。持久力なしでは転がれない。', c: ['#3c3f46', '#6a6f79', '#585d66', '#3d1414', 4] },
-  grave: { name: '墓守の装束', tier: 2, dw: 3, hidden: 2, pn: ['墓守の頭巾', '墓守の装束', '墓守の手袋', '墓守の脛当て'], cls: '軽装', wt: 8, def: 0.08, bld: 0.12, desc: '地下墓の墓守が纏う、土色の装束。出血の蓄積+12%（四部位）。亡者からしか得られない。', c: ['#3f4a3a', '#5d6b52', '#77866a', '#262d22', 5] },
-  crown: { name: '灰冠の王鎧', tier: 2, dw: 2, hidden: 2, pn: ['灰冠の兜', '灰冠の王鎧', '灰冠の篭手', '灰冠の脚甲'], cls: '重装', wt: 19, def: 0.165, pp: [1, 1, 0, 1], desc: '王に仕えた近衛の鎧。重鎧より軽く、ほとんど同じだけ堅い。強敵だけが遺す。', c: ['#4a4038', '#b89a55', '#d8c48a', '#5a1a1a', 4] },
+  rags: { name: '放浪者の襤褸', tier: 1, dw: 2, pn: ['放浪者の頭巾', '放浪者の襤褸', '放浪者の手巻き', '放浪者の脚絆'], cls: '軽装', wt: 3, def: 0.0325, desc: '旅の始まりの服。軽いだけが取り柄。', c: ['#6f757f', '#9299a4', '#c3c8d0', '#5a1d1d', 0] },
+  leather: { name: '斥候の革鎧', tier: 1, dw: 5, pn: ['斥候の革帽', '斥候の革鎧', '斥候の革手袋', '斥候の革長靴'], cls: '軽装', wt: 7, def: 0.08, desc: '音を立てない革の鎧。身軽さを保てる。', c: ['#5b4630', '#7a5f3e', '#8a7350', '#2f3a24', 1] },
+  robe: { name: '学匠の法衣', tier: 1, dw: 4, pn: ['学匠の頭巾', '学匠の法衣', '学匠の袖', '学匠の裳裾'], cls: '軽装', wt: 4, def: 0.05, mag: 0.08, fpr: 1, desc: '魔法の威力+8%、FPの自然回復が早まる。守りは薄い。', c: ['#2c3460', '#3d4a86', '#252b4c', '#1a1f3a', 2] },
+  mail: { name: '騎士の鎖鎧', tier: 1, dw: 4, pn: ['騎士の兜', '騎士の鎖鎧', '騎士の手甲', '騎士の脚甲'], cls: '中装', wt: 13, def: 0.1425, desc: '城の騎士の鎖帷子。守りと動きの釣り合いが良い。', c: ['#59606b', '#8b93a0', '#aeb6c2', '#1f3d6b', 3] },
+  cloak: { name: '夜警の外套', tier: 2, dw: 3, pn: ['夜警の目深帽', '夜警の外套', '夜警の手套', '夜警の長靴'], cls: '中装', wt: 9, def: 0.1225, str: 0.12, night: 1, desc: '夜の城を巡る者の外套。スタミナ回復+12%。軽さの割に守りが堅い。', c: ['#22262e', '#3a4150', '#8f98a8', '#0f1218', 5] },
+  vest: { name: '聖堂騎士の鎧', tier: 2, dw: 4, pn: ['聖堂騎士の兜', '聖堂騎士の鎧', '聖堂騎士の手甲', '聖堂騎士の脚甲'], cls: '中装', wt: 17, def: 0.2, l2: 1, desc: '聖都の騎士の鎧。鎖鎧より重いが、ずっと堅い。', c: ['#8a8d92', '#c8ccd2', '#dfe2e6', '#6a2a2a', 3] },
+  plate: { name: '灰鉄の重鎧', tier: 2, dw: 3, pn: ['灰鉄の角兜', '灰鉄の重鎧', '灰鉄の篭手', '灰鉄の脚甲'], cls: '重装', wt: 22, def: 0.2375, pp: [1, 2, 1, 1], desc: '分厚い灰鉄の板金。軽い攻撃に怯まない。持久力なしでは転がれない。', c: ['#3c3f46', '#6a6f79', '#585d66', '#3d1414', 4] },
+  grave: { name: '墓守の装束', tier: 2, dw: 3, hidden: 2, pn: ['墓守の頭巾', '墓守の装束', '墓守の手袋', '墓守の脛当て'], cls: '軽装', wt: 8, def: 0.105, bld: 0.12, desc: '地下墓の墓守が纏う、土色の装束。出血の蓄積+12%（四部位）。亡者からしか得られない。', c: ['#3f4a3a', '#5d6b52', '#77866a', '#262d22', 5] },
+  crown: { name: '灰冠の王鎧', tier: 2, dw: 2, hidden: 2, pn: ['灰冠の兜', '灰冠の王鎧', '灰冠の篭手', '灰冠の脚甲'], cls: '重装', wt: 19, def: 0.2225, pp: [1, 1, 0, 1], desc: '王に仕えた近衛の鎧。重鎧より軽く、ほとんど同じだけ堅い。強敵だけが遺す。', c: ['#4a4038', '#b89a55', '#d8c48a', '#5a1a1a', 4] },
   /* v1.6 families. `pf` = profile (ARM_PF): defense and weight come from the profile and the tier curve unless given explicitly */
   ashhunt: { name: '灰狩りの装束', tier: 1, dw: 4, hidden: 2, pf: 'swift', pn: ['灰狩りの鉢巻', '灰狩りの胴着', '灰狩りの籠手', '灰狩りの脚絆'], str: 0.08, desc: '灰の中で獣を追う狩人の装束。守りは薄いが、息が続く（スタミナ回復+8%）。', c: ['#6a4a2c', '#9a6f3a', '#c08a4a', '#3a2a1c', 1] },
   gate: { name: '門衛の具足', tier: 1, dw: 3, hidden: 2, pf: 'guard', pn: ['門衛の鉄笠', '門衛の胴丸', '門衛の腕当て', '門衛の脛当て'], pp: [0, 1, 0, 0], desc: '城門を守り続けた衛兵の具足。鎖鎧より重く、堅い。', c: ['#5a4a32', '#8f7a4a', '#a8955e', '#2c3a2a', 3] },
@@ -1161,10 +1161,10 @@ const ARMP = {}, TIER_MAX = 10;
 /* profiles for generated families: def = share of damage cut at tier 1, wt = set weight, plus built-in traits.
    tierDef(t) is the main-stat curve: +15% of the tier-1 value per tier (×2.35 at tier 10; heavy 150 → 352). Weight does not grow with tier. */
 const ARM_PF = {
-  light: { cls: '軽装', def: 0.055, wt: 6 }, swift: { cls: '軽装', def: 0.045, wt: 4.5 }, caster: { cls: '軽装', def: 0.045, wt: 4.5, mag: 0.1, fpr: 1.2, el: 0.08 }, ward: { cls: '軽装', def: 0.05, wt: 6, el: 0.2 },
-  medium: { cls: '中装', def: 0.1, wt: 12 }, guard: { cls: '中装', def: 0.125, wt: 16 }, heavy: { cls: '重装', def: 0.15, wt: 21, pp: [1, 2, 1, 1] }, wardh: { cls: '重装', def: 0.135, wt: 20, el: 0.24 }
+  light: { cls: '軽装', def: 0.0725, wt: 6 }, swift: { cls: '軽装', def: 0.0575, wt: 4.5 }, caster: { cls: '軽装', def: 0.06, wt: 4.5, mag: 0.1, fpr: 1.2, el: 0.08 }, ward: { cls: '軽装', def: 0.065, wt: 6, el: 0.2 },
+  medium: { cls: '中装', def: 0.135, wt: 12 }, guard: { cls: '中装', def: 0.1675, wt: 16 }, heavy: { cls: '重装', def: 0.21, wt: 21, pp: [1, 2, 1, 1] }, wardh: { cls: '重装', def: 0.185, wt: 20, el: 0.24 }
 };
-const tierDef = t => 1 + 0.15 * (t - 1);
+const tierDef = t => 1 + 0.115 * (t - 1);
 /* v1.7 adds a family with one line of data: addFamily('id', { name, tier, dw, pf, pn: [頭, 胴, 腕, 脚], desc, c: [body, shoulder, head, cloth, style 0-5] }) */
 function addFamily(k, s) {
   if (s) ARM[k] = s; s = ARM[k]; const pf = ARM_PF[s.pf] || {}, WSH = [0.2, 0.4, 0.15, 0.25], DSH = [0.22, 0.4, 0.16, 0.22];
@@ -1222,7 +1222,7 @@ function armSum(over) {
 /* AB = what the equipped armor adds, in the units the formulas use */
 const AB = { el: 0, def: 0, wt: 0, atk: 0, red: 0, stm: 0, sreg: 0, fp: 0, rune: 0, bld: 0, mag: 0, fpr: 0, poise: 0, vit: 0, end: 0, str: 0, dex: 0, int: 0, fth: 0, sum: null };
 function armCalc() {
-  const o = armSum(); AB.sum = o; AB.el = Math.min(0.5, o.el); AB.def = Math.min(0.45, o.def / 1000); AB.wt = o.wt; AB.atk = o.atk / 100; AB.red = o.red / 100; AB.stm = o.stm; AB.sreg = o.sreg / 100 + o.sreg0; AB.fp = o.fp; AB.rune = o.rune / 100; AB.bld = o.bld / 100 + o.bld0; AB.mag = o.mag; AB.fpr = o.fpr; AB.poise = o.pp * 3.2;
+  const o = armSum(); AB.sum = o; AB.el = Math.min(0.5, o.el); AB.def = Math.min(0.525, o.def / 1000); AB.wt = o.wt; AB.atk = o.atk / 100; AB.red = o.red / 100; AB.stm = o.stm; AB.sreg = o.sreg / 100 + o.sreg0; AB.fp = o.fp; AB.rune = o.rune / 100; AB.bld = o.bld / 100 + o.bld0; AB.mag = o.mag; AB.fpr = o.fpr; AB.poise = o.pp * 3.2;
   for (const k of ['vit', 'end', 'str', 'dex', 'int', 'fth']) AB[k] = o[k];
   if (o.n === 4 && o.r4 === 4 && save.cnt) save.cnt.set4 = 1;
 }
@@ -4483,7 +4483,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
-  { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました'] },
+  { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました'] },
   { v: '1.6.3', d: '2026-11-18', t: '歯ごたえのある亡者たち', items: ['雑魚の亡者が、いまの強さに見合うだけ頑丈になり、攻撃も重くなりました。第1層・夜・第2層・ミニダンジョン、そして地下墓 B1〜B7 まで、「そのあたりで戦うころの強さ」を目安に整え直しています（レベルや強化を重ねれば、ちゃんと楽になります）', 'そのかわり、雑魚の近づいてくる足は約3割ゆっくりに。数を恐れず、間合いを読んで戦えます。攻撃の隙は少し短く、振りかぶりの途中は軽い攻撃では怯まなくなりました（予兆はこれまでどおり赤い枠）', '新しい敵「盾持ちの亡者」「聖都の盾衛士」が登場（第1層・第2層・地下墓 B2 以降）。正面からの軽い攻撃はほとんど防がれ、削られるのは盾の気力。ゼロになる「ガード崩し」で大きく体勢が崩れます。強攻撃、横や背中への回り込み、攻撃直後の隙を狙いましょう', '双刃の影 イズリル（夜の姿・地下墓の個体も）が簡単にひるまされ、連続攻撃で動けなくなる不具合を直しました。体勢が崩れにくくなり、回避の最中は攻撃が当たらず、立て続けに斬られると影に紛れて背後から反撃します', '強敵・精鋭・層の中ボス共通で、短い間に二度ほど怯まされると、しばらく怯まなくなって反撃してきます（頭上に「怯まず」）。崩れから立ち直った直後も、少しのあいだ崩れません']},
   { v: '1.6.2', d: '2026-11-17', t: '最初の手応えへ', items: ['祝福は「触れる」だけでは回復しなくなりました。触れると灯がともって復活地点と転移先になり、「休息」を選んだときだけ HP・FP・灰瓶が満ちて亡者が蘇ります（転移で着いたときも同じです）', 'どの素性もレベル1から。初めの持ち物も控えめにしました（騎士は革鎧と小盾、魔術師は魔法一つ、聖職者は霊鈴なし）', '第1層の亡者が少し丈夫に、少し痛くなり、新しい攻め手が増えました。そのかわり、一度に斬りかかってくるのは二体ほどまで。残りは周りで隙をうかがいます', '体勢を崩す力を武器の種類ごとに見直しました（大剣・特大剣・槌を控えめに）。崩された敵は、しばらく崩れにくくなります', '防具の守りを見直しました（第1層の重装一式で被害 -15% ほど。深い層の防具ほどしっかり堅くなります）', '武器の固有の技は、鍛えるほど本領を発揮するように。タリスマン・防具のサブステータス・致命の一撃も、序盤は控えめに', '霊体を弱めました。助けにはなりますが、強敵を任せきりにはできません（時間とともに薄れます）', '光や火花をおとなしくしました。画面全体が白くなることはもうありません。設定に「エフェクト：標準／控えめ」を追加', '武器が種類ごとに並ぶようになりました（装備・強化・図鑑）。種類で絞り込めます', '侵入者（赤い霊体）は、いったんお休みです', '灰冠の騎士王に関する不具合を調べ、体力がなくなれば必ず斃れるようにしました', 'セーブはそのまま引き継がれます'] },
   { v: '1.6.1', d: '2026-11-17', t: '矢は尽きず', items: ['弓の矢が無限になりました。そのかわり、射るたびのスタミナが少し増え、炎矢・重矢はさらに多く使います', '遠くから射られた敵が、逃げ帰って体力を全回復してしまう不具合を直しました（攻撃を受けた敵は、しばらく追いかけてきます）', '武器を持ち替えたあと、敵の体力が減りきらないことがある問題を直しました', '装備メニューの背景を濃くして、後ろの文字が透けないようにしました', 'ボスや敵の体力が0にならず倒せなくなることがある不具合を直しました', 'どんな耐性があっても、攻撃のダメージが0にならないようにしました'] },
@@ -5443,7 +5443,7 @@ function frame(ts) {
   requestAnimationFrame(frame);
   const dt = Math.min(0.034, (ts - last) / 1000 || 0.016); last = ts;
   try { if (!G.paused) update(dt); } catch (e) { reportErr(e, 'update'); }
-  try { render(); } catch (e) { reportErr(e, 'render'); try { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.setTransform(1, 0, 0, 1, 0, 0); drawHUD(); } catch (e2) {} }
+  try { render(); } catch (e) { reportErr(e, 'render'); try { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); drawHUD(); } catch (e2) {} }
   try { bgmTick(); } catch (e) {}
 }
 /* errors no longer abort a frame half-drawn (that left additive blending on and flashed the screen white); the last one is kept for 設定 */
