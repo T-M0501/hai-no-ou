@@ -2611,7 +2611,7 @@ function tryAct() {
   if ((k === 'atk' || k === 'heavy') && staggeredNear()) { startHeavy(w.heavy || CRITSTAB); return true; }
   if (k === 'art') return startArt();
   if (k === 'guard') { if (ok === 'shield') return startGuard(); if (ok === 'cat') return startCast(); return false; }
-  if (k === 'atk' && w.cat === 'staff') { aimSpell(9); P.state = 'zap'; P.t = 0; P.hitDone = false; useSt(8); return true; }
+  if (k === 'atk' && w.cat === 'staff') { aimSpell(9); P.state = 'zap'; P.t = 0; P.hitDone = false; useSt(12); return true; }
   if (w.cat === 'bow') {
     if (k === 'roll') { startRoll(); return true; }
     if (P.arrows <= 0) { floatText(P.x, P.y - 30, '矢が尽きた ── 祝福で補充', '#e6dfc8', 13); SFX.nost(); return false; }
@@ -2862,9 +2862,9 @@ function updPlayer(dt) {
     case 'art': updArt(dt); vx += AV[0]; vy += AV[1]; break;
     case 'zap':
       P.t += dt; vx += mx * 80; vy += my * 80; P.sa = lerp(P.sa, 0.4, 1 - Math.exp(-20 * dt)); if (P.t < 0.16) aimSpell(10 * dt);
-      if (!P.hitDone && P.t >= 0.17) { P.hitDone = true; SFX.cast(); P.sa = -0.3; pshot(0, P.face, 600, 8 * magMult(), 4, 6, 0.46, { dt: 'magic' }); }
-      if (P.t >= 0.28 && P.bufT > 0) { if (P.buf === 'roll' && P.st > 0) { P.buf = ''; startRoll(); } else if (P.buf === 'heavy' && P.st > 0) { P.buf = ''; if (!startCast()) P.state = 'idle'; } else if (P.buf === 'atk' && P.st > 0 && P.t >= 0.36) { P.buf = ''; P.t = 0; P.hitDone = false; useSt(8); } }
-      if (P.state === 'zap' && P.t >= 0.44) P.state = 'idle';
+      if (!P.hitDone && P.t >= 0.17) { P.hitDone = true; SFX.cast(); P.sa = -0.3; pshot(0, P.face, 600, 6 * magMult(), 2, 6, 0.42, { dt: 'magic' }); }
+      if (P.t >= 0.28 && P.bufT > 0) { if (P.buf === 'roll' && P.st > 0) { P.buf = ''; startRoll(); } else if (P.buf === 'heavy' && P.st > 0) { P.buf = ''; if (!startCast()) P.state = 'idle'; } else if (P.buf === 'atk' && P.st > 0 && P.t >= 0.5) { P.buf = ''; P.t = 0; P.hitDone = false; useSt(12); } }
+      if (P.state === 'zap' && P.t >= 0.6) P.state = 'idle';
       break;
     case 'shoot':
       P.t += dt; vx += mx * 60; vy += my * 60; P.sa = lerp(P.sa, 0, 1 - Math.exp(-20 * dt));
