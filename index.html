@@ -1201,13 +1201,16 @@ const rarW = (src, q) => RARW[src][0].map((a, i) => a + (RARW[src][1][i] - a) * 
 const DISM = [null, { r: 40 }, { r: 120, m: { s: 1 } }, { r: 400, m: { c: 1 } }, { r: 1200, m: { l: 1, e: 1 } }, { r: 3600, m: { l: 2, e: 2 } }];
 const wpick = (arr, wf, rng) => { let t = 0; for (const a of arr) t += wf(a); let q = (rng || Math.random)() * t; for (const a of arr) { q -= wf(a); if (q < 0) return a; } return arr[arr.length - 1]; };
 const tierSub = t => 0.6 + 0.4 * (clamp(t, 1, TIER_MAX) - 1) / (TIER_MAX - 1);
-function rollSub(k, r, tier, rng) { const s = SUBS[k], [lo, hi] = s.r[r], w = tierWin(tier), f = Math.pow(10, s.p); return Math.max(1 / f, Math.round((lo + (hi - lo) * (w[0] + (w[1] - w[0]) * (rng || Math.random)())) * tierSub(tier) * f) / f); }
+/* sub-stat values come in five grades: A 8% / B 12% / C 20% / D 30% / E 40% (A = top of the rarity's range, E = bottom); deeper tiers scale every grade via tierSub */
+const SGRADE = [['A', 1, 8], ['B', 0.75, 12], ['C', 0.5, 20], ['D', 0.25, 30], ['E', 0, 40]];
+let lastGrade = 'E';
+function rollSub(k, r, tier, rng) { const s = SUBS[k], [lo, hi] = s.r[r], f = Math.pow(10, s.p), g = wpick(SGRADE, x => x[2], rng); lastGrade = g[0]; return Math.max(1 / f, Math.round((lo + (hi - lo) * g[1]) * tierSub(tier) * f) / f); }
 function rollRar(src, q, rng) { const w = rarW(src, q); return wpick([1, 2, 3, 4, 5], r => w[r - 1], rng); }
 /* a fresh piece. o: { b: base id, r: rarity, src, tier 1..10, luck, crypt, slot }. Families of the place's own tier are the usual find; older ones turn up less. */
 function mkArmor(o, rng) {
   rng = rng || Math.random; const tier = clamp(o.tier | 0 || 1, 1, TIER_MAX), r = clamp(o.r || rollRar(o.src || 'n', lootQ(tier, o.luck), rng), 1, 5);
   let b = o.b; if (!ARMP[b]) { const sets = Object.keys(ARM).filter(k => ARM[k].tier <= tier), top = Math.max.apply(null, sets.map(k => ARM[k].tier)), set = wpick(sets, k => ARM[k].dw * [1, 0.35, 0.1][Math.min(2, top - ARM[k].tier)] * (k === 'grave' ? (o.crypt ? 3 : 0.4) : 1) * (k === 'crown' ? (o.src === 'b' || o.src === 'm' ? 3 : 0) : 1), rng); b = set + '_' + (o.slot || SLOTS[Math.floor(rng() * 4)]); }
-  const s = [], pool = SUBK.slice(); for (let i = 0; i < ARAR[r].s; i++) { const k = wpick(pool, x => SUBS[x].w, rng); pool.splice(pool.indexOf(k), 1); s.push([k, rollSub(k, r, tier, rng)]); }
+  const s = [], pool = SUBK.slice(); for (let i = 0; i < ARAR[r].s; i++) { const k = wpick(pool, x => SUBS[x].w, rng); pool.splice(pool.indexOf(k), 1); s.push([k, rollSub(k, r, tier, rng), lastGrade]); }
   return { u: 0, b, r, t: tier, s, lk: 0 };
 }
 function addArmor(it) { it.u = save.aseq++; if (it.r >= 5) it.lk = 1; save.inv.push(it); if ((save.afound[it.b] | 0) < it.r) save.afound[it.b] = it.r; if (it.r >= 5) save.cnt.a5 = 1; return it; }
@@ -1231,7 +1234,7 @@ function armSanitize() {
   if (!Array.isArray(save.inv)) save.inv = []; if (!save.aeq || typeof save.aeq !== 'object') save.aeq = {}; if (!save.afound || typeof save.afound !== 'object') save.afound = {};
   const seen = {}; let mx = 0;
   save.inv = save.inv.filter(it => { if (!it || typeof it !== 'object' || !ARMP[it.b] || !(it.u > 0) || seen[it.u]) return false; seen[it.u] = 1; mx = Math.max(mx, it.u); it.r = clamp(Math.floor(+it.r || 1), 1, 5); it.t = clamp(Math.floor(+it.t || 1), 1, TIER_MAX); it.lk = it.lk ? 1 : 0;
-    const ks = {}; it.s = (Array.isArray(it.s) ? it.s : []).filter(p => Array.isArray(p) && SUBS[p[0]] && !ks[p[0]] && (ks[p[0]] = 1)).slice(0, ARAR[it.r].s).map(p => [p[0], clamp(+p[1] || 0, 0, SUBS[p[0]].r[5][1])]); return true; });
+    const ks = {}; it.s = (Array.isArray(it.s) ? it.s : []).filter(p => Array.isArray(p) && SUBS[p[0]] && !ks[p[0]] && (ks[p[0]] = 1)).slice(0, ARAR[it.r].s).map(p => { const q = [p[0], clamp(+p[1] || 0, 0, SUBS[p[0]].r[5][1])]; if (typeof p[2] === 'string' && /^[A-E]$/.test(p[2])) q.push(p[2]); return q; }); return true; });
   /* v1.5 and older: every owned set becomes four ★1 pieces, and the worn set stays worn */
   if (!save.av) { save.av = 1; const own = Array.isArray(save.armors) ? save.armors.filter((k, i, a) => ARM[k] && a.indexOf(k) === i) : []; if (!own.includes('rags')) own.unshift('rags'); const cur = own.includes(save.armor) ? save.armor : 'rags'; save.aseq = Math.max(mx + 1, 1);
     for (const k of own) for (const sl of SLOTS) { if (save.inv.some(it => it.b === k + '_' + sl)) continue; const it = addArmor({ u: 0, b: k + '_' + sl, r: 1, t: 1, s: [], lk: 0 }); mx = it.u; if (k === cur) save.aeq[sl] = it.u; } }
@@ -4483,7 +4486,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
-  { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました'] },
+  { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具のサブステータスの値がA〜Eの5段階になりました（新しく拾った防具から）', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました'] },
   { v: '1.6.3', d: '2026-11-18', t: '歯ごたえのある亡者たち', items: ['雑魚の亡者が、いまの強さに見合うだけ頑丈になり、攻撃も重くなりました。第1層・夜・第2層・ミニダンジョン、そして地下墓 B1〜B7 まで、「そのあたりで戦うころの強さ」を目安に整え直しています（レベルや強化を重ねれば、ちゃんと楽になります）', 'そのかわり、雑魚の近づいてくる足は約3割ゆっくりに。数を恐れず、間合いを読んで戦えます。攻撃の隙は少し短く、振りかぶりの途中は軽い攻撃では怯まなくなりました（予兆はこれまでどおり赤い枠）', '新しい敵「盾持ちの亡者」「聖都の盾衛士」が登場（第1層・第2層・地下墓 B2 以降）。正面からの軽い攻撃はほとんど防がれ、削られるのは盾の気力。ゼロになる「ガード崩し」で大きく体勢が崩れます。強攻撃、横や背中への回り込み、攻撃直後の隙を狙いましょう', '双刃の影 イズリル（夜の姿・地下墓の個体も）が簡単にひるまされ、連続攻撃で動けなくなる不具合を直しました。体勢が崩れにくくなり、回避の最中は攻撃が当たらず、立て続けに斬られると影に紛れて背後から反撃します', '強敵・精鋭・層の中ボス共通で、短い間に二度ほど怯まされると、しばらく怯まなくなって反撃してきます（頭上に「怯まず」）。崩れから立ち直った直後も、少しのあいだ崩れません']},
   { v: '1.6.2', d: '2026-11-17', t: '最初の手応えへ', items: ['祝福は「触れる」だけでは回復しなくなりました。触れると灯がともって復活地点と転移先になり、「休息」を選んだときだけ HP・FP・灰瓶が満ちて亡者が蘇ります（転移で着いたときも同じです）', 'どの素性もレベル1から。初めの持ち物も控えめにしました（騎士は革鎧と小盾、魔術師は魔法一つ、聖職者は霊鈴なし）', '第1層の亡者が少し丈夫に、少し痛くなり、新しい攻め手が増えました。そのかわり、一度に斬りかかってくるのは二体ほどまで。残りは周りで隙をうかがいます', '体勢を崩す力を武器の種類ごとに見直しました（大剣・特大剣・槌を控えめに）。崩された敵は、しばらく崩れにくくなります', '防具の守りを見直しました（第1層の重装一式で被害 -15% ほど。深い層の防具ほどしっかり堅くなります）', '武器の固有の技は、鍛えるほど本領を発揮するように。タリスマン・防具のサブステータス・致命の一撃も、序盤は控えめに', '霊体を弱めました。助けにはなりますが、強敵を任せきりにはできません（時間とともに薄れます）', '光や火花をおとなしくしました。画面全体が白くなることはもうありません。設定に「エフェクト：標準／控えめ」を追加', '武器が種類ごとに並ぶようになりました（装備・強化・図鑑）。種類で絞り込めます', '侵入者（赤い霊体）は、いったんお休みです', '灰冠の騎士王に関する不具合を調べ、体力がなくなれば必ず斃れるようにしました', 'セーブはそのまま引き継がれます'] },
   { v: '1.6.1', d: '2026-11-17', t: '矢は尽きず', items: ['弓の矢が無限になりました。そのかわり、射るたびのスタミナが少し増え、炎矢・重矢はさらに多く使います', '遠くから射られた敵が、逃げ帰って体力を全回復してしまう不具合を直しました（攻撃を受けた敵は、しばらく追いかけてきます）', '武器を持ち替えたあと、敵の体力が減りきらないことがある問題を直しました', '装備メニューの背景を濃くして、後ろの文字が透けないようにしました', 'ボスや敵の体力が0にならず倒せなくなることがある不具合を直しました', 'どんな耐性があっても、攻撃のダメージが0にならないようにしました'] },
@@ -4529,7 +4532,7 @@ const astar = r => '<span class="ar' + r + '">' + '★'.repeat(r) + '</span>';
 const aname = it => astar(it.r) + ' ' + ARMP[it.b].name;
 const subV = (k, v) => (SUBS[k].p ? v.toFixed(1) : '' + v) + SUBS[k].u;
 const subTxt = (k, v) => SUBS[k].n + ' +' + subV(k, v);
-const subsLine = it => it.s.length ? it.s.map(p => subTxt(p[0], p[1])).join('・') : 'サブステータスなし';
+const subsLine = it => it.s.length ? it.s.map(p => subTxt(p[0], p[1]) + (p[2] ? '〔' + p[2] + '〕' : '')).join('・') : 'サブステータスなし';
 const rarCol = r => r >= 5 ? 'hsl(' + Math.floor(G.now * 120 % 360) + ',90%,72%)' : ARAR[r].c;
 function disGain(it) { const d = DISM[it.r]; return { r: Math.round(d.r * (1 + 0.15 * (it.t - 1)) / 10) * 10, m: d.m || {} }; }
 const gainTxt = g => fmtN(g.r) + ' ルーン' + Object.keys(g.m).map(k => '・' + MAT[k] + '×' + g.m[k]).join('');
