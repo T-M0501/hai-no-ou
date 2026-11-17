@@ -4464,7 +4464,7 @@ Object.assign(SFX, {
 });
 /* v1.6.2 glow governor: every additive ('lighter') draw on the main canvas is dimmed by one factor, so stacked glows
    (enchant trails, elemental waves, sparks, pillars, fire) can no longer wash the screen white. 設定 → エフェクト picks the factor. */
-const glowK = () => save.fxLow ? 0.34 : 0.6;
+const glowK = () => save.fxLow ? 0.25 : 0.45;
 { const pr = CanvasRenderingContext2D.prototype, dA = Object.getOwnPropertyDescriptor(pr, 'globalAlpha'), dC = Object.getOwnPropertyDescriptor(pr, 'globalCompositeOperation');
   if (dA && dC && dA.set && dC.set) { let a = 1, lit = false; const st = [], sv0 = ctx.save.bind(ctx), rs0 = ctx.restore.bind(ctx);
     Object.defineProperty(ctx, 'globalAlpha', { configurable: true, get() { return a; }, set(v) { v = +v; if (!(v >= 0 && v <= 1)) return; a = v; dA.set.call(ctx, lit ? a * glowK() : a); } });
@@ -5375,9 +5375,13 @@ let last = 0;
 function frame(ts) {
   requestAnimationFrame(frame);
   const dt = Math.min(0.034, (ts - last) / 1000 || 0.016); last = ts;
-  if (!G.paused) update(dt);
-  render(); bgmTick();
+  try { if (!G.paused) update(dt); } catch (e) { reportErr(e, 'update'); }
+  try { render(); } catch (e) { reportErr(e, 'render'); try { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.setTransform(1, 0, 0, 1, 0, 0); drawHUD(); } catch (e2) {} }
+  try { bgmTick(); } catch (e) {}
 }
+/* errors no longer abort a frame half-drawn (that left additive blending on and flashed the screen white); the last one is kept for 設定 */
+const ERRLOG = [];
+function reportErr(e, where) { const m = where + ': ' + (e && e.message || e) + ' @' + ((e && e.stack || '').split('\n')[1] || '').trim().slice(0, 90); if (ERRLOG[ERRLOG.length - 1] !== m) { ERRLOG.push(m); if (ERRLOG.length > 8) ERRLOG.shift(); try { localStorage.setItem('hai_no_ou3_err', JSON.stringify(ERRLOG)); } catch (x) {} console.error(m); } }
 window.addEventListener('resize', resize);
 (() => {
   const b = document.getElementById('bFs'), de = document.documentElement;
