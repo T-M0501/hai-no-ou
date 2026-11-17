@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-<meta name="theme-color" content="#170b06">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="灰燼の王冠">
-<link rel="manifest" href="manifest.webmanifest">
-<link rel="apple-touch-icon" href="icon-180.png">
-<link rel="icon" href="icon-192.png">
+<head><meta name="theme-color" content="#170b06"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="灰燼の王冠"><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0a0806">
@@ -298,6 +290,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
 </head>
 <body>
 <canvas id="c"></canvas>
+<button id="fsBack" class="btn sub" style="display:none;position:fixed;left:50%;bottom:calc(10px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:11;padding:7px 16px;font-size:12px;min-width:0;margin:0;opacity:.85">全画面に戻す</button>
 <div id="safe" style="position:fixed;visibility:hidden;pointer-events:none;padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)"></div>
 
 <div id="title" class="ov on">
@@ -321,7 +314,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.7.0</div>
+  <div id="verTxt" class="ver">v1.7.1</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -364,6 +357,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
     <button id="bMap" class="btn sub">地図<small>いまいる場所の全体図</small></button>
     <button id="bGuide2" class="btn sub">遊び方</button>
     <button id="bOpts2" class="btn sub">設定<small>音・助言・ボタン配置・引き継ぎ</small></button>
+    <button id="bFsP" class="btn sub" style="display:none">全画面・横向き<small>全画面が解けたときはここから戻せる</small></button>
     <button id="bQuit" class="btn sub">タイトルへ</button>
   </div>
 </div>
@@ -444,6 +438,13 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="duo"><button id="bClsGo" class="btn">この素性で始める</button><button id="bClsNo" class="btn sub">やめる</button></div>
 </div>
 
+<div id="cbSel" class="ov">
+  <h2>引き継ぐ能力</h2>
+  <div class="stats" style="margin:6px 0 10px;text-align:center">引き継ぐ能力を1つ選んでください<br>前の周回の値の1割が、素性の初期値に加わります</div>
+  <div id="cbRows" style="display:flex;flex-direction:column;align-items:center;gap:4px"></div>
+  <div class="duo"><button id="bCbNo" class="btn sub">戻る</button></div>
+</div>
+
 <div id="bless" class="ov">
   <h2>周回の加護</h2>
   <div id="blCards" class="cards"></div>
@@ -479,6 +480,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
     <div id="xfMenu" style="width:100%;display:flex;flex-direction:column;align-items:center">
       <div id="xfCur" class="stats" style="margin:0 0 6px"></div>
       <label class="sld"><span>音楽</span><input id="rBgm" type="range" min="0" max="100" step="5" aria-label="音楽の音量"></label>
+      <label class="sld"><span id="camLbl">カメラの距離</span><input id="rCam" type="range" min="0" max="4" step="1" aria-label="カメラの距離"></label>
       <label class="sld"><span>効果音</span><input id="rSe" type="range" min="0" max="100" step="5" aria-label="効果音の音量"></label>
       <div class="trow"><button id="bMute" class="btn sub"></button><button id="bHints" class="btn sub"></button></div>
       <div class="trow"><button id="bFx" class="btn sub" style="min-width:218px"></button></div>
@@ -584,11 +586,11 @@ function freshSave() {
     cls: 'wanderer', arts: [], wart: {}, spirits: [], spirit: null, spLv: {}, tearShop: 0, lords: {}, seenE: {}, trar: {}, shields: [], off: null, hands: 0, walls: {}, maps: {}, mdSeen: {}, mem: {}, pw: {}, pwOn: null,
     av: 0, inv: [], aeq: { h: null, b: null, a: null, l: null }, aseq: 1, afound: {}, asort: 'r' };
 }
-const SAVE_EXTRA = () => ({ mute: false, best: 0, wins: 0, clear: 0, hintOff: false, fxLow: false, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {}, btn: { p: {}, l: {} }, cyc: 0, bless: null, cb: null, dex: null, last: 0 });
+const SAVE_EXTRA = () => ({ mute: false, best: 0, wins: 0, clear: 0, hintOff: false, fxLow: false, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {}, btn: { p: {}, l: {} }, cyc: 0, cam: 2, bless: null, cb: null, dex: null, last: 0 });
 const save = Object.assign(freshSave(), SAVE_EXTRA());
 /* v1.7.0: three save slots. Per-slot data lives in SKEY(i); settings (sound, hints, effects, button layout) and achievements are global in GKEY and shared by every slot.
    The old single save (SAVE_KEY) is copied into slot 1 once and then left untouched as a backup. */
-const GKEY = 'hai_no_ou3_g', OLDBAK = 'hai_no_ou3_v1_bak', SKEY = i => 'hai_no_ou3_s' + i, GF = ['mute', 'hintOff', 'fxLow', 'volB', 'volS', 'btn', 'ach', 'cnt', 'bossCat'];
+const GKEY = 'hai_no_ou3_g', OLDBAK = 'hai_no_ou3_v1_bak', SKEY = i => 'hai_no_ou3_s' + i, GF = ['mute', 'hintOff', 'fxLow', 'volB', 'volS', 'cam', 'btn', 'ach', 'cnt', 'bossCat'];
 let SLOT = 1;
 function lsJ(k) { try { const o = JSON.parse(localStorage.getItem(k) || 'null'); return o && typeof o === 'object' ? o : null; } catch (e) { return null; } }
 function migrateSaves() {
@@ -620,7 +622,8 @@ const cycRune = () => 1 + 0.15 * Math.min(CYC(), 8), cycLuck = () => Math.min(0.
 const bOn = k => save.bless === k;
 const blessRoll = () => bOn('roll') ? 0.15 : 0, blessCrit = () => bOn('crit') ? 1.15 : 1, blessRune = () => bOn('rune') ? 0.15 : 0, blessLoad = () => bOn('load') ? 1.12 : 1;
 /* every stat starts at the class value + floor(10% of the same stat at the end of the last run) */
-const carryOf = st => { const o = {}; for (const k of ['vit', 'end', 'str', 'dex', 'int', 'fth']) o[k] = Math.floor(((st && st[k]) | 0) * 0.1); return o; };
+/* v1.7.1: a cycle carries over only the ONE stat the player picks (10%, floored); without a pick nothing is carried */
+const carryOf = (st, only) => { const o = {}; for (const k of ['vit', 'end', 'str', 'dex', 'int', 'fth']) o[k] = k === only ? Math.floor(((st && st[k]) | 0) * 0.1) : 0; return o; };
 const DEXA = ['weapons', 'shields', 'spells', 'tals', 'arts', 'spirits'], DEXO = ['walls', 'mb', 'mem', 'pw', 'lords', 'cryptRw'], DEXN = ['trar', 'spLv'];
 /* 図鑑 memory: everything ever owned / seen in this slot survives a new cycle */
 function dexSync() {
@@ -662,7 +665,7 @@ function sanitize() {
   for (const k of ['parry', 'crit', 'kills', 'summonWin', 'noDmg', 'noFlask', 'respec']) save.cnt[k] = Math.max(0, Math.floor(+save.cnt[k] || 0));
   for (const k in save.wart) if (!WPN[k] || !artOk(save.wart[k], k) || !save.arts.includes(save.wart[k])) delete save.wart[k];
   for (const k in save.spLv) { if (!SPIRIT[k]) delete save.spLv[k]; else save.spLv[k] = clamp(Math.floor(+save.spLv[k] || 0), 0, 3); }
-  save.volB = clamp(+save.volB >= 0 ? +save.volB : 0.7, 0, 1); save.volS = clamp(+save.volS >= 0 ? +save.volS : 1, 0, 1); save.tearShop = clamp(Math.floor(+save.tearShop || 0), 0, 2);
+  save.cam = camIdx(); save.volB = clamp(+save.volB >= 0 ? +save.volB : 0.7, 0, 1); save.volS = clamp(+save.volS >= 0 ? +save.volS : 1, 0, 1); save.tearShop = clamp(Math.floor(+save.tearShop || 0), 0, 2);
   if (!WPN[save.weapon] || !save.weapons.includes(save.weapon)) save.weapon = save.weapons[0];
   save.tslots = clamp(Math.max(Math.floor(+save.tslots || 2), 2 + (save.chests && save.chests.c18 ? 1 : 0) + (save.mbC && save.mbC.knight ? 1 : 0)), 2, 4);
   if (!Array.isArray(save.slots)) save.slots = []; if (!Array.isArray(save.teq)) save.teq = [];
@@ -682,7 +685,12 @@ function sanitize() {
   save.fxLow = !!save.fxLow;
   armSanitize();
   const s = save.stain; if (s && !(typeof s === 'object' && isFinite(s.x) && isFinite(s.y) && s.s > 0 && (s.z === 'a' || s.z === 'd' || s.z === 'c'))) save.stain = null;
+  if (save.stain && save.stain.tv !== 50) { if (save.stain.z !== 'a') { save.stain.x = Math.round(save.stain.x * 1.25); save.stain.y = Math.round(save.stain.y * 1.25); } save.stain.tv = 50; } /* v1.7.1: tile 40 -> 50 */
 }
+/* v1.7.1: one camera for every screen. The shorter side always shows the same number of world units (portrait 440, landscape 600), the longer side is capped (so tall / ultra-wide screens do not reveal more), and the player can pull the view back by at most 1.25x. */
+const CAMF = [0.84, 0.92, 1, 1.12, 1.25], CAMN = ['近い', 'やや近い', '標準', 'やや遠い', '遠い'];
+const camIdx = () => { const v = Math.round(+save.cam); return v >= 0 && v <= 4 ? v : 2; };
+function camScale() { const sh = Math.min(W, H), lg = Math.max(W, H), s0 = LAND ? Math.max(sh / 600, lg / 1300) : Math.max(sh / 440, lg / 1010); return clamp(s0 / CAMF[camIdx()], 0.3, 4); }
 function writeSave() { try { save.last = Date.now(); dexSync(); localStorage.setItem(SKEY(SLOT), JSON.stringify(save)); localStorage.setItem(GKEY, JSON.stringify(pickG(save, { cur: SLOT }))); } catch (e) {} }
 function fmtTime(t) { const m = Math.floor(t / 60), s = t - m * 60; return m + '分' + (s < 10 ? '0' : '') + s.toFixed(1) + '秒'; }
 function vib(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
@@ -773,11 +781,11 @@ const cv = $('c'), ctx = cv.getContext('2d');
 let W = 0, H = 0, DPR = 1, U = 1, S = 1, vign = null, LAND = false, CY = 0, SAL = 0, SAR = 0;
 function resize() {
   W = window.innerWidth; H = window.innerHeight; DPR = Math.min(window.devicePixelRatio || 1, 2);
-  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR);
+  cv.width = Math.round(W * DPR); cv.height = Math.round(H * DPR); cv.style.width = W + 'px'; cv.style.height = H + 'px';
   LAND = W > H * 1.1;
   try { const cs = getComputedStyle(document.getElementById('safe')); SAL = parseFloat(cs.paddingLeft) || 0; SAR = parseFloat(cs.paddingRight) || 0; } catch (e) { SAL = SAR = 0; }
   U = LAND ? clamp(H / 400, 0.72, 1.3) : clamp(Math.min(W, H * 0.62) / 390, 0.78, 1.45);
-  S = LAND ? clamp(H / 600, 0.5, 1.5) : clamp(Math.min(W, H * 0.8) / 440, 0.55, 1.6);
+  S = camScale();
   CY = LAND ? H * 0.5 : H * 0.42;
   document.body.classList.toggle('land', LAND);
   vign = document.createElement('canvas'); vign.width = 128; vign.height = 256;
@@ -1399,7 +1407,7 @@ function fpRegen() { return (2 + 1.5 * tk('spring') + AB.fpr + (sv('fth') - 10) 
 function gainSouls(n) { save.souls += n; }
 
 /* ---------- world ---------- */
-const T = 40, MK = 1.2, CH = 16, CELL = 14;
+const T = 50, TQ = T / 40, MK = 1.2, CH = 16, CELL = 14; /* v1.7.1: tile 40 -> 50; tile art is still drawn on a 40 grid and scaled by TQ */
 let MW = 0, MH = 0, grid = null, tint = null, roomOf = null, doorAt = null, ROOMS = [], TORCHES = [], BLESS = [], CHESTS = [], DOORS = [], PROPS = [], FOG = null, enemies = [], L = null;
 const tc = t => (t + 0.5) * T;
 function mkLevel(id, w, h) {
@@ -1435,7 +1443,7 @@ const C_PILLARS = [[14, 43], [20, 43], [26, 43], [26, 27], [33, 27], [26, 31], [
   [60, 28], [65, 28], [60, 31], [65, 31], [57, 3], [61, 3], [57, 7], [61, 7], [0, 26], [5, 26], [0, 31], [5, 31], [-10, 12], [-3, 12], [-10, 19], [-3, 19]];
 const C_TORCHES = [[21, 51], [25, 51], [12, 40], [20, 40], [26, 40], [4, 36], [18, 26], [34, 12], [37, 12], [27, 3], [34, 3], [10, 7], [17, 7], [11, 1], [16, 1], [23, 13], [28, 13],
   [38, 39], [45, 39], [54, 41], [61, 41], [55, 11], [60, 11], [66, 11], [59, 25], [66, 25], [45, 0], [51, 0], [57, 0], [61, 0], [1, 23], [7, 23], [-10, 9], [-4, 9], [31, 53]];
-const C_BLESS = [[23, 55, '朽牢の祝福'], [2, 28, '墓守の祝福'], [37, 16, '礼拝堂の祝福'], [54, 16, '書庫の祝福'], [48, 3, '塔の祝福'], [16, 3, '王門の祝福']];
+const C_BLESS = [[23, 55, '朽牢の祝福'], [2, 28, '墓守の祝福'], [37, 16, '礼拝堂の祝福'], [54, 16, '書庫の祝福'], [48, 3, '塔の祝福'], [16, 3, '王門の祝福'], [53, 44, '獣の檻の祝福']];
 const C_CHESTS = [
   ['c1', 3, 38, { w: 'katana' }], ['c2', 16, 29, { w: 'shield', sh: 'kite', ar: 'deflect' }], ['c3', 36, 32, { a: 'leather', m: { s: 1 } }], ['c4', 36, 9, { f: 1, sh: 'buckler' }], ['c5', 9, 9, { w: 'great', ar: 'roar' }], ['c6', 24, 18, { t: 'gilt', m: { c: 1 } }], ['c7', 9, 45, { w: 'staff', sp: 'pebble' }],
   ['c8', 48, 50, { t: 'moss' }], ['c9', 37, 41, { w: 'mace', sh: 'gate', m: { s: 2 } }], ['c10', 62, 43, { a: 'plate', ar: 'flame' }], ['c11', 49, 13, { w: 'spear', ar: 'rush' }], ['c12', 46, 32, { w: 'curved', ar: 'spin' }],
@@ -1506,6 +1514,37 @@ function applyExtras(Lv, def, ox, oy) {
   for (const t of def.traps || []) Lv.traps.push({ x: tc(t[0] + ox), y: tc(t[1] + oy), t: Math.random() * 3.6, on: false });
   Lv.props0 = Lv.props.length; Lv.tier = def.tier || (def.lay === 2 ? 2 : 1); Lv.md = def.md || null;
 }
+
+/* v1.7.1: every corridor and small room is at least 3 tiles across. Rooms keep their index; only wall tiles that belong to no room are carved. */
+function widenLevel(Lv) {
+  const W0 = Lv.MW, H0 = Lv.MH, g = Lv.grid, fl = (x, y) => x >= 0 && y >= 0 && x < W0 && y < H0 && g[y * W0 + x] > 0;
+  const free = (x, y) => x >= 1 && y >= 1 && x < W0 - 1 && y < H0 - 1 && g[y * W0 + x] === 0 && Lv.roomOf[y * W0 + x] < 0;
+  const narrow = new Set();
+  Lv.rooms.forEach((r, i) => {
+    let x = r[0], y = r[1], w = r[2], h = r[3]; if (w >= 3 && h >= 3) return; narrow.add(i);
+    let lx = 0, rx = 0, ty = 0, by = 0; for (let j = 0; j < h; j++) { if (fl(x - 1, y + j)) lx++; if (fl(x + w, y + j)) rx++; } for (let j = 0; j < w; j++) { if (fl(x + j, y - 1)) ty++; if (fl(x + j, y + h)) by++; }
+    const hx = lx + rx, vy = ty + by, flowX = hx > 0 && vy === 0, flowY = vy > 0 && hx === 0, deadX = flowX && (lx === 0 || rx === 0), deadY = flowY && (ty === 0 || by === 0), wW = w < 3 && (!flowX || (deadX && h >= 3)), wH = h < 3 && (!flowY || (deadY && w >= 3));
+    const carve = (cells) => { for (const c of cells) if (free(c[0], c[1])) { g[c[1] * W0 + c[0]] = 1; Lv.tint[c[1] * W0 + c[0]] = r[6]; Lv.roomOf[c[1] * W0 + c[0]] = i; } };
+    const colC = xx => { const a = []; for (let j = 0; j < h; j++) a.push([xx, y + j]); return a; }, rowC = yy => { const a = []; for (let j = 0; j < w; j++) a.push([x + j, yy]); return a; };
+    const score = cs => cs.reduce((n, c) => n + (free(c[0], c[1]) ? 0 : 1), 0);
+    if (wW) { if (w === 1) { carve(colC(x - 1)); carve(colC(x + 1)); x--; w = 3; } else { if (score(colC(x - 1)) <= score(colC(x + w))) { carve(colC(x - 1)); x--; } else carve(colC(x + w)); w = 3; } }
+    if (wH) { if (h === 1) { carve(rowC(y - 1)); carve(rowC(y + 1)); y--; h = 3; } else { if (score(rowC(y - 1)) <= score(rowC(y + h))) { carve(rowC(y - 1)); y--; } else carve(rowC(y + h)); h = 3; } }
+    r[0] = x; r[1] = y; r[2] = w; r[3] = h;
+  });
+  /* secret walls follow their (now wider) passage */
+  for (const s of Lv.secrets) {
+    const rs = new Set(s.tiles.map(t => Lv.roomOf[t[1] * W0 + t[0]])); if (rs.size !== 1 || !narrow.has([...rs][0])) continue; const ri = [...rs][0], ts = [];
+    for (let y = 0; y < H0; y++) for (let x = 0; x < W0; x++) if (Lv.roomOf[y * W0 + x] === ri && g[y * W0 + x] > 0) ts.push([x, y]);
+    if (ts.length) { s.tiles = ts; s.x = ts.reduce((n, t) => n + tc(t[0]), 0) / ts.length; s.y = ts.reduce((n, t) => n + tc(t[1]), 0) / ts.length; }
+  }
+  /* doors cover the whole passage */
+  Lv.doors.forEach((d, k) => {
+    const ts = d.tiles, vert = ts[0][0] === ts[1][0], lo = ts.reduce((a, t) => t[vert ? 1 : 0] < a[vert ? 1 : 0] ? t : a, ts[0]), hi = ts.reduce((a, t) => t[vert ? 1 : 0] > a[vert ? 1 : 0] ? t : a, ts[0]);
+    if (ts.length < 3) { const a = vert ? [lo[0], lo[1] - 1] : [lo[0] - 1, lo[1]], b = vert ? [hi[0], hi[1] + 1] : [hi[0] + 1, hi[1]], n = fl(a[0], a[1]) && g[a[1] * W0 + a[0]] === 1 ? a : fl(b[0], b[1]) && g[b[1] * W0 + b[0]] === 1 ? b : null; if (n) { g[n[1] * W0 + n[0]] = 2; Lv.doorAt[n[1] * W0 + n[0]] = k; ts.push(n); } }
+    d.x = ts.reduce((n, t) => n + tc(t[0]), 0) / ts.length; d.y = ts.reduce((n, t) => n + tc(t[1]), 0) / ts.length;
+  });
+  Lv.torches = Lv.torches.filter(t => g[t[1] * W0 + t[0]] === 0);
+}
 let CASTLE = null;
 function buildCastle(night) {
   const Lv = mkLevel('castle', 88, 70), W0 = Lv.MW;
@@ -1522,7 +1561,7 @@ function buildCastle(night) {
   if (night) for (const c of N_NEW) Lv.chests.push({ id: c[0], x: tc(c[1] + OX), y: tc(c[2] + OY), it: c[3], nit: null });
   Lv.doors = C_DOORS.map((d, k) => {
     const ts = d[1].map(t => [t[0] + OX, t[1] + OY]); for (const t of ts) { Lv.grid[t[1] * W0 + t[0]] = 2; Lv.doorAt[t[1] * W0 + t[0]] = k; }
-    return { id: d[0], tiles: ts, ax: d[2], sign: d[3], msg: d[4], x: (ts[0][0] + ts[1][0] + 1) / 2 * T, y: (ts[0][1] + ts[1][1] + 1) / 2 * T };
+    return { id: d[0], tiles: ts, ax: d[2], sign: d[3], msg: d[4], x: 0, y: 0 };
   });
   Lv.carpets = C_CARPETS.map(c => [c[0] + OX, c[1] + OY, c[2], c[3], c[4]]);
   Lv.props = [{ t: 'gate', x: (-4 + OX) * T, y: (29 + OY) * T }, { t: 'lift', x: tc(17 + OX), y: tc(5 + OY), to: 10, need: 1 }]; Lv.name = '第1層　灰の城';
@@ -1536,6 +1575,8 @@ function buildCastle(night) {
   if (!night) Lv.enemies = SW.map(day);
   else { Lv.enemies = SW.filter(s => !inCellar(s)).map(ngt).concat(N_SPAWNS.map(ngt)); for (const r of X1.roam) { const e = mkEnemy(r[0], tc(r[1][0][0] + OX), tc(r[1][0][1] + OY), 0, 1, 1.3, 1); e.route = r[1].map(p => [tc(p[0] + OX), tc(p[1] + OY)]); e.ri = 0; Lv.enemies.push(e); } }
   applyExtras(Lv, X1, OX, OY);
+  widenLevel(Lv);
+  { const fr = Lv.rooms[20]; for (let y = fr[1]; y < fr[1] + fr[3]; y++) for (let x = fr[0]; x < fr[0] + fr[2]; x++) Lv.grid[y * W0 + x] = 3; Lv.fog = { x: (fr[0] + fr[2] / 2) * T, y: (fr[1] + fr[3] / 2) * T }; Lv.fogN = fr[2]; }
   return Lv;
 }
 
@@ -1550,11 +1591,12 @@ function buildLayer(def) {
   for (const p of def.pillars) Lv.grid[p[1] * W0 + p[0]] = 0;
   Lv.torches = def.torches.map(t => t.slice()); Lv.bless = def.bless.map(b => ({ x: tc(b[0]), y: tc(b[1]), name: b[2] }));
   Lv.chests = def.chests.map(c => ({ id: c[0], x: tc(c[1]), y: tc(c[2]), it: c[3], nit: null }));
-  Lv.doors = def.doors.map((d, k) => { for (const t of d[1]) { Lv.grid[t[1] * W0 + t[0]] = 2; Lv.doorAt[t[1] * W0 + t[0]] = k; } return { id: d[0], tiles: d[1], ax: d[2], sign: d[3], msg: d[4], lever: d[5] || 0, x: (d[1][0][0] + d[1][1][0] + 1) / 2 * T, y: (d[1][0][1] + d[1][1][1] + 1) / 2 * T }; });
+  Lv.doors = def.doors.map((d, k) => { for (const t of d[1]) { Lv.grid[t[1] * W0 + t[0]] = 2; Lv.doorAt[t[1] * W0 + t[0]] = k; } return { id: d[0], tiles: d[1].map(t => t.slice()), ax: d[2], sign: d[3], msg: d[4], lever: d[5] || 0, x: 0, y: 0 }; });
   Lv.carpets = def.carpets || []; Lv.props = (def.props || []).filter(p => p.tx === undefined).map(p => Object.assign({}, p));
   { let nh = 0, np = 0, nq = 0, ng = 0, ns = 0; Lv.enemies = def.spawns.map(s => { let t = s[0]; if (s[4] !== 'E') { if (t === 'hollow' && nh++ % 2 === 1) t = 'shieldh'; else if (t === 'pilgrim' && np++ % 3 === 2) t = 'guard3'; else if (t === 'pilgrim' && nq++ % 3 === 2) t = 'great2'; else if (t === 'guard2' && ng++ % 3 === 1) t = 'katana2'; else if (t === 'spear' && ns++ === 0) t = def.md === 'md_tomb' ? 'greatsw' : 'katana'; } return mkEnemy(t, tc(s[1]), tc(s[2]), s[3] * PI / 2 - PI, EDEF[t].boss ? Math.min(def.hm || 1, 1.2) : def.hm || 1, EDEF[t].boss ? def.bossDm : def.dm, def.rm || 1, s[4] === 'E'); }); }
   for (const r of def.roam || []) { const e = mkEnemy(r[0], tc(r[1][0][0]), tc(r[1][0][1]), 0, 1, def.bossDm, 1); e.route = r[1].map(p => [tc(p[0]), tc(p[1])]); e.ri = 0; e.need = 'lord'; Lv.enemies.push(e); }
   applyExtras(Lv, def, 0, 0);
+  widenLevel(Lv);
   return Lv;
 }
 /* data that is fetched on demand (data/<key>.js calls HAI_DATA(key, def)); LVC caches the built levels */
@@ -1562,7 +1604,7 @@ const DATA = {}, LVC = {};
 const lvOf = key => { if (!LVC[key]) { LVC[key] = buildLayer(DATA[key]); LVC[key].mid = key; } return LVC[key]; };
 const LAYERS = [
   { lay: 1, base: 0, name: '第1層　灰の城', key: null, level: () => CASTLE, open: () => true, bl: C_BLESS.map(b => b[2]) },
-  { lay: 2, base: 10, name: '第2層　灰に沈む聖都', key: 'layer2', level: () => lvOf('layer2'), open: () => save.bossDead, bl: ['昇降機の祝福', '広場の祝福', '身廊の祝福', '鐘楼の祝福'] },
+  { lay: 2, base: 10, name: '第2層　灰に沈む聖都', key: 'layer2', level: () => lvOf('layer2'), open: () => save.bossDead, bl: ['昇降機の祝福', '広場の祝福', '身廊の祝福', '鐘楼の祝福', '灰守りの祝福'] },
   { lay: 11, base: 110, name: '灰喰い洞', key: 'md_cave', md: 1, par: 0, back: 0, level: () => lvOf('md_cave'), open: () => true, bl: ['洞口の祝福'] },
   { lay: 12, base: 120, name: '忘れられた墓所', key: 'md_tomb', md: 1, par: 0, back: 1, level: () => lvOf('md_tomb'), open: () => true, bl: ['墓所の祝福'] },
   { lay: 13, base: 130, name: '灰晶の坑道', key: 'md_mine', md: 1, par: 10, back: 11, level: () => lvOf('md_mine'), open: () => save.bossDead, bl: ['坑口の祝福'] },
@@ -1572,7 +1614,7 @@ const layerOf = g => LAYERS.find(l => g >= l.base && g < l.base + 10) || LAYERS[
 
 /* crypt: hand-made 12x12 room templates stitched on a 4x4 grid */
 const TPL = {
-  n: ['.............o..e...o...................o..o.....e........e.............................o..o.................o..e...o...........................', '####....########....########.e..########....####...............e................e...............####....########..e.########....########....####', '.............e.......e.....~~~~~~.....~~~~~~~~....~~~~~~~~....~~~oo~~~....~~~oo~~~....~~~~~~~~....~~~~~~~~.....~~~~~~....e.......E..............', '.............oo.oo.oo.o..............e........e..oo.oo.oo.o..........................oo.oo.oo.o..E.......................oo.oo.oo.o.............', '.............e............oooooooo....oooooooo....oo####oo....oo####oo....oo####oo....oo####oo....oooooooo....oooooooo............e......E......', '###......#####........###..e.....e.#................o..o................................o..o................#..E.....e.###........#####......###', '.............e...#...........#..e........#...........#....................................#...........#........e..#...........#..E..............', '###......######......####....e.....##..........####......###........................###......####..........##.....e....####......######......###', '..............e.....e.......o................o....o...............e..........................o.....o.........e......e.........o.................', '.............e.......e..............~~~~....~~~~~~~~~..~~~~~~~~~~..~~~~~~~~~~..~~~~~~~~~~..~~~~~~~~~....~~~~.............E.......e..............', '#....##....#.e........e................oo..oo......o....o...#..........##..........#...o....o......oo..oo................e........E.#....##....#', '~~~~~~~~~~~~~..........~~.e......e.~~...o..o...~~..........~~..........~~..........~~..........~~...o..o...~~.E......e.~~..........~~~~~~~~~~~~~'],
+  n: ['.............o..e...o...................o..o.....e........e.............................o..o.................o..e...o...........................', '####....########....########.e..########....####...............e................e...............####....########..e.########....########....####', '.............e.......e.....~~~~~~.....~~~~~~~~....~~~~~~~~....~~~oo~~~....~~~oo~~~....~~~~~~~~....~~~~~~~~.....~~~~~~....e.......E..............', '.............oo.oo.oo.o..............e........e..oo.oo.oo.o..........................oo.oo.oo.o..E.......................oo.oo.oo.o.............', '.............e.........................oooooo......oooooo......oo##oo......oo##oo......oooooo......oooooo.........................e......E......', '###......#####........###..e.....e.#................o..o................................o..o................#..E.....e.###........#####......###', '.............e...#...........#..e........#............................................................#........e..#...........#..E..............', '###......####..........##....e.....##..........####......###........................###......####..........##.....e....##..........####......###', '..............e.....e.......o................o....o...............e..........................o.....o.........e......e.........o.................', '.............e.......e..............~~~~....~~~~~~~~~..~~~~~~~~~~..~~~~~~~~~~..~~~~~~~~~~..~~~~~~~~~....~~~~.............E.......e..............', '#....##....#.e........e................oo..oo......o....o...#..........##..........#...o....o......oo..oo................e........E.#....##....#', '~~~~~~~~~~~~~..........~~.e......e.~~...o..o...~~..........~~..........~~..........~~..........~~...o..o...~~.E......e.~~..........~~~~~~~~~~~~~'],
   s: ['#############..........##..........##...o..o...##..........#.....s..................#..........##...o..o...##..........##..........#############', '###......####..........##.o......o.#.............................s..........................................#.o......o.##..........####......###'],
   t: ['##########################........####.e....e.####........####...c....####........####........####.E......####........##########################', '#############~~~~~~~~~~##~........~##~.o....o.~##~........~##~...c..e.~##~..e.....~##~........~##~.o....o.~##~........~##~~~~~~~~~~#############', '#############..........##.oo....oo.##.o......o.##....e.....##.....c....##..........##....E.....##.o......o.##.oo....oo.##..........#############'],
   b: ['..........................o......o...............................B............................................o......o..........................', '###......#####........###..........#.............................B..........................................#..........###........#####......###'],
@@ -1623,7 +1665,7 @@ function genCrypt(floor, seed) {
   });
   // door lanes: carve from the cell border inward until the template's floor is met
   cells.forEach((c, ci) => {
-    for (let dir = 0; dir < 4; dir++) if (c.links[dir]) for (const lane of [6, 7]) for (let s = 0; s < 8; s++) {
+    for (let dir = 0; dir < 4; dir++) if (c.links[dir]) for (const lane of [5, 6, 7]) for (let s = 0; s < 8; s++) {
       const lx = dir === 0 ? 13 - s : dir === 2 ? s : lane, ly = dir === 1 ? 13 - s : dir === 3 ? s : lane, k = (c.cy * CELL + ly) * W0 + c.cx * CELL + lx;
       if (Lv.grid[k] === 1) break; Lv.grid[k] = 1; Lv.tint[k] = 6; Lv.roomOf[k] = ci;
     }
@@ -1631,7 +1673,7 @@ function genCrypt(floor, seed) {
   });
   cells.forEach((c, ci) => {
     if (c.kind !== 't' || deg(c) !== 1 || rng() > 0.55) return; const dir = c.links.indexOf(1), ts = [];
-    for (const lane of [6, 7]) { const lx = dir === 0 ? 13 : dir === 2 ? 0 : lane, ly = dir === 1 ? 13 : dir === 3 ? 0 : lane, x = c.cx * CELL + lx, y = c.cy * CELL + ly; if (Lv.grid[y * W0 + x] === 1) { Lv.grid[y * W0 + x] = 5; ts.push([x, y]); } }
+    for (const lane of [5, 6, 7]) { const lx = dir === 0 ? 13 : dir === 2 ? 0 : lane, ly = dir === 1 ? 13 : dir === 3 ? 0 : lane, x = c.cx * CELL + lx, y = c.cy * CELL + ly; if (Lv.grid[y * W0 + x] === 1) { Lv.grid[y * W0 + x] = 5; ts.push([x, y]); } }
     if (ts.length) Lv.secrets.push({ id: 'cs' + ci, tiles: ts, x: (tc(ts[0][0]) + tc(ts[ts.length - 1][0])) / 2, y: (tc(ts[0][1]) + tc(ts[ts.length - 1][1])) / 2 });
   });
   Lv.cells = cells; Lv.start = Lv.bless[0]; return Lv;
@@ -1680,8 +1722,9 @@ function los(x0, y0, x1, y1) {
 /* map pre-render: 16x16 tile chunks rendered on demand and kept in a small LRU */
 const FCOL = [[98, 92, 80], [86, 88, 76], [116, 106, 92], [104, 84, 62], [34, 58, 64], [82, 58, 44], [66, 70, 82], [118, 116, 110], [134, 132, 128], [78, 76, 86]];
 function renderChunk(cx, cy, c) {
+  const T = 40, tc = t => (t + 0.5) * T; /* local 40-unit art grid (shadows the global tile size) */
   const g = c.getContext('2d'), X0 = cx * CH, Y0 = cy * CH, X1 = X0 + CH, Y1 = Y0 + CH;
-  g.setTransform(MK, 0, 0, MK, -X0 * T * MK, -Y0 * T * MK); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
+  g.setTransform(MK * TQ, 0, 0, MK * TQ, -X0 * T * TQ * MK, -Y0 * T * TQ * MK); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over';
   g.fillStyle = '#060504'; g.fillRect(X0 * T, Y0 * T, CH * T, CH * T);
   const F = (x, y) => { if (x < 0 || y < 0 || x >= MW || y >= MH) return false; const v = grid[y * MW + x]; return v > 0 && v !== 5; };
   for (let ty = Y0 - 1; ty <= Y1; ty++) for (let tx = X0 - 1; tx <= X1; tx++) {
@@ -2613,7 +2656,7 @@ function spawnAt(g, keep) {
   if (save.bossDead && !save.night) startNight();
   let ly = layerOf(g | 0); if (!ly.open()) { ly = LAYERS[0]; g = 0; } const lv = ly.level(); if (L !== lv) { for (const k in seenRoom) delete seenRoom[k]; useLevel(lv); } if (L.props0) PROPS.length = L.props0;
   const b = BLESS[g - L.base] || BLESS[0]; G.zone = 'd'; G.home = 'd';
-  if (save.stain && save.stain.z === 'c') save.stain = { z: 'd', l: L.lay, x: Math.round(b.x - 40), y: Math.round(b.y + 34), s: save.stain.s };
+  if (save.stain && save.stain.z === 'c') save.stain = { z: 'd', l: L.lay, x: Math.round(b.x - 40), y: Math.round(b.y + 34), s: save.stain.s, tv: 50 };
   clearFx(); resetPlayer(b.x + 30, b.y + 24); if (ks) softArrive(ks); else rest(); warmChunks(P.x, P.y);
   cam.x = P.x; cam.y = P.y; G.room = -1; G.mode = 'play'; G.paused = false; G.soulShow = save.souls; hideAll(); setDrone(0.035, save.night ? 95 : 120);
   if (save.bossDead && !save.kingGift) { save.kingGift = 1; giveItem({ w: 'ultra3' }); queueCard('昇降機が動き出した', '── 王門の前室から、さらに下の層へ降りられる ──', 3.8); }
@@ -2627,7 +2670,7 @@ function spawnCrypt(keep) {
 function enterCrypt(floor) {
   floor = clamp(floor | 0, 1, cryptTop()); const seed = Math.floor(Math.random() * 4294967296) >>> 0;
   for (const k in seenRoom) delete seenRoom[k];
-  useLevel(genCrypt(floor, seed)); if (save.stain && save.stain.z === 'c') save.stain = { z: 'c', x: Math.round(BLESS[0].x - 40), y: Math.round(BLESS[0].y + 34), s: save.stain.s }; G.floor = floor; G.seed = seed; spawnCrypt(true); SFX.stairs(); G.flashW = 0; G.fadeT = 0.9; hint('crypt', '地下墓は入るたびに形が変わる\n最奥の墓主を斃せば、下り階段が現れる');
+  useLevel(genCrypt(floor, seed)); if (save.stain && save.stain.z === 'c') save.stain = { z: 'c', x: Math.round(BLESS[0].x - 40), y: Math.round(BLESS[0].y + 34), s: save.stain.s, tv: 50 }; G.floor = floor; G.seed = seed; spawnCrypt(true); SFX.stairs(); G.flashW = 0; G.fadeT = 0.9; hint('crypt', '地下墓は入るたびに形が変わる\n最奥の墓主を斃せば、下り階段が現れる');
 }
 function leaveCrypt() { for (const k in seenRoom) delete seenRoom[k]; spawnAt(save.bonfire, true); G.fadeT = 0.9; SFX.stairs(); toast('祝福へ帰還した'); }
 function travelTo(g, lift) {
@@ -2690,7 +2733,12 @@ function confirmAsk(t, p, y, fn) { $('cfT').textContent = t; $('cfP').innerHTML 
 /* 周回: pick a class again (with the +10% carry-over), then one 加護 */
 function startCycle() {
   if (!save.started || !save.bossDead) return; if (G.mode !== 'title') toTitle();
-  NEWSLOT = 0; NGP = { cyc: CYC() + 1, cb: carryOf(save.st), prev: save.bless }; clsSel = clsSel || 'knight'; openClass();
+  NEWSLOT = 0; NGP = { cyc: CYC() + 1, cb: carryOf(save.st, null), prev: save.bless }; clsSel = clsSel || 'knight'; openCarry();
+}
+/* v1.7.1: choose the one stat that carries over */
+function openCarry() {
+  let h = ''; for (const s of STATS) { const v = save.st[s[0]] | 0; h += '<button class="btn sub" data-k="' + s[0] + '" style="min-width:230px">' + s[1] + '　' + v + ' → <b>+' + Math.floor(v * 0.1) + '</b></button>'; }
+  $('cbRows').innerHTML = h; $('cbSel').classList.add('on');
 }
 function continueGame() { save.last = Date.now(); spawnAt(save.bonfire); }
 function enterBoss() {
@@ -2698,7 +2746,7 @@ function enterBoss() {
   G.mode = 'intro'; G.t = 0; G.tries++; cam.x = P.x; cam.y = P.y - 80; SFX.gate(); setDrone(0.05, 150); writeSave();
 }
 function toTitle() { lootSweep(); if (save.started) save.last = Date.now(); writeSave(); tSel = SLOT; if (L !== CASTLE) useLevel(CASTLE); if (save.stain && save.stain.z === 'c') save.stain = null; G.zone = 'a'; resetBoss(); G.mode = 'title'; G.paused = false; hideAll(); refreshTitle(); $('title').classList.add('on'); setDrone(0, 150); }
-function hideAll() { G.bfMenu = false; G.fieldEq = false; for (const id of ['title', 'dead', 'win', 'pause', 'bonfire', 'confirm', 'guide', 'cls', 'achv', 'opts', 'bless']) $(id).classList.remove('on'); }
+function hideAll() { G.bfMenu = false; G.fieldEq = false; for (const id of ['title', 'dead', 'win', 'pause', 'bonfire', 'confirm', 'guide', 'cls', 'achv', 'opts', 'bless', 'cbSel']) $(id).classList.remove('on'); }
 function refreshTitle() {
   refreshNews(); renderSlots();
   const si = slotInfo(tSel || SLOT); let s = '';
@@ -2706,7 +2754,7 @@ function refreshTitle() {
   if (si && si.wins > 0) s += '　王討伐 <b>' + si.wins + '</b>　最速 <b>' + fmtTime(si.best) + '</b>';
   if (si && (tSel || SLOT) === SLOT) s += '<span class="br"></span>収集率 <b>' + collection().pct + '%</b>' + (save.night ? '　<b>灰の降る夜</b>' : '');
   $('tStats').innerHTML = s;
-  $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入'); $('bFx').textContent = 'エフェクト ： ' + (save.fxLow ? '控えめ' : '標準'); $('rBgm').value = Math.round(save.volB * 100); $('rSe').value = Math.round(save.volS * 100);
+  $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入'); $('bFx').textContent = 'エフェクト ： ' + (save.fxLow ? '控えめ' : '標準'); $('rBgm').value = Math.round(save.volB * 100); $('rSe').value = Math.round(save.volS * 100); $('rCam').value = camIdx(); $('camLbl').textContent = 'カメラの距離 ： ' + CAMN[camIdx()];
   $('xfCur').innerHTML = '操作の対象 ： <b>セーブ' + SLOT + '</b>';
 }
 
@@ -2973,9 +3021,9 @@ function updWorld(dt) {
   for (let i = 0; i < BLESS.length; i++) { const b = BLESS[i], d = Math.hypot(P.x - b.x, P.y - b.y); if (d < 58 && d < bd) { bd = d; const lit = isLit(i); setNear('bonfire', lit ? '祝福に寄る' : '祝福に触れる', lit ? '祝福' : '触れる', i, null); if (save.lit[0] && L.mid === 'c1') hint('bless', '祝福に触れると、そこが復活地点になる（触れるだけでは回復しない）\n「休息」で HP・FP・灰瓶が満ち、倒した亡者も蘇る\nレベルアップ・強化・転移もここで'); } }
   bd = lootNear(bd);
   for (const c of CHESTS) { if (chestOpen(c)) continue; const d = Math.hypot(P.x - c.x, P.y - c.y); if (d < 52 && d < bd) { bd = d; setNear('chest', '宝箱を開ける', '開ける', 0, c); hint('chest', '宝箱は「開ける」で中身を得る\n武器・防具・魔法・タリスマンが眠っている'); } }
-  for (const dr of DOORS) { if (save.doors[dr.id]) continue; const d = Math.hypot(P.x - dr.x, P.y - dr.y); if (d < 66 && d < bd) { bd = d; setNear('door', '扉を調べる', '調べる', 0, dr); } }
+  for (const dr of DOORS) { if (save.doors[dr.id]) continue; const d = Math.hypot(P.x - dr.x, P.y - dr.y); if (d < 90 && d < bd) { bd = d; setNear('door', '扉を調べる', '調べる', 0, dr); } }
   for (const p of PROPS) { if (p.t === 'gate' || (p.need && !save.bossDead)) continue; const d = Math.hypot(P.x - p.x, P.y - p.y); if (d < 54 && d < bd) { const pr = propNear(p); if (pr) { if (pr === 2) bd = d; continue; } bd = d; if (p.t === 'lift') setNear('lift', layerOf(p.to).name.split('　')[0] + 'へ ' + (p.to >= L.base + 10 ? '降りる' : '昇る'), p.to >= L.base + 10 ? '降りる' : '昇る', 0, p); else if (p.t === 'fogL') setNear('fogL', '霧をくぐる', 'くぐる', 0, p); else if (p.t === 'exitL') setNear('exitL', '聖座を去る', '去る', 0, p); else if (p.t === 'stairs') setNear('stairs', 'B' + (L.floor + 1) + ' へ降りる', '降りる', 0, p); else setNear('return', '城へ帰還する', '帰還', 0, p); } }
-  if (FOG) { const d = Math.hypot(P.x - FOG.x, P.y - FOG.y); if (d < 72 && d < bd) { bd = d; setNear('fog', save.bossDead ? '霧をくぐる（再戦）' : '霧をくぐる', 'くぐる', 0, null); } }
+  if (FOG) { const d = Math.hypot(P.x - FOG.x, P.y - FOG.y); if (d < 96 && d < bd) { bd = d; setNear('fog', save.bossDead ? '霧をくぐる（再戦）' : '霧をくぐる', 'くぐる', 0, null); } }
 }
 function doInteract() {
   const n = G.near; if (!n || G.mode !== 'play' || G.paused || P.state === 'dead' || P.state === 'hurt' || P.state === 'roll' || P.state === 'held') return;
@@ -3030,9 +3078,17 @@ function layoutButtons() {
   if (LAND) { btns[4].x = RX - 240 * U; btns[4].y = H - 196 * U - sb; btnSw.x = RX - 150 * U; btnSw.y = H - 248 * U - sb; } else { btns[4].x = RX - 236 * U; btns[4].y = H - 126 * U - sb; } btns[4].r = 27 * U;
   if (LAND) { btns[5].x = RX - 326 * U; btns[5].y = H - 178 * U - sb; } else { btns[5].x = RX - 238 * U; btns[5].y = H - 198 * U - sb; } btns[5].r = 29 * U;
   pauseBtn.x = W - SAR - 30; pauseBtn.y = 32; pauseBtn.r = 20; JOYH.x = 84 * U + SAL; JOYH.y = H - 126 * U; JOYH.r = 54 * U; JS = 1;
+  if (save.btn.v !== 2) migrateBtn();
   const cfg = save.btn[LAND ? 'l' : 'p'];
-  for (const k of EDK) { const o = edObj(k), c = cfg[k]; if (!o || !Array.isArray(c)) continue; const sc = clamp(+c[2] || 1, 0.6, 1.7); o.r *= sc; if (k === 'joy') JS = sc; o.x = clamp(o.x + (+c[0] || 0), o.r * 0.7, W - o.r * 0.7); o.y = clamp(o.y + (+c[1] || 0), o.r * 0.7, H - o.r * 0.7); }
+  for (const k of EDK) { const o = edObj(k); if (!o) continue; o.bx = o.x; o.by = o.y; const c = cfg[k]; if (!Array.isArray(c)) continue; const sc = clamp(+c[2] || 1, 0.6, 1.7); o.r *= sc; if (k === 'joy') JS = sc; o.x = clamp(o.x + (+c[0] || 0) * U, o.r * 0.7, W - o.r * 0.7); o.y = clamp(o.y + (+c[1] || 0) * U, o.r * 0.7, H - o.r * 0.7); }
 }
+/* v1.7.1: editor offsets are stored per orientation in units of U (the UI scale), so they stay put when the window size changes; old pixel offsets are converted once */
+function migrateBtn() {
+  const sh = Math.min(window.innerWidth, window.innerHeight), lg = Math.max(window.innerWidth, window.innerHeight), uL = clamp(sh / 400, 0.72, 1.3), uP = clamp(Math.min(sh, lg * 0.62) / 390, 0.78, 1.45);
+  for (const [o, u] of [['p', uP], ['l', uL]]) { const c = save.btn[o]; if (!c || typeof c !== 'object') continue; for (const k in c) if (Array.isArray(c[k])) { c[k][0] = (+c[k][0] || 0) / u; c[k][1] = (+c[k][1] || 0) / u; } }
+  save.btn.v = 2;
+}
+const edSync = () => { const o = edObj(ED.sel), c = edCfg(ED.sel); c[0] = (o.x - o.bx) / U; c[1] = (o.y - o.by) / U; };
 function releaseInput() { joy.id = -1; joy.on = false; for (const b of btns) { b.id = -1; b.down = false; } btnInt.id = -1; btnInt.down = false; }
 function queue(k) { P.buf = k; P.bufT = 0.38; }
 const canSwap = () => WPN[save.weapon].cat === 'bow' || (canCast() && spellList().length > 1);
@@ -3116,6 +3172,8 @@ for (const id of ['bNext', 'bNextWin', 'bNextBf']) tap(id, () => { if (id === 'b
 tap('bYes', () => { const f = cfmAct; cfmAct = null; $('confirm').classList.remove('on'); if (f) f(); });
 for (const b of $('xfSlots').querySelectorAll('button')) b.addEventListener('click', e => { e.preventDefault(); SFX.ui(); impSlot = +b.dataset.s; impMsg(); });
 $('clsCards').addEventListener('click', e => { const b = e.target.closest && e.target.closest('.ccard'); if (!b) return; initAudio(); SFX.ui(); clsSel = b.dataset.c; refreshClass(); });
+$('cbRows').addEventListener('click', e => { const b = e.target.closest && e.target.closest('button[data-k]'); if (!b || !NGP) return; initAudio(); SFX.ui(); NGP.cb = carryOf(save.st, b.dataset.k); $('cbSel').classList.remove('on'); openClass(); });
+tap('bCbNo', () => { NGP = null; $('cbSel').classList.remove('on'); });
 tap('bClsGo', () => { $('cls').classList.remove('on'); if (NGP) openBless(); else newGame(clsSel); }); tap('bClsNo', () => { NGP = null; $('cls').classList.remove('on'); });
 let blSel = 'flask';
 function refreshBless() { let h = ''; for (const k of CBLIDS) h += '<button class="ccard' + (k === blSel ? ' cur' : '') + '" data-b="' + k + '"><span class="cn" style="font-size:14px;letter-spacing:.04em">' + CBL[k].n + '</span><span class="cd">' + CBL[k].d + '</span></button>'; $('blCards').innerHTML = h; $('blInfo').innerHTML = '<b>' + cycName(NGP ? NGP.cyc : 1) + '</b>の旅で、ひとつだけ授かる加護。次の周回で選び直せる。<br>選んだ加護：<b>' + CBL[blSel].n + '</b> ── ' + CBL[blSel].d + '<br>敵は <b>' + Math.round((NGP ? (NGP.cyc === 1 ? 1.3 : Math.min(2.5, 1.55 + 0.2 * (NGP.cyc - 2))) : 1) * 100) + '%</b> の強さになり、ルーンと防具の実りが少し増える'; }
@@ -3126,6 +3184,7 @@ tap('bBlNo', () => { $('bless').classList.remove('on'); $('cls').classList.add('
 for (const id of ['bAch', 'bAch2', 'bAch3']) tap(id, openAch); tap('bAchClose', () => $('achv').classList.remove('on'));
 for (const id of ['bOpts', 'bOpts2']) tap(id, () => { refreshTitle(); xferMode('xfMenu'); $('opts').classList.add('on'); }); tap('bOptClose', () => { writeSave(); $('opts').classList.remove('on'); });
 $('rBgm').addEventListener('input', e => { initAudio(); save.volB = clamp(+e.target.value / 100, 0, 1); }); $('rSe').addEventListener('input', e => { save.volS = clamp(+e.target.value / 100, 0, 1); });
+$('rCam').addEventListener('input', e => { save.cam = clamp(Math.round(+e.target.value), 0, 4); $('camLbl').textContent = 'カメラの距離 ： ' + CAMN[camIdx()]; resize(); }); $('rCam').addEventListener('change', writeSave);
 $('rSe').addEventListener('change', () => { initAudio(); bgmTick(); SFX.hit(); writeSave(); }); $('rBgm').addEventListener('change', writeSave);
 tap('bXfOut', () => { xferMode('xfOut'); $('xfCode').value = '書き出し中…'; exportCode().then(c => { $('xfCode').value = c; $('xfMsg').textContent = 'このコードを控えて、別の端末の「セーブを読み込む」に貼り付ける（' + c.length + '文字）'; }).catch(() => { $('xfMsg').textContent = '書き出しに失敗した'; }); });
 tap('bXfCopy', () => { const t = $('xfCode'); try { t.focus(); t.select(); } catch (e) {} try { navigator.clipboard.writeText(t.value).then(() => { $('xfMsg').textContent = 'コピーした'; }, () => { $('xfMsg').textContent = 'コピーできなかった ── 枠の中を長押しして選び、コピーすること'; }); } catch (e) { $('xfMsg').textContent = 'コピーできなかった ── 枠の中を長押しして選び、コピーすること'; } });
@@ -3166,9 +3225,9 @@ function edSelect(k) { ED.sel = k; $('edName').textContent = EDN[k]; $('rEd').va
 function openEdit() { $('opts').classList.remove('on'); $('pause').classList.remove('on'); $('title').classList.remove('on'); G.edit = true; $('edbar').classList.add('on'); layoutButtons(); edSelect(ED.sel); }
 function closeEdit() { G.edit = false; ED.id = -1; $('edbar').classList.remove('on'); writeSave(); layoutButtons(); if (G.paused) $('pause').classList.add('on'); if (G.mode === 'title') $('title').classList.add('on'); $('opts').classList.add('on'); }
 function edDown(e) { const x = e.clientX, y = e.clientY; let best = '', bd = 1e9; for (const k of EDK) { const o = edObj(k), d = Math.hypot(x - o.x, y - o.y) / Math.max(22, o.r); if (d < 1.35 && d < bd) { bd = d; best = k; } } if (!best) return; edSelect(best); ED.id = e.pointerId; ED.ox = x; ED.oy = y; try { cv.setPointerCapture(e.pointerId); } catch (er) {} }
-cv.addEventListener('pointermove', e => { if (!G.edit || e.pointerId !== ED.id) return; const c = edCfg(ED.sel); c[0] += e.clientX - ED.ox; c[1] += e.clientY - ED.oy; ED.ox = e.clientX; ED.oy = e.clientY; layoutButtons(); const o = edObj(ED.sel), lim = 0.7 * o.r; if (o.x <= lim + 0.5 || o.x >= W - lim - 0.5 || o.y <= lim + 0.5 || o.y >= H - lim - 0.5) { c[0] = clamp(c[0], -W, W); c[1] = clamp(c[1], -H, H); } });
+cv.addEventListener('pointermove', e => { if (!G.edit || e.pointerId !== ED.id) return; const c = edCfg(ED.sel); c[0] += (e.clientX - ED.ox) / U; c[1] += (e.clientY - ED.oy) / U; ED.ox = e.clientX; ED.oy = e.clientY; layoutButtons(); edSync(); });
 for (const ev of ['pointerup', 'pointercancel']) cv.addEventListener(ev, e => { if (e.pointerId === ED.id) ED.id = -1; });
-$('rEd').addEventListener('input', e => { edCfg(ED.sel)[2] = clamp(+e.target.value / 100, 0.6, 1.7); layoutButtons(); });
+$('rEd').addEventListener('input', e => { edCfg(ED.sel)[2] = clamp(+e.target.value / 100, 0.6, 1.7); layoutButtons(); edSync(); });
 tap('bEdit', openEdit); tap('bEdDone', closeEdit); tap('bEdReset', () => { save.btn[LAND ? 'l' : 'p'] = {}; layoutButtons(); edSelect(ED.sel); });
 tap('bRsNo', () => { RS = null; bfPane('bfMain'); bfNote('振り直しをやめた ── 雫は失われていない'); });
 tap('bRsOk', () => {
@@ -3584,7 +3643,7 @@ function killPlayer() {
   P.state = 'dead'; G.mode = 'dead'; G.t = 0; G.shown = false; G.slow = 0.4; G.slowT = 0.9; G.near = null; P.holder = null;
   save.deaths++; G.lost = save.souls; G.lostOld = save.stain ? save.stain.s : 0;
   let sx = P.x, sy = P.y; if (G.zone === 'a') { const d = Math.hypot(sx, sy), lim = R_ARENA - 50; if (d > lim) { sx *= lim / d; sy *= lim / d; } }
-  save.stain = save.souls > 0 ? { z: G.zone, l: L.lay, x: Math.round(sx), y: Math.round(sy), s: save.souls } : null; save.souls = 0;
+  save.stain = save.souls > 0 ? { z: G.zone, l: L.lay, x: Math.round(sx), y: Math.round(sy), s: save.souls, tv: 50 } : null; save.souls = 0;
   writeSave(); SFX.die(); vib([80, 60, 160]); setDrone(0.02, 100);
   burst(P.x, P.y, 26, 200, 0.9, 5, 1, '#7a100c');
 }
@@ -4223,7 +4282,7 @@ const ACH = [
   ['noflask', '渇きの勝利', '王か強敵を、灰瓶を飲まずに斃す', () => save.cnt.noFlask],
   ['b3', '墓荒らし', '地下墓 B3 を制する', () => save.cryptDeep >= 3, () => [Math.min(3, save.cryptDeep), 3]],
   ['b7', '最奥に至る', '地下墓 B7 に辿り着く', () => save.cryptDeep >= 6, () => [Math.min(6, save.cryptDeep), 6]],
-  ['bless', '六つの灯', '第1層のすべての祝福に触れる', () => Object.keys(save.lit).filter(k => k < 10).length >= 6, () => [Object.keys(save.lit).filter(k => k < 10).length, 6]],
+  ['bless', '七つの灯', '第1層のすべての祝福に触れる', () => Object.keys(save.lit).filter(k => k < 10).length >= 7, () => [Object.keys(save.lit).filter(k => k < 10).length, 7]],
   ['lord2', '聖都を鎮める', '第2層の主、灰燼の大主教を斃す', () => save.lords[2]],
   ['l2mb', '聖都の番人たち', '第2層の強敵を三体とも斃す', () => save.mb.l2_warden && save.mb.l2_captain && save.mb.l2_priest, () => [(save.mb.l2_warden ? 1 : 0) + (save.mb.l2_captain ? 1 : 0) + (save.mb.l2_priest ? 1 : 0), 3]],
   ['lv30', '灰を集める者', 'レベル30に達する', () => level() >= 30, () => [Math.min(30, level()), 30]],
@@ -4709,6 +4768,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.7.1', d: '2026-11-18', t: 'マップとカメラ', items: ['マップを広くしました', '縦画面と横画面でボタン位置がずれる問題を修正しました', 'カメラの距離を設定で調整できるようにしました', 'プレイ中のメニューから全画面に戻せるようにしました', '周回プレイで引き継ぐ能力を選べるようにしました'] },
   { v: '1.7.0', d: '2026-11-18', t: '三つのセーブと周回', items: ['セーブデータを3つまで保存できるようになりました', '周回プレイ（二周目以降）を追加しました'] },
   { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具のサブステータスの値がA〜Eの5段階になりました（新しく拾った防具から）', '中ボスのいる部屋の雑魚を少し減らし、中ボス戦の最中は離れた雑魚が加わりにくくしました', '雑魚の攻撃の予兆を少し早めました', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました', 'モンスターのAIを調整しました', 'プレイヤーの移動速度を調整しました', '敵の攻撃で行動が中断されることがあるようになりました', '大剣や刀を持つ新しい敵が現れるようになりました'] },
   { v: '1.6.3', d: '2026-11-18', t: '歯ごたえのある亡者たち', items: ['雑魚の亡者が、いまの強さに見合うだけ頑丈になり、攻撃も重くなりました。第1層・夜・第2層・ミニダンジョン、そして地下墓 B1〜B7 まで、「そのあたりで戦うころの強さ」を目安に整え直しています（レベルや強化を重ねれば、ちゃんと楽になります）', 'そのかわり、雑魚の近づいてくる足は約3割ゆっくりに。数を恐れず、間合いを読んで戦えます。攻撃の隙は少し短く、振りかぶりの途中は軽い攻撃では怯まなくなりました（予兆はこれまでどおり赤い枠）', '新しい敵「盾持ちの亡者」「聖都の盾衛士」が登場（第1層・第2層・地下墓 B2 以降）。正面からの軽い攻撃はほとんど防がれ、削られるのは盾の気力。ゼロになる「ガード崩し」で大きく体勢が崩れます。強攻撃、横や背中への回り込み、攻撃直後の隙を狙いましょう', '双刃の影 イズリル（夜の姿・地下墓の個体も）が簡単にひるまされ、連続攻撃で動けなくなる不具合を直しました。体勢が崩れにくくなり、回避の最中は攻撃が当たらず、立て続けに斬られると影に紛れて背後から反撃します', '強敵・精鋭・層の中ボス共通で、短い間に二度ほど怯まされると、しばらく怯まなくなって反撃してきます（頭上に「怯まず」）。崩れから立ち直った直後も、少しのあいだ崩れません']},
@@ -5342,14 +5402,14 @@ function drawStain() {
 function drawProps() {
   for (const dr of DOORS) {
     if (!vis(dr.x, dr.y, 80)) continue; const open = save.doors[dr.id];
-    ctx.save(); ctx.translate(dr.x, dr.y); if (dr.ax === 'y') ctx.rotate(PI / 2); const dx = -20, dy = -T;
+    ctx.save(); ctx.translate(dr.x, dr.y); if (dr.ax === 'y') ctx.rotate(PI / 2); ctx.scale(TQ, 1); const dx = -20, LN = dr.tiles.length * T, dy = -LN / 2;
     if (!open) {
-      ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.fillRect(dx + 8, dy, 30, 2 * T);
-      ctx.fillStyle = '#4a3520'; ctx.fillRect(dx + 12, dy, 16, 2 * T);
-      ctx.strokeStyle = '#2a1d10'; ctx.lineWidth = 1; for (let i = 1; i < 8; i++) { ctx.beginPath(); ctx.moveTo(dx + 12, dy + i * 10); ctx.lineTo(dx + 28, dy + i * 10); ctx.stroke(); }
-      ctx.fillStyle = '#6d6a62'; ctx.fillRect(dx + 10, dy + 12, 20, 5); ctx.fillRect(dx + 10, dy + 2 * T - 17, 20, 5);
-      ctx.fillStyle = '#8a7340'; ctx.fillRect(dx + 6, dy + T - 4, 10, 8);
-    } else { ctx.fillStyle = '#4a3520'; ctx.fillRect(dx + 2, dy, 36, 6); ctx.fillRect(dx + 2, dy + 2 * T - 6, 36, 6); ctx.fillStyle = '#6d6a62'; ctx.fillRect(dx + 8, dy, 5, 6); ctx.fillRect(dx + 8, dy + 2 * T - 6, 5, 6); }
+      ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.fillRect(dx + 8, dy, 30, LN);
+      ctx.fillStyle = '#4a3520'; ctx.fillRect(dx + 12, dy, 16, LN);
+      ctx.strokeStyle = '#2a1d10'; ctx.lineWidth = 1; for (let i = 1; i < 8; i++) { ctx.beginPath(); ctx.moveTo(dx + 12, dy + i * LN / 8); ctx.lineTo(dx + 28, dy + i * LN / 8); ctx.stroke(); }
+      ctx.fillStyle = '#6d6a62'; ctx.fillRect(dx + 10, dy + 12, 20, 5); ctx.fillRect(dx + 10, dy + LN - 17, 20, 5);
+      ctx.fillStyle = '#8a7340'; ctx.fillRect(dx + 6, dy + LN / 2 - 4, 10, 8);
+    } else { ctx.fillStyle = '#4a3520'; ctx.fillRect(dx + 2, dy, 36, 6); ctx.fillRect(dx + 2, dy + LN - 6, 36, 6); ctx.fillStyle = '#6d6a62'; ctx.fillRect(dx + 8, dy, 5, 6); ctx.fillRect(dx + 8, dy + LN - 6, 5, 6); }
     ctx.restore();
   }
   for (const p of PROPS) {
@@ -5387,7 +5447,7 @@ function drawProps() {
   }
   ctx.globalCompositeOperation = 'lighter'; const ts = crypt ? 8 : 0;
   for (const t of TORCHES) { const x = tc(t[0]), y = t[1] * T + T * 0.56; if (!vis(x, y, 150)) continue; const fl = 0.85 + Math.sin(G.now * 11 + x) * 0.15, s = 15 * fl, g = night ? 130 : 90; ctx.globalAlpha = night ? 0.42 : 0.3; ctx.drawImage(SPR[ts], x - g, y - g * 0.78, g * 2, g * 2); ctx.globalAlpha = 0.95; ctx.drawImage(SPR[ts], x - s, y - s - 3, s * 2, s * 2); ctx.drawImage(SPR[crypt ? 2 : 1], x - s * 0.5, y - s * 0.5 - 4, s, s); }
-  if (FOG && vis(FOG.x, FOG.y, 120)) for (let i = 0; i < 7; i++) { const x = FOG.x - T + 6 + i * 11.5, y = FOG.y + 4, s = 34 + Math.sin(G.now * 1.7 + i * 1.3) * 8; ctx.globalAlpha = 0.3 + Math.sin(G.now * 2.3 + i) * 0.08; ctx.drawImage(SPR[2], x - s, y - s * 1.3, s * 2, s * 2.6); }
+  if (FOG && vis(FOG.x, FOG.y, 120)) for (let i = 0; i < 9; i++) { const x = FOG.x - (L.fogN || 3) * T / 2 + 6 + i * ((L.fogN || 3) * T - 12) / 8, y = FOG.y + 4, s = 34 + Math.sin(G.now * 1.7 + i * 1.3) * 8; ctx.globalAlpha = 0.3 + Math.sin(G.now * 2.3 + i) * 0.08; ctx.drawImage(SPR[2], x - s, y - s * 1.3, s * 2, s * 2.6); }
   ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
 }
 function drawShots() {
@@ -5687,8 +5747,13 @@ function render() {
 
 /* ---------- loop ---------- */
 let last = 0;
+let fsSync = () => {}, fN = 0;
 function frame(ts) {
   requestAnimationFrame(frame);
+  if ((++fN & 15) === 0) { /* v1.7.1: keep the canvas and buttons in step with the real window (orientation changes report stale sizes on some browsers) */
+    let st = false; try { const cs = getComputedStyle($('safe')); st = (parseFloat(cs.paddingLeft) || 0) !== SAL || (parseFloat(cs.paddingRight) || 0) !== SAR; } catch (e) {}
+    if (window.innerWidth !== W || window.innerHeight !== H || Math.min(window.devicePixelRatio || 1, 2) !== DPR || st) resize(); fsSync();
+  }
   const dt = Math.min(0.034, (ts - last) / 1000 || 0.016); last = ts;
   try { if (!G.paused) update(dt); } catch (e) { reportErr(e, 'update'); }
   try { render(); } catch (e) { reportErr(e, 'render'); try { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); drawHUD(); } catch (e2) {} }
@@ -5715,6 +5780,32 @@ window.addEventListener('resize', resize);
   });
   document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) b.style.display = ''; setTimeout(resize, 200); });
 })(); window.addEventListener('orientationchange', () => setTimeout(resize, 200));
+/* v1.7.1: re-measure a moment after rotations / viewport changes, and a pause-menu button + prompt to get fullscreen back */
+(() => {
+  let rzT = 0; const later = () => { clearTimeout(rzT); rzT = setTimeout(() => { resize(); rzT = setTimeout(resize, 500); }, 150); };
+  window.addEventListener('orientationchange', later); document.addEventListener('visibilitychange', later);
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', later);
+  try { screen.orientation.addEventListener('change', later); } catch (e) {}
+  const de = document.documentElement, bp = $('bFsP'), pr = $('fsBack'), isFs = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+  const iOS = /iPhone|iPod/.test(navigator.userAgent) || (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1 && !de.requestFullscreen), can = !iOS && !!(de.requestFullscreen || de.webkitRequestFullscreen);
+  let want = false, hideAt = 0;
+  async function enter() {
+    try { initAudio(); } catch (e) {}
+    try { if (!isFs()) await (de.requestFullscreen ? de.requestFullscreen({ navigationUI: 'hide' }) : de.webkitRequestFullscreen()); want = true; try { await screen.orientation.lock('landscape'); } catch (e) {} }
+    catch (e) { toast('この画面では全画面にできません'); }
+    setTimeout(resize, 300); setTimeout(resize, 800); fsSync();
+  }
+  fsSync = () => {
+    const inGame = G.mode !== 'title'; bp.style.display = (can || iOS) && inGame ? '' : 'none';
+    const show = can && want && !isFs() && inGame && document.visibilityState === 'visible' && performance.now() < hideAt;
+    pr.style.display = show ? '' : 'none';
+  };
+  bp.addEventListener('click', e => { e.preventDefault(); initAudio(); SFX.ui(); if (iOS) { toast('iPhoneは全画面にできません。本体を横にして遊んでください', 3.4); return; } enter(); });
+  pr.addEventListener('click', e => { e.preventDefault(); enter(); });
+  document.addEventListener('fullscreenchange', () => { if (isFs()) { want = true; hideAt = 0; } else if (want) hideAt = performance.now() + 12000; setTimeout(resize, 200); fsSync(); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && want && !isFs()) hideAt = performance.now() + 12000; fsSync(); });
+  if (can) $('bFs').addEventListener('click', () => { want = true; });
+})();
 G.fadeT = 0; G.nightT = 0; G.toastD = 2.4; G.toastH = false;
 CASTLE = buildCastle(save.night); useLevel(CASTLE);
 buildFloor(); resize(); P.maxHp = 100; P.maxSt = 100; P.maxFp = 50; P.slot = 0; resetPlayer(0, 0); resetEnemies(); resetBoss(); G.mode = 'title'; refreshTitle(); refreshBf();
