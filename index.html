@@ -1770,9 +1770,16 @@ function resetEnemy(e) {
   Object.assign(e, { x: e.hx, y: e.hy, face: e.hf, hp: e.mhp, hpLag: e.mhp, state: 'idle', t: 0, cd: 0, atk: '', poise: e.def.poise, poiseT: 0, bleed: 0, bleedT: 0, bleedMax: 100, flash: 0, walk: rnd(6), sa: 1.2, saT: 1.2, sl: 0, kx: 0, ky: 0, see: false, losT: rnd(0.3), lost: 0, lx: e.hx, ly: e.hy, hitDone: false, flip: false, critDone: false, strafe: Math.random() < 0.5 ? 1 : -1, r: e.def.r, show: 0, at: 0, pat: 0, al: 1, hide: false, v1: 0, v2: 0, n: 0, ax: 0, ay: 0, bx: 0, by: 0, wall: false, last: '', tl: null, ph: 1, gd: e.def.sh ? e.def.sh.gd : 0, gdT: 0, bk: 0, grace: 0, imm: 0, fc: 0, fcT: 0, cT: 0, hq: 0, hqT: 0, escCd: 0 });
   for (const k in e.cds) e.cds[k] = 0; e.sres = 0; e.wt = 0;
 }
+/* v1.6.4: 雑魚 wind-ups (attack tells) start a little earlier — 12% longer warning before the hit */
+for (const k in EATK) if (!EATK[k].wDone) { EATK[k].w *= 1.12; EATK[k].wDone = 1; }
 function resetEnemies() {
   if (L) L.inited = 1;
   for (const e of enemies) { resetEnemy(e); if (e.def.boss && ((L.id === 'castle' ? save.mbC[e.key] : L.bossDead) || (e.need === 'lord' && !save.lords[2]))) { e.state = 'dead'; e.t = 99; e.hp = 0; } }
+  /* v1.6.4: fewer 雑魚 around a living mid-boss — about 40% of the regular enemies sharing its room (or within 420px) are left out */
+  const rmOf = (x, y) => { const tx = Math.floor(x / T), ty = Math.floor(y / T); return roomOf && tx >= 0 && ty >= 0 && tx < MW && ty < MH ? roomOf[ty * MW + tx] : -1; };
+  for (const b of enemies) { if (!b.def.boss || b.def.lord || b.state === 'dead') continue; const br = rmOf(b.hx, b.hy);
+    const near = enemies.filter(e => !e.def.boss && !e.elite && e.state !== 'dead' && ((br >= 0 && rmOf(e.hx, e.hy) === br) || Math.hypot(e.hx - b.hx, e.hy - b.hy) < 420)).sort((p, q) => Math.hypot(p.hx - b.hx, p.hy - b.hy) - Math.hypot(q.hx - b.hx, q.hy - b.hy));
+    const cut = near.length >= 2 ? Math.round(near.length * 0.4) : 0; for (let i = 0; i < cut; i++) { const e = near[i]; e.state = 'dead'; e.t = 99; e.hp = 0; e.culled = 1; } }
   for (const a of arrows) a.on = false;
   tele.length = spikes.length = rings.length = shots.length = fires.length = 0; G.mb = null;
 }
@@ -4327,7 +4334,8 @@ function nbLeash(e) {
   return routeDist(e, P.x, P.y) > NB_LEASH || routeDist(e, e.x, e.y) > NB_LEASH;
 }
 function mayAggro(e) {
-  if (!e.def.boss) return true;
+  /* v1.6.4: while a mid-boss fight is on, idle 雑魚 nearby stay out of it unless the player walks right up to them */
+  if (!e.def.boss) { const m = G.mb && G.mb.state !== 'dead' ? G.mb : null; if (m && e.state === 'idle' && !(e.hitT > 0) && Math.hypot(P.x - e.x, P.y - e.y) > 95) return false; return true; }
   const o = G.mb && G.mb !== e && G.mb.state !== 'dead' ? G.mb : null; if (o && (e.def.night || o.def.night)) return false;
   if (e.def.night && e.state === 'idle' && nbLeash(e)) return false;
   return true;
@@ -4486,7 +4494,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
-  { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具のサブステータスの値がA〜Eの5段階になりました（新しく拾った防具から）', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました'] },
+  { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具のサブステータスの値がA〜Eの5段階になりました（新しく拾った防具から）', '中ボスのいる部屋の雑魚を少し減らし、中ボス戦の最中は離れた雑魚が加わりにくくしました', '雑魚の攻撃の予兆を少し早めました', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました'] },
   { v: '1.6.3', d: '2026-11-18', t: '歯ごたえのある亡者たち', items: ['雑魚の亡者が、いまの強さに見合うだけ頑丈になり、攻撃も重くなりました。第1層・夜・第2層・ミニダンジョン、そして地下墓 B1〜B7 まで、「そのあたりで戦うころの強さ」を目安に整え直しています（レベルや強化を重ねれば、ちゃんと楽になります）', 'そのかわり、雑魚の近づいてくる足は約3割ゆっくりに。数を恐れず、間合いを読んで戦えます。攻撃の隙は少し短く、振りかぶりの途中は軽い攻撃では怯まなくなりました（予兆はこれまでどおり赤い枠）', '新しい敵「盾持ちの亡者」「聖都の盾衛士」が登場（第1層・第2層・地下墓 B2 以降）。正面からの軽い攻撃はほとんど防がれ、削られるのは盾の気力。ゼロになる「ガード崩し」で大きく体勢が崩れます。強攻撃、横や背中への回り込み、攻撃直後の隙を狙いましょう', '双刃の影 イズリル（夜の姿・地下墓の個体も）が簡単にひるまされ、連続攻撃で動けなくなる不具合を直しました。体勢が崩れにくくなり、回避の最中は攻撃が当たらず、立て続けに斬られると影に紛れて背後から反撃します', '強敵・精鋭・層の中ボス共通で、短い間に二度ほど怯まされると、しばらく怯まなくなって反撃してきます（頭上に「怯まず」）。崩れから立ち直った直後も、少しのあいだ崩れません']},
   { v: '1.6.2', d: '2026-11-17', t: '最初の手応えへ', items: ['祝福は「触れる」だけでは回復しなくなりました。触れると灯がともって復活地点と転移先になり、「休息」を選んだときだけ HP・FP・灰瓶が満ちて亡者が蘇ります（転移で着いたときも同じです）', 'どの素性もレベル1から。初めの持ち物も控えめにしました（騎士は革鎧と小盾、魔術師は魔法一つ、聖職者は霊鈴なし）', '第1層の亡者が少し丈夫に、少し痛くなり、新しい攻め手が増えました。そのかわり、一度に斬りかかってくるのは二体ほどまで。残りは周りで隙をうかがいます', '体勢を崩す力を武器の種類ごとに見直しました（大剣・特大剣・槌を控えめに）。崩された敵は、しばらく崩れにくくなります', '防具の守りを見直しました（第1層の重装一式で被害 -15% ほど。深い層の防具ほどしっかり堅くなります）', '武器の固有の技は、鍛えるほど本領を発揮するように。タリスマン・防具のサブステータス・致命の一撃も、序盤は控えめに', '霊体を弱めました。助けにはなりますが、強敵を任せきりにはできません（時間とともに薄れます）', '光や火花をおとなしくしました。画面全体が白くなることはもうありません。設定に「エフェクト：標準／控えめ」を追加', '武器が種類ごとに並ぶようになりました（装備・強化・図鑑）。種類で絞り込めます', '侵入者（赤い霊体）は、いったんお休みです', '灰冠の騎士王に関する不具合を調べ、体力がなくなれば必ず斃れるようにしました', 'セーブはそのまま引き継がれます'] },
   { v: '1.6.1', d: '2026-11-17', t: '矢は尽きず', items: ['弓の矢が無限になりました。そのかわり、射るたびのスタミナが少し増え、炎矢・重矢はさらに多く使います', '遠くから射られた敵が、逃げ帰って体力を全回復してしまう不具合を直しました（攻撃を受けた敵は、しばらく追いかけてきます）', '武器を持ち替えたあと、敵の体力が減りきらないことがある問題を直しました', '装備メニューの背景を濃くして、後ろの文字が透けないようにしました', 'ボスや敵の体力が0にならず倒せなくなることがある不具合を直しました', 'どんな耐性があっても、攻撃のダメージが0にならないようにしました'] },
