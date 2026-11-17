@@ -1779,7 +1779,7 @@ function hitEnemy(e, dmg, poise, heavy, bleed, magic) {
   if (e.iv > 0) { tagText(e, '回避', '#ff9a9a'); return; }
   let mult = 1, crit = false; const rk = resK(e.def); dmg *= rk;
   if (e.state === 'stagger') { mult = 1.4; if (heavy && !e.critDone) { mult = (e.def.boss ? 2.3 : 2.6) * (G.critK || 1); crit = true; onCrit(); e.critDone = true; if (e.def.boss) e.t = Math.min(e.t, 0.8); } }
-  dmg = Math.round(dmg * mult * rnd(0.94, 1.06)); let bl = 0;
+  dmg = Math.max(1, Math.round(dmg * mult * rnd(0.94, 1.06)) || 0); let bl = 0;
   if (bleed) { e.bleed += bleed * bleedMult() * (e.def.boss ? 1 : 1.25) * (e.def.res && e.def.res.bleed !== undefined ? e.def.res.bleed : 1); e.bleedT = 5; if (e.bleed >= e.bleedMax) { e.bleed = 0; if (e.def.boss) e.bleedMax *= 1.12; bl = Math.round((e.def.boss ? 60 : Math.max(26, e.mhp * 0.3)) * bleedMult()); } }
   if (!isFinite(dmg)) dmg = 0; if (!isFinite(bl)) bl = 0;
   e.hp -= dmg + bl; e.flash = 0.12; e.show = 4; e.hitT = 6; e.lx = P.x; e.ly = P.y; e.lost = 0; if (!isFinite(e.hp)) e.hp = 0; if (e.hp < 0.5) e.hp = 0;
@@ -1821,6 +1821,7 @@ function resTag(o, rk) { if (rk <= 1.1 && rk >= 0.9) return; if (G.now - (o.tagT
 function lineHitP(x, y, a, len, w) { const cx = Math.cos(a), cy = Math.sin(a), dx = P.x - x, dy = P.y - y, t = clamp(dx * cx + dy * cy, 0, len), ex = dx - cx * t, ey = dy - cy * t; return ex * ex + ey * ey <= (w / 2 + P.r * 0.6) * (w / 2 + P.r * 0.6); }
 function eMove(e, ang, sp, dt) { e.x += Math.cos(ang) * sp * dt; e.y += Math.sin(ang) * sp * dt; e.walk += dt * sp * 0.085; }
 function updEnemy(e, dt) {
+  if (e.state !== 'dead' && !(e.hp > 0.5)) { e.hp = 0; killEnemy(e); return; }
   const d = e.def; e.flash = Math.max(0, e.flash - dt); if (e.cd > 0) e.cd -= dt; if (e.show > 0) e.show -= dt; if (e.iv > 0) e.iv -= dt;
   e.hpLag = e.hpLag > e.hp ? Math.max(e.hp, e.hpLag - e.mhp * (d.boss ? 0.2 : 0.5) * dt) : e.hp;
   if (e.poiseT > 0) e.poiseT -= dt; else e.poise = d.poise;
@@ -3499,9 +3500,10 @@ function hitBoss(dmg, poise, heavy, bleed) {
   let mult = 1, crit = false;
   const rk = KRES[G.dt] || 1; dmg *= rk;
   if (B.state === 'stagger') { mult = 1.5; if (heavy && !B.critDone) { mult = 2.4 * (G.critK || 1); crit = true; onCrit(); B.critDone = true; B.t = Math.min(B.t, 0.75); } }
-  dmg = Math.round(dmg * mult * rnd(0.94, 1.06)); let bl = 0;
+  dmg = Math.max(1, Math.round(dmg * mult * rnd(0.94, 1.06)) || 0); let bl = 0;
   if (bleed) { B.bleed += bleed * bleedMult(); B.bleedT = 5; if (B.bleed >= B.bleedMax) { B.bleed = 0; B.bleedMax *= 1.12; bl = Math.round(62 * bleedMult()); } }
-  B.hp -= dmg + bl; B.flash = 0.12; B.dmgAcc += dmg + bl; B.dmgT = 2.2;
+  if (!isFinite(dmg)) dmg = 0; if (!isFinite(bl)) bl = 0;
+  B.hp -= dmg + bl; if (!isFinite(B.hp)) B.hp = 0; B.flash = 0.12; B.dmgAcc += dmg + bl; B.dmgT = 2.2;
   if (B.state !== 'stagger') { B.poise -= poise; B.poiseT = 5; }
   const a = Math.atan2(B.y - P.y, B.x - P.x), hx = B.x - Math.cos(a) * B.r * 0.8, hy = B.y - Math.sin(a) * B.r * 0.8;
   burst(hx, hy, heavy ? 12 : 7, 260, 0.35, 9, 0, 1, a + PI, 1.1);
@@ -3529,6 +3531,7 @@ function bossDie() {
   if (P.state !== 'idle' && P.state !== 'dead') { P.state = 'idle'; }
 }
 function updBoss(dt) {
+  if (G.mode === 'fight' && B.state !== 'dead' && B.state !== 'intro' && !(B.hp > 0.5)) { B.hp = 0; bossDie(); return; }
   const p2 = B.phase === 2; BDT = dt * (p2 ? 1.05 : 1);
   for (const k in CD) if (B.cd[k] > 0) B.cd[k] -= dt;
   B.flash = Math.max(0, B.flash - dt); B.eye = Math.max(0, B.eye - dt);
@@ -4486,7 +4489,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
-  { v: '1.6.1', d: '2026-11-17', t: '矢は尽きず', items: ['弓の矢が無限になりました。そのかわり、射るたびのスタミナが少し増え、炎矢・重矢はさらに多く使います', '遠くから射られた敵が、逃げ帰って体力を全回復してしまう不具合を直しました（攻撃を受けた敵は、しばらく追いかけてきます）', '武器を持ち替えたあと、敵の体力が減りきらないことがある問題を直しました', '装備メニューの背景を濃くして、後ろの文字が透けないようにしました'] },
+  { v: '1.6.1', d: '2026-11-17', t: '矢は尽きず', items: ['弓の矢が無限になりました。そのかわり、射るたびのスタミナが少し増え、炎矢・重矢はさらに多く使います', '遠くから射られた敵が、逃げ帰って体力を全回復してしまう不具合を直しました（攻撃を受けた敵は、しばらく追いかけてきます）', '武器を持ち替えたあと、敵の体力が減りきらないことがある問題を直しました', '装備メニューの背景を濃くして、後ろの文字が透けないようにしました', 'ボスや敵の体力が0にならず倒せなくなることがある不具合を直しました', 'どんな耐性があっても、攻撃のダメージが0にならないようにしました'] },
   { v: '1.6', d: '2026-11-17', t: '四つの防具と、光の柱', items: ['防具が「頭・胴・腕・脚」の四部位になりました。これまでの防具は同じ見た目・同じ守りの四点セットとして、そのまま身につけています', '防具は敵が落とすようになりました。★1〜★5 の品があり、星が多いほど「サブステータス」（攻撃力%、スタミナ、筋力+N など）が付きます', '★4 以上が落ちると光の柱が立ちます（★4 は金、★5 は虹色）。遠くからでも見つけられます', '「装備 → 防具」に持ち物の一覧：並べ替え、装備中との比較、ロック、分解、まとめて分解（120 個まで持てます）', '部位ごとに騎士の見た目が変わります。新しい防具「墓守の装束」「灰冠の王鎧」も', '夜の強敵は、ほかの強敵と同時に襲ってこないようになりました。縄張りを出ると引き返し、祝福や霧の中までは追ってきません', '侵入者が現れる間隔を 10〜15 分に（これまでは 5〜8 分）。強敵と戦っているあいだは現れません', '題名画面で文字やボタンが重なることがあったのを直しました', 'ほかのタブやアプリに切り替えたとき、音楽が鳴り続けないようにしました', 'セーブはそのまま引き継がれます。引き継ぎコードにも防具が入ります'] },
   { v: '1.5', d: '2026-11-17', t: '隠された道と、夜の来訪者', items: ['怪しい壁を斬ると崩れる「隠し壁」と、その奥の隠し部屋', '小さな迷宮「ミニダンジョン」を4つ追加（それぞれに主と、固有の報酬）', '石碑で拾う「地図の断片」と、メニューの全体地図', '夜だけ巡回する強敵。近づくと画面の縁が紫に染まります', '赤い霊体の「侵入者」が、ときどき襲ってきます（画面の縁が赤く脈打ちます）', '主を斃すと得られる「追憶」を、武器か魔法に換えられる「追憶の祭壇」', '主の「大いなる力」を祭壇で呼び覚まし、ひとつだけ宿せます', '毒沼・灰溜まり・崩れる床・梃子で開く格子', '第2層やミニダンジョンは、入るときに読み込むようになりました（最初の起動が軽くなります）', 'タイトル画面に、ゲームの紹介とこの更新履歴を追加'] },
   { v: '1.4', d: '2026-11-17', t: '「灰燼の王冠」へ', items: ['題名を「灰燼の王冠」に改めました', '左手装備：盾（ガード／パリィ）・二刀流・魔法剣士（杖や聖印で刃に力を纏う）', '武器の種類ごとに固有の技（居合、溜め斬り、背撃 など17種）', 'タリスマンに★1〜★4の品。枠は第1層で最大4つに', '祝福とメニューを整理（装備・図鑑・設定はメニューから、いつでも）', '全武器の強さを見直し、どの種類でも戦えるように調整'] },
