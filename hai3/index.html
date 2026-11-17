@@ -106,8 +106,8 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 .plus.fg{width:62px;font-size:15px;letter-spacing:.05em}
 .row.fgr .nm{white-space:normal;min-width:5.4em;max-width:7.6em;line-height:1.3;font-size:14.5px}
 .tag{font-size:11px;color:#e2b765;border:1px solid #a88d4e;padding:2px 6px;white-space:nowrap}
-.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;width:100%;flex:none}
-.tab{appearance:none;border:1px solid #5d5238;background:rgba(14,11,7,.8);color:#b3a682;font-family:inherit;font-size:14px;font-weight:800;letter-spacing:0;white-space:nowrap;padding:12px 0;touch-action:manipulation;cursor:pointer}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:100%;flex:none}
+.tab{appearance:none;border:1px solid #5d5238;background:rgba(14,11,7,.8);color:#b3a682;font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:0;white-space:nowrap;padding:13px 0;touch-action:manipulation;cursor:pointer}
 .tab.on{border-color:#e2b765;color:#f3e2ac;background:rgba(70,56,26,.6)}
 .eqInfo{font-size:12px;color:#a99f88;letter-spacing:.05em;line-height:1.6;margin:7px 0;flex:none}
 .eqInfo b{color:#f1d98a;font-weight:800}
@@ -138,7 +138,35 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 .land .floorSel{margin-top:4px}
 .land #bfNote{margin-top:3px;min-height:1.4em}
 .trow{display:flex;gap:0 10px;justify-content:center;flex-wrap:wrap}
-.trow .btn.sub{min-width:120px}
+.trow .btn.sub{min-width:104px}
+.row.hdr{min-height:0;padding:5px 10px;border-color:#a88d4e;background:rgba(60,48,24,.5)}
+.land .row.hdr{grid-column:1/-1}
+.cell.got{border-color:#a88d4e}.cell.got .n{color:#f3e2ac}
+.cell .d b{color:#cfe0a8}
+#cls,#achv,#opts{background:rgba(4,3,2,.96);z-index:9;justify-content:flex-start;padding:calc(12px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) calc(12px + env(safe-area-inset-left,0px))}
+#cls h2,#achv h2,#opts h2{font-size:22px;letter-spacing:.5em;padding-left:.5em;color:#d9c58c;font-weight:800;flex:none}
+#cls .btn,#achv .btn,#opts .btn{flex:none;margin-top:8px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:7px;width:min(100%,640px);margin-top:10px;flex:none}
+.land .cards{grid-template-columns:repeat(6,1fr);width:min(100%,820px)}
+.ccard{appearance:none;border:1px solid #5d5238;background:rgba(14,11,7,.85);color:inherit;font-family:inherit;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:3px;touch-action:manipulation;cursor:pointer;min-height:74px}
+.ccard.cur{border-color:#f3e2ac;box-shadow:inset 0 0 22px rgba(200,150,60,.35),0 0 16px rgba(240,200,90,.3)}
+.ccard .cn{font-size:17px;font-weight:800;color:#f3e2ac;letter-spacing:.12em}
+.ccard .cl{font-size:11px;color:#e2b765}
+.ccard .cw{font-size:10.5px;color:#9a917c;line-height:1.3}
+.land .ccard{min-height:60px;padding:6px 3px}.land .ccard .cn{font-size:14.5px;letter-spacing:.04em}
+.clsInfo{width:min(100%,640px);flex:1;min-height:0;overflow-y:auto;touch-action:pan-y;margin-top:10px;font-size:12.5px;line-height:1.9;color:#b9af97;letter-spacing:.04em;border-top:1px solid #5d5238;padding-top:8px}
+.clsInfo b{color:#f1d98a;font-weight:800}
+.land .clsInfo{width:min(100%,820px);line-height:1.7;margin-top:6px}
+.optBody{width:min(100%,560px);flex:1;min-height:0;overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch;margin-top:8px;display:flex;flex-direction:column;align-items:center}
+.sld{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;font-size:15px;font-weight:800;color:#e6d6a4;letter-spacing:.1em}
+.sld span{min-width:3.6em;text-align:left}
+.sld input{flex:1;height:34px;accent-color:#c9a455;touch-action:pan-x}
+textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb8;border:1px solid #5d5238;font-family:monospace;font-size:11px;line-height:1.4;padding:8px;resize:none;word-break:break-all;-webkit-user-select:text;user-select:text;touch-action:auto}
+.land textarea{height:70px}
+#xfMsg{font-size:12.5px;color:#d8c48e;line-height:1.7;margin-top:8px;min-height:1.7em}
+#xfPrev{font-size:13px;color:#b9af97;line-height:1.8;margin-top:4px}
+#xfPrev b{color:#f1d98a}
+.land #opts .btn.sub,.land #cls .btn{margin-top:6px}
 #guide{background:rgba(4,3,2,.96);z-index:9;justify-content:flex-start;padding:calc(12px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) calc(12px + env(safe-area-inset-left,0px))}
 #guide h2{font-size:22px;letter-spacing:.5em;padding-left:.5em;color:#d9c58c;font-weight:800;flex:none}
 .gd{width:min(100%,680px);flex:1;min-height:0;overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch;text-align:left;margin-top:8px;border-top:1px solid #5d5238;border-bottom:1px solid #5d5238;padding:4px 6px 14px}
@@ -148,6 +176,7 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 .gd b{color:#f1d98a;font-weight:800}
 .gd .no{color:#ff9a80}
 #guide .btn{flex:none;margin-top:8px}
+#cls{background:rgba(6,4,3,.97)}
 </style>
 </head>
 <body>
@@ -161,10 +190,10 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
   <div class="lead">王は、灰の城の最奥に在る。<br>祝福を辿り、霧の門へ至れ。</div>
   <button id="bCont" class="btn" style="display:none">つづきから</button>
   <button id="bNew" class="btn">はじめから</button>
-  <div class="trow"><button id="bGuide" class="btn sub">遊び方</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
+  <div class="trow"><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
   <div id="rotHint" class="stats" style="margin-top:14px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
-  <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・Q 魔法切替<br>Space 回避・H 回復・E 調べる</div>
+  <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</div>
 </div>
 
 <div id="confirm" class="ov">
@@ -196,7 +225,7 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 <div id="pause" class="ov">
   <h2>小休止</h2>
   <button id="bResume" class="btn">旅に戻る</button>
-  <div class="trow"><button id="bGuide2" class="btn sub">遊び方</button><button id="bMute" class="btn sub"></button><button id="bHints" class="btn sub"></button></div>
+  <div class="trow"><button id="bGuide2" class="btn sub">遊び方</button><button id="bOpts2" class="btn sub">設定</button></div>
   <button id="bQuit" class="btn sub">題名へ戻る</button>
   <div class="hint">回避の出始めは無敵。赤い予兆が合図。<br>死ねばルーンは血痕に残る。取り戻す前に<br>再び死ねば、永遠に失われる。<br>祝福で休めば亡者は蘇る。ルーンは祝福で力に。<br>装備が重いほど、回避は鈍くなる。</div>
 </div>
@@ -205,21 +234,27 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
   <h2>遊び方</h2>
   <div id="gdBody" class="gd">
     <h3>操作</h3>
-    <ul><li><b>移動</b>：画面の左側をなぞる（鍵盤 WASD／矢印）</li><li><b>攻撃</b>（J）：押し続けで連撃。<b>強攻撃</b>（K）：武器ごとの大技。杖なら魔法</li><li><b>回避</b>（Space）：倒した方向へ転がる。<b>回復</b>（H）：灰瓶を飲む</li><li><b>調べる</b>（E）：祝福・宝箱・扉・階段の近くで現れる</li><li><b>切替</b>（Q）：魔法を二つ記憶している時、放つ魔法を替える</li><li>右上の「❙❙」で小休止。音・助言の入切、この遊び方もそこから</li></ul>
+    <ul><li><b>移動</b>：画面の左側をなぞる（鍵盤 WASD／矢印）</li><li><b>攻撃</b>（J）：押し続けで連撃。<b>強攻撃</b>（K）：武器ごとの大技。杖なら魔法</li><li><b>回避</b>（Space）：倒した方向へ転がる。<b>回復</b>（H）：灰瓶を飲む</li><li><b>調べる</b>（E）：祝福・宝箱・扉・階段の近くで現れる</li><li><b>戦技</b>（L）：武器ごとの技を放つ（FPを使う）。<b>切替</b>（Q）：放つ魔法・祈祷を替える。<b>召喚</b>（R）：強敵との戦いで霊体を呼ぶ</li><li>右上の「❙❙」で小休止。設定（音量・助言・セーブの引き継ぎ）と、この遊び方もそこから</li></ul>
     <h3>基本</h3>
-    <ul><li>赤い枠は敵の攻撃の<b>予兆</b>。枠が満ちた瞬間に当たる</li><li>回避の<b>出始めは無敵</b>。予兆が満ちる瞬間に転がれば「見切り」になる</li><li>攻撃・回避は緑の<b>スタミナ</b>を使う。空になると何もできない</li><li>敵に攻撃を重ねると<b>体勢崩し</b>（黄色い輪）。そこへ強攻撃で<b>致命の一撃</b></li><li>黒い水の中は足が遅くなる</li></ul>
+    <ul><li>赤い枠は敵の攻撃の<b>予兆</b>。枠が満ちた瞬間に当たる</li><li>回避の<b>出始めは無敵</b>。予兆が満ちる瞬間に転がれば「見切り」になる</li><li>攻撃・回避は緑の<b>スタミナ</b>を使う。空になると何もできない</li><li>敵に攻撃を重ねると<b>体勢崩し</b>（黄色い輪）。そこへ強攻撃で<b>致命の一撃</b>。致命の一撃を放っている間は、どんな攻撃も受けない</li><li>黒い水の中は足が遅くなる</li></ul>
     <h3>ルーンと血痕</h3>
     <ul><li>敵を倒すと<b>ルーン</b>を得る。祝福でレベルアップに使う</li><li>死ぬと持っていたルーンをその場の<b>血痕</b>に落とす。触れれば全て戻る（地図で点滅）</li><li>取り戻す前にもう一度死ぬと、前の血痕は<span class="no">永遠に失われる</span></li><li>地下墓で落としたルーンは、城へ戻ると祝福のそばに移る</li></ul>
     <h3>祝福</h3>
     <ul><li>金色の光。触れると<b>HP・FP・灰瓶が全快</b>し、そこが復活地点になる</li><li>休むと、倒した亡者も蘇る（強敵と宝箱は元に戻らない）</li><li>レベルアップ／装備（武器・防具・タリスマン・魔法）／強化／振り直し／図鑑／地下墓へ</li><li>城には六つの祝福がある。閂の掛かった扉は裏側から開けると<b>近道</b>になる</li></ul>
     <h3>成長</h3>
-    <ul><li><b>体力</b>：最大HP +12　<b>持久力</b>：スタミナ +8、装備重量の上限 +1.5</li><li><b>筋力</b>：大剣・特大剣・斧・槌など　<b>技量</b>：刀・曲剣・刺剣・短剣・爪・弓など、出血も強まる</li><li><b>知力</b>：魔法の威力 +5.5%、最大FP +5　<b>信仰</b>：灰瓶の回復量 +6、祈祷の威力 +5.5%</li><li><b>追憶の雫</b>を祝福で使うと、全ての能力を振り直せる（数に限りあり）</li></ul>
+    <ul><li><b>体力</b>：最大HP +12　<b>持久力</b>：スタミナ +8、装備重量の上限 +1.5</li><li><b>筋力</b>：大剣・特大剣・斧・槌など　<b>技量</b>：刀・曲剣・刺剣・短剣・爪・弓など、出血も強まる</li><li><b>知力</b>：魔法の威力 +5.5%、最大FP +5　<b>信仰</b>：灰瓶の回復量 +6、祈祷の威力 +5.5%</li><li><b>追憶の雫</b>を祝福で使うと、能力を素性の初期値まで戻して振り直せる。最初の一つは墓守の祝福の近くの宝箱に。礼拝堂の祝福に触れた後は「強化」の画面で二つまで譲り受けられる（数に限りあり）</li></ul>
     <h3>武器の種類</h3>
     <ul><li><b>直剣</b>：三連撃と踏み込み。癖がない</li><li><b>短剣</b>：非常に速く、スタミナをほとんど使わない。<b>致命の一撃が1.5倍</b></li><li><b>曲剣</b>：広い弧で<b>途切れず斬り続ける</b>。出血。強攻撃は回転斬り</li><li><b>刺剣</b>：速い刺突。<b>突きながら歩ける</b>。強攻撃は長い踏み込み</li><li><b>刀</b>：速い四連撃と居合。出血が溜まり、満ちると大きな傷を与える</li><li><b>爪</b>：止まらない連撃。一撃は軽いが出血が速い。強攻撃は飛びかかり</li><li><b>斧</b>：中ほどの速さで重い。強攻撃は狭く深い<b>兜割り</b></li><li><b>槌</b>：遅いが<b>体勢を崩す力が随一</b>。鎧の敵や強敵に</li><li><b>大剣</b>：遅く重く広い。振りの最中は軽い攻撃に怯まない</li><li><b>特大剣</b>：極めて遅く、極めて重い。振りの最中はほとんど怯まない。<b>筋力18が必要</b></li><li><b>槍</b>：遠くまで届く突き。横には狭い</li><li><b>斧槍</b>：突きから薙ぎ払い。強攻撃は<b>全周の大回転</b>。筋力12が必要</li><li><b>鎌</b>：広い弧で刈り、深く出血させる</li><li><b>盾と剣</b>：被害 -12%。強攻撃ボタンが<b>パリィ</b>になる</li><li><b>弓</b>：攻撃で速射。強攻撃は<b>押し続けて引き絞り、離して放つ</b>。最大まで溜めると貫通。矢は24本で、祝福で補充。技量12が必要</li><li><b>杖</b>：魔法の触媒（知力）／<b>聖印</b>：祈祷の触媒（信仰）</li><li>必要な能力に足りない武器は、<span class="no">威力 -40%・スタミナ消費 1.5倍</span>になる</li></ul>
     <h3>パリィ</h3>
     <ul><li>盾と剣を構え、予兆が満ちる瞬間に強攻撃ボタン。成功すると敵は体勢を崩し、攻撃ボタンで致命の一撃</li><li>弾けるもの：<b>剣・槍・爪・牙・突進など、敵の武器や体による直接攻撃</b>と、<b>矢・投げナイフ</b></li><li><span class="no">弾けないもの</span>：衝撃波、地面を叩く爆発、足元の魔法陣や棘、魔法の弾、炎、光条。これらは回避で躱す</li></ul>
     <h3>武器の強化</h3>
     <ul><li>祝福の<b>「強化」</b>で、強化素材とルーンを使って武器を鍛える。鍛えた段階は武器ごとに残り、名前に「+3」のように付く</li><li>一段階ごとに攻撃力が上がり、能力による伸びも良くなる（杖と聖印は魔法・祈祷の威力）</li><li>通常の武器は <b>+10</b> まで：<b>灰鉄の欠片</b>（+1〜+3）→ <b>灰鉄の塊</b>（+4〜+6）→ <b>灰鉄の大塊</b>（+7〜+9）→ <b>王灰の結晶</b>（+10）</li><li>特別な武器（特大剣・鎌・禁書の長杖）は <b>+5</b> まで：<b>残火の石</b>（+1〜+4）→ 王灰の結晶（+5）。一段階の伸びが大きい</li><li>素材は敵が落とし、宝箱や強敵、地下墓（深いほど良い素材）から得る。「強化」の画面で、数に限りつきで譲り受けることもできる</li><li>王灰の結晶はごくわずか。使う武器をよく選ぶこと</li></ul>
+    <h3>素性</h3>
+    <ul><li>「はじめから」で六つの素性から選ぶ。初期の能力・武器・防具が違うだけで、その後の育て方は自由</li><li><b>騎士</b>：盾と鎖鎧／<b>剣士</b>：刀と受け流し／<b>魔術師</b>：杖と魔法二つ／<b>聖職者</b>：聖印・槌・霊鈴／<b>狩人</b>：弓と短剣／<b>持たざる者</b>：レベル1・素手</li></ul>
+    <h3>戦技</h3>
+    <ul><li><b>戦技ボタン</b>（L）で、武器に宿した技を放つ。<b>FP</b>を使う</li><li>武器にはそれぞれ固有の戦技がある。宝箱などで得る<b>戦技の書</b>は、祝福の「装備 → 戦技・霊」で合う武器に付け替えられる</li><li><b>突進斬り</b>（FP8）／<b>回転斬り</b>（10）／<b>跳躍叩きつけ</b>（12、跳ぶ間は無敵）／<b>衝撃波</b>（12、貫通）／<b>連続突き</b>（10）／<b>影歩き</b>（6、すり抜け・無敵）</li><li><b>受け流し</b>（4）：盾がなくてもパリィできる／<b>炎纏い</b>（16）：25秒 与ダメージ+20%／<b>雄叫び</b>（14）：20秒 攻撃+15%／<b>祈りの刃</b>（14）：光の刃とHP回復</li><li>弓は<b>鷹の目</b>（10、溜め矢を三本）、杖と聖印は<b>霊気の集中</b>（FPを20取り戻す）</li></ul>
+    <h3>霊体召喚</h3>
+    <ul><li><b>霊鈴</b>を持っていると、王や強敵との戦いが始まった場所に青い<b>召喚の標</b>が光る。そばで<b>「召喚」</b>（R）を押すと霊体が共に戦う</li><li>FP25、<b>一戦に一度</b>。霊体は敵の注意を引き（頭上の赤い印）、倒れるか戦いが終わると還る</li><li><b>盾守り</b>：硬く、敵を引きつける／<b>双牙</b>：素早い斬撃と出血／<b>書庫守</b>：遠くから撃つ／<b>灯守り</b>：六秒ごとに癒やす</li><li>どの鈴を鳴らすかは祝福の「装備 → 戦技・霊」で選ぶ。「強化」で<b>残火の石</b>を使うと霊体が強くなる（+3まで）</li></ul>
     <h3>魔法</h3>
     <ul><li><b>杖</b>を装備すると、強攻撃ボタンが記憶した魔法になる。青い<b>FP</b>を使う</li><li>FPは毎秒 2 ずつ自然に戻り、祝福で全快。杖で殴って当てると +5 戻る</li><li>魔法は宝箱や強敵から得て、祝福の「装備 → 魔法」で二つまで記憶する</li><li><b>聖印</b>の祈祷は覚える必要がなく、「切替」で三種を選ぶ：<b>光の矢</b>（FP8）／<b>癒しの灯</b>（FP20、HP回復）／<b>裁きの輪</b>（FP16、周囲を薙ぐ）</li><li><b>灰のつぶて</b>（FP6）速い弾／<b>灰の大槍</b>（FP20）溜めて貫く／<b>灰の障壁</b>（FP16）7秒間 被害 -45%／<b>追尾する灰</b>（FP14）三つの追尾弾／<b>灰の炸裂</b>（FP18）周囲を薙ぐ</li><li>魔法の弾は壁や柱に当たると消える。詠唱中は足が止まるので、距離を取ること</li></ul>
     <h3>防具と重量</h3>
@@ -230,10 +265,49 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
     <ul><li>「墓守の祝福」に触れると、どの祝福からでも降りられるようになる</li><li>入るたびに部屋の並びが変わる。最奥の<b>墓主</b>を斃すと、褒美と下り階段、帰還の光が現れる</li><li>深い階ほど敵が強く、ルーンも多い。初めて制した階では特別な品が手に入る</li><li>中で死ぬと、その階の入口の祝福で目覚める。城へ戻ると階は作り直される</li><li>はじめは B3 まで。その先は霧に閉ざされている</li></ul>
     <h3>王を斃したあと</h3>
     <ul><li>王を斃すと最初の祝福（朽牢）で目覚める。霧の門からは何度でも再戦できる</li><li>城の様子が変わる。敵は強く（体力・攻撃 +3割余り）、落とすルーンは 1.5 倍になる</li><li>開けたはずの宝箱が青く光っていたら、新しい中身が入っている</li><li>地下墓の霧が晴れ、B7 まで降りられる。最奥には……</li></ul>
+    <h3>実績・設定・引き継ぎ</h3>
+    <ul><li><b>実績</b>は題名画面と図鑑から見られる。「はじめから」でも失われない</li><li><b>設定</b>（題名画面・小休止）で、音楽と効果音の大きさを別々に変えられる</li><li><b>セーブを書き出す</b>と引き継ぎコードが出る。別の端末の<b>セーブを読み込む</b>に貼り付け、「確かめる」で中身を見てから上書きする。実績も一緒に移る</li></ul>
     <h3>助言</h3>
     <ul><li>囲まれたら戦わない。通路まで下がって一体ずつ</li><li>弓兵と書庫の徒は柱で射線を切り、近づいて先に倒す</li><li>灰瓶を飲む隙は大きい。敵の大技の直後に</li><li>強敵に勝てなければ後回しでよい。城の脇道の強敵は倒さなくても王へ辿り着ける</li><li>重い鎧を着るなら持久力を。軽いまま戦うなら体力を</li></ul>
   </div>
   <button id="bGdClose" class="btn sub">閉じる</button>
+</div>
+
+<div id="cls" class="ov">
+  <h2>素性を選ぶ</h2>
+  <div id="clsCards" class="cards"></div>
+  <div id="clsInfo" class="clsInfo"></div>
+  <div class="duo"><button id="bClsGo" class="btn">この素性で始める</button><button id="bClsNo" class="btn sub">やめる</button></div>
+</div>
+
+<div id="achv" class="ov">
+  <h2>実績</h2>
+  <div id="achInfo" class="eqInfo" style="display:block"></div>
+  <div id="achRows" class="book" style="width:min(100%,820px);flex:1"></div>
+  <button id="bAchClose" class="btn sub">閉じる</button>
+</div>
+
+<div id="opts" class="ov">
+  <h2>設定</h2>
+  <div class="optBody">
+    <div id="xfMenu" style="width:100%;display:flex;flex-direction:column;align-items:center">
+      <label class="sld"><span>音楽</span><input id="rBgm" type="range" min="0" max="100" step="5" aria-label="音楽の音量"></label>
+      <label class="sld"><span>効果音</span><input id="rSe" type="range" min="0" max="100" step="5" aria-label="効果音の音量"></label>
+      <div class="trow"><button id="bMute" class="btn sub"></button><button id="bHints" class="btn sub"></button></div>
+      <div class="trow"><button id="bXfOut" class="btn sub">セーブを書き出す</button><button id="bXfIn" class="btn sub">セーブを読み込む</button></div>
+    </div>
+    <div id="xfOut" style="width:100%;display:none">
+      <textarea id="xfCode" readonly aria-label="引き継ぎコード"></textarea>
+      <div class="trow"><button id="bXfCopy" class="btn sub">コピー</button><button id="bXfBack1" class="btn sub">戻る</button></div>
+    </div>
+    <div id="xfIn" style="width:100%;display:none">
+      <textarea id="xfPaste" aria-label="引き継ぎコードを貼り付ける" placeholder="ここに引き継ぎコードを貼り付ける"></textarea>
+      <div id="xfPrev"></div>
+      <div class="trow"><button id="bXfCheck" class="btn sub">確かめる</button><button id="bXfApply" class="btn sub" style="display:none">上書きして読み込む</button><button id="bXfBack2" class="btn sub">戻る</button></div>
+    </div>
+    <div id="xfMsg"></div>
+  </div>
+  <button id="bOptClose" class="btn sub">閉じる</button>
 </div>
 
 <div id="bonfire" class="ov">
@@ -255,7 +329,7 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
       <button id="bLvBack" class="btn sub">戻る</button>
     </div>
     <div id="bfEquip" class="bfPane">
-      <div class="tabs"><button class="tab on" data-t="w">武器</button><button class="tab" data-t="a">防具</button><button class="tab" data-t="t">タリスマン</button><button class="tab" data-t="s">魔法</button></div>
+      <div class="tabs"><button class="tab on" data-t="w">武器</button><button class="tab" data-t="a">防具</button><button class="tab" data-t="t">タリスマン</button><button class="tab" data-t="s">魔法</button><button class="tab" data-t="r">戦技・霊</button></div>
       <div id="eqInfo" class="eqInfo"></div>
       <div id="eqRows" class="rows"></div>
       <button id="bEqBack" class="btn sub">戻る</button>
@@ -273,7 +347,7 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
     <div id="bfBook" class="bfPane">
       <div id="bkInfo" class="eqInfo"></div>
       <div id="bkRows" class="book"></div>
-      <button id="bBkBack" class="btn sub">戻る</button>
+      <div class="duo"><button id="bAch2" class="btn sub">実績を見る</button><button id="bBkBack" class="btn sub">戻る</button></div>
     </div>
     <div id="bfCrypt" class="bfPane">
       <div id="crInfo" class="eqInfo"></div>
@@ -305,17 +379,24 @@ const SAVE_KEY = 'hai_no_ou3_v1';
 function freshSave() {
   return { v: 1, started: false, deaths: 0, souls: 0, st: { vit: 10, end: 10, str: 10, dex: 10, int: 10, fth: 10 }, weapons: ['sword'], weapon: 'sword', armors: ['rags'], armor: 'rags',
     spells: [], slots: [null, null], tals: [], teq: [null, null], tslots: 2, flaskMax: 3, chests: {}, doors: {}, lit: {}, bonfire: 0, stain: null, bossDead: false, time: 0, rooms: {},
-    mb: {}, mbC: {}, tears: 0, cryptDeep: 0, cryptRw: {}, night: false, deepSeen: false, hints: {}, up: {}, mats: { s: 0, c: 0, l: 0, e: 0, x: 0 }, shop: { s: 0, c: 0, l: 0 } };
+    mb: {}, mbC: {}, tears: 0, cryptDeep: 0, cryptRw: {}, night: false, deepSeen: false, hints: {}, up: {}, mats: { s: 0, c: 0, l: 0, e: 0, x: 0 }, shop: { s: 0, c: 0, l: 0 },
+    cls: 'wanderer', arts: [], wart: {}, spirits: [], spirit: null, spLv: {}, tearShop: 0 };
 }
-const save = Object.assign(freshSave(), { mute: false, best: 0, wins: 0, clear: 0, hintOff: false });
+const save = Object.assign(freshSave(), { mute: false, best: 0, wins: 0, clear: 0, hintOff: false, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {} });
 try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); if (s && typeof s === 'object' && s.v === 1) Object.assign(save, s); } catch (e) {}
 function sanitize() {
   const f = freshSave();
   if (!save.st || typeof save.st !== 'object') save.st = f.st;
-  for (const k in f.st) { const v = save.st[k]; save.st[k] = typeof v === 'number' && v >= 10 && v <= 99 ? Math.floor(v) : 10; }
+  for (const k in f.st) { const v = save.st[k]; save.st[k] = typeof v === 'number' && v >= 6 && v <= 99 ? Math.floor(v) : 10; }
   const list = (k, tbl, def) => { if (!Array.isArray(save[k])) save[k] = []; save[k] = save[k].filter((w, i, a) => tbl[w] && a.indexOf(w) === i); if (def && !save[k].includes(def)) save[k].unshift(def); };
-  list('weapons', WPN, 'sword'); list('armors', ARM, 'rags'); list('spells', SPELL); list('tals', TAL);
-  if (!WPN[save.weapon] || !save.weapons.includes(save.weapon)) save.weapon = 'sword';
+  list('weapons', WPN, save.cls === 'wanderer' || !CLASS[save.cls] ? 'sword' : null); if (!save.weapons.length) save.weapons.push('sword'); list('armors', ARM, 'rags'); list('spells', SPELL); list('tals', TAL); list('arts', ART); list('spirits', SPIRIT);
+  if (!CLASS[save.cls]) save.cls = 'wanderer'; if (!save.spirits.includes(save.spirit)) save.spirit = save.spirits[0] || null;
+  for (const k of ['wart', 'spLv', 'ach', 'cnt', 'bossCat']) if (!save[k] || typeof save[k] !== 'object') save[k] = {};
+  for (const k of ['parry', 'crit', 'kills', 'summonWin', 'noDmg', 'noFlask', 'respec']) save.cnt[k] = Math.max(0, Math.floor(+save.cnt[k] || 0));
+  for (const k in save.wart) if (!WPN[k] || !artOk(save.wart[k], k) || !save.arts.includes(save.wart[k])) delete save.wart[k];
+  for (const k in save.spLv) { if (!SPIRIT[k]) delete save.spLv[k]; else save.spLv[k] = clamp(Math.floor(+save.spLv[k] || 0), 0, 3); }
+  save.volB = clamp(+save.volB >= 0 ? +save.volB : 0.7, 0, 1); save.volS = clamp(+save.volS >= 0 ? +save.volS : 1, 0, 1); save.tearShop = clamp(Math.floor(+save.tearShop || 0), 0, 2);
+  if (!WPN[save.weapon] || !save.weapons.includes(save.weapon)) save.weapon = save.weapons[0];
   if (!ARM[save.armor] || !save.armors.includes(save.armor)) save.armor = 'rags';
   save.tslots = clamp(Math.floor(+save.tslots || 2), 2, 4);
   if (!Array.isArray(save.slots)) save.slots = []; if (!Array.isArray(save.teq)) save.teq = [];
@@ -689,6 +770,48 @@ const spDef = id => SPELL[id] || PRAY[id];
 const caster = w => w.cat === 'staff' || w.cat === 'seal';
 const MAT = { s: '灰鉄の欠片', c: '灰鉄の塊', l: '灰鉄の大塊', e: '残火の石', x: '王灰の結晶' }, ARROWS = 24;
 const STN = { vit: '体力', end: '持久力', str: '筋力', dex: '技量', int: '知力', fth: '信仰' };
+
+WPN.fist = { name: '素手', desc: '何も持たない拳。弱いが、軽く、速い。', scTxt: '筋力D・技量D', sc: [0.5, 0.5, 0], hLabel: '正拳', wt: 0, hidden: 1,
+  light: [
+    { dur: 0.28, hit: 0.09, cancel: 0.16, dmg: 4, poise: 4, range: 42, a0: 0.9, a1: -0.4, st: 7, lead: 0.03, sw: 0.07 },
+    { dur: 0.3, hit: 0.1, cancel: 0.18, dmg: 5, poise: 5, range: 42, a0: -0.9, a1: 0.4, st: 7, lead: 0.03, sw: 0.07 }],
+  heavy: { dur: 0.7, wind: 0.22, hit: 0.34, cancel: 0.56, dmg: 13, poise: 16, range: 50, st: 16, adv: 300, a0: 1.6, a1: -0.6 } };
+WCLS.fist = '素手'; WPN.fist.cls = '素手';
+const MEL = Object.keys(WPN).filter(k => !WPN[k].cat);
+const ART = {
+  rush: { name: '突進斬り', short: '突進', fp: 8, cats: MEL, desc: '一気に踏み込み、重い一太刀を浴びせる。体勢を崩した敵には致命の一撃になる。' },
+  spin: { name: '回転斬り', short: '回転', fp: 10, cats: MEL, desc: '周囲すべてを薙ぐ。囲まれた時に。' },
+  leap: { name: '跳躍叩きつけ', short: '跳躍', fp: 12, cats: ['sword', 'great', 'axe', 'mace', 'ultra', 'halberd', 'scythe', 'shield', 'fist'], desc: '跳び上がって叩きつけ、着地点の周囲を砕く。跳んでいる間は攻撃を受けない。体勢を大きく崩す。' },
+  wave: { name: '衝撃波', short: '衝撃', fp: 12, cats: ['sword', 'great', 'axe', 'mace', 'ultra', 'halberd', 'scythe', 'katana'], desc: '地を走る衝撃波を飛ばす。敵を貫いて進む。' },
+  flurry: { name: '連続突き', short: '連突', fp: 10, cats: ['spear', 'rapier', 'dagger', 'halberd', 'sword', 'claws', 'katana'], desc: '目にも止まらぬ五連の突き。間合いが長い。' },
+  step: { name: '影歩き', short: '影歩', fp: 6, cats: ['dagger', 'claws', 'katana', 'curved', 'rapier', 'sword', 'fist', 'bow'], desc: '影のように滑り、敵をすり抜ける。移動の間は無敵。' },
+  deflect: { name: '受け流し', short: '流し', fp: 4, cats: MEL.filter(k => k !== 'shield'), desc: '盾がなくとも、武器で攻撃を弾く。成功すれば敵は体勢を崩す。' },
+  flame: { name: '炎纏い', short: '炎纏', fp: 16, cats: MEL.concat(['bow']), desc: '25秒間、武器に炎を纏わせ、与えるダメージが二割増す。' },
+  roar: { name: '雄叫び', short: '雄叫', fp: 14, cats: Object.keys(WPN), desc: '20秒間、攻撃が一割五分増す。近くの弱い敵は怯む。' },
+  blade: { name: '祈りの刃', short: '祈刃', fp: 14, cats: MEL.concat(['seal']), desc: '光の刃を飛ばし、敵を貫く。放つたびにHPが少し戻る。信仰でも強まる。' },
+  hawk: { name: '鷹の目', short: '鷹目', fp: 10, cats: ['bow'], hidden: 1, desc: '最大まで引き絞った矢を三本、扇状に放つ。' },
+  focus: { name: '霊気の集中', short: '集中', fp: 0, cats: ['staff', 'staff2', 'seal'], hidden: 1, desc: '立ち止まって集中し、FPを20取り戻す。隙が大きい。' }
+};
+const ARTDEF = { sword: 'rush', great: 'leap', katana: 'step', shield: 'rush', spear: 'flurry', staff: 'focus', staff2: 'focus', dagger: 'step', curved: 'spin', rapier: 'flurry', axe: 'leap', mace: 'leap', ultra: 'leap', halberd: 'spin', scythe: 'spin', claws: 'step', bow: 'hawk', seal: 'focus', fist: 'rush' };
+const artOk = (a, w) => !!ART[a] && ART[a].cats.includes(w);
+const artOf = w => { const a = save.wart[w]; return a && artOk(a, w) && save.arts.includes(a) ? a : ARTDEF[w]; };
+const SPIRIT = {
+  knight: { name: '盾守りの霊鈴', ally: '朽ちぬ盾の霊', role: 'tank', taunt: 1, hp: 280, desc: '敵の注意を引きつける鎧の霊。硬く、遅い。' },
+  blade: { name: '双牙の霊鈴', ally: '影刃の霊', role: 'blade', hp: 150, desc: '素早く斬りつけ、出血を重ねる剣士の霊。脆い。' },
+  mage: { name: '書庫守の霊鈴', ally: '書庫守の霊', role: 'mage', hp: 110, desc: '離れた所から灰の礫を撃ち続ける学匠の霊。' },
+  nun: { name: '灯守りの霊鈴', ally: '灯守りの霊', role: 'heal', hp: 130, desc: 'そばに寄り添い、六秒ごとに傷を癒やす霊。' }
+};
+const CLASS = {
+  wanderer: { name: '放浪者', desc: '何者でもない旅人。', st: { vit: 10, end: 10, str: 10, dex: 10, int: 10, fth: 10 }, w: ['sword'], a: 'rags', sp: [], ar: [] },
+  knight: { name: '騎士', desc: '盾と鎖鎧で身を固めた、堅実な戦士。パリィを狙える。', st: { vit: 13, end: 12, str: 13, dex: 11, int: 8, fth: 9 }, w: ['shield'], a: 'mail', sp: [], ar: [] },
+  blade: { name: '剣士', desc: '刀一本で斬り抜ける、身軽な技巧派。出血で削る。', st: { vit: 11, end: 12, str: 10, dex: 15, int: 9, fth: 9 }, w: ['katana'], a: 'leather', sp: [], ar: ['deflect'] },
+  mage: { name: '魔術師', desc: '杖と二つの魔法を携える。打たれ弱いが、遠くから灰を撃つ。', st: { vit: 10, end: 10, str: 8, dex: 10, int: 16, fth: 12 }, w: ['staff', 'dagger'], a: 'robe', sp: ['pebble', 'ward'], ar: [] },
+  cleric: { name: '聖職者', desc: '聖印の祈祷で癒やし、槌で叩く。霊を呼ぶ鈴を持つ。', st: { vit: 12, end: 11, str: 12, dex: 8, int: 8, fth: 15 }, w: ['seal', 'mace'], a: 'leather', sp: [], ar: [], sr: 'nun' },
+  hunter: { name: '狩人', desc: '弓で遠くから射抜き、近寄られたら短剣で捌く。', st: { vit: 11, end: 12, str: 9, dex: 15, int: 10, fth: 9 }, w: ['bow', 'dagger'], a: 'leather', sp: [], ar: [] },
+  none: { name: '持たざる者', desc: 'レベル1、武器も持たない。己の腕だけを頼む者のための、試練の道。', st: { vit: 10, end: 10, str: 10, dex: 10, int: 10, fth: 10 }, w: ['fist'], a: 'rags', sp: [], ar: [] }
+};
+const CLSIDS = ['knight', 'blade', 'mage', 'cleric', 'hunter', 'none'];
+const AV = [0, 0];
 const MBLIST = [['knight', '鎧騎士'], ['mb_giant', '巨いなる亡者 ドゥーグ'], ['mb_assassin', '双刃の影 イズリル'], ['mb_beast', '灼喉の獣 ボルガ'], ['mb_mage', '禁書の魔術師 オルフェン'], ['n_giant', '夜の巨いなる亡者'], ['n_assassin', '夜の双刃の影'], ['hb', '灰喰らいの墓主 ザルヴァーン']];
 const CRYPT_PRE = 3, CRYPT_DEEP = 7;
 const cryptCap = () => save.bossDead ? CRYPT_DEEP : CRYPT_PRE, cryptTop = () => Math.min(cryptCap(), save.cryptDeep + 1);
@@ -763,11 +886,11 @@ const C_TORCHES = [[21, 51], [25, 51], [12, 40], [20, 40], [26, 40], [4, 36], [1
   [38, 39], [45, 39], [54, 41], [61, 41], [55, 11], [60, 11], [66, 11], [59, 25], [66, 25], [45, 0], [51, 0], [57, 0], [61, 0], [1, 23], [7, 23], [-10, 9], [-4, 9], [31, 53]];
 const C_BLESS = [[23, 55, '朽牢の祝福'], [2, 28, '墓守の祝福'], [37, 16, '礼拝堂の祝福'], [54, 16, '書庫の祝福'], [48, 3, '塔の祝福'], [16, 3, '王門の祝福']];
 const C_CHESTS = [
-  ['c1', 3, 38, { w: 'katana' }], ['c2', 16, 29, { w: 'shield' }], ['c3', 36, 32, { a: 'leather', m: { s: 1 } }], ['c4', 36, 9, { f: 1 }], ['c5', 9, 9, { w: 'great' }], ['c6', 24, 18, { t: 'gilt', m: { c: 1 } }], ['c7', 9, 45, { w: 'staff', sp: 'pebble' }],
-  ['c8', 48, 50, { t: 'moss' }], ['c9', 37, 41, { w: 'mace', m: { s: 2 } }], ['c10', 62, 43, { a: 'plate' }], ['c11', 49, 13, { w: 'spear' }], ['c12', 46, 32, { w: 'curved' }],
-  ['c13', 67, 13, { sp: 'lance' }], ['c14', 67, 22, { a: 'robe', m: { s: 2 } }], ['c15', 66, 32, { w: 'staff2' }], ['c16', 59, 32, { t: 'eye' }], ['c17', 51, 2, { f: 1, m: { c: 2 } }], ['c18', 45, 6, { k: 'slot' }],
-  ['c19', 62, 2, { t: 'feather' }], ['c20', 8, 25, { a: 'mail', m: { s: 2 } }], ['c21', -3, 32, { sp: 'ward' }], ['c22', -11, 11, { t: 'amber', m: { c: 2 } }], ['c24', 33, 14, { t: 'vial' }],
-  ['c25', 20, 27, { w: 'dagger' }], ['c26', 18, 16, { w: 'halberd' }], ['c27', 22, 33, { w: 'bow' }], ['c28', 40, 13, { w: 'seal' }], ['c29', 54, 22, { w: 'rapier' }], ['c30', 25, 10, { w: 'axe', m: { s: 1 } }]
+  ['c1', 3, 38, { w: 'katana' }], ['c2', 16, 29, { w: 'shield', ar: 'deflect' }], ['c3', 36, 32, { a: 'leather', m: { s: 1 } }], ['c4', 36, 9, { f: 1 }], ['c5', 9, 9, { w: 'great', ar: 'roar' }], ['c6', 24, 18, { t: 'gilt', m: { c: 1 } }], ['c7', 9, 45, { w: 'staff', sp: 'pebble' }],
+  ['c8', 48, 50, { t: 'moss' }], ['c9', 37, 41, { w: 'mace', m: { s: 2 } }], ['c10', 62, 43, { a: 'plate', ar: 'flame' }], ['c11', 49, 13, { w: 'spear', ar: 'rush' }], ['c12', 46, 32, { w: 'curved', ar: 'spin' }],
+  ['c13', 67, 13, { sp: 'lance', sr: 'mage' }], ['c14', 67, 22, { a: 'robe', m: { s: 2 } }], ['c15', 66, 32, { w: 'staff2' }], ['c16', 59, 32, { t: 'eye' }], ['c17', 51, 2, { f: 1, m: { c: 2 } }], ['c18', 45, 6, { k: 'slot' }],
+  ['c19', 62, 2, { t: 'feather' }], ['c20', 8, 25, { a: 'mail', sr: 'knight', m: { s: 2 } }], ['c21', -3, 32, { sp: 'ward' }], ['c22', -11, 11, { t: 'amber', ar: 'wave', m: { c: 2 } }], ['c24', 33, 14, { t: 'vial', sr: 'nun' }], ['c31', 8, 32, { k: 'tear' }],
+  ['c25', 20, 27, { w: 'dagger', ar: 'step' }], ['c26', 18, 16, { w: 'halberd' }], ['c27', 22, 33, { w: 'bow' }], ['c28', 40, 13, { w: 'seal', ar: 'blade' }], ['c29', 54, 22, { w: 'rapier', ar: 'flurry' }], ['c30', 25, 10, { w: 'axe', ar: 'leap', m: { s: 1 } }]
 ];
 // id, tiles, axis ('x' = wall runs north-south), sign = side the player must stand on (+1: larger coordinate), message
 const C_DOORS = [
@@ -1083,7 +1206,8 @@ function eFire(e) {
   else { e.sl = 18; SFX.swing(); if (eInLine(e, a.len, a.wd)) hurtPlayer(a.dmg * e.dm, e.x, e.y, a.kb, false, e); if (e.state === 'wind') { e.state = 'rec'; e.t = a.rec; } }
 }
 function staggerEnemy(e, dur) { clearTeleOf(e); e.state = 'stagger'; e.t = dur; e.critDone = false; e.poise = e.def.poise; e.saT = 1.9; e.sl = 0; e.al = 1; e.hide = false; SFX.stagger(); floatText(e.x, e.y - e.r - 26, '体勢崩し', '#ffd76a', 14); burst(e.x, e.y, 12, 240, 0.45, 10, 0, 1); }
-function mbEngage(e) { if (G.mb !== e) { G.mb = e; queueCard(e.def.name, '── ' + e.def.sub + ' ──', 2.6); setDrone(0.055, 170); } }
+function mbEngage(e) { if (G.mb !== e) { G.mb = e; queueCard(e.def.name, '── ' + e.def.sub + ' ──', 2.6); setDrone(0.055, 170); setMark(P.x, P.y); } }
+function onCrit() { G.critNow = 1; save.cnt.crit++; }
 function aggro(e) { if (e.state === 'idle' || e.state === 'return') { e.state = 'chase'; e.t = e.def.boss ? 0.9 : rnd(0.25, 0.6); e.lost = 0; e.cd = rnd(0.4, 1); if (e.def.boss) mbEngage(e); else hint('enemy', '赤い予兆が見えたら「回避」── 出始めは無敵\n攻撃のあとの隙に斬り返せ'); } }
 function killEnemy(e) {
   clearTeleOf(e); e.state = 'dead'; e.t = 0; e.hp = 0; e.al = 1; e.hide = false; SFX.edie();
@@ -1092,12 +1216,13 @@ function killEnemy(e) {
   const n = Math.round(e.def.souls * e.rm * (has('gilt') ? 1.2 : 1)); gainSouls(n); floatText(e.x, e.y - 30, '+' + n, '#cfe6ff', 13);
   if (e.type === 'knight') save.mb.knight = 1;
   if (!e.def.boss) dropMat(e);
+  save.cnt.kills++;
   if (e.def.boss) mbDie(e, n);
   writeSave();
 }
 function hitEnemy(e, dmg, poise, heavy, bleed, magic) {
   let mult = 1, crit = false;
-  if (e.state === 'stagger') { mult = 1.4; if (heavy && !e.critDone) { mult = (e.def.boss ? 2.3 : 2.6) * (G.critK || 1); crit = true; e.critDone = true; if (e.def.boss) e.t = Math.min(e.t, 0.8); } }
+  if (e.state === 'stagger') { mult = 1.4; if (heavy && !e.critDone) { mult = (e.def.boss ? 2.3 : 2.6) * (G.critK || 1); crit = true; onCrit(); e.critDone = true; if (e.def.boss) e.t = Math.min(e.t, 0.8); } }
   dmg = Math.round(dmg * mult * rnd(0.94, 1.06)); let bl = 0;
   if (bleed) { e.bleed += bleed * bleedMult() * (e.def.boss ? 1 : 1.25); e.bleedT = 5; if (e.bleed >= e.bleedMax) { e.bleed = 0; if (e.def.boss) e.bleedMax *= 1.12; bl = Math.round((e.def.boss ? 60 : Math.max(26, e.mhp * 0.3)) * bleedMult()); } }
   e.hp -= dmg + bl; e.flash = 0.12; e.show = 4;
@@ -1195,7 +1320,7 @@ function updEnemies(dt) {
   for (const e of enemies) {
     if (e.state === 'dead') { if (e.t < 3) e.t += dt; continue; }
     if (e.state === 'idle' && (Math.abs(e.x - P.x) > 760 || Math.abs(e.y - P.y) > 760)) continue;
-    updEnemy(e, dt);
+    if (e.def.boss && ALLY.on && G.aggro && e === G.mb && e.state !== 'idle') proxyEnemy(e, dt); else updEnemy(e, dt);
   }
   for (let i = 0; i < enemies.length; i++) {
     const a = enemies[i]; if (a.state === 'dead' || (a.state === 'idle' && Math.abs(a.x - P.x) > 760)) continue;
@@ -1218,15 +1343,15 @@ function updArrows(dt) {
 /* ---------- mid-bosses ---------- */
 const EV = (e, t) => e.pat < t && e.at >= t;
 const MBCD = { hook: 5, graves: 7, beams: 9, toss: 6, eclipse: 10, quake: 7, grab: 5, vanish: 6, knives: 4, breath: 7, charge: 5, blink: 4.5, circles: 8, orbs: 7, nova: 6 };
-const MBDROP = { mb_giant: [{ t: 'wedge' }, { k: 'tear', m: { l: 1, e: 1 } }], mb_assassin: [{ t: 'fang' }, { w: 'claws', m: { l: 1, e: 1 } }], mb_beast: [{ t: 'fist' }, { w: 'ultra', m: { l: 1, e: 1 } }], mb_mage: [{ sp: 'seek' }, { k: 'tear', m: { l: 1, e: 1 } }], n_giant: [{ t: 'ember', m: { l: 2, e: 1 } }], n_assassin: [{ t: 'shard', m: { l: 2, e: 1 } }] };
+const MBDROP = { mb_giant: [{ t: 'wedge' }, { k: 'tear', m: { l: 1, e: 1 } }], mb_assassin: [{ t: 'fang' }, { w: 'claws', sr: 'blade', m: { l: 1, e: 1 } }], mb_beast: [{ t: 'fist' }, { w: 'ultra', m: { l: 1, e: 1 } }], mb_mage: [{ sp: 'seek' }, { k: 'tear', m: { l: 1, e: 1 } }], n_giant: [{ t: 'ember', m: { l: 2, e: 1 } }], n_assassin: [{ t: 'shard', m: { l: 2, e: 1 } }] };
 const CRYPT_RW = { 1: [{ t: 'leech' }], 2: [{ k: 'tear' }, { t: 'spring' }], 3: [{ k: 'slot' }, { sp: 'burst' }], 4: [{ k: 'tear' }, { t: 'belt' }], 5: [{ f: 1 }, { w: 'scythe' }], 6: [{ k: 'tear', m: { x: 1 } }], 7: [{ t: 'socket', m: { x: 1 } }] };
 function mbStart(e, k) { e.state = 'act'; e.atk = k; e.at = 0; e.pat = -0.001; e.hitDone = false; e.n = 0; e.v1 = 0; e.v2 = 0; if (MBCD[k]) e.cds[k] = MBCD[k]; e.last = k; e.tl = null; }
-function mbReset(e) { clearTeleOf(e); burst(e.x, e.y, 10, 120, 0.7, 20, 2, 0); resetEnemy(e); if (G.mb === e) { G.mb = null; if (G.mode === 'play') setDrone(0.035, 120); } for (let i = shots.length - 1; i >= 0; i--) if (shots[i].src === e) shots.splice(i, 1); }
+function mbReset(e) { clearTeleOf(e); burst(e.x, e.y, 10, 120, 0.7, 20, 2, 0); resetEnemy(e); if (G.mb === e) { G.mb = null; G.mark = null; despawnAlly('霊体は還った'); if (G.mode === 'play') setDrone(0.035, 120); } for (let i = shots.length - 1; i >= 0; i--) if (shots[i].src === e) shots.splice(i, 1); }
 function mHit(e, dmg, kb, light) { return hurtPlayer(dmg * e.dm, e.x, e.y, kb, !!light, e); }
 function mCirc(e, x, y, r, dmg, kb) { return Math.hypot(P.x - x, P.y - y) <= r + P.r * 0.5 && hurtPlayer(dmg * e.dm, x, y, kb || 380); }
 function mArc(e, r, half, dmg, kb, dir, col) { addSlash(e.x, e.y, e.face, dir * 1.5, -dir * 1.5, r, 0.22, col || '215,205,190', 0.5); SFX.bswing(); return inArc(e, r, half) && mHit(e, dmg, kb); }
 function mSlam(e, x, y, r, dmg, ring) { SFX.slam(); shake(10); burst(x, y, 18, 300, 0.6, 5, 1, '#5d564a'); burst(x, y, 9, 130, 0.9, 30, 2, 0); mCirc(e, x, y, r, dmg, 440); if (ring) addRing(x, y, r * 0.5, 300, r + ring, 14 * e.dm); }
-function rawDamage(d) { if (G.god || P.state === 'dead') return; d = Math.round(d); P.hp -= d; P.flash = 0.25; G.hurtFlash = 1; floatText(P.x, P.y - 28, '' + d, '#ff6a55', 16); SFX.hurt(); vib(30); if (P.hp <= 0) { P.hp = 0; killPlayer(); } }
+function rawDamage(d) { if (G.god || P.state === 'dead' || P.critInv) return; G.fDmg++; d = Math.round(d); P.hp -= d; P.flash = 0.25; G.hurtFlash = 1; floatText(P.x, P.y - 28, '' + d, '#ff6a55', 16); SFX.hurt(); vib(30); if (P.hp <= 0) { P.hp = 0; killPlayer(); } }
 function updMB(e, dt, dist, pa, alive) {
   const d = e.def, M2 = MBAI[e.type]; for (const k in e.cds) if (e.cds[k] > 0) e.cds[k] -= dt;
   if (d.hb && e.ph === 1 && e.hp <= e.mhp * 0.5 && e.state !== 'idle') { e.ph = 2; clearTeleOf(e); e.poise = d.poise; mbStart(e, 'shift'); }
@@ -1536,13 +1661,14 @@ function mbDie(e, n) {
   showCard(e.def.name.split(' ')[0] + ' 討伐', '── ' + fmtN(n) + ' ルーンを得た ──', 2.8);
   if (L.id === 'castle') { save.mbC[e.key] = 1; for (const it of MBDROP[e.key]) giveItem(it); }
   else cryptCleared();
+  fightWon();
 }
 
 /* ---------- flow ---------- */
 const seenRoom = {};
 function resetPlayer(x, y) {
   recalc();
-  Object.assign(P, { x, y, face: -PI / 2, hp: P.maxHp, hpLag: P.maxHp, st: P.maxSt, fp: P.maxFp, stDelay: 0, stFlash: 0, fpFlash: 0, flasks: save.flaskMax, arrows: ARROWS, chg: 0, hold: false, pray: P.pray | 0, state: 'idle', t: 0, combo: 0, hitDone: false, inv: 0, buf: '', bufT: 0, rdx: 0, rdy: -1, kx: 0, ky: 0, flash: 0, sa: 1.2, sl: 0, healed: false, dodged: false, lastHid: -1, walk: 0, alpha: 1, hv: null, parried: 0, ward: 0, sp: null, holder: null, slot: P.slot | 0, wet: false, regen: 0 });
+  Object.assign(P, { x, y, face: -PI / 2, hp: P.maxHp, hpLag: P.maxHp, st: P.maxSt, fp: P.maxFp, stDelay: 0, stFlash: 0, fpFlash: 0, flasks: save.flaskMax, arrows: ARROWS, chg: 0, hold: false, pray: P.pray | 0, state: 'idle', t: 0, combo: 0, hitDone: false, inv: 0, buf: '', bufT: 0, rdx: 0, rdy: -1, kx: 0, ky: 0, flash: 0, sa: 1.2, sl: 0, healed: false, dodged: false, lastHid: -1, walk: 0, alpha: 1, hv: null, parried: 0, ward: 0, sp: null, holder: null, buffF: 0, buffR: 0, z: 0, critInv: false, pry: null, art: '', n: 0, slot: P.slot | 0, wet: false, regen: 0 });
 }
 function clearFx() {
   tele.length = spikes.length = rings.length = shots.length = fires.length = slashes.length = 0; cardQ.length = 0;
@@ -1556,7 +1682,7 @@ function resetBoss() {
   for (const k in CD) B.cd[k] = 0;
   clearFx(); G.time = 0;
 }
-function rest() { recalc(); P.hp = P.hpLag = P.maxHp; P.st = P.maxSt; P.fp = P.maxFp; P.flasks = save.flaskMax; P.arrows = ARROWS; P.ward = 0; resetEnemies(); for (const t of L.traps) t.on = false; writeSave(); }
+function rest() { recalc(); P.hp = P.hpLag = P.maxHp; P.st = P.maxSt; P.fp = P.maxFp; P.flasks = save.flaskMax; P.arrows = ARROWS; P.ward = 0; P.buffF = P.buffR = 0; G.mark = null; despawnAlly(); resetEnemies(); for (const t of L.traps) t.on = false; writeSave(); }
 function startNight() { save.night = true; CASTLE = buildCastle(true); G.nightT = 4.5; G.nightCard = true; writeSave(); }
 function spawnAt(i) {
   if (save.bossDead && !save.night) startNight();
@@ -1578,22 +1704,28 @@ function enterCrypt(floor) {
 }
 function leaveCrypt() { for (const k in seenRoom) delete seenRoom[k]; spawnAt(save.bonfire); G.fadeT = 0.9; SFX.stairs(); toast('祝福へ帰還した'); }
 function respawn() { if (G.home === 'c' && L.id === 'crypt') spawnCrypt(); else spawnAt(save.bonfire); if (save.stain) hint('death', '落としたルーンは血痕に残る（地図で点滅）\n取り戻す前に再び死ぬと、永遠に失われる'); }
-function newGame() { const keep = { mute: save.mute, best: save.best, wins: save.wins, clear: save.clear, hintOff: save.hintOff }; Object.assign(save, freshSave(), keep); save.started = true; for (const k in seenRoom) delete seenRoom[k]; CASTLE = buildCastle(false); L = null; P.slot = 0; writeSave(); spawnAt(0); toast('祝福に近づき「調べる」で休息できる'); }
+function newGame(cls) {
+  const c = CLASS[cls] || CLASS.wanderer, keep = { mute: save.mute, best: save.best, wins: save.wins, clear: save.clear, hintOff: save.hintOff, ach: save.ach, volB: save.volB, volS: save.volS, cnt: save.cnt, bossCat: save.bossCat };
+  Object.assign(save, freshSave(), keep); save.started = true; save.cls = CLASS[cls] ? cls : 'wanderer';
+  save.st = Object.assign({}, c.st); save.weapons = c.w.slice(); save.weapon = c.w[0]; save.armors = c.a === 'rags' ? ['rags'] : ['rags', c.a]; save.armor = c.a; save.spells = c.sp.slice(); save.slots = [c.sp[0] || null, c.sp[1] || null]; save.arts = c.ar.slice();
+  if (c.ar[0] && artOk(c.ar[0], save.weapon)) save.wart[save.weapon] = c.ar[0]; if (c.sr) { save.spirits = [c.sr]; save.spirit = c.sr; }
+  for (const k in seenRoom) delete seenRoom[k]; CASTLE = buildCastle(false); L = null; P.slot = 0; P.pray = 0; writeSave(); spawnAt(0); toast('祝福に近づき「調べる」で休息できる');
+}
 function continueGame() { spawnAt(save.bonfire); }
 function enterBoss() {
-  G.zone = 'a'; resetBoss(); recalc(); Object.assign(P, { x: 0, y: R_ARENA - 30, face: -PI / 2, state: 'idle', buf: '', kx: 0, ky: 0, lastHid: -1 });
+  G.zone = 'a'; resetBoss(); recalc(); setMark(70, R_ARENA - 150); Object.assign(P, { x: 0, y: R_ARENA - 30, face: -PI / 2, state: 'idle', buf: '', kx: 0, ky: 0, lastHid: -1 });
   G.mode = 'intro'; G.t = 0; G.tries++; cam.x = P.x; cam.y = P.y - 80; SFX.gate(); setDrone(0.05, 150); writeSave();
 }
 function toTitle() { writeSave(); if (L !== CASTLE) useLevel(CASTLE); if (save.stain && save.stain.z === 'c') save.stain = null; G.zone = 'a'; resetBoss(); G.mode = 'title'; G.paused = false; hideAll(); refreshTitle(); $('title').classList.add('on'); setDrone(0, 150); }
-function hideAll() { for (const id of ['title', 'dead', 'win', 'pause', 'bonfire', 'confirm', 'guide']) $(id).classList.remove('on'); }
+function hideAll() { for (const id of ['title', 'dead', 'win', 'pause', 'bonfire', 'confirm', 'guide', 'cls', 'achv', 'opts']) $(id).classList.remove('on'); }
 function refreshTitle() {
   $('bCont').style.display = save.started ? '' : 'none';
   let s = '';
-  if (save.started) s += 'レベル <b>' + level() + '</b>　ルーン <b>' + fmtN(save.souls) + '</b>　死亡 <b>' + save.deaths + '</b>';
+  if (save.started) s += '<b>' + CLASS[save.cls].name + '</b>　レベル <b>' + level() + '</b>　ルーン <b>' + fmtN(save.souls) + '</b>　死亡 <b>' + save.deaths + '</b>';
   if (save.wins > 0) s += (s ? '<span class="br"></span>' : '') + '王討伐 <b>' + save.wins + '</b>　最速 <b>' + fmtTime(save.best) + '</b>';
   if (save.started) s += '<span class="br"></span>収集率 <b>' + collection().pct + '%</b>' + (save.night ? '　<b>灰の降る夜</b>' : '');
   $('tStats').innerHTML = s;
-  $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入');
+  $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入'); $('rBgm').value = Math.round(save.volB * 100); $('rSe').value = Math.round(save.volS * 100);
 }
 
 /* ---------- items ---------- */
@@ -1606,6 +1738,8 @@ function giveItem(it) {
   if (it.f) { if (save.flaskMax < 6) { save.flaskMax++; P.flasks++; } queueCard('灰瓶の欠片', '── 灰瓶の数が増えた ──', 2.8); }
   if (it.k === 'slot') { if (save.tslots < 4) { save.tslots++; save.teq.push(null); } queueCard('護符の紐', '── タリスマンの枠が一つ増えた ──', 3); }
   if (it.k === 'tear') { save.tears++; queueCard('追憶の雫', '── 祝福で能力を振り直せる ──', 3); }
+  if (it.ar) { if (!save.arts.includes(it.ar)) save.arts.push(it.ar); queueCard('戦技の書「' + ART[it.ar].name + '」', '── 祝福の「装備 → 戦技」で武器に宿す ──', 3.2); hint('artbook', '戦技の書を得た\n祝福の「装備 → 戦技」で、合う武器に付け替えられる'); }
+  if (it.sr) { if (!save.spirits.includes(it.sr)) save.spirits.push(it.sr); if (!save.spirit) save.spirit = it.sr; queueCard(SPIRIT[it.sr].name, '── 強敵との戦いで、霊体を呼べる ──', 3.2); hint('spirit', '霊鈴を得た ── 王や強敵との戦いが始まると\n「召喚の標」が光る。そばで「召喚」を押す'); }
   if (it.m) { const a = []; for (const k in it.m) { save.mats[k] += it.m[k]; a.push(MAT[k] + ' ×' + it.m[k]); } queueCard('強化素材', '── ' + a.join('・') + ' ──', 2.8); hint('mat', '強化素材を拾った\n祝福の「強化」で、ルーンと合わせて武器を鍛えられる'); }
   if (it.s) { gainSouls(it.s); SFX.souls(); queueCard('古びたルーン', '── ' + fmtN(it.s) + ' ルーンを得た ──', 2.6); }
 }
@@ -1627,16 +1761,18 @@ function cryptCleared() {
   if (f === CRYPT_DEEP) queueCard('地下墓 踏破', '── 灰喰らいの墓主は、灰へ還った ──', 3.6);
 }
 function collection() {
-  const cnt = (tbl, own) => { let n = 0, m = 0; for (const k in tbl) { m++; if (own.includes(k)) n++; } return [n, m]; };
+  const cnt = (tbl, own) => { let n = 0, m = 0; for (const k in tbl) { if (tbl[k].hidden) continue; m++; if (own.includes(k)) n++; } return [n, m]; };
   const w = cnt(WPN, save.weapons), a = cnt(ARM, save.armors), s = cnt(SPELL, save.spells), t = cnt(TAL, save.tals); let mb = 0; for (const m of MBLIST) if (save.mb[m[0]]) mb++;
   const wd = (save.bossDead ? 1 : 0) + (save.night ? 1 : 0) + (save.cryptDeep >= CRYPT_PRE ? 1 : 0) + (save.cryptDeep >= CRYPT_DEEP ? 1 : 0);
-  const got = w[0] + a[0] + s[0] + t[0] + mb + wd, all = w[1] + a[1] + s[1] + t[1] + MBLIST.length + 4;
-  return { w, a, s, t, mb, wd, pct: Math.floor(got / all * 100) };
+  const ar = cnt(ART, save.arts), sr = cnt(SPIRIT, save.spirits);
+  const got = w[0] + a[0] + s[0] + t[0] + ar[0] + sr[0] + mb + wd, all = w[1] + a[1] + s[1] + t[1] + ar[1] + sr[1] + MBLIST.length + 4;
+  return { w, a, s, t, ar, sr, mb, wd, pct: Math.floor(got / all * 100) };
 }
 
 /* ---------- blessing menu ---------- */
 const PANES = ['bfMain', 'bfLevel', 'bfEquip', 'bfForge', 'bfRespec', 'bfBook', 'bfCrypt'];
 const SHOP = [['s', 300, 10, () => true], ['c', 900, 6, () => save.lit[2]], ['l', 2500, 4, () => save.bossDead]];
+const TEAR_PRICE = 3000, SPUP = [1, 2, 3];
 let eqTab = 'w', RS = null, selFloor = 1;
 function bfPane(id) { for (const p of PANES) $(p).classList.toggle('on', p === id); }
 function bfNote(s) { $('bfNote').textContent = s; }
@@ -1659,7 +1795,7 @@ function refreshBf() {
   $('bRespec').textContent = '振り直し（雫 ' + save.tears + '）'; $('bRespec').disabled = save.tears <= 0 || level() <= 1;
   const cb = $('bCrypt'), fresh = save.bossDead && !save.deepSeen && !inCrypt && save.lit[1];
   cb.textContent = inCrypt ? '城へ戻る' : fresh ? '地下墓へ ✦深層' : '地下墓へ'; cb.disabled = !inCrypt && !save.lit[1]; cb.classList.toggle('glow', !!fresh);
-  refreshEquip(); btns[2].label = heavyLabel();
+  refreshEquip(); btns[2].label = heavyLabel(); btns[4].label = ART[artOf(save.weapon)].short;
 }
 function heavyLabel() { const w = WPN[save.weapon]; if (!caster(w)) return w.hLabel; const sp = curSpell(); return sp ? spDef(sp).short : '魔法'; }
 function refreshEquip() {
@@ -1677,6 +1813,15 @@ function refreshEquip() {
   } else if (eqTab === 'a') {
     info = load + '　被害軽減 <b>' + Math.round(M.def * 100) + '%</b><br>重い鎧ほど守りは堅いが、回避が鈍り、スタミナを食う';
     for (const id of save.armors) { const x = ARM[id], m = calcLoad(null, id); h += row(id, id === save.armor, x.name, x.desc + '<br><b>' + x.cls + '</b>　<span class="nw">軽減 <b>' + Math.round(x.def * 100) + '%</b></span>　<span class="nw">重さ <b>' + x.wt + '</b> → ' + (m.over ? '過重' : ROLLS[m.roll].name) + '</span>', id === save.armor ? '装備中' : ''); }
+  } else if (eqTab === 'r') {
+    const wid = save.weapon, cur = artOf(wid); info = '<b>' + wname(wid) + '</b> の戦技：<b>' + ART[cur].name + '</b>（FP ' + ART[cur].fp + '）<br>戦技ボタンで放つ。戦技の書は、合う武器に付け替えられる';
+    h += '<div class="row hdr"><span class="ef"><b>戦技</b> ── いま構えている武器に宿す</span></div>';
+    const list = [ARTDEF[wid]].concat(save.arts.filter(a => a !== ARTDEF[wid] && artOk(a, wid)));
+    for (const a of list) h += row('a:' + a, a === cur, ART[a].name, ART[a].desc + '<br><span class="nw">消費FP <b>' + ART[a].fp + '</b></span>' + (a === ARTDEF[wid] ? '　<span class="nw">この武器の固有戦技</span>' : ''), a === cur ? '使用中' : '');
+    const no = save.arts.filter(a => a !== ARTDEF[wid] && !artOk(a, wid)); if (no.length) h += '<div class="row" style="opacity:.5"><span class="ef">この武器には合わない書：' + no.map(a => ART[a].name).join('・') + '</span></div>';
+    h += '<div class="row hdr"><span class="ef"><b>霊鈴</b> ── 王や強敵との戦いで呼ぶ霊体（FP25・一戦に一度）</span></div>';
+    for (const id of save.spirits) { const x = SPIRIT[id], lv = save.spLv[id] | 0; h += row('s:' + id, id === save.spirit, x.name + (lv ? ' +' + lv : ''), x.desc + '<br><span class="nw">' + x.ally + '</span>　<span class="nw">体力 <b>' + Math.round(x.hp * (1 + 0.18 * lv)) + '</b></span>', id === save.spirit ? '選択中' : ''); }
+    if (!save.spirits.length) h += '<div class="row" style="opacity:.5"><span class="ef">まだ霊鈴を持っていない。墓守の祝福の近くの宝箱を探すこと。</span></div>';
   } else if (eqTab === 't') {
     const n = save.teq.filter(Boolean).length; info = 'タリスマン枠 <b>' + n + ' / ' + save.tslots + '</b>　触れて付け外しする' + (save.tslots < 4 ? '<br>枠は「護符の紐」で増える（最大4）' : '');
     for (const id of save.tals) h += row(id, has(id), TAL[id].name, '<b>' + TAL[id].desc + '</b>', has(id) ? '装備中' : '');
@@ -1690,6 +1835,11 @@ function refreshEquip() {
 }
 function eqClick(id) {
   if (eqTab === 'w' && WPN[id] && save.weapons.includes(id)) { save.weapon = id; SFX.swing(); bfNote(wname(id) + 'を構えた' + (reqOk(id) ? '' : ' ── 能力が足りず、扱いきれない')); }
+  else if (eqTab === 'r' && id[1] === ':') {
+    const k = id.slice(2);
+    if (id[0] === 'a') { if (!artOk(k, save.weapon) || (k !== ARTDEF[save.weapon] && !save.arts.includes(k))) return; if (k === ARTDEF[save.weapon]) delete save.wart[save.weapon]; else save.wart[save.weapon] = k; SFX.swing(); bfNote(wname(save.weapon) + ' に「' + ART[k].name + '」を宿した'); }
+    else { if (!save.spirits.includes(k)) return; save.spirit = k; SFX.ward(); bfNote(SPIRIT[k].name + ' を腰に下げた'); }
+  }
   else if (eqTab === 'a' && ARM[id] && save.armors.includes(id)) { save.armor = id; SFX.roll(); bfNote(ARM[id].name + 'を纏った'); }
   else if (eqTab === 't' && save.tals.includes(id)) {
     const k = save.teq.indexOf(id);
@@ -1713,29 +1863,35 @@ function refreshForge() {
     h += '<div class="row fgr' + (id === save.weapon ? ' wp cur' : '') + '"><span class="nm">' + wname(id) + '</span><span class="ef">' + lab + ' <b>' + powerOf(id) + ' → ' + powerOf(id, lv + 1) + '</b><br><span class="nw' + (m[c.m] >= c.n ? '' : ' bad') + '">' + MAT[c.m] + ' ×' + c.n + '</span>　<span class="nw' + (save.souls >= c.r ? '' : ' bad') + '">ルーン ' + fmtN(c.r) + '</span></span><button class="plus fg" data-id="' + id + '"' + (ok ? '' : ' disabled') + ' aria-label="' + WPN[id].name + 'を強化">強化</button></div>';
   }
   for (const [k, p, mx, need] of SHOP) { if (!need()) continue; const left = mx - save.shop[k]; h += '<div class="row fgr"><span class="nm">' + MAT[k] + '</span><span class="ef">祝福に供えられた素材を譲り受ける<br><span class="nw' + (save.souls >= p ? '' : ' bad') + '">ルーン ' + fmtN(p) + '</span>　残り <b>' + left + '</b></span><button class="plus fg" data-buy="' + k + '"' + (left > 0 && save.souls >= p ? '' : ' disabled') + ' aria-label="' + MAT[k] + 'を買う">買う</button></div>'; }
+  if (save.lit[2]) { const left = 2 - save.tearShop; h += '<div class="row fgr"><span class="nm">追憶の雫</span><span class="ef">能力を振り直すための雫<br><span class="nw' + (save.souls >= TEAR_PRICE ? '' : ' bad') + '">ルーン ' + fmtN(TEAR_PRICE) + '</span>　残り <b>' + left + '</b></span><button class="plus fg" data-buy="tear"' + (left > 0 && save.souls >= TEAR_PRICE ? '' : ' disabled') + ' aria-label="追憶の雫を買う">買う</button></div>'; }
+  for (const id of save.spirits) { const lv = save.spLv[id] | 0, x = SPIRIT[id]; if (lv >= 3) { h += '<div class="row fgr"><span class="nm">' + x.name + ' +3</span><span class="ef">霊体はこれ以上強くならない</span></div>'; continue; } const n = SPUP[lv]; h += '<div class="row fgr"><span class="nm">' + x.name + (lv ? ' +' + lv : '') + '</span><span class="ef">霊体の体力と攻撃 <b>+18%</b><br><span class="nw' + (m.e >= n ? '' : ' bad') + '">' + MAT.e + ' ×' + n + '</span></span><button class="plus fg" data-sp="' + id + '"' + (m.e >= n ? '' : ' disabled') + ' aria-label="' + x.name + 'を強化">強化</button></div>'; }
   $('fgRows').innerHTML = h;
 }
 function forgeClick(b) {
-  if (b.dataset.buy) { const it = SHOP.find(x => x[0] === b.dataset.buy); if (!it || !it[3]() || save.shop[it[0]] >= it[2] || save.souls < it[1]) return; save.souls -= it[1]; save.shop[it[0]]++; save.mats[it[0]]++; SFX.chest(); bfNote(MAT[it[0]] + 'を譲り受けた'); }
+  if (b.dataset.buy === 'tear') { if (!save.lit[2] || save.tearShop >= 2 || save.souls < TEAR_PRICE) return; save.souls -= TEAR_PRICE; save.tearShop++; save.tears++; SFX.chest(); bfNote('追憶の雫を譲り受けた'); }
+  else if (b.dataset.sp) { const id = b.dataset.sp, lv = save.spLv[id] | 0; if (!save.spirits.includes(id) || lv >= 3 || save.mats.e < SPUP[lv]) return; save.mats.e -= SPUP[lv]; save.spLv[id] = lv + 1; SFX.level(); bfNote(SPIRIT[id].name + ' の霊体が力を増した'); }
+  else if (b.dataset.buy) { const it = SHOP.find(x => x[0] === b.dataset.buy); if (!it || !it[3]() || save.shop[it[0]] >= it[2] || save.souls < it[1]) return; save.souls -= it[1]; save.shop[it[0]]++; save.mats[it[0]]++; SFX.chest(); bfNote(MAT[it[0]] + 'を譲り受けた'); }
   else { const id = b.dataset.id, c = WPN[id] && save.weapons.includes(id) ? upCost(id) : null; if (!c || save.mats[c.m] < c.n || save.souls < c.r) return; save.mats[c.m] -= c.n; save.souls -= c.r; save.up[id] = upLv(id) + 1; SFX.level(); SFX.parry(); G.flashW = 0.12; bfNote(wname(id) + ' に鍛え上げた'); }
   G.soulShow = save.souls; recalc(); writeSave(); refreshBf(); refreshForge();
 }
-function openRespec() { RS = { st: { vit: 10, end: 10, str: 10, dex: 10, int: 10, fth: 10 }, pts: level() - 1 }; bfPane('bfRespec'); bfNote('すべての能力を振り直す ── 確定すると雫を一つ失う'); refreshRespec(); }
+function openRespec() { const base = CLASS[save.cls].st; RS = { st: Object.assign({}, base), pts: level() - level(base) }; bfPane('bfRespec'); bfNote('素性「' + CLASS[save.cls].name + '」の初期値まで戻し、振り直す ── 確定で雫を一つ失う'); refreshRespec(); }
 function refreshRespec() {
   $('rsInfo').innerHTML = '残り <b>' + RS.pts + '</b> ポイント　（追憶の雫 <b>' + save.tears + '</b>）<br>最大HP <b>' + Math.round((100 + (RS.st.vit - 10) * 12) * (has('amber') ? 1.15 : 1)) + '</b>　スタミナ <b>' + (100 + (RS.st.end - 10) * 8) + '</b>　FP <b>' + (50 + (RS.st.int - 10) * 5 + (has('spring') ? 20 : 0)) + '</b>　重量上限 <b>' + calcLoad(null, null, RS.st.end).cap.toFixed(1) + '</b>';
   let h = '';
-  for (const [k, nm] of STATS) h += '<div class="row"><span class="nm">' + nm + '</span><span class="vl">' + RS.st[k] + '</span><span class="ef">元の値 <b>' + save.st[k] + '</b></span><button class="plus" data-s="' + k + '" data-d="-1"' + (RS.st[k] > 10 ? '' : ' disabled') + ' aria-label="' + nm + 'を下げる">−</button><button class="plus" data-s="' + k + '" data-d="1"' + (RS.pts > 0 && RS.st[k] < 50 ? '' : ' disabled') + ' aria-label="' + nm + 'を上げる">＋</button></div>';
+  for (const [k, nm] of STATS) h += '<div class="row"><span class="nm">' + nm + '</span><span class="vl">' + RS.st[k] + '</span><span class="ef">元の値 <b>' + save.st[k] + '</b></span><button class="plus" data-s="' + k + '" data-d="-1"' + (RS.st[k] > CLASS[save.cls].st[k] ? '' : ' disabled') + ' aria-label="' + nm + 'を下げる">−</button><button class="plus" data-s="' + k + '" data-d="1"' + (RS.pts > 0 && RS.st[k] < 50 ? '' : ' disabled') + ' aria-label="' + nm + 'を上げる">＋</button></div>';
   $('rsRows').innerHTML = h; $('bRsOk').disabled = RS.pts !== 0;
 }
 function refreshBook() {
   const c = collection(); let h = '';
-  $('bkInfo').innerHTML = '収集率 <b>' + c.pct + '%</b>　まだ見ぬものは「？？？」と記される';
+  $('bkInfo').innerHTML = '収集率 <b>' + c.pct + '%</b>　実績 <b>' + achCount() + ' / ' + ACH.length + '</b>　まだ見ぬものは「？？？」と記される';
   const sec = (title, n, m) => { h += '<div class="hd">' + title + '<b>' + n + ' / ' + m + '</b></div>'; };
   const cell = (ok, nm, d, nt) => { h += '<div class="cell' + (ok ? '' : ' no') + (nt ? ' nt' : '') + '"><div class="n">' + (ok ? nm : '？？？') + '</div><div class="d">' + (ok ? d : nt ? '夜の城、あるいは地下墓の深層に' : 'まだ見つけていない') + '</div></div>'; };
-  sec('武器', c.w[0], c.w[1]); for (const k in WPN) cell(save.weapons.includes(k), WPN[k].name + (upLv(k) ? ' +' + upLv(k) : ''), WPN[k].cls + '・' + WPN[k].scTxt + '・重さ' + WPN[k].wt);
+  sec('武器', c.w[0], c.w[1]); for (const k in WPN) if (!WPN[k].hidden) cell(save.weapons.includes(k), WPN[k].name + (upLv(k) ? ' +' + upLv(k) : ''), WPN[k].cls + '・' + WPN[k].scTxt + '・重さ' + WPN[k].wt);
   sec('防具', c.a[0], c.a[1]); for (const k in ARM) cell(save.armors.includes(k), ARM[k].name, ARM[k].cls + '・軽減' + Math.round(ARM[k].def * 100) + '%・重さ' + ARM[k].wt, ARM[k].night);
   sec('魔法', c.s[0], c.s[1]); for (const k in SPELL) cell(save.spells.includes(k), SPELL[k].name, '消費FP ' + SPELL[k].fp, SPELL[k].night);
   sec('タリスマン', c.t[0], c.t[1]); for (const k in TAL) cell(save.tals.includes(k), TAL[k].name, TAL[k].desc, TAL[k].night);
+  sec('戦技の書', c.ar[0], c.ar[1]); for (const k in ART) if (!ART[k].hidden) cell(save.arts.includes(k), ART[k].name, '消費FP ' + ART[k].fp);
+  sec('霊鈴', c.sr[0], c.sr[1]); for (const k in SPIRIT) cell(save.spirits.includes(k), SPIRIT[k].name + ((save.spLv[k] | 0) ? ' +' + save.spLv[k] : ''), SPIRIT[k].ally);
   sec('強敵の討伐', c.mb, MBLIST.length); for (const m of MBLIST) cell(save.mb[m[0]], m[1], m[0] === 'hb' ? '隠しボス・討伐済み' : '討伐済み', m[0] === 'hb' || m[0][0] === 'n');
   sec('旅の記録', c.wd, 4);
   cell(save.bossDead, '灰冠の騎士王 ヴァルグレイ', '討伐 ' + save.wins + ' 回'); cell(save.night, '灰の降る夜', '王亡き城に夜が降りた', 1);
@@ -1758,7 +1914,7 @@ function openBonfire(i) {
   bfNote(first ? (i === 1 ? '祝福に触れた ── ここから地下墓へ降りられる' : '祝福に触れた ── ここが新たな目覚めの地となる') : 'HP・FP・灰瓶が満ち、亡者は再び彷徨う');
   refreshBf(); $('bonfire').classList.add('on');
 }
-function leaveBonfire() { if (G.mode !== 'menu') return; $('bonfire').classList.remove('on'); G.mode = 'play'; releaseInput(); if (M.roll > 0) hint('heavy', '装備が重く、回避が鈍くなっている\n持久力を上げるか、軽い装備にすれば軽ロールに戻る'); else if (WPN[save.weapon].parry) hint('parry', 'パリィで弾けるのは武器の攻撃と矢だけ\n衝撃波・魔法・炎は回避で躱すこと'); writeSave(); }
+function leaveBonfire() { if (G.mode !== 'menu') return; $('bonfire').classList.remove('on'); G.mode = 'play'; releaseInput(); if (hint('art', '「戦技」ボタン（L）で、武器ごとの技を放つ\nFPを使う。祝福の「装備 → 戦技」で付け替えられる')) {} else if (M.roll > 0) hint('heavy', '装備が重く、回避が鈍くなっている\n持久力を上げるか、軽い装備にすれば軽ロールに戻る'); else if (WPN[save.weapon].parry) hint('parry', 'パリィで弾けるのは武器の攻撃と矢だけ\n衝撃波・魔法・炎は回避で躱すこと'); writeSave(); }
 const NEAR = { t: '', i: 0, c: null, label: '', btn: '' };
 function setNear(t, label, btn, i, c) { NEAR.t = t; NEAR.label = label; NEAR.btn = btn; NEAR.i = i; NEAR.c = c; G.near = NEAR; }
 function updWorld(dt) {
@@ -1810,7 +1966,8 @@ const btns = [
   { k: 'atk', label: '攻撃', x: 0, y: 0, r: 0, id: -1, down: false },
   { k: 'roll', label: '回避', x: 0, y: 0, r: 0, id: -1, down: false },
   { k: 'heavy', label: '強攻撃', x: 0, y: 0, r: 0, id: -1, down: false },
-  { k: 'heal', label: '回復', x: 0, y: 0, r: 0, id: -1, down: false }
+  { k: 'heal', label: '回復', x: 0, y: 0, r: 0, id: -1, down: false },
+  { k: 'art', label: '戦技', x: 0, y: 0, r: 0, id: -1, down: false }
 ];
 const btnInt = { x: 0, y: 0, r: 0, id: -1, down: false }, btnSw = { x: 0, y: 0, r: 0, t: 0 };
 const pauseBtn = { x: 0, y: 0, r: 20 };
@@ -1822,6 +1979,7 @@ function layoutButtons() {
   btns[3].x = RX - 62 * U; btns[3].y = H - 218 * U - sb; btns[3].r = 31 * U;
   if (LAND) { btnInt.x = RX - 252 * U; btnInt.y = H - 118 * U - sb; btnSw.x = RX - 236 * U; btnSw.y = H - 200 * U - sb; } else { btnInt.x = RX - 62 * U; btnInt.y = H - 300 * U - sb; btnSw.x = RX - 146 * U; btnSw.y = H - 250 * U - sb; }
   btnInt.r = 31 * U; btnSw.r = 23 * U;
+  if (LAND) { btns[4].x = RX - 240 * U; btns[4].y = H - 196 * U - sb; btnSw.x = RX - 150 * U; btnSw.y = H - 248 * U - sb; } else { btns[4].x = RX - 236 * U; btns[4].y = H - 126 * U - sb; } btns[4].r = 27 * U;
   pauseBtn.x = W - SAR - 30; pauseBtn.y = 32;
 }
 function releaseInput() { joy.id = -1; joy.on = false; for (const b of btns) { b.id = -1; b.down = false; } btnInt.id = -1; btnInt.down = false; }
@@ -1835,6 +1993,7 @@ function onDown(e) {
   const x = e.clientX, y = e.clientY;
   if (Math.hypot(x - pauseBtn.x, y - pauseBtn.y) < 30 && (G.mode === 'fight' || G.mode === 'play')) { setPause(true); return; }
   if (G.mode === 'play' && G.near && Math.hypot(x - btnInt.x, y - btnInt.y) < btnInt.r * 1.3) { btnInt.id = e.pointerId; btnInt.down = true; doInteract(); return; }
+  if (!G.near && canSummon() && Math.hypot(x - btnInt.x, y - btnInt.y) < btnInt.r * 1.3) { summon(); return; }
   if ((G.mode === 'play' || G.mode === 'fight') && canSwap() && Math.hypot(x - btnSw.x, y - btnSw.y) < btnSw.r * 1.35) { swapSpell(); return; }
   let best = null, bd = 1e9;
   for (const b of btns) { const d = Math.hypot(x - b.x, y - b.y) / b.r; if (d < 1.28 && d < bd) { bd = d; best = b; } }
@@ -1860,22 +2019,23 @@ cv.addEventListener('pointerup', onUp); cv.addEventListener('pointercancel', onU
 for (const ev of ['touchstart', 'touchmove', 'gesturestart', 'contextmenu', 'dblclick']) document.addEventListener(ev, e => {
   if (e.target === cv) { e.preventDefault(); return; }
   if (ev === 'touchstart') return;
-  if (ev === 'touchmove' && e.target.closest && (e.target.closest('.rows') || e.target.closest('.book') || e.target.closest('.gd'))) return;
+  if (ev === 'touchmove' && e.target.closest && (e.target.closest('.rows') || e.target.closest('.book') || e.target.closest('.gd') || e.target.closest('.clsInfo') || e.target.closest('.optBody'))) return;
   e.preventDefault();
 }, { passive: false });
 window.addEventListener('keydown', e => {
+  if (e.target && (e.target.tagName === 'TEXTAREA' || e.target.tagName === 'INPUT')) return;
   if (e.repeat) { if ([' ', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) e.preventDefault(); return; }
   const k = e.key.length === 1 ? e.key.toLowerCase() : e.key; keys[k] = true; initAudio();
   if (k === ' ' || k.startsWith('Arrow')) e.preventDefault();
-  if ($('guide').classList.contains('on')) { if (k === 'Escape') $('guide').classList.remove('on'); return; }
+  for (const id of ['guide', 'achv', 'opts', 'cls']) if ($(id).classList.contains('on')) { if (k === 'Escape') $(id).classList.remove('on'); return; }
   if ($('confirm').classList.contains('on')) { if (k === 'Escape') $('confirm').classList.remove('on'); return; }
-  if (G.mode === 'title' && (k === 'Enter' || k === ' ')) { if (save.started) continueGame(); else newGame(); return; }
+  if (G.mode === 'title' && (k === 'Enter' || k === ' ')) { if (save.started) continueGame(); else openClass(); return; }
   if (G.mode === 'dead' && G.shown && k === 'Enter') { respawn(); return; }
   if (G.mode === 'win' && G.shown && k === 'Enter') { save.bonfire = 0; spawnAt(0); return; }
   if (G.mode === 'menu') { if (k === 'Escape' || k === 'e') { if ($('bfMain').classList.contains('on')) leaveBonfire(); else { bfPane('bfMain'); bfNote(''); } } return; }
   if (k === 'Escape' || k === 'p') { if (G.mode === 'fight' || G.mode === 'play') setPause(!G.paused); return; }
   if (G.paused) return;
-  if (k === 'j') queue('atk'); else if (k === 'k') queue('heavy'); else if (k === ' ') queue('roll'); else if (k === 'h') queue('heal'); else if (k === 'e') doInteract(); else if (k === 'q') swapSpell();
+  if (k === 'j') queue('atk'); else if (k === 'k') queue('heavy'); else if (k === ' ') queue('roll'); else if (k === 'h') queue('heal'); else if (k === 'e') doInteract(); else if (k === 'q') swapSpell(); else if (k === 'l') queue('art'); else if (k === 'r') summon();
 });
 window.addEventListener('keyup', e => { const k = e.key.length === 1 ? e.key.toLowerCase() : e.key; keys[k] = false; });
 function readMove() {
@@ -1891,8 +2051,19 @@ function setPause(v) { G.paused = v; $('pause').classList.toggle('on', v); if (v
 document.addEventListener('visibilitychange', () => { if (document.hidden) { writeSave(); if ((G.mode === 'fight' || G.mode === 'play') && !G.paused) setPause(true); } });
 function tap(id, fn) { $(id).addEventListener('click', e => { e.preventDefault(); initAudio(); SFX.ui(); fn(); }); }
 tap('bCont', continueGame);
-tap('bNew', () => { if (save.started) $('confirm').classList.add('on'); else newGame(); });
-tap('bYes', newGame); tap('bNo', () => $('confirm').classList.remove('on'));
+tap('bNew', () => { if (save.started) $('confirm').classList.add('on'); else openClass(); });
+tap('bYes', openClass);
+$('clsCards').addEventListener('click', e => { const b = e.target.closest && e.target.closest('.ccard'); if (!b) return; initAudio(); SFX.ui(); clsSel = b.dataset.c; refreshClass(); });
+tap('bClsGo', () => { $('cls').classList.remove('on'); newGame(clsSel); }); tap('bClsNo', () => $('cls').classList.remove('on'));
+for (const id of ['bAch', 'bAch2']) tap(id, openAch); tap('bAchClose', () => $('achv').classList.remove('on'));
+for (const id of ['bOpts', 'bOpts2']) tap(id, () => { refreshTitle(); xferMode('xfMenu'); $('opts').classList.add('on'); }); tap('bOptClose', () => { writeSave(); $('opts').classList.remove('on'); });
+$('rBgm').addEventListener('input', e => { initAudio(); save.volB = clamp(+e.target.value / 100, 0, 1); }); $('rSe').addEventListener('input', e => { save.volS = clamp(+e.target.value / 100, 0, 1); });
+$('rSe').addEventListener('change', () => { initAudio(); bgmTick(); SFX.hit(); writeSave(); }); $('rBgm').addEventListener('change', writeSave);
+tap('bXfOut', () => { xferMode('xfOut'); $('xfCode').value = '書き出し中…'; exportCode().then(c => { $('xfCode').value = c; $('xfMsg').textContent = 'このコードを控えて、別の端末の「セーブを読み込む」に貼り付ける（' + c.length + '文字）'; }).catch(() => { $('xfMsg').textContent = '書き出しに失敗した'; }); });
+tap('bXfCopy', () => { const t = $('xfCode'); try { t.focus(); t.select(); } catch (e) {} try { navigator.clipboard.writeText(t.value).then(() => { $('xfMsg').textContent = 'コピーした'; }, () => { $('xfMsg').textContent = 'コピーできなかった ── 枠の中を長押しして選び、コピーすること'; }); } catch (e) { $('xfMsg').textContent = 'コピーできなかった ── 枠の中を長押しして選び、コピーすること'; } });
+tap('bXfIn', () => { xferMode('xfIn'); $('xfPaste').value = ''; });
+tap('bXfCheck', () => { xferData = null; $('bXfApply').style.display = 'none'; $('xfPrev').innerHTML = ''; parseCode($('xfPaste').value).then(o => { xferData = o; const st = o.st || {}, lv = ['vit', 'end', 'str', 'dex', 'int', 'fth'].reduce((a, k) => a + (+st[k] || 10), 0) - 59; let ac = 0; for (const k in (o.ach || {})) ac++; $('xfPrev').innerHTML = '素性 <b>' + (CLASS[o.cls] ? CLASS[o.cls].name : '放浪者') + '</b>　レベル <b>' + lv + '</b>　ルーン <b>' + fmtN(+o.souls || 0) + '</b><br>旅の時間 <b>' + fmtTime(+o.time || 0) + '</b>　王 <b>' + (o.bossDead ? '討伐済み' : '未討伐') + '</b>　地下墓 <b>' + (o.cryptDeep ? 'B' + o.cryptDeep : 'なし') + '</b>　実績 <b>' + ac + '</b>'; $('xfMsg').textContent = '読み込むと、この端末のいまのセーブは上書きされる'; $('bXfApply').style.display = ''; }).catch(er => { $('xfMsg').textContent = '読み込めない ── ' + (er && er.message || 'コードが正しくない'); }); });
+tap('bXfApply', applyImport); for (const id of ['bXfBack1', 'bXfBack2']) tap(id, () => xferMode('xfMenu')); tap('bNo', () => $('confirm').classList.remove('on'));
 tap('bRetry', respawn); tap('bAgain', () => { save.bonfire = 0; spawnAt(0); });
 tap('bDeadTitle', toTitle); tap('bWinTitle', toTitle); tap('bQuit', toTitle);
 tap('bResume', () => setPause(false));
@@ -1919,7 +2090,7 @@ for (const id of ['bLvBack', 'bEqBack', 'bBkBack', 'bCrBack', 'bFgBack']) tap(id
 tap('bRsNo', () => { RS = null; bfPane('bfMain'); bfNote('振り直しをやめた ── 雫は失われていない'); });
 tap('bRsOk', () => {
   if (!RS || RS.pts !== 0 || save.tears <= 0) return;
-  save.st = RS.st; save.tears--; RS = null; recalc(); P.hp = P.hpLag = P.maxHp; P.st = P.maxSt; P.fp = P.maxFp; SFX.level(); G.flashW = 0.2; writeSave(); bfPane('bfMain'); bfNote('能力を振り直した ── 追憶の雫は砕けた'); refreshBf();
+  save.st = RS.st; save.tears--; save.cnt.respec = 1; RS = null; recalc(); P.hp = P.hpLag = P.maxHp; P.st = P.maxSt; P.fp = P.maxFp; SFX.level(); G.flashW = 0.2; writeSave(); bfPane('bfMain'); bfNote('能力を振り直した ── 追憶の雫は砕けた'); refreshBf();
 });
 $('lvRows').addEventListener('click', e => {
   const b = e.target.closest && e.target.closest('.plus'); if (!b || b.disabled) return; initAudio();
@@ -1962,6 +2133,7 @@ function tryAct() {
   }
   if (P.st <= 0) { P.buf = ''; P.stFlash = 0.4; SFX.nost(); return false; }
   P.buf = '';
+  if (k === 'art') return startArt();
   if (w.cat === 'bow') {
     if (k === 'roll') { startRoll(); return true; }
     if (P.arrows <= 0) { floatText(P.x, P.y - 30, '矢が尽きた ── 祝福で補充', '#e6dfc8', 13); SFX.nost(); return false; }
@@ -1970,16 +2142,16 @@ function tryAct() {
     return true;
   }
   if (k === 'atk') { if (w.riposte && staggeredNear()) startHeavy(w.riposte); else startLight(0); return true; }
-  if (k === 'heavy') { if (caster(w)) return startCast(); if (w.parry) { faceTarget(); P.state = 'parry'; P.t = 0; useSt(w.parry.st); SFX.roll(); } else startHeavy(w.heavy); return true; }
+  if (k === 'heavy') { if (caster(w)) return startCast(); if (w.parry) { faceTarget(); P.state = 'parry'; P.t = 0; P.pry = w.parry; useSt(w.parry.st); SFX.roll(); } else startHeavy(w.heavy); return true; }
   if (k === 'roll') { startRoll(); return true; }
   return false;
 }
 const stK = () => reqOk() ? 1 : 1.5;
 function startLight(i) { const a = WPN[save.weapon].light[i]; faceTarget(); P.state = 'atk'; P.combo = i; P.t = 0; P.hitDone = false; useSt(a.st * stK()); if (!a.big) SFX.swing(); }
-function startHeavy(h) { faceTarget(); P.state = 'heavy'; P.hv = h; P.t = 0; P.hitDone = false; useSt(h.st * stK()); }
+function startHeavy(h) { faceTarget(); if (staggeredNear()) P.critInv = true; P.state = 'heavy'; P.hv = h; P.t = 0; P.hitDone = false; useSt(h.st * stK()); }
 function fireArrow(c) {
   if (P.arrows <= 0) return; P.arrows--; const full = c >= 0.99, a = P.face; SFX.arrow(); if (c > 0.5) { shake(2 + c * 3); SFX.swingH(); }
-  pshot(3, a, 720 + 320 * c, (9 + 26 * c) * atkMult(), 5 + 25 * c, 5, 0.95, { phys: true, heavy: full, pierce: full });
+  pshot(3, a, 720 + 320 * c, (9 + 26 * c) * atkMult() * buffK(), 5 + 25 * c, 5, 0.95, { phys: true, heavy: full, pierce: full });
   burst(P.x + Math.cos(a) * 22, P.y + Math.sin(a) * 22, 3 + c * 6, 120, 0.2, 6, 0, 2, a, 0.4);
 }
 function startRoll() {
@@ -1998,13 +2170,13 @@ function onHit(heavy, magic) {
   if (!magic && caster(WPN[save.weapon])) P.fp = Math.min(P.maxFp, P.fp + 5);
 }
 function playerStrike(range, dmg, poise, heavy, bleed, half) {
-  dmg *= atkMult() * (heavy && has('fist') ? 1.18 : 1); half = half || 1.3; let any = false; G.critK = WPN[save.weapon].crit || 1;
+  dmg *= atkMult() * buffK() * (heavy && has('fist') ? 1.18 : 1); half = half || 1.3; let any = false; G.critK = WPN[save.weapon].crit || 1;
   if (G.zone === 'a') {
     const dx = B.x - P.x, dy = B.y - P.y, d = Math.hypot(dx, dy);
     if (!bossHittable()) return;
     if (d - B.r > range) return;
     if (d > B.r + 6 && Math.abs(angDiff(Math.atan2(dy, dx), P.face)) > half) return;
-    hitBoss(dmg, poise, heavy, bleed); onHit(heavy, false); return;
+    hitBoss(dmg, poise, heavy, bleed); onHit(heavy, false); critGuard(); return;
   }
   for (const e of enemies) {
     if (e.state === 'dead' || e.hide) continue;
@@ -2014,7 +2186,7 @@ function playerStrike(range, dmg, poise, heavy, bleed, half) {
     if (d > 44 + e.r && !los(P.x, P.y, e.x, e.y)) continue;
     hitEnemy(e, dmg, poise, heavy, bleed); any = true;
   }
-  if (any) onHit(heavy, false);
+  if (any) onHit(heavy, false); critGuard();
 }
 
 /* ---------- spells ---------- */
@@ -2022,7 +2194,7 @@ const pshots = []; for (let i = 0; i < 14; i++) pshots.push({ on: false, x: 0, y
 const stars = [];
 function pshot(kind, a, spd, dmg, poise, r, life, o) {
   for (const s of pshots) if (!s.on) {
-    Object.assign(s, { on: true, x: P.x + Math.cos(a) * 24, y: P.y + Math.sin(a) * 24, vx: Math.cos(a) * spd, vy: Math.sin(a) * spd, life, r, dmg, poise, kind, pierce: false, heavy: false, hom: 0, hold: 0, oa: 0, spd, hitB: false, phys: false }); s.hit.length = 0;
+    const O2 = G.pOrg || P; Object.assign(s, { on: true, x: O2.x + Math.cos(a) * 24, y: O2.y + Math.sin(a) * 24, vx: Math.cos(a) * spd, vy: Math.sin(a) * spd, life, r, dmg, poise, kind, pierce: false, heavy: false, hom: 0, hold: 0, oa: 0, spd, hitB: false, phys: false, ally: false }); s.hit.length = 0;
     if (o) Object.assign(s, o); return s;
   }
   return null;
@@ -2075,15 +2247,15 @@ function updSpells(dt) {
     }
     if (s.hom) { const tg = seekTarget(s.x, s.y, 420); if (tg) { const a = turnTo(Math.atan2(s.vy, s.vx), Math.atan2(tg.y - s.y, tg.x - s.x), s.hom * dt); s.vx = Math.cos(a) * s.spd; s.vy = Math.sin(a) * s.spd; } }
     s.x += s.vx * dt; s.y += s.vy * dt; s.life -= dt;
-    if (s.kind === 3) { } else if (s.kind === 1) { pt(s.x, s.y, rnd(-20, 20), rnd(-20, 20), 0.3, 16, 0, 6, 0, 0); pt(s.x - s.vx * 0.012, s.y - s.vy * 0.012, 0, 0, 0.22, 12, 0, 2, 0, 0); } else if (Math.random() < 0.7) pt(s.x, s.y, rnd(-14, 14), rnd(-14, 14), 0.25, s.kind === 2 ? 9 : 8, 0, s.kind === 2 ? 7 : s.kind === 4 ? 1 : 6, 0, 0);
+    if (s.kind === 3) { } else if (s.kind === 5) { if (Math.random() < 0.8) pt(s.x + rnd(-14, 14), s.y + rnd(-14, 14), 0, -20, 0.35, 14, 2, 0, 0, 0); } else if (s.kind === 6) { pt(s.x + rnd(-10, 10), s.y + rnd(-10, 10), 0, 0, 0.3, 12, 0, 1, 0, 0); } else if (s.kind === 1) { pt(s.x, s.y, rnd(-20, 20), rnd(-20, 20), 0.3, 16, 0, 6, 0, 0); pt(s.x - s.vx * 0.012, s.y - s.vy * 0.012, 0, 0, 0.22, 12, 0, 2, 0, 0); } else if (Math.random() < 0.7) pt(s.x, s.y, rnd(-14, 14), rnd(-14, 14), 0.25, s.kind === 2 ? 9 : 8, 0, s.kind === 2 ? 7 : s.kind === 4 ? 1 : 6, 0, 0);
     let dead = s.life <= 0 || (G.zone === 'a' ? s.x * s.x + s.y * s.y > R_ARENA * R_ARENA : solid(Math.floor(s.x / T), Math.floor(s.y / T)));
     if (!dead) {
       G.critK = 1;
-      if (G.zone === 'a') { if (!s.hitB && bossHittable() && Math.hypot(B.x - s.x, B.y - s.y) < B.r + s.r) { s.hitB = true; hitBoss(s.dmg, s.poise, s.heavy, 0); onHit(false, !s.phys); if (!s.pierce) dead = true; } }
+      if (G.zone === 'a') { if (!s.hitB && bossHittable() && Math.hypot(B.x - s.x, B.y - s.y) < B.r + s.r) { s.hitB = true; hitBoss(s.dmg, s.poise, s.heavy, 0); if (!s.ally) onHit(false, !s.phys); G.critNow = 0; if (!s.pierce) dead = true; } }
       else for (const e of enemies) {
         if (e.state === 'dead' || e.hide) continue; const dx = e.x - s.x, dy = e.y - s.y, m = e.r + s.r; if (dx > m || dx < -m || dy > m || dy < -m || dx * dx + dy * dy > m * m) continue;
         if (s.pierce) { if (s.hit.includes(e)) continue; s.hit.push(e); }
-        hitEnemy(e, s.dmg, s.poise, s.heavy, 0, !s.phys); onHit(false, !s.phys); if (!s.pierce) { dead = true; break; }
+        hitEnemy(e, s.dmg, s.poise, s.heavy, 0, !s.phys); if (!s.ally) onHit(false, !s.phys); G.critNow = 0; if (!s.pierce) { dead = true; break; }
       }
     }
     if (dead) { s.on = false; if (s.kind === 3) burst(s.x, s.y, 4, 90, 0.3, 3, 1, '#8d8676'); else burst(s.x, s.y, s.kind === 1 ? 12 : 6, 150, 0.35, 10, 0, s.kind === 2 ? 7 : s.kind === 4 ? 1 : 6); }
@@ -2096,6 +2268,8 @@ function updSpells(dt) {
 }
 function updPlayer(dt) {
   const w = WPN[save.weapon], RL = ROLLS[M.roll];
+  if (P.state === 'idle') P.critInv = false; if (P.state !== 'art') P.z = 0; P.buffF = Math.max(0, P.buffF - dt); P.buffR = Math.max(0, P.buffR - dt);
+  if (P.buffF > 0 && Math.random() < 0.5) pt(P.x + Math.cos(P.face + P.sa) * rnd(14, 40), P.y + Math.sin(P.face + P.sa) * rnd(14, 40), rnd(-10, 10), -20, 0.35, 9, 0, 0, 0, 30);
   P.inv = Math.max(0, P.inv - dt); P.flash = Math.max(0, P.flash - dt); P.stFlash = Math.max(0, P.stFlash - dt); P.fpFlash = Math.max(0, P.fpFlash - dt); P.parried = Math.max(0, P.parried - dt); P.ward = Math.max(0, P.ward - dt);
   if (btnSw.t > 0) btnSw.t -= dt;
   if (P.bufT > 0) P.bufT -= dt;
@@ -2164,6 +2338,7 @@ function updPlayer(dt) {
       if (P.hitDone && P.t >= sp.cast + 0.12 && P.bufT > 0 && P.buf === 'roll' && P.st > 0) { P.buf = ''; startRoll(); }
       else if (P.t >= sp.dur) P.state = 'idle';
       break; }
+    case 'art': updArt(dt); vx += AV[0]; vy += AV[1]; break;
     case 'shoot':
       P.t += dt; vx += mx * 60; vy += my * 60; P.sa = lerp(P.sa, 0, 1 - Math.exp(-20 * dt));
       if (P.t < 0.22) aimSpell(10 * dt);
@@ -2179,8 +2354,8 @@ function updPlayer(dt) {
       break;
     case 'parry':
       P.t += dt; vx += mx * 40; vy += my * 40; P.sa = lerp(P.sa, 1.7, 1 - Math.exp(-14 * dt));
-      if (P.t >= w.parry.dur * 0.7 && P.bufT > 0 && P.buf === 'roll' && P.st > 0) { P.buf = ''; startRoll(); }
-      else if (P.t >= (w.parry ? w.parry.dur : 0.6)) P.state = 'idle';
+      if (P.t >= P.pry.dur * 0.7 && P.bufT > 0 && P.buf === 'roll' && P.st > 0) { P.buf = ''; startRoll(); }
+      else if (P.t >= P.pry.dur) P.state = 'idle';
       break;
     case 'roll': {
       P.t += dt; const k = P.t / ROLL_T, sp = RL.sp * (1 - k * k * 0.75);
@@ -2191,7 +2366,7 @@ function updPlayer(dt) {
     case 'heal':
       P.t += dt; vx += mx * 55; vy += my * 55;
       if (Math.random() < 0.6) pt(P.x + rnd(-12, 12), P.y + rnd(-12, 12), 0, -30, 0.5, 7, 0, 1, 0, 30);
-      if (!P.healed && P.t >= 0.72) { const h = healAmt(); P.healed = true; P.flasks--; P.hp = Math.min(P.maxHp, P.hp + h); SFX.heal(); burst(P.x, P.y, 14, 90, 0.7, 10, 0, 1); floatText(P.x, P.y - 30, '+' + h, '#f1d98a', 15); }
+      if (!P.healed && P.t >= 0.72) { const h = healAmt(); P.healed = true; P.flasks--; G.fFlask++; P.hp = Math.min(P.maxHp, P.hp + h); SFX.heal(); burst(P.x, P.y, 14, 90, 0.7, 10, 0, 1); floatText(P.x, P.y - 30, '+' + h, '#f1d98a', 15); }
       if (P.t >= 1.15) P.state = 'idle';
       break;
     case 'hurt':
@@ -2215,7 +2390,7 @@ function updPlayer(dt) {
     const d = Math.hypot(P.x, P.y), lim = R_ARENA - P.r;
     if (d > lim) { P.x *= lim / d; P.y *= lim / d; }
   } else {
-    if (P.state !== 'dead' && P.state !== 'held') for (const e of enemies) {
+    if (P.state !== 'dead' && P.state !== 'held' && !(P.state === 'art' && P.art === 'step' && P.t < 0.24)) for (const e of enemies) {
       if (e.state === 'dead' || e.hide) continue;
       const dx = P.x - e.x, dy = P.y - e.y; if (dx > 60 || dx < -60 || dy > 60 || dy < -60) continue; const d = Math.hypot(dx, dy) || 0.01, min = P.r + e.r - 4;
       if (d < min) { P.x = e.x + dx / d * min; P.y = e.y + dy / d * min; }
@@ -2230,12 +2405,13 @@ function staggerBoss() {
   SFX.stagger(); floatText(B.x, B.y - 68, '体勢崩し', '#ffd76a', 16); burst(B.x, B.y, 20, 300, 0.5, 12, 0, 1); G.hitstop = 0.14; shake(9);
 }
 function hurtPlayer(dmg, fx, fy, kb, light, src, proj) {
-  if ((G.mode !== 'fight' && G.mode !== 'play') || P.state === 'dead' || P.state === 'held') return false;
+  if (G.proxy) { hurtAlly(dmg); return false; }
+  if ((G.mode !== 'fight' && G.mode !== 'play') || P.state === 'dead' || P.state === 'held' || P.critInv) return false;
   if (P.inv > 0) return false;
   if (P.state === 'roll' && P.t < IFR) { if (!P.dodged) { P.dodged = true; floatText(P.x, P.y - 26, '見切り', '#c8d0dc', 12); } return false; }
   const w = WPN[save.weapon];
-  if (P.state === 'parry' && w.parry && (src || proj) && P.t >= w.parry.a && P.t <= w.parry.b) {
-    P.inv = 0.5; P.parried = 0.3; P.t = Math.max(P.t, w.parry.dur - 0.14); P.st = Math.min(P.maxSt, P.st + 20);
+  if (P.state === 'parry' && P.pry && (src || proj) && P.t >= P.pry.a && P.t <= P.pry.b) {
+    save.cnt.parry++; P.inv = 0.5; P.parried = 0.3; P.t = Math.max(P.t, P.pry.dur - 0.14); P.st = Math.min(P.maxSt, P.st + 20);
     SFX.parry(); shake(8); vib(30); G.flashW = 0.16;
     floatText(P.x, P.y - 32, 'パリィ', '#ffe9a0', 17); burst(P.x + Math.cos(P.face) * 16, P.y + Math.sin(P.face) * 16, 16, 320, 0.4, 10, 0, 2);
     if (src === B) staggerBoss(); else if (src) staggerEnemy(src, 2.2);
@@ -2245,7 +2421,7 @@ function hurtPlayer(dmg, fx, fy, kb, light, src, proj) {
   dmg = Math.max(1, Math.round(dmg * G.dm * (w.guard || 1) * (1 - M.def) * (P.ward > 0 ? 0.55 : 1) * (has('wedge') && P.hp <= P.maxHp * 0.3 ? 0.7 : 1)));
   if (!light && w.armor && (P.state === 'atk' || P.state === 'heavy') && P.t > 0.1 && dmg < (w.armor === true ? 22 : w.armor)) light = true;
   if (!light && ((ARM[save.armor].poise && dmg < 16) || (P.ward > 0 && dmg < 20))) light = true;
-  P.hp -= dmg; P.inv = light ? 0.45 : 0.55; P.flash = 0.25; G.hurtFlash = 1;
+  P.hp -= dmg; G.fDmg++; P.inv = light ? 0.45 : 0.55; P.flash = 0.25; G.hurtFlash = 1;
   const a = Math.atan2(P.y - fy, P.x - fx);
   burst(P.x, P.y, light ? 6 : 14, 220, 0.5, 4, 1, '#8c1410', a, 0.9);
   floatText(P.x, P.y - 28, '' + dmg, '#ff6a55', 16);
@@ -2498,7 +2674,7 @@ function chooseAttack() {
 const WTS = {};
 function hitBoss(dmg, poise, heavy, bleed) {
   let mult = 1, crit = false;
-  if (B.state === 'stagger') { mult = 1.5; if (heavy && !B.critDone) { mult = 2.4 * (G.critK || 1); crit = true; B.critDone = true; B.t = Math.min(B.t, 0.75); } }
+  if (B.state === 'stagger') { mult = 1.5; if (heavy && !B.critDone) { mult = 2.4 * (G.critK || 1); crit = true; onCrit(); B.critDone = true; B.t = Math.min(B.t, 0.75); } }
   dmg = Math.round(dmg * mult * rnd(0.94, 1.06)); let bl = 0;
   if (bleed) { B.bleed += bleed * bleedMult(); B.bleedT = 5; if (B.bleed >= B.bleedMax) { B.bleed = 0; B.bleedMax *= 1.12; bl = Math.round(62 * bleedMult()); } }
   B.hp -= dmg + bl; B.flash = 0.12; B.dmgAcc += dmg + bl; B.dmgT = 2.2;
@@ -2524,7 +2700,7 @@ function bossDie() {
   B.state = 'dead'; B.t = 0; G.mode = 'win'; G.t = 0; G.shown = false; G.slow = 0.3; G.slowT = 1.3; clearBossTele();
   spikes.length = rings.length = shots.length = fires.length = 0;
   G.first = !save.bossDead; save.bossDead = true; save.wins++; G.newBest = !save.best || G.time < save.best; if (G.newBest) save.best = G.time;
-  if (G.first) { save.clear = save.time; save.mats.x++; } gainSouls(3000); writeSave();
+  if (G.first) { save.clear = save.time; save.mats.x++; } gainSouls(3000); fightWon(); writeSave();
   SFX.boom(); G.hitstop = 0.25; shake(20); vib([60, 40, 200]); G.flashW = 0.6; setDrone(0.015, 120);
   if (P.state !== 'idle' && P.state !== 'dead') { P.state = 'idle'; }
 }
@@ -2593,7 +2769,7 @@ function updHazards(dt) {
       const d = Math.hypot(P.x - r.x, P.y - r.y);
       if (Math.abs(d - r.r) < 15 + P.r * 0.5) {
         r.used = true;
-        if (r.push) { const a = Math.atan2(P.y - r.y, P.x - r.x); P.kx = Math.cos(a) * 640; P.ky = Math.sin(a) * 640; if (P.state !== 'dead' && P.state !== 'roll' && P.state !== 'held') { P.state = 'hurt'; P.t = 0.35; } }
+        if (r.push) { if (P.critInv) continue; const a = Math.atan2(P.y - r.y, P.x - r.x); P.kx = Math.cos(a) * 640; P.ky = Math.sin(a) * 640; if (P.state !== 'dead' && P.state !== 'roll' && P.state !== 'held') { P.state = 'hurt'; P.t = 0.35; } }
         else hurtPlayer(r.dmg, r.x, r.y, 330);
       }
     }
@@ -2661,8 +2837,9 @@ function update(dt) {
       updPlayer(wdt);
       if (arena) {
         if (B.bleedT > 0) B.bleedT -= wdt; else if (B.bleed > 0) B.bleed = Math.max(0, B.bleed - 10 * wdt);
-        updBoss(wdt); updHazards(wdt); updSpells(wdt);
-      } else { updEnemies(wdt); updArrows(wdt); updHazards(wdt); updSpells(wdt); updWorld(wdt); }
+        if (ALLY.on && G.aggro && G.mode === 'fight') proxyBoss(wdt); else updBoss(wdt); updAlly(wdt); updHazards(wdt); updSpells(wdt);
+      } else { updEnemies(wdt); updAlly(wdt); updArrows(wdt); updHazards(wdt); updSpells(wdt); updWorld(wdt); }
+      G.achT = (G.achT || 0) + dt; if (G.achT > 1.5) { G.achT = 0; if (G.mode === 'play' || G.mode === 'fight') checkAch(); }
       checkStain();
       if (G.mode === 'dead' && !G.shown && G.t > 1.7) {
         G.shown = true;
@@ -2708,6 +2885,289 @@ function update(dt) {
     if (tg && P.state !== 'dead') { let dx = (tg.x - P.x) * (tg === G.mb ? 0.32 : 0.22), dy = (tg.y - P.y) * (tg === G.mb ? 0.32 : 0.22); const d = Math.hypot(dx, dy); if (d > 110) { dx *= 110 / d; dy *= 110 / d; } tx += dx; ty += dy; }
   }
   const f = 1 - Math.exp(-6 * dt); cam.x = lerp(cam.x, tx, f); cam.y = lerp(cam.y, ty, f);
+}
+
+/* ---------- weapon arts ---------- */
+const ARTPRY = { dur: 0.6, a: 0.04, b: 0.28, st: 0 };
+const buffK = () => (P.buffF > 0 ? 1.2 : 1) * (P.buffR > 0 ? 1.15 : 1);
+function critGuard() { if (G.critNow) { P.critInv = true; G.critNow = 0; } }
+function physAoE(x, y, R, dmg, poise, heavy) {
+  dmg *= atkMult() * buffK(); G.critK = WPN[save.weapon].crit || 1; let any = false;
+  if (G.zone === 'a') { if (bossHittable() && Math.hypot(B.x - x, B.y - y) - B.r < R) { hitBoss(dmg, poise, heavy, 0); any = true; } }
+  else for (const e of enemies) { if (e.state === 'dead' || e.hide) continue; const dx = e.x - x, dy = e.y - y; if (dx > 220 || dx < -220 || dy > 220 || dy < -220) continue; if (Math.hypot(dx, dy) - e.r < R) { hitEnemy(e, dmg, poise, heavy, 0); any = true; } }
+  if (any) onHit(heavy, false); critGuard(); return any;
+}
+function startArt() {
+  const w = WPN[save.weapon], id = artOf(save.weapon), a = ART[id];
+  if (P.fp < a.fp) { P.fpFlash = 0.5; floatText(P.x, P.y - 30, 'FPが足りない', '#8fb8ff', 13); SFX.nost(); return false; }
+  if (id === 'hawk' && P.arrows <= 0) { floatText(P.x, P.y - 30, '矢が尽きた ── 祝福で補充', '#e6dfc8', 13); SFX.nost(); return false; }
+  P.fp -= a.fp; useSt(id === 'focus' ? 4 : 12);
+  if (id === 'deflect') { faceTarget(); P.state = 'parry'; P.t = 0; P.pry = ARTPRY; SFX.roll(); return true; }
+  if (id === 'hawk' || id === 'blade' || id === 'wave') aimSpell(9); else faceTarget();
+  P.state = 'art'; P.art = id; P.t = 0; P.hitDone = false; P.n = 0;
+  if (id === 'step') { let dx = inp.mx, dy = inp.my; const d = Math.hypot(dx, dy); if (d > 0.2) { dx /= d; dy /= d; } else { dx = Math.cos(P.face); dy = Math.sin(P.face); } P.rdx = dx; P.rdy = dy; SFX.blink(); }
+  else if (id === 'leap' || id === 'rush') SFX.roll();
+  else if (id === 'flame' || id === 'focus' || id === 'roar') SFX.charge();
+  floatText(P.x, P.y - 36, a.name, '#ffe9a0', 12);
+  return true;
+}
+function updArt(dt) {
+  const id = P.art, fx = Math.cos(P.face), fy = Math.sin(P.face), t0 = P.t; P.t += dt; const t = P.t, EV2 = x => t0 < x && t >= x, w = WPN[save.weapon];
+  AV[0] = AV[1] = 0; let end = 0.8;
+  switch (id) {
+    case 'rush': end = 0.72;
+      if (t < 0.16) { faceTargetSlow(dt); P.sa = lerp(P.sa, 2.6, 1 - Math.exp(-20 * dt)); }
+      else if (t < 0.4) { AV[0] = fx * 640; AV[1] = fy * 640; pt(P.x, P.y, 0, 0, 0.25, 14, 0, 1, 0, 0); }
+      if (EV2(0.32)) { SFX.swingH(); P.sa = -1.6; addSlash(P.x, P.y, P.face, 2.2, -1.8, 84, 0.24, '255,225,160', 0.4); playerStrike(86, 26, 30, true, 0, 1.2); critGuard(); }
+      break;
+    case 'spin': end = 0.76;
+      if (t < 0.22) P.sa = lerp(P.sa, 3.0, 1 - Math.exp(-20 * dt)); else P.sa = 3.0 - clamp((t - 0.22) / 0.2, 0, 1) * 6.2;
+      if (EV2(0.3)) { SFX.swingH(); shake(4); addSlash(P.x, P.y, P.face, 3.1, -3.1, 90, 0.26, '235,240,250', 0.45); playerStrike(92, 22, 24, true, w.light[0] ? w.light[0].bleed : 0, 3.2); critGuard(); }
+      break;
+    case 'leap': end = 0.95;
+      if (t < 0.45) { AV[0] = fx * 380; AV[1] = fy * 380; P.z = Math.sin(t / 0.45 * PI) * 30; P.inv = Math.max(P.inv, 0.06); P.sa = lerp(P.sa, 3.0, 1 - Math.exp(-14 * dt)); } else P.z = 0;
+      if (EV2(0.45)) { P.sa = -0.8; SFX.slam(); shake(9); const x = P.x + fx * 34, y = P.y + fy * 34; burst(x, y, 16, 280, 0.6, 5, 1, '#5d564a'); burst(x, y, 8, 120, 0.9, 28, 2, 0); rings.push({ x, y, r: 16, spd: 380, max: 84, dmg: 0, used: true, push: false, mine: true }); physAoE(x, y, 84, 34, 50, true); }
+      break;
+    case 'wave': end = 0.8;
+      if (t < 0.35) { aimSpell(7 * dt); P.sa = lerp(P.sa, 2.8, 1 - Math.exp(-16 * dt)); }
+      if (EV2(0.35)) { P.sa = -1.2; SFX.swingH(); SFX.slam(); shake(5); pshot(5, P.face, 540, 24 * atkMult() * buffK(), 26, 22, 0.62, { phys: true, pierce: true }); addSlash(P.x, P.y, P.face, 2.0, -1.6, 70, 0.2, '200,200,190', 0.4); }
+      break;
+    case 'flurry': end = 0.86;
+      P.sa = lerp(P.sa, 0.12, 1 - Math.exp(-26 * dt)); if (t > 0.08 && t < 0.62) { AV[0] = fx * 70; AV[1] = fy * 70; }
+      for (let i = 0; i < 5; i++) if (EV2(0.12 + i * 0.1)) { SFX.swing(); P.sl = 22; addSlash(P.x + fx * 30, P.y + fy * 30, P.face + rnd(-0.12, 0.12), 0.14, -0.14, 66, 0.12, '235,240,250', 0.2); playerStrike(94, 7, 5, false, 0, 0.42); }
+      break;
+    case 'step': end = 0.36;
+      if (t < 0.22) { AV[0] = P.rdx * 780; AV[1] = P.rdy * 780; P.inv = Math.max(P.inv, 0.08); pt(P.x, P.y, 0, 0, 0.3, 16, 0, 7, 0, 0); }
+      break;
+    case 'flame': end = 0.7;
+      if (t < 0.5 && Math.random() < 0.8) pt(P.x + rnd(-16, 16), P.y + rnd(-16, 16), 0, -40, 0.5, 11, 0, 0, 0, 40);
+      if (EV2(0.5)) { P.buffF = 25; SFX.fire(); burst(P.x, P.y, 16, 160, 0.5, 14, 0, 0); }
+      break;
+    case 'roar': end = 0.8;
+      if (EV2(0.35)) { P.buffR = 20; SFX.roar(); shake(7); rings.push({ x: P.x, y: P.y, r: 16, spd: 460, max: 130, dmg: 0, used: true, push: false, mine: true }); G.critK = 1; if (G.zone !== 'a') for (const e of enemies) if (e.state !== 'dead' && !e.hide && !e.def.boss && Math.hypot(e.x - P.x, e.y - P.y) < 130) hitEnemy(e, 2, 30, true, 0); G.critNow = 0; }
+      break;
+    case 'hawk': end = 0.85;
+      if (t < 0.5) { aimSpell(8 * dt); P.sa = lerp(P.sa, 0, 1 - Math.exp(-20 * dt)); P.chg = clamp(t / 0.5, 0, 1); }
+      if (EV2(0.5)) { const base = P.face; for (let i = -1; i <= 1; i++) if (P.arrows > 0) { P.face = base + i * 0.14; fireArrow(1); } P.face = base; shake(5); }
+      break;
+    case 'blade': end = 0.8;
+      if (t < 0.4) { aimSpell(7 * dt); P.sa = lerp(P.sa, 2.6, 1 - Math.exp(-16 * dt)); if (Math.random() < 0.7) pt(P.x + Math.cos(P.face + P.sa) * 30, P.y + Math.sin(P.face + P.sa) * 30, 0, -20, 0.3, 9, 0, 1, 0, 20); }
+      if (EV2(0.4)) { P.sa = -1.4; SFX.swingH(); SFX.ward(); const k = Math.max(atkMult(), prayMult()), h = Math.round(8 * (1 + (save.st.fth - 10) * 0.055)); pshot(6, P.face, 620, 30 * k * buffK(), 22, 20, 0.6, { pierce: true }); P.hp = Math.min(P.maxHp, P.hp + h); floatText(P.x, P.y - 30, '+' + h, '#f1d98a', 13); }
+      break;
+    case 'focus': end = 1.25;
+      if (t < 1.1 && Math.random() < 0.7) { const a = rnd(TAU), r = rnd(30, 60); pt(P.x + Math.cos(a) * r, P.y + Math.sin(a) * r, -Math.cos(a) * r * 2, -Math.sin(a) * r * 2, 0.45, 9, 0, 6, 0, 0); }
+      if (EV2(1.1)) { P.fp = Math.min(P.maxFp, P.fp + 20); SFX.ward(); floatText(P.x, P.y - 30, 'FP +20', '#8fb8ff', 14); }
+      break;
+  }
+  if (t >= end * 0.7 && P.bufT > 0 && P.buf === 'roll' && P.st > 0 && id !== 'focus') { P.buf = ''; P.z = 0; startRoll(); }
+  else if (t >= end) { P.state = 'idle'; P.z = 0; }
+}
+
+/* ---------- spirit allies ---------- */
+const ALLY = { on: false, id: '', x: 0, y: 0, hp: 0, mhp: 1, face: 0, cd: 0, healT: 0, walk: 0, flash: 0, al: 0, k: 1, sa: 1.2 };
+function fightFoe() { return G.zone === 'a' ? (G.mode === 'fight' && B.state !== 'dead' ? B : null) : (G.mb && G.mb.state !== 'dead' ? G.mb : null); }
+function canSummon() { return !!(save.spirit && !G.summoned && G.mark && (G.mode === 'fight' || G.mode === 'play') && P.state !== 'dead' && fightFoe() && Math.hypot(P.x - G.mark.x, P.y - G.mark.y) < 100); }
+function setMark(x, y) { G.mark = { x, y }; G.summoned = false; G.usedSpirit = false; G.fDmg = 0; G.fFlask = 0; despawnAlly(); if (save.spirit) hint('mark', '光る「召喚の標」の近くで「召喚」を押すと\n霊体が共に戦う（FP25・一戦に一度）'); }
+function despawnAlly(msg) { if (!ALLY.on) return; ALLY.on = false; burst(ALLY.x, ALLY.y, 16, 140, 0.7, 14, 0, 6); if (msg) floatText(ALLY.x, ALLY.y - 30, msg, '#bcd8ff', 13); G.aggro = 0; }
+function summon() {
+  if (!canSummon()) return false; const s = SPIRIT[save.spirit];
+  if (P.fp < 25) { P.fpFlash = 0.5; floatText(P.x, P.y - 30, 'FPが足りない', '#8fb8ff', 13); SFX.nost(); return false; }
+  P.fp -= 25; G.summoned = true; G.usedSpirit = true; const lv = save.spLv[save.spirit] | 0, k = 1 + 0.18 * lv, hp = Math.round(s.hp * k);
+  Object.assign(ALLY, { on: true, id: save.spirit, x: G.mark.x, y: G.mark.y, hp, mhp: hp, face: P.face, cd: 1, healT: 3, walk: 0, flash: 0, al: 0, k, sa: 1.2 });
+  G.aggro = s.taunt ? 1 : 0; G.aggroT = s.taunt ? 7 : 3; SFX.ward(); SFX.item(); G.flashW = 0.1;
+  for (let i = 0; i < 26; i++) { const a = i / 26 * TAU; pt(ALLY.x + Math.cos(a) * 40, ALLY.y + Math.sin(a) * 40, -Math.cos(a) * 90, -Math.sin(a) * 90, 0.5, 12, 0, 6, 0, 0); }
+  showCard(s.ally, '── 霊体が呼び声に応えた ──', 2.4); return true;
+}
+function hurtAlly(d) { if (!ALLY.on) return; d = Math.max(1, Math.round(d * 0.8)); ALLY.hp -= d; ALLY.flash = 0.2; floatText(ALLY.x, ALLY.y - 26, '' + d, '#9fb8e8', 13); burst(ALLY.x, ALLY.y, 6, 160, 0.4, 8, 0, 6); if (ALLY.hp <= 0) despawnAlly('霊体は還った'); }
+function allyHit(foe, dmg, poise, bleed) {
+  const hs = G.hitstop, sh = G.shake; G.critK = 1; dmg *= ALLY.k;
+  if (foe === B) { if (bossHittable()) hitBoss(dmg, poise, false, bleed || 0); } else if (!foe.hide && foe.state !== 'dead') hitEnemy(foe, dmg, poise, false, bleed || 0, false);
+  G.hitstop = hs; G.shake = sh; G.critNow = 0;
+}
+function updAlly(dt) {
+  if (!ALLY.on) return; const foe = fightFoe(), A = ALLY, s = SPIRIT[A.id];
+  if (!foe || P.state === 'dead') { despawnAlly(foe ? '霊体は還った' : ''); return; }
+  A.al = Math.min(1, A.al + dt * 2); A.flash = Math.max(0, A.flash - dt); A.cd -= dt;
+  G.aggroT -= dt; if (G.aggroT <= 0) { G.aggroT = rnd(3, 5); G.aggro = Math.random() < (s.taunt ? 0.66 : 0.34) ? 1 : 0; }
+  const dx = foe.x - A.x, dy = foe.y - A.y, d = Math.hypot(dx, dy) || 1, fa = Math.atan2(dy, dx), hid = foe.hide || (foe === B && !bossHittable());
+  let mvx = 0, mvy = 0; const mv = (a, sp) => { mvx += Math.cos(a) * sp; mvy += Math.sin(a) * sp; };
+  A.face = turnTo(A.face, fa, 8 * dt);
+  if (s.role === 'tank' || s.role === 'blade') {
+    const reach = foe.r + (s.role === 'tank' ? 44 : 38), sp = s.role === 'tank' ? 150 : 215;
+    if (d > reach) mv(fa, sp); else if (s.role === 'blade') mv(fa + PI / 2, 60);
+    if (A.cd <= 0 && d < reach + 14 && !hid) { A.cd = s.role === 'tank' ? 1.5 : 0.8; A.sa = -A.sa; SFX.swing(); addSlash(A.x, A.y, A.face, 1.6, -1.6, s.role === 'tank' ? 58 : 50, 0.18, '170,200,255', 0.5); allyHit(foe, s.role === 'tank' ? 14 : 10, s.role === 'tank' ? 12 : 5, s.role === 'blade' ? 6 : 0); }
+  } else if (s.role === 'mage') {
+    if (d > 300) mv(fa, 150); else if (d < 190) mv(fa + PI, 130); else mv(fa + PI / 2, 40);
+    if (A.cd <= 0 && d < 380 && !hid) { A.cd = 1.5; SFX.cast(); G.pOrg = A; pshot(0, fa, 620, 16 * A.k, 6, 7, 0.9, { ally: true }); G.pOrg = null; }
+  } else {
+    const px = P.x - A.x, py = P.y - A.y, pd = Math.hypot(px, py); if (pd > 96) mv(Math.atan2(py, px), 190); else if (d < 150) mv(fa + PI, 110);
+    A.healT -= dt; if (A.healT <= 0) { A.healT = 6; const h = Math.round(22 * A.k); if (P.hp < P.maxHp) { P.hp = Math.min(P.maxHp, P.hp + h); floatText(P.x, P.y - 30, '+' + h, '#bfe8c8', 14); } A.hp = Math.min(A.mhp, A.hp + h); SFX.heal(); for (let i = 0; i < 12; i++) pt(P.x + rnd(-14, 14), P.y + rnd(-14, 14), 0, -40, 0.6, 9, 0, 8, 0, 30); burst(A.x, A.y, 8, 90, 0.5, 10, 0, 8); }
+    if (A.cd <= 0 && d < 360 && !hid) { A.cd = 2.4; SFX.cast(); G.pOrg = A; pshot(4, fa, 600, 8 * A.k, 4, 7, 0.9, { ally: true }); G.pOrg = null; }
+  }
+  A.x += mvx * dt; A.y += mvy * dt; if (mvx || mvy) A.walk += dt * 9;
+  const ox = A.x - foe.x, oy = A.y - foe.y, od = Math.hypot(ox, oy) || 1, mn = foe.r + 12; if (od < mn) { A.x = foe.x + ox / od * mn; A.y = foe.y + oy / od * mn; }
+  if (G.zone === 'a') { const r = Math.hypot(A.x, A.y), lim = R_ARENA - 14; if (r > lim) { A.x *= lim / r; A.y *= lim / r; } } else collide(A, 12);
+}
+function proxyBoss(dt) { const px = P.x, py = P.y; P.x = ALLY.x; P.y = ALLY.y; G.proxy = true; updBoss(dt); G.proxy = false; P.x = px; P.y = py; }
+function proxyEnemy(e, dt) { const px = P.x, py = P.y; P.x = ALLY.x; P.y = ALLY.y; G.proxy = true; updEnemy(e, dt); G.proxy = false; if (P.state !== 'held') { P.x = px; P.y = py; } }
+function drawAlly() {
+  if (G.mark && save.spirit && !G.summoned && fightFoe()) {
+    const m = G.mark, p = 0.7 + Math.sin(G.now * 3) * 0.3; ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.5 * p; ctx.drawImage(SPR[6], m.x - 46, m.y - 46, 92, 92);
+    ctx.globalAlpha = 0.9; ctx.strokeStyle = '#a9d0ff'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(m.x, m.y, 20, G.now, G.now + 5); ctx.stroke(); ctx.beginPath(); ctx.moveTo(m.x, m.y - 14); ctx.lineTo(m.x + 9, m.y + 8); ctx.lineTo(m.x - 9, m.y + 8); ctx.closePath(); ctx.stroke();
+    ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
+  }
+  if (!ALLY.on) return; const A = ALLY, s = SPIRIT[A.id], wob = Math.sin(A.walk) * 2;
+  ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.35 * A.al; ctx.drawImage(SPR[6], A.x - 34, A.y - 34, 68, 68); ctx.globalCompositeOperation = 'source-over';
+  ctx.globalAlpha = 0.78 * A.al; ctx.save(); ctx.translate(A.x, A.y); ctx.rotate(A.face);
+  ctx.fillStyle = '#2c4470'; ctx.beginPath(); ctx.moveTo(-3, -9); ctx.lineTo(-20, -7 + wob); ctx.lineTo(-22, 7 - wob); ctx.lineTo(-3, 9); ctx.closePath(); ctx.fill();
+  A.sa = lerp(A.sa, A.sa < 0 ? -1.3 : 1.3, 0.2);
+  ctx.save(); ctx.translate(Math.cos(A.sa) * 9, Math.sin(A.sa) * 9); ctx.rotate(A.sa);
+  if (s.role === 'mage' || s.role === 'heal') { ctx.strokeStyle = '#8fb0e8'; ctx.lineWidth = 2.6; ctx.beginPath(); ctx.moveTo(-8, 0); ctx.lineTo(28, 0); ctx.stroke(); ctx.fillStyle = s.role === 'heal' ? '#c8ffe0' : '#d8e8ff'; ctx.beginPath(); ctx.arc(31, 0, 3.4, 0, TAU); ctx.fill(); }
+  else { ctx.fillStyle = '#cfe0ff'; ctx.beginPath(); ctx.moveTo(4, -2.4); ctx.lineTo(s.role === 'tank' ? 34 : 28, -1.4); ctx.lineTo(s.role === 'tank' ? 40 : 34, 0); ctx.lineTo(s.role === 'tank' ? 34 : 28, 1.4); ctx.lineTo(4, 2.4); ctx.closePath(); ctx.fill(); }
+  ctx.restore();
+  if (s.role === 'tank') { ctx.fillStyle = '#5f7fb8'; ctx.strokeStyle = '#cfe0ff'; ctx.lineWidth = 1.6; ctx.beginPath(); ctx.ellipse(8, -11, 6, 11, -0.3, 0, TAU); ctx.fill(); ctx.stroke(); }
+  ctx.fillStyle = '#5f7fb8'; ctx.beginPath(); ctx.ellipse(0, 0, s.role === 'tank' ? 11 : 9.5, s.role === 'tank' ? 14 : 12.5, 0, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#a9c4f0'; ctx.beginPath(); ctx.arc(2, 0, 7.2, 0, TAU); ctx.fill();
+  ctx.fillStyle = '#eaf2ff'; ctx.beginPath(); ctx.arc(5.5, -2.2, 1.3, 0, TAU); ctx.arc(5.5, 2.2, 1.3, 0, TAU); ctx.fill();
+  if (A.flash > 0) { ctx.globalCompositeOperation = 'lighter'; ctx.fillStyle = `rgba(255,255,255,${A.flash * 3})`; ctx.beginPath(); ctx.arc(0, 0, 13, 0, TAU); ctx.fill(); ctx.globalCompositeOperation = 'source-over'; }
+  ctx.restore(); ctx.globalAlpha = 1;
+  const bw = 34, bx = A.x - bw / 2, by = A.y - 28; ctx.fillStyle = 'rgba(8,6,4,.8)'; ctx.fillRect(bx - 1, by - 1, bw + 2, 5); ctx.fillStyle = '#6fa8ff'; ctx.fillRect(bx, by, bw * clamp(A.hp / A.mhp, 0, 1), 3);
+  if (G.aggro) { ctx.fillStyle = '#ff8a70'; ctx.beginPath(); ctx.moveTo(A.x, by - 4); ctx.lineTo(A.x - 4, by - 10); ctx.lineTo(A.x + 4, by - 10); ctx.closePath(); ctx.fill(); }
+}
+
+/* ---------- achievements ---------- */
+const own = (tbl, list) => { let n = 0, m = 0; for (const k in tbl) { if (tbl[k].hidden) continue; m++; if (list.includes(k)) n++; } return [n, m]; };
+const allOf = (tbl, list) => { const r = own(tbl, list); return r[0] >= r[1]; };
+const ACH = [
+  ['king', '王殺し', '灰冠の騎士王を斃す', () => save.bossDead],
+  ['night', '夜を歩む者', '灰の降る夜を迎える', () => save.night],
+  ['knight', '鎧砕き', '鎧騎士を斃す', () => save.mb.knight],
+  ['giant', '屍山を崩す', '巨いなる亡者を斃す', () => save.mb.mb_giant],
+  ['assassin', '影を踏む', '双刃の影を斃す', () => save.mb.mb_assassin],
+  ['beast', '獣を鎮める', '灼喉の獣を斃す', () => save.mb.mb_beast],
+  ['mage', '禁書を閉じる', '禁書の魔術師を斃す', () => save.mb.mb_mage],
+  ['nboss', '夜の狩人', '夜の強敵を二体とも斃す', () => save.mb.n_giant && save.mb.n_assassin, () => [(save.mb.n_giant ? 1 : 0) + (save.mb.n_assassin ? 1 : 0), 2]],
+  ['hb', '墓主を葬る', '地下墓の最奥で隠された主を斃す', () => save.mb.hb],
+  ['nodmg', '無傷の勝利', '王か強敵を、一度も傷を負わずに斃す', () => save.cnt.noDmg],
+  ['noflask', '渇きの勝利', '王か強敵を、灰瓶を飲まずに斃す', () => save.cnt.noFlask],
+  ['b3', '墓荒らし', '地下墓 B3 を制する', () => save.cryptDeep >= 3, () => [Math.min(3, save.cryptDeep), 3]],
+  ['b7', '最奥に至る', '地下墓 B7 に辿り着く', () => save.cryptDeep >= 6, () => [Math.min(6, save.cryptDeep), 6]],
+  ['bless', '六つの灯', 'すべての祝福に触れる', () => Object.keys(save.lit).length >= 6, () => [Object.keys(save.lit).length, 6]],
+  ['doors', '近道の達人', 'すべての閂を外す', () => Object.keys(save.doors).length >= 5, () => [Object.keys(save.doors).length, 5]],
+  ['wpn', '武器蒐集家', 'すべての武器を手にする', () => allOf(WPN, save.weapons), () => own(WPN, save.weapons)],
+  ['arm', '衣装持ち', 'すべての防具を手にする', () => allOf(ARM, save.armors), () => own(ARM, save.armors)],
+  ['tal', '護符蒐集家', 'すべてのタリスマンを手にする', () => allOf(TAL, save.tals), () => own(TAL, save.tals)],
+  ['spl', '灰の学匠', 'すべての魔法を覚える', () => allOf(SPELL, save.spells), () => own(SPELL, save.spells)],
+  ['art', '技を極める', 'すべての戦技の書を集める', () => allOf(ART, save.arts), () => own(ART, save.arts)],
+  ['spr', '鈴の音', 'すべての霊鈴を集める', () => allOf(SPIRIT, save.spirits), () => own(SPIRIT, save.spirits)],
+  ['plus10', '鍛冶の極み', '武器をひとつ最大まで鍛える', () => Object.keys(save.up).some(k => save.up[k] >= upMax(k))],
+  ['cats', '千変の戦士', '五種類の武器で王か強敵を斃す', () => Object.keys(save.bossCat).length >= 5, () => [Math.min(5, Object.keys(save.bossCat).length), 5]],
+  ['parry', '弾きの名手', 'パリィ・受け流しを10回決める', () => save.cnt.parry >= 10, () => [Math.min(10, save.cnt.parry), 10]],
+  ['crit', '急所を知る者', '致命の一撃を100回決める', () => save.cnt.crit >= 100, () => [Math.min(100, save.cnt.crit), 100]],
+  ['kills', '亡者狩り', '敵を500体斃す', () => save.cnt.kills >= 500, () => [Math.min(500, save.cnt.kills), 500]],
+  ['ally', '共に戦う', '霊体を呼んだ戦いに勝つ', () => save.cnt.summonWin],
+  ['lv50', '灰を束ねる者', 'レベル50に達する', () => level() >= 50, () => [Math.min(50, level()), 50]],
+  ['respec', '生まれ変わり', '追憶の雫で能力を振り直す', () => save.cnt.respec],
+  ['bare', '持たざる王殺し', '素性「持たざる者」で王を斃す', () => save.bossDead && save.cls === 'none']
+];
+function checkAch() {
+  for (const a of ACH) if (!save.ach[a[0]] && a[3]()) { save.ach[a[0]] = 1; SFX.item(); if (G.mode === 'title') continue; queueCard('実績解除', '── ' + a[1] + ' ──', 2.8); writeSave(); }
+}
+function achCount() { let n = 0; for (const a of ACH) if (save.ach[a[0]]) n++; return n; }
+function fightWon() { if (!G.fDmg) save.cnt.noDmg = 1; if (!G.fFlask) save.cnt.noFlask = 1; if (G.usedSpirit) save.cnt.summonWin = 1; save.bossCat[WPN[save.weapon].cls] = 1; G.mark = null; despawnAlly(); checkAch(); }
+function openAch() {
+  let h = ''; for (const a of ACH) { const ok = save.ach[a[0]], pr = !ok && a[4] ? a[4]() : null; h += '<div class="cell' + (ok ? ' got' : ' no') + '"><div class="n">' + (ok ? '◆ ' : '◇ ') + a[1] + '</div><div class="d">' + a[2] + (pr ? '　<b>' + pr[0] + ' / ' + pr[1] + '</b>' : '') + '</div></div>'; }
+  $('achInfo').innerHTML = '解除 <b>' + achCount() + ' / ' + ACH.length + '</b>　実績は「はじめから」でも失われない'; $('achRows').innerHTML = h; $('achv').classList.add('on'); $('achRows').scrollTop = 0;
+}
+
+/* ---------- class selection ---------- */
+let clsSel = 'knight';
+function clsLevel(id) { return level(CLASS[id].st); }
+function refreshClass() {
+  let h = ''; for (const id of CLSIDS) { const c = CLASS[id]; h += '<button class="ccard' + (id === clsSel ? ' cur' : '') + '" data-c="' + id + '"><span class="cn">' + c.name + '</span><span class="cl">Lv ' + clsLevel(id) + '</span><span class="cw">' + c.w.map(w => WPN[w].name).join('・') + '</span></button>'; }
+  $('clsCards').innerHTML = h; const c = CLASS[clsSel];
+  $('clsInfo').innerHTML = '<b>' + c.name + '</b>　' + c.desc + '<br>' + STATS.map(s => s[1] + ' <b>' + c.st[s[0]] + '</b>').join('　') + '<br>武器 <b>' + c.w.map(w => WPN[w].name).join('・') + '</b>　防具 <b>' + ARM[c.a].name + '</b>' + (c.sp.length ? '　魔法 <b>' + c.sp.map(s => SPELL[s].name).join('・') + '</b>' : '') + (c.ar.length ? '　戦技 <b>' + c.ar.map(s => ART[s].name).join('・') + '</b>' : '') + (c.sr ? '　霊鈴 <b>' + SPIRIT[c.sr].name + '</b>' : '');
+}
+function openClass() { $('confirm').classList.remove('on'); refreshClass(); $('cls').classList.add('on'); }
+
+/* ---------- save transfer ---------- */
+function fnv(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(16).padStart(8, '0'); }
+function b64(u8) { let s = ''; for (let i = 0; i < u8.length; i += 0x2000) s += String.fromCharCode.apply(null, u8.subarray(i, i + 0x2000)); return btoa(s); }
+function unb64(s) { const b = atob(s), u = new Uint8Array(b.length); for (let i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+async function pipe(u8, Cls) { const st = new Blob([u8]).stream().pipeThrough(new Cls('deflate-raw')); return new Uint8Array(await new Response(st).arrayBuffer()); }
+async function exportCode() {
+  writeSave(); const raw = new TextEncoder().encode(JSON.stringify(save)); let body = 'j' + b64(raw);
+  try { if (typeof CompressionStream === 'function') body = 'z' + b64(await pipe(raw, CompressionStream)); } catch (e) {}
+  return 'HAI3.1.' + fnv(body) + '.' + body;
+}
+async function parseCode(code) {
+  const m = /^HAI3\.(\d+)\.([0-9a-f]{8})\.([jz])([A-Za-z0-9+/=]+)$/.exec(String(code).replace(/\s+/g, ''));
+  if (!m) throw new Error('コードの形が正しくない'); if (m[1] !== '1') throw new Error('この版では読めないコード'); if (fnv(m[3] + m[4]) !== m[2]) throw new Error('コードが欠けているか、書き換わっている');
+  let u8 = unb64(m[4]); if (m[3] === 'z') { if (typeof DecompressionStream !== 'function') throw new Error('この端末では展開できない'); u8 = await pipe(u8, DecompressionStream); }
+  const o = JSON.parse(new TextDecoder().decode(u8)); if (!o || typeof o !== 'object' || o.v !== 1 || !o.st) throw new Error('セーブの中身が正しくない'); return o;
+}
+let xferData = null;
+function xferMode(m) { for (const id of ['xfMenu', 'xfOut', 'xfIn']) $(id).style.display = id === m ? '' : 'none'; $('xfMsg').textContent = ''; $('xfPrev').innerHTML = ''; $('bXfApply').style.display = 'none'; xferData = null; }
+function applyImport() {
+  if (!xferData) return; const keepAudio = { mute: save.mute, volB: save.volB, volS: save.volS };
+  for (const k in save) delete save[k]; Object.assign(save, freshSave(), { mute: false, best: 0, wins: 0, clear: 0, hintOff: false, ach: {}, volB: 0.7, volS: 1 }, xferData, keepAudio);
+  sanitize(); writeSave(); for (const k in seenRoom) delete seenRoom[k]; CASTLE = buildCastle(save.night); L = null; useLevel(CASTLE); P.slot = 0; xferData = null;
+  G.paused = false; toTitle(); $('opts').classList.remove('on'); xferMode('xfMenu'); G.toast = '';
+}
+
+/* ---------- music (all synthesized; notes are scheduled a little ahead) ---------- */
+const MUS = { cur: '', tr: null, next: 0, step: 0, voices: 0, bus: null, vol: -1, made: 0 };
+const mtof = m => 440 * Math.pow(2, (m - 69) / 12);
+function mEnd(n) { MUS.voices++; MUS.made++; n.onended = () => { MUS.voices--; }; }
+function mNote(tr, type, m, t, dur, vol, atk, rel, det, toLp) {
+  const o = AC.createOscillator(), g = AC.createGain(); o.type = type; o.frequency.value = mtof(m); if (det) o.detune.value = det; atk = atk || 0.01; rel = rel || 0.08;
+  g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(vol, t + atk); g.gain.setValueAtTime(vol, t + Math.max(atk, dur - rel)); g.gain.linearRampToValueAtTime(0.0001, t + dur);
+  o.connect(g); g.connect(toLp ? tr.lp : tr.g); o.start(t); o.stop(t + dur + 0.03); mEnd(o);
+}
+function mPad(tr, t, notes, dur, vol) { for (const m of notes) { mNote(tr, 'sawtooth', m, t, dur, vol, dur * 0.3, dur * 0.4, -7, true); mNote(tr, 'sawtooth', m, t, dur, vol, dur * 0.3, dur * 0.4, 8, true); } }
+function mChoir(tr, t, m, dur, vol) { mNote(tr, 'triangle', m, t, dur, vol, dur * 0.35, dur * 0.4, 5); mNote(tr, 'sine', m + 12, t, dur, vol * 0.5, dur * 0.4, dur * 0.4, -6); mNote(tr, 'sine', m + 19, t, dur, vol * 0.18, dur * 0.4, dur * 0.4); }
+function mBell(tr, t, m, vol) { mNote(tr, 'sine', m, t, 1.8, vol, 0.005, 1.7); mNote(tr, 'sine', m + 19.02, t, 0.9, vol * 0.3, 0.005, 0.85); }
+function mBass(tr, t, m, dur, vol) { mNote(tr, 'sawtooth', m, t, dur, vol, 0.008, dur * 0.5, 0, true); mNote(tr, 'sine', m - 12, t, dur, vol * 0.9, 0.008, dur * 0.5); }
+function mPerc(tr, t, kind, vol) {
+  if (kind === 0) { const o = AC.createOscillator(), g = AC.createGain(); o.frequency.setValueAtTime(130, t); o.frequency.exponentialRampToValueAtTime(42, t + 0.16); g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.24); o.connect(g); g.connect(tr.g); o.start(t); o.stop(t + 0.26); mEnd(o); return; }
+  const s = AC.createBufferSource(), f = AC.createBiquadFilter(), g = AC.createGain(), d = kind === 1 ? 0.16 : kind === 3 ? 0.4 : 0.045; s.buffer = noiseBuf; f.type = kind === 2 ? 'highpass' : 'bandpass'; f.frequency.value = kind === 1 ? 1700 : kind === 3 ? 260 : 7000; f.Q.value = kind === 3 ? 1.2 : 0.7;
+  g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + d); s.connect(f); f.connect(g); g.connect(tr.g); s.start(t, (t * 7.3) % 0.7); s.stop(t + d + 0.02); mEnd(s);
+}
+const CHD = { dm: [50, 53, 57], bb: [46, 50, 53], gm: [43, 46, 50], a: [45, 49, 52], f: [53, 57, 60], c: [48, 52, 55], am: [45, 48, 52], em: [40, 43, 47], fs: [41, 45, 48], cs: [37, 40, 44], d: [50, 54, 57], g: [43, 47, 50] };
+const TRK = {
+  title: { bpm: 56, cut: 700, f(tr, s, t, q) { if (s % 32 === 0) mPad(tr, t, CHD[['dm', 'bb', 'gm', 'a'][s / 32 % 4]], q * 34, 0.05); if (s % 64 === 16) mChoir(tr, t, [69, 65, 62, 64][s / 64 % 4 | 0], q * 28, 0.05); if (s % 16 === 8 && (s / 16 | 0) % 3 !== 1) mBell(tr, t, [74, 69, 77, 72, 65][(s / 16 | 0) % 5], 0.05); } },
+  castle: { bpm: 50, cut: 480, f(tr, s, t, q) { if (s % 32 === 0) { mPad(tr, t, CHD[['dm', 'dm', 'bb', 'gm', 'dm', 'a', 'gm', 'dm'][s / 32 % 8]], q * 34, 0.042); mNote(tr, 'sine', 26, t, q * 32, 0.1, q * 8, q * 10); } if (s % 48 === 20) mBell(tr, t, [62, 69, 65, 57][(s / 48 | 0) % 4], 0.035); if (s % 128 === 64) mChoir(tr, t, 57, q * 30, 0.03); } },
+  night: { bpm: 44, cut: 360, f(tr, s, t, q) { if (s % 32 === 0) { mPad(tr, t, CHD[['cs', 'cs', 'am', 'cs', 'fs', 'cs', 'am', 'em'][s / 32 % 8]], q * 34, 0.045); mNote(tr, 'sine', 25, t, q * 32, 0.11, q * 8, q * 10); } if (s % 64 === 24) mChoir(tr, t, [61, 64, 60, 56][(s / 64 | 0) % 4], q * 30, 0.045); if (s % 40 === 12) mBell(tr, t, [73, 79, 68, 80][(s / 40 | 0) % 4], 0.03); if (s % 96 === 70) mPerc(tr, t, 3, 0.1); } },
+  crypt: { bpm: 42, cut: 300, f(tr, s, t, q) { if (s % 32 === 0) { mPad(tr, t, [[37, 38, 44], [37, 43, 44], [36, 37, 43], [37, 38, 44]][s / 32 % 4], q * 34, 0.04); mNote(tr, 'sine', 25, t, q * 32, 0.12, q * 6, q * 10); } if ((s * 7) % 23 === 3) mBell(tr, t, [85, 80, 86, 79, 92][s % 5], 0.022); if (s % 64 === 40) mPerc(tr, t, 3, 0.14); if (s % 96 === 50) mChoir(tr, t, 49, q * 22, 0.03); } },
+  rest: { bpm: 60, cut: 900, f(tr, s, t, q) { const c = CHD[['f', 'c', 'dm', 'bb'][(s / 32 | 0) % 4]]; if (s % 32 === 0) mPad(tr, t, c, q * 34, 0.035); if (s % 4 === 0 && (s / 4 | 0) % 8 < 6) mBell(tr, t, c[(s / 4 | 0) % 3] + 24 + ((s / 4 | 0) % 8 === 5 ? 12 : 0), 0.03); } },
+  mid: { bpm: 112, cut: 1100, f(tr, s, t, q) { const b = s % 16, c = ['dm', 'dm', 'bb', 'a'][(s / 16 | 0) % 4]; if (b === 0) mPad(tr, t, CHD[c], q * 17, 0.04); if (b === 0 || b === 8 || b === 11) mPerc(tr, t, 0, 0.3); if (b === 4 || b === 12) mPerc(tr, t, 1, 0.13); if (b % 2 === 0) mPerc(tr, t, 2, 0.035); if (b % 2 === 0) mBass(tr, t, CHD[c][0] - 12 + (b === 6 || b === 14 ? 7 : 0), q * 1.6, 0.085); if (s % 64 === 32) mChoir(tr, t, 69, q * 30, 0.04); } },
+  king1: { bpm: 124, cut: 1300, f(tr, s, t, q) { const b = s % 16, c = ['dm', 'bb', 'gm', 'a'][(s / 16 | 0) % 4]; if (b === 0) mPad(tr, t, CHD[c], q * 17, 0.045); if (b === 0 || b === 6 || b === 8 || b === 14) mPerc(tr, t, 0, 0.32); if (b === 4 || b === 12) mPerc(tr, t, 1, 0.15); if (b % 2 === 0) mPerc(tr, t, 2, 0.04); if (b !== 3 && b !== 7 && b !== 11 && b !== 15) mBass(tr, t, CHD[c][0] - 12 + (b % 4 === 2 ? 12 : 0), q * 0.9, 0.08); if (s % 32 === 0) mChoir(tr, t, [69, 70, 67, 69][(s / 32 | 0) % 4], q * 30, 0.055); } },
+  king2: { bpm: 142, cut: 2000, f(tr, s, t, q) { const b = s % 16, c = ['dm', 'bb', 'gm', 'a'][(s / 16 | 0) % 4]; if (b === 0) mPad(tr, t, CHD[c], q * 17, 0.05); if (b === 0 || b === 3 || b === 6 || b === 8 || b === 11 || b === 14) mPerc(tr, t, 0, 0.32); if (b === 4 || b === 12) mPerc(tr, t, 1, 0.17); mPerc(tr, t, 2, b % 2 ? 0.02 : 0.045); mBass(tr, t, CHD[c][0] - 12 + (b % 4 === 2 ? 12 : b % 4 === 3 ? 7 : 0), q * 0.85, 0.075); if (s % 32 === 0) mChoir(tr, t, [74, 77, 74, 76][(s / 32 | 0) % 4], q * 30, 0.06); if (b % 4 === 0) mNote(tr, 'sawtooth', [74, 77, 76, 72, 74, 81, 79, 76][(s / 4 | 0) % 8], t, q * 3.4, 0.022, 0.02, q * 1.5, 6, true); } },
+  hidden: { bpm: 132, cut: 1500, f(tr, s, t, q) { const b = s % 14, c = [[40, 41, 47], [40, 43, 46], [41, 45, 48], [40, 41, 47]][(s / 28 | 0) % 4]; if (s % 28 === 0) mPad(tr, t, c, q * 30, 0.048); if (b === 0 || b === 5 || b === 8) mPerc(tr, t, 0, 0.3); if (b === 3 || b === 11) mPerc(tr, t, 3, 0.2); if (b === 12) mPerc(tr, t, 1, 0.14); if (b % 2 === 0) mPerc(tr, t, 2, 0.03); if (b % 2 === 0) mBass(tr, t, [28, 28, 29, 28, 31, 29, 28][b / 2], q * 1.7, 0.085); if (s % 56 === 0) mChoir(tr, t, [64, 65, 70, 64][(s / 56 | 0) % 4], q * 50, 0.06); if (s % 28 === 20) mBell(tr, t, [76, 82, 77, 70][(s / 28 | 0) % 4], 0.04); } },
+  win: { bpm: 84, cut: 1800, f(tr, s, t, q) { if (s % 32 === 0) mPad(tr, t, CHD[s < 32 ? 'd' : ['g', 'd', 'bb', 'd'][(s / 32 | 0) % 4]], q * 34, 0.05); if (s < 24 && s % 3 === 0) mBell(tr, t, [62, 66, 69, 74, 78, 81, 86, 90][s / 3], 0.07); if (s === 0 || s === 8 || s === 16) mNote(tr, 'sawtooth', [50, 57, 62][s / 8], t, q * 7, 0.05, 0.03, q * 3, 5, true); if (s === 24) mChoir(tr, t, 74, q * 30, 0.07); if (s > 32 && s % 64 === 40) mBell(tr, t, 81, 0.035); } }
+};
+function pickTrack() {
+  if (G.mode === 'title') return 'title'; if (G.mode === 'win') return 'win'; if (G.mode === 'menu') return 'rest';
+  if (G.zone === 'a') return B.phase === 2 && B.state !== 'dead' ? 'king2' : 'king1';
+  if (G.mb && G.mb.state !== 'dead') return G.mb.def.hb ? 'hidden' : 'mid';
+  if (L && L.id === 'crypt') return 'crypt'; return L && L.night ? 'night' : 'castle';
+}
+function bgmTick() {
+  if (!AC || !noiseBuf) return;
+  try {
+    if (!MUS.bus) { MUS.bus = AC.createGain(); MUS.bus.gain.value = 0; MUS.bus.connect(AC.destination); }
+    const v = save.mute ? 0 : save.volB * 0.9 * (G.paused ? 0.3 : 1); if (v !== MUS.vol) { MUS.vol = v; MUS.bus.gain.setTargetAtTime(v, AC.currentTime, 0.25); }
+    const sv = save.mute ? 0 : 0.55 * save.volS; if (master && master.gain.value !== sv) master.gain.value = sv;
+    const want = pickTrack(), now = AC.currentTime;
+    if (want !== MUS.cur) {
+      const old = MUS.tr; if (old) { old.g.gain.cancelScheduledValues(now); old.g.gain.setTargetAtTime(0, now, 0.5); setTimeout(() => { try { old.g.disconnect(); old.lp.disconnect(); } catch (e) {} }, 9000); }
+      const g = AC.createGain(), lp = AC.createBiquadFilter(); g.gain.value = 0; g.gain.setTargetAtTime(1, now + 0.2, 0.6); lp.type = 'lowpass'; lp.frequency.value = TRK[want].cut; lp.Q.value = 0.6; lp.connect(g); g.connect(MUS.bus);
+      MUS.tr = { g, lp }; MUS.cur = want; MUS.step = 0; MUS.next = now + 0.12;
+    }
+    if (v <= 0 || AC.state !== 'running') { MUS.next = Math.max(MUS.next, now + 0.1); return; }
+    const T2 = TRK[MUS.cur], q = 60 / T2.bpm / 4; if (MUS.next < now - 0.3) MUS.next = now + 0.05;
+    let guard = 0; while (MUS.next < now + 0.3 && guard++ < 12) { if (MUS.voices < 90) T2.f(MUS.tr, MUS.step, MUS.next, q); MUS.next += q; MUS.step++; }
+  } catch (e) {}
 }
 
 /* ---------- render ---------- */
@@ -2850,7 +3310,8 @@ function drawPlayer() {
   ctx.globalAlpha = P.alpha * (rolling && P.t < IFR ? 0.7 : 1);
   if (st === 'heal') { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.35; ctx.drawImage(SPR[1], P.x - 40, P.y - 40, 80, 80); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = P.alpha; }
   if (st === 'aim') { ctx.globalCompositeOperation = 'lighter'; ctx.strokeStyle = `rgba(255,${200 + P.chg * 40 | 0},${120 + P.chg * 100 | 0},${0.2 + P.chg * 0.5})`; ctx.lineWidth = 1.5 + P.chg * 2; ctx.beginPath(); ctx.moveTo(P.x + Math.cos(P.face) * 24, P.y + Math.sin(P.face) * 24); ctx.lineTo(P.x + Math.cos(P.face) * (200 + P.chg * 260), P.y + Math.sin(P.face) * (200 + P.chg * 260)); ctx.stroke(); ctx.globalCompositeOperation = 'source-over'; }
-  ctx.save(); ctx.translate(P.x, P.y);
+  if (P.buffR > 0) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.3 + Math.sin(G.now * 6) * 0.08; ctx.drawImage(SPR[3], P.x - 30, P.y - 26, 60, 60); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = P.alpha; }
+  ctx.save(); ctx.translate(P.x, P.y - (P.z || 0)); if (P.z) ctx.scale(1 + P.z / 90, 1 + P.z / 90);
   if (rolling) {
     ctx.rotate(Math.atan2(P.rdy, P.rdx)); const sp = P.t / ROLL_T * TAU * 1.5;
     ctx.fillStyle = c[3]; ctx.beginPath(); ctx.ellipse(-8, 0, 16, 9, 0, 0, TAU); ctx.fill();
@@ -3119,6 +3580,7 @@ function drawShots() {
   }
   for (const s of pshots) if (s.on) {
     if (s.kind === 3) { ctx.globalCompositeOperation = 'source-over'; const n = 1 / Math.hypot(s.vx, s.vy); ctx.strokeStyle = s.heavy ? '#fff3c8' : '#e6dfc8'; ctx.lineWidth = s.heavy ? 2.6 : 1.8; ctx.beginPath(); ctx.moveTo(s.x, s.y); ctx.lineTo(s.x - s.vx * n * 24, s.y - s.vy * n * 24); ctx.stroke(); ctx.globalCompositeOperation = 'lighter'; if (s.heavy) ctx.drawImage(SPR[1], s.x - 14, s.y - 14, 28, 28); }
+    else if (s.kind === 5 || s.kind === 6) { const a = Math.atan2(s.vy, s.vx); ctx.strokeStyle = s.kind === 5 ? 'rgba(220,215,200,.9)' : 'rgba(255,235,160,.95)'; ctx.lineWidth = 5; ctx.beginPath(); ctx.arc(s.x - Math.cos(a) * 18, s.y - Math.sin(a) * 18, 26, a - 0.9, a + 0.9); ctx.stroke(); ctx.drawImage(SPR[s.kind === 5 ? 4 : 1], s.x - 26, s.y - 26, 52, 52); }
     else if (s.kind === 4) { ctx.drawImage(SPR[1], s.x - 20, s.y - 20, 40, 40); ctx.drawImage(SPR[2], s.x - 7, s.y - 7, 14, 14); }
     else if (s.kind === 1) { const a = Math.atan2(s.vy, s.vx); ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(a); ctx.drawImage(SPR[6], -60, -20, 84, 40); ctx.drawImage(SPR[2], -30, -8, 60, 16); ctx.restore(); }
     else if (s.kind === 2) { ctx.drawImage(SPR[7], s.x - 18, s.y - 18, 36, 36); ctx.drawImage(SPR[2], s.x - 7, s.y - 7, 14, 14); }
@@ -3228,7 +3690,7 @@ function drawHUD() {
     ctx.fillStyle = '#bfe0ff'; ctx.beginPath(); ctx.moveTo(x + 6, sy - 7); ctx.lineTo(x + 11, sy); ctx.lineTo(x + 6, sy + 7); ctx.lineTo(x + 1, sy); ctx.closePath(); ctx.fill();
     ctx.font = '800 15px ' + FONT; const stw = ctx.measureText(stxt).width; ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText(stxt, x + 19, sy + 2); ctx.fillStyle = save.souls !== Math.round(G.soulShow) ? '#ffffff' : '#e6ecf5'; ctx.fillText(stxt, x + 18, sy + 1);
     ctx.font = '500 10.5px ' + FONT; ctx.fillStyle = '#8f9aa8'; ctx.fillText('ルーン', x + 24 + stw, sy + 2);
-    if (P.ward > 0) { ctx.fillStyle = '#a9d0ff'; ctx.font = '800 11.5px ' + FONT; ctx.fillText('障壁 ' + P.ward.toFixed(1), x + 78 + stw, sy + 2); }
+    { let bxx = x + 78 + stw; ctx.font = '800 11.5px ' + FONT; if (P.ward > 0) { ctx.fillStyle = '#a9d0ff'; ctx.fillText('障壁 ' + P.ward.toFixed(0), bxx, sy + 2); bxx += 50; } if (P.buffF > 0) { ctx.fillStyle = '#ffb060'; ctx.fillText('炎 ' + P.buffF.toFixed(0), bxx, sy + 2); bxx += 40; } if (P.buffR > 0) { ctx.fillStyle = '#ff8a70'; ctx.fillText('雄叫 ' + P.buffR.toFixed(0), bxx, sy + 2); } }
   }
   if (live) {
     ctx.fillStyle = 'rgba(10,8,6,.5)'; ctx.strokeStyle = 'rgba(168,141,78,.6)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(pauseBtn.x, pauseBtn.y, 16, 0, TAU); ctx.fill(); ctx.stroke();
@@ -3248,7 +3710,7 @@ function drawHUD() {
   }
   // boss bar
   if (arena && G.mode !== 'intro' && !(B.state === 'dead' && B.t > 1.5)) {
-    const land = W > H * 1.2, bw = land ? Math.min(540, W - 470 * U) : Math.min(W - 44, 540), bx = (W - bw) / 2, by = land ? H - 30 : btns[3].y - btns[3].r - 26 * U;
+    const land = W > H * 1.2, bw = land ? Math.min(540, W - 470 * U) : Math.min(W - 44, 540), bx = (W - bw) / 2, by = land ? H - 30 : Math.min(btns[3].y - btns[3].r, btnInt.y - btnInt.r) - 26 * U;
     ctx.font = '500 ' + Math.round(14 * U) + 'px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText('灰冠の騎士王 ヴァルグレイ', bx + 1, by - 8 + 1);
     ctx.fillStyle = B.phase === 2 ? '#f0c489' : '#ddd3b8'; ctx.fillText('灰冠の騎士王 ヴァルグレイ', bx, by - 8);
@@ -3269,7 +3731,7 @@ function drawHUD() {
     }
   }
   if (!arena && G.mb && G.mb.state !== 'dead' && G.mode !== 'menu') {
-    const e = G.mb, land = W > H * 1.2, bw = land ? Math.min(540, W - 470 * U) : Math.min(W - 44, 540), bx = (W - bw) / 2, by = land ? H - 30 : btns[3].y - btns[3].r - 26 * U, hb = e.def.hb, p2 = hb && e.ph === 2;
+    const e = G.mb, land = W > H * 1.2, bw = land ? Math.min(540, W - 470 * U) : Math.min(W - 44, 540), bx = (W - bw) / 2, by = land ? H - 30 : Math.min(btns[3].y - btns[3].r, btnInt.y - btnInt.r) - 26 * U, hb = e.def.hb, p2 = hb && e.ph === 2;
     ctx.font = '500 ' + Math.round(14 * U) + 'px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText(e.def.name, bx + 1, by - 8 + 1); ctx.fillStyle = p2 ? '#9fffe0' : e.key[0] === 'n' ? '#b9c8f5' : '#ddd3b8'; ctx.fillText((e.key[0] === 'n' ? '夜の' : '') + e.def.name, bx, by - 8);
     bar(bx, by, bw, 9, e.hp / e.mhp, e.hpLag / e.mhp, p2 ? '#2fbf9a' : '#b3261b', p2 ? '#0c5a4a' : '#6c100b', '#d8b24a');
@@ -3280,20 +3742,22 @@ function drawHUD() {
   if (live || G.mode === 'intro') {
     const sp = staff ? curSpell() : null;
     for (const b of btns) {
-      const dis = b.k === 'heal' ? P.flasks <= 0 : b.k === 'heavy' && staff ? !sp || P.fp < spDef(sp).fp : P.st <= 0;
+      const art = b.k === 'art' ? ART[artOf(save.weapon)] : null; if (b.k === 'heavy') b.label = heavyLabel();
+      const dis = art ? P.fp < art.fp : b.k === 'heal' ? P.flasks <= 0 : b.k === 'heavy' && staff ? !sp || P.fp < spDef(sp).fp : P.st <= 0;
       ctx.globalAlpha = dis ? 0.4 : 1;
       ctx.fillStyle = b.down ? 'rgba(150,118,52,.55)' : 'rgba(12,10,7,.5)'; ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, TAU); ctx.fill();
       ctx.strokeStyle = b.down ? '#f3e2ac' : b.k === 'heavy' && staff ? 'rgba(130,170,240,.9)' : 'rgba(190,160,90,.85)'; ctx.lineWidth = 1.6; ctx.stroke();
       ctx.strokeStyle = 'rgba(190,160,90,.25)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(b.x, b.y, b.r - 5 * U, 0, TAU); ctx.stroke();
       ctx.fillStyle = '#eadcae'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      const sub = b.k === 'heal' || (b.k === 'heavy' && sp);
+      const sub = b.k === 'heal' || (b.k === 'heavy' && sp) || (art && art.fp > 0); if (art) b.label = art.short;
       ctx.font = '800 ' + Math.round(b.r * (b.label.length > 2 ? 0.4 : 0.5)) + 'px ' + FONT;
       ctx.fillText(b.label, b.x, b.y + (sub ? -4 * U : 1));
       if (b.k === 'heal') { ctx.font = '500 ' + Math.round(b.r * 0.36) + 'px ' + FONT; ctx.fillStyle = '#e6b647'; ctx.fillText('×' + P.flasks, b.x, b.y + b.r * 0.46); }
-      else if (sub) { ctx.font = '500 ' + Math.round(b.r * 0.32) + 'px ' + FONT; ctx.fillStyle = '#9fc4ff'; ctx.fillText('FP ' + spDef(sp).fp, b.x, b.y + b.r * 0.46); }
+      else if (sub) { ctx.font = '500 ' + Math.round(b.r * 0.32) + 'px ' + FONT; ctx.fillStyle = '#9fc4ff'; ctx.fillText('FP ' + (art ? art.fp : spDef(sp).fp), b.x, b.y + b.r * 0.46); }
     }
     ctx.globalAlpha = 1;
     if (canSwap()) { const b = btnSw; ctx.fillStyle = btnSw.t > 0 ? 'rgba(90,130,210,.6)' : 'rgba(12,10,7,.5)'; ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, TAU); ctx.fill(); ctx.strokeStyle = 'rgba(130,170,240,.9)'; ctx.lineWidth = 1.4; ctx.stroke(); ctx.fillStyle = '#cfe0ff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '800 ' + Math.round(b.r * 0.5) + 'px ' + FONT; ctx.fillText('切替', b.x, b.y + 1); }
+    if (!G.near && canSummon()) { const b = btnInt, pu = 1 + Math.sin(G.now * 5) * 0.05; ctx.fillStyle = 'rgba(40,70,130,.75)'; ctx.beginPath(); ctx.arc(b.x, b.y, b.r * pu, 0, TAU); ctx.fill(); ctx.strokeStyle = '#cfe0ff'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = '#eaf2ff'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.font = '800 ' + Math.round(b.r * 0.5) + 'px ' + FONT; ctx.fillText('召喚', b.x, b.y - 3 * U); ctx.font = '500 ' + Math.round(b.r * 0.3) + 'px ' + FONT; ctx.fillStyle = '#9fc4ff'; ctx.fillText('FP 25', b.x, b.y + b.r * 0.5); }
     if (G.mode === 'play' && G.near) {
       const b = btnInt, pu = 1 + Math.sin(G.now * 5) * 0.04;
       ctx.fillStyle = b.down ? 'rgba(200,150,60,.7)' : 'rgba(70,50,16,.72)'; ctx.beginPath(); ctx.arc(b.x, b.y, b.r * pu, 0, TAU); ctx.fill();
@@ -3344,7 +3808,7 @@ function render() {
     if (G.p2 > 0) { ctx.globalAlpha = G.p2 * (0.75 + Math.sin(G.now * 2.4) * 0.2); ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(glowC, -FSZ / 2, -FSZ / 2, FSZ, FSZ); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; }
     drawFogGate(); drawStain(); drawTele(); drawHazardsLow();
     drawParts(1);
-    if (P.y < B.y) { drawPlayer(); drawBoss(); } else { drawBoss(); drawPlayer(); }
+    if (P.y < B.y) { drawPlayer(); drawBoss(); } else { drawBoss(); drawPlayer(); } drawAlly();
     drawSpikesHigh(); drawSlashes(); drawShots();
   } else {
     drawMap();
@@ -3354,6 +3818,7 @@ function render() {
     for (const e of enemies) if (e.state !== 'dead' && e.y <= P.y && vis(e.x, e.y, 110)) drawFoe(e);
     drawPlayer();
     for (const e of enemies) if (e.state !== 'dead' && e.y > P.y && vis(e.x, e.y, 110)) drawFoe(e);
+    drawAlly();
     drawSpikesHigh(); drawMagSpikes(); drawSlashes();
     for (const a of arrows) if (a.on) { const n = 1 / 540; ctx.strokeStyle = '#e6dfc8'; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(a.x - a.vx * n * 22, a.y - a.vy * n * 22); ctx.stroke(); ctx.fillStyle = '#fff'; ctx.fillRect(a.x - 1.5, a.y - 1.5, 3, 3); }
     drawShots(); drawEnemyBars();
@@ -3389,7 +3854,7 @@ function frame(ts) {
   requestAnimationFrame(frame);
   const dt = Math.min(0.034, (ts - last) / 1000 || 0.016); last = ts;
   if (!G.paused) update(dt);
-  render();
+  render(); bgmTick();
 }
 window.addEventListener('resize', resize);
 (() => {
@@ -3416,7 +3881,8 @@ requestAnimationFrame(frame);
 
 /* harmless test hook */
 window.__debug = {
-  G, P, B, M, cam, save, keys, PRAY, MAT, upCost, upLv, wname, powerOf, prayMult, reqOk, refreshForge, forgeClick, dropMat, tele, spikes, rings, shots, fires, btns, btnInt, btnSw, ATK, arrows, WPN, ARM, TAL, SPELL, EDEF, MBAI, T, pshots, stars, chunks, TPL,
+  G, P, B, M, cam, save, keys, ALLY, ART, SPIRIT, CLASS, ACH, MUS, TRK, artOf, startArt, summon, canSummon, setMark, hurtAlly, checkAch, achCount, exportCode, parseCode, applyImport, openClass, hurtPlayer, pickTrack, bgmTick, fightFoe, staggerEnemy, staggerBoss, sanitize,
+  get AC() { return AC; }, PRAY, MAT, upCost, upLv, wname, powerOf, prayMult, reqOk, refreshForge, forgeClick, dropMat, tele, spikes, rings, shots, fires, btns, btnInt, btnSw, ATK, arrows, WPN, ARM, TAL, SPELL, EDEF, MBAI, T, pshots, stars, chunks, TPL,
   get enemies() { return enemies; }, get L() { return L; }, get BLESS() { return BLESS; }, get CHESTS() { return CHESTS; }, get ROOMS() { return ROOMS; }, get PROPS() { return PROPS; }, get DOORS() { return DOORS; },
   setBossHp(f) { B.hp = B.maxHp * f; }, hurt(d) { P.inv = 0; const g = G.god; G.god = false; if (P.state === 'roll') P.state = 'idle'; hurtPlayer(d, P.x, P.y - 40, 300); G.god = g; }, hitBoss(d, p, h) { hitBoss(d, p || 0, !!h); },
   force(k) { startAtk(k); }, god(v) { G.god = !!v; },
