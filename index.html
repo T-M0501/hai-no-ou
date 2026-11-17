@@ -240,9 +240,9 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 .land .row.hdr{grid-column:1/-1}
 .cell.got{border-color:#a88d4e}.cell.got .n{color:#f3e2ac}
 .cell .d b{color:#cfe0a8}
-#cls,#achv,#opts{background:rgba(4,3,2,.96);z-index:9;justify-content:flex-start;padding:calc(12px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) calc(12px + env(safe-area-inset-left,0px))}
-#cls h2,#achv h2,#opts h2{font-size:22px;letter-spacing:.5em;padding-left:.5em;color:#d9c58c;font-weight:800;flex:none}
-#cls .btn,#achv .btn,#opts .btn{flex:none;margin-top:8px}
+#cls,#bless,#achv,#opts{background:rgba(4,3,2,.96);z-index:9;justify-content:flex-start;padding:calc(12px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) calc(12px + env(safe-area-inset-left,0px))}
+#cls h2,#bless h2,#achv h2,#opts h2{font-size:22px;letter-spacing:.5em;padding-left:.5em;color:#d9c58c;font-weight:800;flex:none}
+#cls .btn,#bless .btn,#achv .btn,#opts .btn{flex:none;margin-top:8px}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:7px;width:min(100%,640px);margin-top:10px;flex:none}
 .land .cards{grid-template-columns:repeat(6,1fr);width:min(100%,820px)}
 .ccard{appearance:none;border:1px solid #5d5238;background:rgba(14,11,7,.85);color:inherit;font-family:inherit;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:3px;touch-action:manipulation;cursor:pointer;min-height:74px}
@@ -263,7 +263,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
 #xfMsg{font-size:12.5px;color:#d8c48e;line-height:1.7;margin-top:8px;min-height:1.7em}
 #xfPrev{font-size:13px;color:#b9af97;line-height:1.8;margin-top:4px}
 #xfPrev b{color:#f1d98a}
-.land #opts .btn.sub,.land #cls .btn{margin-top:6px}
+.land #opts .btn.sub,.land #cls .btn,.land #bless .btn{margin-top:6px}
 #guide{background:rgba(4,3,2,.96);z-index:9;justify-content:flex-start;padding:calc(12px + env(safe-area-inset-top,0px)) calc(12px + env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) calc(12px + env(safe-area-inset-left,0px))}
 #guide h2{font-size:22px;letter-spacing:.5em;padding-left:.5em;color:#d9c58c;font-weight:800;flex:none}
 .gd{width:min(100%,680px);flex:1;min-height:0;overflow-y:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch;text-align:left;margin-top:8px;border-top:1px solid #5d5238;border-bottom:1px solid #5d5238;padding:4px 6px 14px}
@@ -282,6 +282,18 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
 .land #edbar{width:min(60vw,420px)}
 .land #bfMain .btn{margin-top:6px}
 #bonfire{background:rgba(4,3,2,.95)}
+
+/* v1.7.0 save slots */
+.slots{display:flex;flex-direction:column;gap:6px;width:min(92vw,420px);margin:6px 0 8px;flex:none}
+.slot{appearance:none;border:1px solid #5d5238;background:rgba(14,11,7,.85);color:#b9af97;font-family:inherit;text-align:left;padding:7px 11px;display:flex;flex-direction:column;gap:2px;touch-action:manipulation;cursor:pointer;min-height:48px}
+.slot.cur{border-color:#f3e2ac;box-shadow:inset 0 0 22px rgba(200,150,60,.3),0 0 14px rgba(240,200,90,.25)}
+.slot .sn{font-size:11px;color:#e2b765;letter-spacing:.2em}.slot .sm{font-size:14px;color:#d9c58c;letter-spacing:.06em}.slot .sm b{color:#f3e2ac}.slot .sm.dim{color:#7d7563}.slot .cy{color:#ffb060}
+.slot .sd{font-size:10.5px;line-height:1.55;color:#9a917c}
+.land .slots{flex-direction:row;width:min(96vw,800px);gap:8px}.land .slot{flex:1;min-width:0;padding:5px 8px}.land .slot .sd{font-size:10px;line-height:1.45}
+.slotAct .btn{margin:2px 4px}.btn.xs{min-width:78px;padding-left:10px;padding-right:10px}
+.ccard .cb{font-size:10.5px;color:#ffb060}.clsInfo i{font-style:normal;color:#ffb060}
+#bless .ccard .cd{font-size:10.5px;color:#9a917c;line-height:1.3}
+#xfSlots .btn.cur{border-color:#f3e2ac;color:#f3e2ac}
 </style>
 </head>
 <body>
@@ -305,18 +317,19 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="rule"></div>
   <div class="lead">王は、灰の城の最奥に在る。<br>祝福を辿り、霧の門へ至れ。</div>
   <div class="about">見下ろし型の死にゲー。回避と見切りで強敵を斃し、ルーンで己を鍛え、<br>隠し壁と小さな迷宮の眠る城を、下へ下へと降りていく。</div>
-  <button id="bCont" class="btn" style="display:none">つづきから</button>
-  <button id="bNew" class="btn">はじめから</button>
+  <div id="slotBox" class="slots"></div>
+  <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
+  <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.5</div>
+  <div id="verTxt" class="ver">v1.7.0</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
 </div>
 
 <div id="confirm" class="ov">
-  <h2>はじめから</h2>
-  <p>これまでの旅の記録（ルーン・レベル・装備・図鑑）は<br>すべて灰に還ります。よろしいですか？</p>
+  <h2 id="cfT">はじめから</h2>
+  <p id="cfP">これまでの旅の記録（ルーン・レベル・装備・図鑑）は<br>すべて灰に還ります。よろしいですか？</p>
   <button id="bYes" class="btn">灰に還す</button>
   <button id="bNo" class="btn sub">やめる</button>
 </div>
@@ -336,6 +349,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
     <div id="wStats" class="stats"></div>
     <div id="wUnlock" class="unlock"></div>
     <button id="bAgain" class="btn">旅を続ける</button><br>
+    <button id="bNextWin" class="btn">次の周回へ</button><br>
     <button id="bWinTitle" class="btn sub">題名へ戻る</button>
   </div>
 </div>
@@ -412,7 +426,11 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
     <h3>追憶と大いなる力</h3>
     <ul><li>王・層の主・地下墓の最奥の主を斃すと、<b>追憶</b>と<b>大いなる力</b>を得る（すでに斃していれば、最初から持っている）</li><li>朽牢の祝福と昇降機の祝福のそばにある<b>追憶の祭壇</b>で、追憶を<b>主の武器</b>か<b>主の魔法</b>のどちらか一つに換えられる。<span class="no">選び直しはできない</span></li><li>大いなる力は、祭壇で<b>呼び覚ます</b>まで眠っている。呼び覚ました力は<b>一度に一つだけ</b>宿せて、祝福の「大いなる力」でいつでも替えられる</li><li>灰冠の力：最大HPと守り／大主教の力：FPと魔法・祈祷／墓主の力：与ダメージと撃破時の回復</li></ul>
     <h3>実績・設定・引き継ぎ</h3>
-    <ul><li><b>実績</b>は題名画面とメニューから見られる。「はじめから」でも失われない</li><li><b>設定</b>（題名画面・メニュー）で、音楽と効果音の大きさを別々に変えられる。<b>「エフェクト」</b>を「控えめ」にすると、光や火花がさらに抑えられる</li><li>設定の<b>「ボタン配置」</b>で、画面のボタンを引いて動かし、大きさを変えられる。縦持ちと横持ちで別々に覚え、初期化もできる</li><li>メニューの<b>「装備」</b>から、いつでも武器・防具・タリスマン・魔法・戦技・霊鈴を替えられる（レベルアップ・強化・振り直しは祝福で）</li><li><b>セーブを書き出す</b>と引き継ぎコードが出る。別の端末の<b>セーブを読み込む</b>に貼り付け、「確かめる」で中身を見てから上書きする。実績も一緒に移る</li></ul>
+    <ul><li><b>実績</b>は題名画面とメニューから見られる。「はじめから」でも失われない</li><li><b>設定</b>（題名画面・メニュー）で、音楽と効果音の大きさを別々に変えられる。<b>「エフェクト」</b>を「控えめ」にすると、光や火花がさらに抑えられる</li><li>設定の<b>「ボタン配置」</b>で、画面のボタンを引いて動かし、大きさを変えられる。縦持ちと横持ちで別々に覚え、初期化もできる</li><li>メニューの<b>「装備」</b>から、いつでも武器・防具・タリスマン・魔法・戦技・霊鈴を替えられる（レベルアップ・強化・振り直しは祝福で）</li><li><b>セーブを書き出す</b>と引き継ぎコードが出る（いま遊んでいるセーブが対象）。別の端末の<b>セーブを読み込む</b>に貼り付け、読み込み先のセーブ枠を選び、「確かめる」で中身を見てから上書きする。実績も一緒に移る</li></ul>
+    <h3>セーブ枠</h3>
+    <ul><li>セーブは<b>3つ</b>まで。題名画面で枠を選び、「つづきから」「はじめから」「削除」ができる。枠には素性・レベル・プレイ時間・周回・いる場所・最後に遊んだ日が出る</li><li>「はじめから」と「削除」は、確かめてから実行される。ほかの枠には影響しない</li><li><b>実績</b>と、音・助言・エフェクト・ボタン配置の設定は、どの枠でも共通</li><li>以前の1つだけのセーブは、自動で<b>セーブ1</b>に引き継がれる</li></ul>
+    <h3>周回（二周目以降）</h3>
+    <ul><li>灰冠の騎士王を斃すと、<b>「次の周回へ」</b>が選べる（王を斃した枠なら、題名画面や最初の祝福からも）</li><li>周回では、レベル1の素性選びからやり直す。各能力は<b>素性の初期値＋前の旅の最終値の10%</b>（端数切り捨て）で始まる。素性の選択画面に引き継ぎ分が出る</li><li>始めるときに<b>周回の加護</b>をひとつ授かる（残火・灰歩き・刃の記憶・収穫・鉄の記憶）。周回のたびに選び直せる。祝福の画面で確かめられる</li><li>敵（王も）は周回ごとに強くなり、ルーンと防具の実りも少し増える</li><li>周回でだけ手に入る、タリスマンの上位版「〜・改」と防具「還り火の装束」がある（宝箱と王の遺品）。装束は★5になりうる</li><li>図鑑・実績・周回の数は引き継がれる。レベル・ルーン・素材・装備・世界の進み具合は引き継がれない</li></ul>
     <h3>助言</h3>
     <ul><li>囲まれたら戦わない。通路まで下がって一体ずつ</li><li>弓兵と書庫の徒は柱で射線を切り、近づいて先に倒す</li><li>灰瓶を飲む隙は大きい。敵の大技の直後に</li><li>強敵に勝てなければ後回しでよい。城の脇道の強敵は倒さなくても王へ辿り着ける</li><li>重い鎧を着るなら持久力を。軽いまま戦うなら体力を</li></ul>
   </div>
@@ -424,6 +442,13 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div id="clsCards" class="cards"></div>
   <div id="clsInfo" class="clsInfo"></div>
   <div class="duo"><button id="bClsGo" class="btn">この素性で始める</button><button id="bClsNo" class="btn sub">やめる</button></div>
+</div>
+
+<div id="bless" class="ov">
+  <h2>周回の加護</h2>
+  <div id="blCards" class="cards"></div>
+  <div id="blInfo" class="clsInfo"></div>
+  <div class="duo"><button id="bBlGo" class="btn">この加護で始める</button><button id="bBlNo" class="btn sub">戻る</button></div>
 </div>
 
 <div id="achv" class="ov">
@@ -452,6 +477,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <h2>設定</h2>
   <div class="optBody">
     <div id="xfMenu" style="width:100%;display:flex;flex-direction:column;align-items:center">
+      <div id="xfCur" class="stats" style="margin:0 0 6px"></div>
       <label class="sld"><span>音楽</span><input id="rBgm" type="range" min="0" max="100" step="5" aria-label="音楽の音量"></label>
       <label class="sld"><span>効果音</span><input id="rSe" type="range" min="0" max="100" step="5" aria-label="効果音の音量"></label>
       <div class="trow"><button id="bMute" class="btn sub"></button><button id="bHints" class="btn sub"></button></div>
@@ -464,6 +490,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
       <div class="trow"><button id="bXfCopy" class="btn sub">コピー</button><button id="bXfBack1" class="btn sub">戻る</button></div>
     </div>
     <div id="xfIn" style="width:100%;display:none">
+      <div class="trow" id="xfSlots"><span class="stats" style="align-self:center;margin:0 4px">読み込み先</span><button class="btn sub xs" data-s="1">セーブ1</button><button class="btn sub xs" data-s="2">セーブ2</button><button class="btn sub xs" data-s="3">セーブ3</button></div>
       <textarea id="xfPaste" aria-label="引き継ぎコードを貼り付ける" placeholder="ここに引き継ぎコードを貼り付ける"></textarea>
       <div id="xfPrev"></div>
       <div class="trow"><button id="bXfCheck" class="btn sub">確かめる</button><button id="bXfApply" class="btn sub" style="display:none">上書きして読み込む</button><button id="bXfBack2" class="btn sub">戻る</button></div>
@@ -484,6 +511,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
       <button id="bLevel" class="btn">レベルアップ</button>
       <button id="bForge" class="btn">強化</button>
       <button id="bWarp" class="btn">転移</button>
+      <button id="bNextBf" class="btn sub" style="display:none">次の周回へ</button>
       <button id="bPower" class="btn sub" style="display:none">大いなる力</button>
       <button id="bCrypt" class="btn">地下墓へ</button>
       <button id="bLeave" class="btn">祝福から離れる</button>
@@ -556,8 +584,62 @@ function freshSave() {
     cls: 'wanderer', arts: [], wart: {}, spirits: [], spirit: null, spLv: {}, tearShop: 0, lords: {}, seenE: {}, trar: {}, shields: [], off: null, hands: 0, walls: {}, maps: {}, mdSeen: {}, mem: {}, pw: {}, pwOn: null,
     av: 0, inv: [], aeq: { h: null, b: null, a: null, l: null }, aseq: 1, afound: {}, asort: 'r' };
 }
-const save = Object.assign(freshSave(), { mute: false, best: 0, wins: 0, clear: 0, hintOff: false, fxLow: false, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {}, btn: { p: {}, l: {} } });
-try { const s = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); if (s && typeof s === 'object' && s.v === 1) Object.assign(save, s); } catch (e) {}
+const SAVE_EXTRA = () => ({ mute: false, best: 0, wins: 0, clear: 0, hintOff: false, fxLow: false, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {}, btn: { p: {}, l: {} }, cyc: 0, bless: null, cb: null, dex: null, last: 0 });
+const save = Object.assign(freshSave(), SAVE_EXTRA());
+/* v1.7.0: three save slots. Per-slot data lives in SKEY(i); settings (sound, hints, effects, button layout) and achievements are global in GKEY and shared by every slot.
+   The old single save (SAVE_KEY) is copied into slot 1 once and then left untouched as a backup. */
+const GKEY = 'hai_no_ou3_g', OLDBAK = 'hai_no_ou3_v1_bak', SKEY = i => 'hai_no_ou3_s' + i, GF = ['mute', 'hintOff', 'fxLow', 'volB', 'volS', 'btn', 'ach', 'cnt', 'bossCat'];
+let SLOT = 1;
+function lsJ(k) { try { const o = JSON.parse(localStorage.getItem(k) || 'null'); return o && typeof o === 'object' ? o : null; } catch (e) { return null; } }
+function migrateSaves() {
+  try {
+    if (localStorage.getItem(GKEY)) return;
+    const raw = localStorage.getItem(SAVE_KEY), g = { cur: 1 };
+    if (raw) {
+      if (!localStorage.getItem(OLDBAK)) localStorage.setItem(OLDBAK, raw);
+      let o = null; try { o = JSON.parse(raw); } catch (e) {}
+      if (o && typeof o === 'object' && o.v === 1) { if (!localStorage.getItem(SKEY(1))) localStorage.setItem(SKEY(1), raw); for (const k of GF) if (o[k] !== undefined) g[k] = o[k]; }
+    }
+    localStorage.setItem(GKEY, JSON.stringify(g));
+  } catch (e) {}
+}
+const pickG = (g, o) => { o = o || {}; for (const k of GF) if (g && g[k] !== undefined) o[k] = g[k]; return o; };
+/* put `s` (a slot's data, or null for an empty slot) into the live save, with the global settings on top */
+function fillSave(s, g, keepG) { const gg = keepG || pickG(g); for (const k in save) delete save[k]; Object.assign(save, freshSave(), SAVE_EXTRA(), s && s.v === 1 ? s : {}, gg); }
+migrateSaves();
+{ const g0 = lsJ(GKEY) || {}; SLOT = Math.max(1, Math.min(3, Math.floor(+g0.cur) || 1)); fillSave(lsJ(SKEY(SLOT)), g0); }
+/* ---------- v1.7.0: 周回 (New Game+) ---------- */
+const CBL = {
+  flask: { n: '残火の加護', d: '灰瓶 +1' }, roll: { n: '灰歩きの加護', d: '回避のスタミナ消費 -15%' }, crit: { n: '刃の記憶', d: '致命の一撃 +15%' },
+  rune: { n: '収穫の加護', d: '敵から得るルーン +15%' }, load: { n: '鉄の記憶', d: '装備重量の上限 +12%' }
+};
+const CBLIDS = ['flask', 'roll', 'crit', 'rune', 'load'], KNUM = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+const CYC = () => save.cyc | 0, cycName = c => (KNUM[c] || (c + 1)) + '周目';
+const cycK = () => { const c = CYC(); return c <= 0 ? 1 : c === 1 ? 1.3 : Math.min(2.5, 1.55 + 0.2 * (c - 2)); };
+const cycRune = () => 1 + 0.15 * Math.min(CYC(), 8), cycLuck = () => Math.min(0.3, 0.05 * CYC());
+const bOn = k => save.bless === k;
+const blessRoll = () => bOn('roll') ? 0.15 : 0, blessCrit = () => bOn('crit') ? 1.15 : 1, blessRune = () => bOn('rune') ? 0.15 : 0, blessLoad = () => bOn('load') ? 1.12 : 1;
+/* every stat starts at the class value + floor(10% of the same stat at the end of the last run) */
+const carryOf = st => { const o = {}; for (const k of ['vit', 'end', 'str', 'dex', 'int', 'fth']) o[k] = Math.floor(((st && st[k]) | 0) * 0.1); return o; };
+const DEXA = ['weapons', 'shields', 'spells', 'tals', 'arts', 'spirits'], DEXO = ['walls', 'mb', 'mem', 'pw', 'lords', 'cryptRw'], DEXN = ['trar', 'spLv'];
+/* 図鑑 memory: everything ever owned / seen in this slot survives a new cycle */
+function dexSync() {
+  const d = save.dex && typeof save.dex === 'object' ? save.dex : (save.dex = {});
+  for (const k of DEXA) { const a = Array.isArray(d[k]) ? d[k] : (d[k] = []); if (Array.isArray(save[k])) for (const v of save[k]) if (!a.includes(v)) a.push(v); }
+  for (const k of DEXO) { const o = d[k] && typeof d[k] === 'object' ? d[k] : (d[k] = {}); const src = save[k]; if (src && typeof src === 'object') for (const x in src) if (src[x] && !o[x]) o[x] = src[x]; }
+  for (const k of DEXN) { const o = d[k] && typeof d[k] === 'object' ? d[k] : (d[k] = {}); const src = save[k]; if (src && typeof src === 'object') for (const x in src) if ((+src[x] || 0) > (+o[x] || 0)) o[x] = +src[x]; }
+  d.bossDead = d.bossDead || !!save.bossDead; d.night = d.night || !!save.night; d.cryptDeep = Math.max(d.cryptDeep | 0, save.cryptDeep | 0);
+}
+function dexView(fn) {
+  dexSync(); const d = save.dex, bak = {}, keys = DEXA.concat(DEXO, DEXN, ['bossDead', 'night', 'cryptDeep']); for (const k of keys) bak[k] = save[k];
+  try {
+    for (const k of DEXA) save[k] = save[k].concat(d[k].filter(v => !save[k].includes(v)));
+    for (const k of DEXO) save[k] = Object.assign({}, d[k], save[k]);
+    for (const k of DEXN) { const o = Object.assign({}, d[k]); for (const x in save[k]) o[x] = Math.max(+o[x] || 0, +save[k][x] || 0); save[k] = o; }
+    save.bossDead = save.bossDead || d.bossDead; save.night = save.night || d.night; save.cryptDeep = Math.max(save.cryptDeep | 0, d.cryptDeep | 0);
+    return fn();
+  } finally { for (const k of keys) save[k] = bak[k]; }
+}
 function sanitize() {
   const f = freshSave();
   if (!save.st || typeof save.st !== 'object') save.st = f.st;
@@ -573,6 +655,8 @@ function sanitize() {
   if (save.off && !((SHD[save.off] && save.shields.includes(save.off)) || (WPN[save.off] && save.weapons.includes(save.off) && save.off !== save.weapon && !WPN[save.off].two))) save.off = null;
   for (const t of save.tals) save.trar[t] = clamp(Math.floor(+save.trar[t] || (TAL[t].night ? 2 : 1)), 1, 4); for (const k in save.trar) if (!save.tals.includes(k)) delete save.trar[k];
   for (const k of ['guard', 'a5', 'set4', 'dis']) save.cnt[k] = Math.max(0, Math.floor(+save.cnt[k] || 0));
+  save.cyc = clamp(Math.floor(+save.cyc || 0), 0, 99); if (!CBL[save.bless] || !save.cyc) save.bless = null; if (!save.cb || typeof save.cb !== 'object' || !save.cyc) save.cb = null; else for (const k in f.st) save.cb[k] = clamp(Math.floor(+save.cb[k] || 0), 0, 30);
+  if (!save.dex || typeof save.dex !== 'object') save.dex = null; save.last = +save.last || 0;
   if (!CLASS[save.cls]) save.cls = 'wanderer'; if (!save.spirits.includes(save.spirit)) save.spirit = save.spirits[0] || null;
   for (const k of ['wart', 'spLv', 'ach', 'cnt', 'bossCat', 'lords', 'seenE', 'btn', 'trar']) if (!save[k] || typeof save[k] !== 'object') save[k] = {};
   for (const k of ['parry', 'crit', 'kills', 'summonWin', 'noDmg', 'noFlask', 'respec']) save.cnt[k] = Math.max(0, Math.floor(+save.cnt[k] || 0));
@@ -599,7 +683,7 @@ function sanitize() {
   armSanitize();
   const s = save.stain; if (s && !(typeof s === 'object' && isFinite(s.x) && isFinite(s.y) && s.s > 0 && (s.z === 'a' || s.z === 'd' || s.z === 'c'))) save.stain = null;
 }
-function writeSave() { try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {} }
+function writeSave() { try { save.last = Date.now(); dexSync(); localStorage.setItem(SKEY(SLOT), JSON.stringify(save)); localStorage.setItem(GKEY, JSON.stringify(pickG(save, { cur: SLOT }))); } catch (e) {} }
 function fmtTime(t) { const m = Math.floor(t / 60), s = t - m * 60; return m + '分' + (s < 10 ? '0' : '') + s.toFixed(1) + '秒'; }
 function vib(p) { try { if (navigator.vibrate) navigator.vibrate(p); } catch (e) {} }
 function mulberry(seed) { let a = seed | 0; return () => { a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
@@ -905,7 +989,12 @@ const TAL = {
   socket: { name: '墓主の眼窩', desc: '与ダメージ +12%、被害 -8%', night: 1 },
   rat: { name: '灰喰いの護符', desc: '毒沼と灰溜まりの害を受けない', md: 1 }, howl: { name: '夜哭きの牙', desc: '最大スタミナ +12%', night: 1, md: 1 },
   crest: { name: '聖都の紋章', desc: '弱点を突いた時のダメージがさらに +12%', l2: 1 },
-  censer: { name: '灰の香炉', desc: '戦技の消費FP -25%', l2: 1 }
+  censer: { name: '灰の香炉', desc: '戦技の消費FP -25%', l2: 1 },
+  /* 周回(二周目〜)でだけ手に入る上位版。同じ系統の通常版より効き目が大きく、通常版の代わりに働く */
+  amber2: { name: '赤琥珀の護符・改', desc: '最大HP +15%（上位版）', ng: 1, m: 1.35, hidden: 2 },
+  gilt2: { name: '金蝕の徴・改', desc: '敵から得るルーン +20%（上位版）', ng: 1, m: 1.35, hidden: 2 },
+  fist2: { name: '巨人の拳骨・改', desc: '強攻撃の威力 +18%（上位版）', ng: 1, m: 1.35, hidden: 2 },
+  wedge2: { name: '不屈の楔・改', desc: 'HP三割以下で被害 -30%（上位版）', ng: 1, m: 1.35, hidden: 2 }
 };
 
 Object.assign(WPN, {
@@ -1175,6 +1264,8 @@ function addFamily(k, s) {
   SLOTS.forEach((sl, i) => { ARMP[k + '_' + sl] = { id: k + '_' + sl, set: k, slot: sl, name: s.pn[i], cls: s.cls, wt: w[i] / 10, def: d[i], mag: (s.mag || 0) / 4, fpr: (s.fpr || 0) / 4, sreg: (s.str || 0) / 4, bld: (s.bld || 0) / 4, el: (s.el || 0) / 4, pp: s.pp ? s.pp[i] : 0, tier: s.tier, c: s.c, hidden: s.hidden, night: s.night }; });
 }
 for (const k in ARM) addFamily(k);
+/* v1.7.0: the family that only turns up in 周回 (fixed chests and the king's drop). dw 0 = never in the random pool. */
+addFamily('ngf', { name: '還り火の装束', tier: 4, dw: 0, hidden: 2, pf: 'medium', pn: ['還り火の面', '還り火の装束', '還り火の籠手', '還り火の脛当て'], str: 0.12, el: 0.08, desc: '灰の周を巡った者だけが纏える。消えぬ残り火を縫い込んだ装束で、スタミナの戻りが早い。周回の宝箱と王の遺品にだけ現れる。', c: ['#2c2440', '#8a58c8', '#e3bfff', '#1c1228', 3] });
 /* armor rarity: ★1 並 / ★2 良 / ★3 稀 / ★4 伝説 / ★5 神話. `n` = number of sub-stats */
 const ARAR = [null, { n: '並', c: '#b8b2a4', s: 0 }, { n: '良', c: '#8fd08a', s: 1 }, { n: '稀', c: '#7fb4ff', s: 2 }, { n: '伝説', c: '#f3d27a', s: 3 }, { n: '神話', c: '#ff9ad5', s: 3 }];
 /* sub-stats: w = weight, p = decimals, r[rarity] = [lo, hi]. The region tier narrows the roll inside [lo, hi] (TIERWIN). */
@@ -1258,13 +1349,14 @@ let IFR = 0.3, ROLL_T = 0.44;
 const has = t => save.teq.includes(t);
 /* talisman rarity: ★1 並 / ★2 良 / ★3 稀 / ★4 伝説. Effects scale by k; ★3 and ★4 also cut damage taken by 2% / 4%. */
 const RAR = [null, { n: '並', c: '#b8b2a4', k: 0.75 }, { n: '良', c: '#8fd08a', k: 1 }, { n: '稀', c: '#7fb4ff', k: 1.3 }, { n: '伝説', c: '#f3d27a', k: 1.7 }];
-const trar = t => save.trar[t] || 1, tk = t => has(t) ? RAR[trar(t)].k : 0, starsOf = r => '★'.repeat(r);
+const trar = t => save.trar[t] || 1, tk = t => { let k = has(t) ? RAR[trar(t)].k : 0; const u = t + '2'; if (TAL[u] && has(u)) k = Math.max(k, RAR[trar(u)].k * TAL[u].m); return k; }, starsOf = r => '★'.repeat(r);
 const secDef = () => { let v = (save.pwOn === 'king' ? 0.08 : 0) + 0.04 * tk('rat'); for (const t of save.teq) if (t && trar(t) >= 3) v += (trar(t) - 2) * 0.02; return v; };
 const pc = (b, k) => Math.round(b * k);
 const TF = { rat: k => '毒沼と灰溜まりの害を受けない・被害 -' + pc(4, k) + '%', howl: k => '最大スタミナ +' + pc(12, k) + '%', amber: k => '最大HP +' + pc(15, k) + '%', moss: k => 'スタミナ回復速度 +' + pc(25, k) + '%', gilt: k => '敵から得るルーン +' + pc(20, k) + '%', fang: k => '出血の蓄積 +' + pc(35, k) + '%', eye: k => '魔法の威力 +' + pc(18, k) + '%', fist: k => '強攻撃の威力 +' + pc(18, k) + '%',
   feather: k => '回避の無敵時間 +' + (0.07 * (1 + (k - 1) * 0.4)).toFixed(2) + '秒', leech: k => '攻撃を当てるたびHPが戻る（軽 ' + (3 * k).toFixed(1) + '／強 ' + (7 * k).toFixed(1) + '）', wedge: k => 'HP三割以下で被害 -' + pc(30, k) + '%', vial: k => '灰瓶の回復量 +' + pc(30, k) + '%',
   spring: k => '最大FP +' + pc(20, k) + '、FP回復 +' + (1.5 * k).toFixed(1) + '/秒', belt: k => '装備重量の上限 +' + (8 * k).toFixed(1), ember: k => 'HPが毎秒 ' + (1.2 * k).toFixed(1) + ' 回復する', shard: k => '与えるダメージ +' + pc(10, k) + '%', clasp: k => '回避のスタミナ消費 -' + pc(25, k) + '%',
   socket: k => '与ダメージ +' + pc(12, k) + '%、被害 -' + pc(8, k) + '%', crest: k => '弱点を突いた時のダメージ +' + pc(12, k) + '%', censer: k => '戦技の消費FP -' + pc(25, k) + '%' };
+for (const k of ['amber', 'gilt', 'fist', 'wedge']) TF[k + '2'] = (kk) => TF[k](kk * TAL[k + '2'].m) + '（上位版）';
 const tdesc = (t, r) => TF[t](RAR[r].k) + (r >= 3 ? '／副効果：被害 -' + (r - 2) * 2 + '%' : '');
 const tname = (t, r) => '<span style="color:' + RAR[r].c + '">' + starsOf(r) + '</span> ' + TAL[t].name;
 /* hands */
@@ -1284,7 +1376,7 @@ const hpOf = () => { const v = sv('vit'); return Math.round((100 + 12 * Math.min
 const stOf = () => { const v = sv('end'); return Math.round((100 + 8 * Math.min(v - 10, 15) + 4 * Math.max(v - 25, 0) + AB.stm) * (1 + 0.12 * tk('howl'))); };
 const fpOf = () => { const v = sv('int'); return Math.round((50 + 5 * Math.min(v - 10, 20) + 2.5 * Math.max(v - 30, 0) + 20 * tk('spring') + AB.fp) * (save.pwOn === 'lord2' ? 1.3 : 1)); };
 const capOf = v => 30 + 1.5 * Math.min(v - 10, 15) + 0.8 * Math.max(v - 25, 0);
-function calcLoad(wid, awt, end, aend) { const cap = capOf((end || save.st.end) + (aend === undefined ? AB.end : aend)) + 8 * tk('belt'), wt = Math.round((WPN[wid || save.weapon].wt + (awt === undefined || awt === null ? AB.wt : awt) + offWt(wid)) * 10) / 10, load = wt / cap; return { cap, wt, load, roll: load <= 0.35 ? 0 : load <= 0.7 ? 1 : 2, over: load > 1 }; }
+function calcLoad(wid, awt, end, aend) { const cap = (capOf((end || save.st.end) + (aend === undefined ? AB.end : aend)) + 8 * tk('belt')) * blessLoad(), wt = Math.round((WPN[wid || save.weapon].wt + (awt === undefined || awt === null ? AB.wt : awt) + offWt(wid)) * 10) / 10, load = wt / cap; return { cap, wt, load, roll: load <= 0.35 ? 0 : load <= 0.7 ? 1 : 2, over: load > 1 }; }
 function recalc() {
   armCalc();
   P.maxHp = hpOf(); P.maxSt = stOf(); P.maxFp = fpOf();
@@ -1314,7 +1406,7 @@ function mkLevel(id, w, h) {
   return { id, MW: w, MH: h, grid: new Uint8Array(w * h), tint: new Uint8Array(w * h), roomOf: new Int16Array(w * h).fill(-1), doorAt: new Int8Array(w * h).fill(-1),
     lay: 1, base: 0, ash: false, name: '', rooms: [], torches: [], bless: [], chests: [], doors: [], props: [], carpets: [], fog: null, enemies: [], seen: {}, opened: {}, traps: [], secrets: [], haz: [], crumble: [], regions: [], regOf: null, mid: 'c1', roam: [], tier: 1, md: null, mini: null, tex: 7741, has: null, cw: Math.ceil(w / CH), chh: Math.ceil(h / CH), floor: 0, seed: 0, bossDead: false };
 }
-function mkEnemy(type, x, y, f, hm, dm, rm, elite, key) { const d = EDEF[type]; hm = hm || 1; dm = dm || 1; rm = rm || 1; if (d.stag && !d.boss) { hm = 1 + (hm - 1) * 0.35; dm *= 0.85; } if (elite) { hm *= 1.6; dm *= 1.08; rm *= 2; } return { type, def: d, hx: x, hy: y, hf: f, x, y, mhp: Math.round(d.hp * hm), dm, rm, r: d.r, state: 'idle', cds: {}, elite: !!elite, key: key || type, gd: d.sh ? d.sh.gd : 0 }; }
+function mkEnemy(type, x, y, f, hm, dm, rm, elite, key) { const d = EDEF[type]; hm = hm || 1; dm = dm || 1; rm = (rm || 1) * cycRune(); if (d.stag && !d.boss) { hm = 1 + (hm - 1) * 0.35; dm *= 0.85; } hm *= cycK(); dm *= cycK(); if (elite) { hm *= 1.6; dm *= 1.08; rm *= 2; } return { type, def: d, hx: x, hy: y, hf: f, x, y, mhp: Math.round(d.hp * hm), dm, rm, r: d.r, state: 'idle', cds: {}, elite: !!elite, key: key || type, gd: d.sh ? d.sh.gd : 0 }; }
 
 /* castle, in design coordinates (the old keep keeps its numbers); shifted by OX/OY on build */
 const OX = 14, OY = 1;
@@ -1371,6 +1463,9 @@ const C_CARPETS = [[36.15, 13, 1.7, 7, 'rgba(105,22,18,.38)'], [13.15, 2, 1.7, 6
 // night ("灰の降る夜", after the king falls): refilled chests, new chests, new placements
 const N_CHESTS = { c3: { a: 'cloak' }, c6: { s: 2500 }, c13: { sp: 'meteor' }, c1: { s: 1200, m: { l: 2 } }, c22: { s: 1800, m: { l: 2 } } };
 const N_NEW = [['n1', 25, 56, { t: 'clasp', r: 3 }], ['n2', 49, 32, { s: 1500, m: { x: 1 } }], ['n3', 11, 5, { k: 'tear' }], ['n4', 22, 25, { w: 'great3' }], ['n5', 52, 6, { w: 'curved3' }]];
+/* 周回(二周目〜)だけに現れる宝箱: 還り火の装束の三部位と、タリスマンの上位版 */
+const NG_NEW = [['ng1', 33, 19, { ap: 'ngf_h', r: 4 }], ['ng2', 31, 10, { ap: 'ngf_a', r: 4 }], ['ng3', 49, 27, { ap: 'ngf_l', r: 4 }],
+  ['ng4', 10, 5, { t: 'amber2', r: 3 }], ['ng5', 17, 5, { t: 'gilt2', r: 3 }], ['ng6', 37, 25, { t: 'fist2', r: 3 }], ['ng7', 68, 23, { t: 'wedge2', r: 3 }]];
 const N_SPAWNS = [
   ['ghoul', 23, 48, 1], ['knight', 18, 43, 0, 'E'], ['acolyte', 10, 42, 0], ['ghoul', 4, 42, 1], ['ghoul', 24, 32, 1], ['ghoul', 36, 25, 2], ['spear', 22, 14, 0, 'E'],
   ['knight', 30, 6, 2, 'E'], ['knight', 16, 12, 1], ['acolyte', 56, 13, 1], ['acolyte', 58, 22, 3], ['ghoul', 13, 29, 0], ['hollow', 48, 27, 1, 'E'], ['archer', 46, 18, 0, 'E'],
@@ -1423,6 +1518,7 @@ function buildCastle(night) {
   Lv.bless = C_BLESS.map(b => ({ x: tc(b[0] + OX), y: tc(b[1] + OY), name: b[2] }));
   Lv.night = !!night; Lv.tex = night ? 9931 : 7741;
   Lv.chests = C_CHESTS.concat(X1.chests).map(c => ({ id: c[0], x: tc(c[1] + OX), y: tc(c[2] + OY), it: c[3], nit: night ? N_CHESTS[c[0]] || null : null }));
+  if (CYC() > 0) for (const c of NG_NEW) Lv.chests.push({ id: c[0], x: tc(c[1] + OX), y: tc(c[2] + OY), it: c[3], nit: null });
   if (night) for (const c of N_NEW) Lv.chests.push({ id: c[0], x: tc(c[1] + OX), y: tc(c[2] + OY), it: c[3], nit: null });
   Lv.doors = C_DOORS.map((d, k) => {
     const ts = d[1].map(t => [t[0] + OX, t[1] + OY]); for (const t of ts) { Lv.grid[t[1] * W0 + t[0]] = 2; Lv.doorAt[t[1] * W0 + t[0]] = k; }
@@ -1895,7 +1991,7 @@ function killEnemy(e) {
   clearTeleOf(e); e.state = 'dead'; e.t = 0; e.hp = 0; e.al = 1; e.hide = false; SFX.edie();
   burst(e.x, e.y, 16, 180, 0.8, 5, 1, '#5d564a'); burst(e.x, e.y, 6, 80, 0.9, 26, 2, 0);
   for (let i = 0; i < 8; i++) pt(e.x + rnd(-10, 10), e.y + rnd(-10, 10), rnd(-30, 30), rnd(-60, -20), rnd(0.6, 1.1), 9, 0, 2, 1, 40);
-  const n = Math.round(e.def.souls * e.rm * (1 + 0.2 * tk('gilt')) * (1 + AB.rune)); gainSouls(n); floatText(e.x, e.y - 30, '+' + n, '#cfe6ff', 13);
+  const n = Math.round(e.def.souls * e.rm * (1 + 0.2 * tk('gilt')) * (1 + AB.rune + blessRune())); gainSouls(n); floatText(e.x, e.y - 30, '+' + n, '#cfe6ff', 13);
   if (e.type === 'knight') { save.mb.knight = 1; if (L.id === 'castle' && L.lay === 1 && !save.mbC.knight) { save.mbC.knight = 1; giveItem({ k: 'slot' }); } }
   if (!e.def.boss) dropTal(e);
   if (!e.def.boss) dropMat(e);
@@ -1910,7 +2006,7 @@ function hitEnemy(e, dmg, poise, heavy, bleed, magic) {
   if (e.iv > 0) { tagText(e, '回避', '#ff9a9a'); return; }
   let mult = 1, crit = false; const rk = resK(e.def); dmg *= rk;
   if (e.def.sh && e.gd > 0 && !e.lw && (e.state === 'chase' || e.state === 'wind') && Math.abs(angDiff(e.face, Math.atan2(P.y - e.y, P.x - e.x))) < e.def.sh.half) { shieldBlock(e, dmg, poise, heavy); return; }
-  if (e.state === 'stagger') { mult = 1.3; if (heavy && !e.critDone) { mult = (e.def.boss ? 2.0 : 2.3) * (G.critK || 1); crit = true; onCrit(); e.critDone = true; if (e.def.boss) e.t = Math.min(e.t, 0.8); } }
+  if (e.state === 'stagger') { mult = 1.3; if (heavy && !e.critDone) { mult = (e.def.boss ? 2.0 : 2.3) * (G.critK || 1) * blessCrit(); crit = true; onCrit(); e.critDone = true; if (e.def.boss) e.t = Math.min(e.t, 0.8); } }
   dmg = Math.max(1, Math.round(dmg * mult * rnd(0.94, 1.06)) || 0); let bl = 0;
   if (bleed) { e.bleed += bleed * bleedMult() * (e.def.boss ? 1 : 1.25) * (e.def.res && e.def.res.bleed !== undefined ? e.def.res.bleed : 1); e.bleedT = 5; if (e.bleed >= e.bleedMax) { e.bleed = 0; if (e.def.boss) e.bleedMax *= 1.12; bl = Math.round((e.def.boss ? 60 : Math.max(26, e.mhp * 0.3)) * bleedMult()); } }
   if (!isFinite(dmg)) dmg = 0; if (!isFinite(bl)) bl = 0;
@@ -2498,7 +2594,7 @@ function clearFx() {
   releaseInput();
 }
 function resetBoss() {
-  const hp = 1000;
+  const hp = Math.round(1000 * cycK());
   Object.assign(B, { x: 0, y: -110, face: PI / 2, hp, maxHp: hp, hpLag: hp, poise: 110, maxPoise: 110, sres: 0, poiseT: 0, state: 'intro', t: 0, atk: '', at: 0, pat: 0, phase: 1, last: '', z: 0, sa: 1.9, saT: 1.9, sl: 1, len: 96, glow: 0, hid: 0, v1: 0, v2: 0, sx: 0, sy: 0, lx: 0, ly: 0, tl: null, kneel: 1, flash: 0, dmgAcc: 0, dmgT: 0, critDone: false, strafe: 1, fireD: 0, walk: 0, eye: 0, cnt: 1, bleed: 0, bleedMax: 100, bleedT: 0 });
   for (const k in CD) B.cd[k] = 0;
   clearFx(); G.time = 0;
@@ -2555,29 +2651,63 @@ function openFieldPane(p) { if (G.mode !== 'play' && G.mode !== 'fight' && !G.bf
 function openFieldEquip() { openFieldPane('bfEquip'); }
 function closeFieldEquip() { G.fieldEq = false; $('bonfire').classList.remove('on'); if (G.bfMenu) { $('bfName').textContent = G.bfName0 || ''; recalc(); P.hpLag = P.hp; } $('pause').classList.add('on'); btns[2].label = heavyLabel(); writeSave(); }
 function respawn() { if (G.home === 'c' && L.id === 'crypt') spawnCrypt(); else spawnAt(save.bonfire); if (save.stain) hint('death', '落としたルーンは血痕に残る（地図で点滅）\n取り戻す前に再び死ぬと、永遠に失われる'); }
-function newGame(cls) {
-  const c = CLASS[cls] || CLASS.wanderer, keep = { mute: save.mute, best: save.best, wins: save.wins, clear: save.clear, hintOff: save.hintOff, fxLow: save.fxLow, ach: save.ach, volB: save.volB, volS: save.volS, cnt: save.cnt, bossCat: save.bossCat, btn: save.btn };
-  Object.assign(save, freshSave(), keep); save.started = true; save.cls = CLASS[cls] ? cls : 'wanderer';
-  save.st = Object.assign({}, c.st); save.weapons = c.w.slice(); save.weapon = c.w[0]; save.armors = c.a === 'rags' ? ['rags'] : ['rags', c.a]; save.armor = c.a; save.spells = c.sp.slice(); save.slots = [c.sp[0] || null, c.sp[1] || null]; save.arts = c.ar.slice(); save.hands = 1; save.shields = (c.sh || []).slice(); save.off = c.off || null; save.trar = {}; loots.length = 0; armSanitize();
-  if (c.ar[0] && artOk(c.ar[0], save.weapon)) save.wart[save.weapon] = c.ar[0]; if (c.sr) { save.spirits = [c.sr]; save.spirit = c.sr; }
-  for (const k in seenRoom) delete seenRoom[k]; CASTLE = buildCastle(false); for (const k in LVC) delete LVC[k]; L = null; P.slot = 0; P.pray = 0; mechReset(); P.ench = null; P.enchT = 0; writeSave(); spawnAt(0); toast('祝福に近づき「調べる」で休息できる');
+/* a save that is loaded or replaced as a whole: put its world back in order */
+function enterSaveWorld() {
+  sanitize(); for (const k in seenRoom) delete seenRoom[k]; for (const k in LVC) delete LVC[k]; loots.length = 0; CASTLE = buildCastle(save.night); L = null; useLevel(CASTLE);
+  P.slot = 0; P.pray = 0; mechReset(); P.ench = null; P.enchT = 0; G.stain = null; recalc();
 }
-function continueGame() { spawnAt(save.bonfire); }
+let NEWSLOT = 0, NGP = null;
+const baseSt = () => { const o = Object.assign({}, CLASS[save.cls].st); if (save.cb) for (const k in o) o[k] += save.cb[k] | 0; return o; };
+function newGame(cls, ng, bless) {
+  if (NEWSLOT) { SLOT = NEWSLOT; NEWSLOT = 0; }
+  dexSync(); const c = CLASS[cls] || CLASS.wanderer, keep = pickG(save);
+  if (ng) Object.assign(keep, { wins: save.wins, best: save.best, clear: save.clear, cyc: ng.cyc, cb: ng.cb, bless: CBL[bless] ? bless : null, dex: save.dex, afound: save.afound, seenE: save.seenE });
+  for (const k in save) delete save[k]; Object.assign(save, freshSave(), SAVE_EXTRA(), keep); save.started = true; save.cls = CLASS[cls] ? cls : 'wanderer'; save.last = Date.now();
+  save.st = Object.assign({}, c.st); if (save.cb) for (const k in save.st) save.st[k] += save.cb[k] | 0; if (save.bless === 'flask') save.flaskMax = 4;
+  save.weapons = c.w.slice(); save.weapon = c.w[0]; save.armors = c.a === 'rags' ? ['rags'] : ['rags', c.a]; save.armor = c.a; save.spells = c.sp.slice(); save.slots = [c.sp[0] || null, c.sp[1] || null]; save.arts = c.ar.slice(); save.hands = 1; save.shields = (c.sh || []).slice(); save.off = c.off || null; save.trar = {}; loots.length = 0; armSanitize();
+  if (c.ar[0] && artOk(c.ar[0], save.weapon)) save.wart[save.weapon] = c.ar[0]; if (c.sr) { save.spirits = [c.sr]; save.spirit = c.sr; }
+  for (const k in seenRoom) delete seenRoom[k]; CASTLE = buildCastle(false); for (const k in LVC) delete LVC[k]; L = null; P.slot = 0; P.pray = 0; mechReset(); P.ench = null; P.enchT = 0; writeSave(); spawnAt(0); checkAch(); toast(ng ? cycName(save.cyc) + 'の旅が始まった ── 敵は強く、そして実りも深い' : '祝福に近づき「調べる」で休息できる');
+}
+/* ---------- save slots (title) ---------- */
+let tSel = 0;
+const slotInfo = i => { const s = i === SLOT ? save : lsJ(SKEY(i)); return s && s.started && CLASS[s.cls] ? s : null; };
+const fmtPlay = t => { t = Math.max(0, Math.floor(+t || 0)); const h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60); return (h ? h + '時間' : '') + m + '分'; };
+const fmtDate = ts => { if (!ts) return '─'; const d = new Date(ts); return d.getFullYear() + '/' + String(d.getMonth() + 1).padStart(2, '0') + '/' + String(d.getDate()).padStart(2, '0'); };
+function bfLoc(s) { const g = s.bonfire | 0; let ly = null; for (const l of LAYERS) if (l.base <= g && (!ly || l.base > ly.base)) ly = l; if (!ly) return '第1層　灰の城'; return ly.name + (ly.bl && ly.bl[g - ly.base] ? ' ─ ' + ly.bl[g - ly.base] : ''); }
+function renderSlots() {
+  if (!tSel) tSel = SLOT; let h = '';
+  for (let i = 1; i <= 3; i++) {
+    const s = slotInfo(i);
+    h += '<button class="slot' + (i === tSel ? ' cur' : '') + '" data-i="' + i + '"><span class="sn">セーブ' + i + '</span>' + (s ? '<span class="sm"><b>' + CLASS[s.cls].name + '</b>　Lv <b>' + level(s.st) + '</b>　<b class="cy">' + cycName(s.cyc | 0) + '</b></span><span class="sd">プレイ時間 ' + fmtPlay(s.time) + '<br>' + bfLoc(s) + '<br>最終 ' + fmtDate(s.last) + '</span>' : '<span class="sm dim">空き</span>') + '</button>';
+  }
+  $('slotBox').innerHTML = h; const s = slotInfo(tSel);
+  $('bCont').style.display = s ? '' : 'none'; $('bDel').style.display = s ? '' : 'none'; $('bNext').style.display = s && s.bossDead ? '' : 'none'; $('bNew').textContent = 'はじめから';
+}
+function loadSlot(i) { writeSave(); SLOT = i; fillSave(lsJ(SKEY(i)), null, pickG(save)); enterSaveWorld(); }
+function deleteSlot(i) { try { localStorage.removeItem(SKEY(i)); } catch (e) {} if (i === SLOT) { fillSave(null, null, pickG(save)); enterSaveWorld(); } tSel = i; renderSlots(); }
+let cfmAct = null;
+function confirmAsk(t, p, y, fn) { $('cfT').textContent = t; $('cfP').innerHTML = p; $('bYes').textContent = y; cfmAct = fn; $('confirm').classList.add('on'); }
+/* 周回: pick a class again (with the +10% carry-over), then one 加護 */
+function startCycle() {
+  if (!save.started || !save.bossDead) return; if (G.mode !== 'title') toTitle();
+  NEWSLOT = 0; NGP = { cyc: CYC() + 1, cb: carryOf(save.st), prev: save.bless }; clsSel = clsSel || 'knight'; openClass();
+}
+function continueGame() { save.last = Date.now(); spawnAt(save.bonfire); }
 function enterBoss() {
   G.zone = 'a'; resetBoss(); recalc(); setMark(70, R_ARENA - 150); Object.assign(P, { x: 0, y: R_ARENA - 30, face: -PI / 2, state: 'idle', buf: '', kx: 0, ky: 0, lastHid: -1 });
   G.mode = 'intro'; G.t = 0; G.tries++; cam.x = P.x; cam.y = P.y - 80; SFX.gate(); setDrone(0.05, 150); writeSave();
 }
-function toTitle() { lootSweep(); writeSave(); if (L !== CASTLE) useLevel(CASTLE); if (save.stain && save.stain.z === 'c') save.stain = null; G.zone = 'a'; resetBoss(); G.mode = 'title'; G.paused = false; hideAll(); refreshTitle(); $('title').classList.add('on'); setDrone(0, 150); }
-function hideAll() { G.bfMenu = false; G.fieldEq = false; for (const id of ['title', 'dead', 'win', 'pause', 'bonfire', 'confirm', 'guide', 'cls', 'achv', 'opts']) $(id).classList.remove('on'); }
+function toTitle() { lootSweep(); if (save.started) save.last = Date.now(); writeSave(); tSel = SLOT; if (L !== CASTLE) useLevel(CASTLE); if (save.stain && save.stain.z === 'c') save.stain = null; G.zone = 'a'; resetBoss(); G.mode = 'title'; G.paused = false; hideAll(); refreshTitle(); $('title').classList.add('on'); setDrone(0, 150); }
+function hideAll() { G.bfMenu = false; G.fieldEq = false; for (const id of ['title', 'dead', 'win', 'pause', 'bonfire', 'confirm', 'guide', 'cls', 'achv', 'opts', 'bless']) $(id).classList.remove('on'); }
 function refreshTitle() {
-  refreshNews();
-  $('bCont').style.display = save.started ? '' : 'none';
-  let s = '';
-  if (save.started) s += '<b>' + CLASS[save.cls].name + '</b>　レベル <b>' + level() + '</b>　ルーン <b>' + fmtN(save.souls) + '</b>　死亡 <b>' + save.deaths + '</b>';
-  if (save.wins > 0) s += (s ? '<span class="br"></span>' : '') + '王討伐 <b>' + save.wins + '</b>　最速 <b>' + fmtTime(save.best) + '</b>';
-  if (save.started) s += '<span class="br"></span>収集率 <b>' + collection().pct + '%</b>' + (save.night ? '　<b>灰の降る夜</b>' : '');
+  refreshNews(); renderSlots();
+  const si = slotInfo(tSel || SLOT); let s = '';
+  if (si) s += 'セーブ' + (tSel || SLOT) + '　ルーン <b>' + fmtN(si.souls | 0) + '</b>　死亡 <b>' + (si.deaths | 0) + '</b>';
+  if (si && si.wins > 0) s += '　王討伐 <b>' + si.wins + '</b>　最速 <b>' + fmtTime(si.best) + '</b>';
+  if (si && (tSel || SLOT) === SLOT) s += '<span class="br"></span>収集率 <b>' + collection().pct + '%</b>' + (save.night ? '　<b>灰の降る夜</b>' : '');
   $('tStats').innerHTML = s;
   $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入'); $('bFx').textContent = 'エフェクト ： ' + (save.fxLow ? '控えめ' : '標準'); $('rBgm').value = Math.round(save.volB * 100); $('rSe').value = Math.round(save.volS * 100);
+  $('xfCur').innerHTML = '操作の対象 ： <b>セーブ' + SLOT + '</b>';
 }
 
 /* ---------- items ---------- */
@@ -2621,7 +2751,8 @@ function cryptCleared() {
   if (f === CRYPT_PRE && !save.bossDead) queueCard('この先は霧に閉ざされている', '── 王を斃せば、深層への道が開く ──', 3.4);
   if (f === CRYPT_DEEP) queueCard('地下墓 踏破', '── 灰喰らいの墓主は、灰へ還った ──', 3.6);
 }
-function collection() {
+const collection = () => dexView(collection0);
+function collection0() {
   const cnt = (tbl, own) => { let n = 0, m = 0; for (const k in tbl) { if (tbl[k].hidden) continue; m++; if (own.includes(k)) n++; } return [n, m]; };
   const w = cnt(WPN, save.weapons), a = cnt(ARMP, Object.keys(save.afound)), s = cnt(SPELL, save.spells), t = cnt(TAL, save.tals); let mb = 0; for (const m of MBLIST) if (save.mb[m[0]]) mb++;
   const wd = (save.bossDead ? 1 : 0) + (save.night ? 1 : 0) + (save.cryptDeep >= CRYPT_PRE ? 1 : 0) + (save.cryptDeep >= CRYPT_DEEP ? 1 : 0) + (save.lords[2] ? 1 : 0);
@@ -2640,7 +2771,7 @@ function bfNote(s) { $('bfNote').textContent = s; }
 function rollTxt(m) { return m.over ? '<span class="bad">過重（鈍足・重ロール）</span>' : '<b>' + ROLLS[m.roll].name + '</b>'; }
 function refreshBf() {
   const w = WPN[save.weapon], cost = lvCost(), am = atkMult(), inCrypt = L && L.id === 'crypt';
-  $('bfInfo').innerHTML = 'レベル <b>' + level() + '</b>　ルーン <b>' + fmtN(save.souls) + '</b>　次の必要ルーン <b>' + fmtN(cost) + '</b><br>' + wname(save.weapon) + (offId() ? '＋' + offName(offId()) : '') + '／' + armLine() + '　重量 <b>' + M.wt.toFixed(1) + '/' + M.cap.toFixed(1) + '</b> ' + rollTxt(M) + '　灰瓶 <b>' + save.flaskMax + '</b>';
+  $('bfInfo').innerHTML = 'レベル <b>' + level() + '</b>　ルーン <b>' + fmtN(save.souls) + '</b>　次の必要ルーン <b>' + fmtN(cost) + '</b><br>' + wname(save.weapon) + (offId() ? '＋' + offName(offId()) : '') + '／' + armLine() + '　重量 <b>' + M.wt.toFixed(1) + '/' + M.cap.toFixed(1) + '</b> ' + rollTxt(M) + '　灰瓶 <b>' + save.flaskMax + '</b>' + (CYC() ? '<br><b>' + cycName(CYC()) + '</b>　周回の加護 ' + (save.bless ? '<b>' + CBL[save.bless].n + '</b>（' + CBL[save.bless].d + '）' : '<b>なし</b>') : '');
   const can = save.souls >= cost, s = save.st; let h = '';
   const ld = calcLoad(null, null, s.end + 1), nx = (k, f) => { s[k]++; const v = f(); s[k]--; return v; };
   const EF = {
@@ -2656,6 +2787,7 @@ function refreshBf() {
   $('bRespec').textContent = '振り直し（追憶の雫 ' + save.tears + '）'; $('bRespec').disabled = save.tears <= 0 || level() <= 1;
   const cb = $('bCrypt'), fresh = save.bossDead && !save.deepSeen && !inCrypt && save.lit[1];
   cb.textContent = inCrypt ? '城へ戻る' : fresh ? '地下墓へ ✦深層' : '地下墓へ'; cb.disabled = !inCrypt && !save.lit[1]; cb.style.display = inCrypt || save.lit[1] ? '' : 'none'; cb.classList.toggle('glow', !!fresh);
+  $('bNextBf').style.display = save.bossDead && L && L.id === 'castle' && L.base === 0 && G.bfI === 0 && !G.altar && !G.bfMenu && !G.fieldEq ? '' : 'none';
   $('bPower').style.display = Object.keys(save.pw).some(k => save.pw[k] === 2) ? '' : 'none'; if (save.pwOn) $('bfInfo').innerHTML += '　大いなる力 <b>' + PWR[save.pwOn].name + '</b>';
   refreshEquip(); btns[2].label = heavyLabel(); btns[4].label = ART[artOf(save.weapon)].short;
 }
@@ -2770,7 +2902,7 @@ function forgeClick(b) {
   else { const id = b.dataset.id, c = WPN[id] && save.weapons.includes(id) ? upCost(id) : null; if (!c || save.mats[c.m] < c.n || save.souls < c.r) return; save.mats[c.m] -= c.n; save.souls -= c.r; save.up[id] = upLv(id) + 1; SFX.level(); SFX.parry(); G.flashW = 0.12; bfNote(wname(id) + ' に鍛え上げた'); }
   G.soulShow = save.souls; recalc(); writeSave(); refreshBf(); refreshForge();
 }
-function openRespec() { const base = CLASS[save.cls].st; RS = { st: Object.assign({}, base), pts: level() - level(base) }; bfPane('bfRespec'); bfNote('素性「' + CLASS[save.cls].name + '」の初期値まで戻し、振り直す ── 確定で雫を一つ失う'); refreshRespec(); }
+function openRespec() { const base = baseSt(); RS = { st: Object.assign({}, base), pts: level() - level(base) }; bfPane('bfRespec'); bfNote('素性「' + CLASS[save.cls].name + '」の初期値まで戻し、振り直す ── 確定で雫を一つ失う'); refreshRespec(); }
 function rsv(f) { const o = save.st; save.st = RS.st; const v = f(); save.st = o; return v; }
 function refreshRespec() {
   $('rsInfo').innerHTML = '残り <b>' + RS.pts + '</b> ポイント　（追憶の雫 <b>' + save.tears + '</b>）<br>最大HP <b>' + rsv(hpOf) + '</b>　スタミナ <b>' + rsv(stOf) + '</b>　FP <b>' + rsv(fpOf) + '</b>　重量上限 <b>' + calcLoad(null, null, RS.st.end).cap.toFixed(1) + '</b>';
@@ -2778,7 +2910,8 @@ function refreshRespec() {
   for (const [k, nm] of STATS) h += '<div class="row"><span class="nm">' + nm + '</span><span class="vl">' + RS.st[k] + '</span><span class="ef">元の値 <b>' + save.st[k] + '</b></span><button class="plus" data-s="' + k + '" data-d="-1"' + (RS.st[k] > CLASS[save.cls].st[k] ? '' : ' disabled') + ' aria-label="' + nm + 'を下げる">−</button><button class="plus" data-s="' + k + '" data-d="1"' + (RS.pts > 0 && RS.st[k] < 50 ? '' : ' disabled') + ' aria-label="' + nm + 'を上げる">＋</button></div>';
   $('rsRows').innerHTML = h; $('bRsOk').disabled = RS.pts !== 0;
 }
-function refreshBook() {
+const refreshBook = () => dexView(refreshBook0);
+function refreshBook0() {
   const c = collection(); let h = '';
   $('bkInfo').innerHTML = '収集率 <b>' + c.pct + '%</b>　実績 <b>' + achCount() + ' / ' + ACH.length + '</b>　まだ見ぬものは「？？？」と記される';
   const sec = (title, n, m) => { h += '<div class="hd">' + title + '<b>' + n + ' / ' + m + '</b></div>'; };
@@ -2788,7 +2921,7 @@ function refreshBook() {
   sec('盾', c.sh[0], c.sh[1]); for (const k in SHD) cell(save.shields.includes(k), SHD[k].name, SHD[k].type + '・カット' + Math.round(SHD[k].cut * 100) + '%・' + (SHD[k].pry ? 'パリィ可' : 'パリィ不可') + '・重さ' + SHD[k].wt);
   sec('防具（部位ごと・見つけた最上の品）', c.a[0], c.a[1]); for (const k in ARMP) { const b = ARMP[k], r = save.afound[k] | 0; if (b.hidden && !r) continue; cell(r > 0, (r ? astar(r) + ' ' : '') + b.name, SLOTN[b.slot] + '・' + b.cls + '・防御力' + b.def + '・重さ' + b.wt + (r ? '（最上：' + ARAR[r].n + '）' : ''), b.night); }
   sec('魔法', c.s[0], c.s[1]); for (const k in SPELL) if (!SPELL[k].hidden || save.spells.includes(k)) cell(save.spells.includes(k), SPELL[k].name, '消費FP ' + SPELL[k].fp, SPELL[k].night);
-  sec('タリスマン', c.t[0], c.t[1]); for (const k in TAL) { const ok = save.tals.includes(k), r = ok ? trar(k) : 1; cell(ok, '<span style="color:' + RAR[r].c + '">' + starsOf(r) + '</span> ' + TAL[k].name, tdesc(k, r) + '（見つけた最上の品：' + RAR[r].n + '）', TAL[k].night); }
+  sec('タリスマン', c.t[0], c.t[1]); for (const k in TAL) { const ok = save.tals.includes(k), r = ok ? trar(k) : 1; if (TAL[k].ng && !ok) continue; cell(ok, '<span style="color:' + RAR[r].c + '">' + starsOf(r) + '</span> ' + TAL[k].name, tdesc(k, r) + '（見つけた最上の品：' + RAR[r].n + '）', TAL[k].night); }
   sec('戦技の書', c.ar[0], c.ar[1]); for (const k in ART) if (!ART[k].hidden) cell(save.arts.includes(k), ART[k].name, '消費FP ' + ART[k].fp);
   sec('霊鈴', c.sr[0], c.sr[1]); for (const k in SPIRIT) cell(save.spirits.includes(k), SPIRIT[k].name + ((save.spLv[k] | 0) ? ' +' + save.spLv[k] : ''), SPIRIT[k].ally);
   { let n = 0, m = 0; for (const k in EDEF) { m++; if (save.seenE[k]) n++; } sec('出会った敵（倒すと記される）', n, m); for (const k in EDEF) cell(save.seenE[k], EDEF[k].name.split(' ')[0], EDEF[k].boss ? '強敵' : '討伐済み'); }
@@ -2813,7 +2946,7 @@ function refreshCrypt() {
 }
 function openBonfire(i) {
   const inCrypt = L.id === 'crypt', first = !inCrypt && !save.lit[L.base + i]; if (!inCrypt) { save.lit[L.base + i] = 1; save.bonfire = L.base + i; } recalc(); writeSave(); SFX.bonfire();
-  G.mode = 'menu'; G.bfMenu = false; G.fieldEq = false; P.state = 'idle'; P.buf = ''; releaseInput(); G.near = null;
+  G.mode = 'menu'; G.bfMenu = false; G.fieldEq = false; G.bfI = i; P.state = 'idle'; P.buf = ''; releaseInput(); G.near = null;
   for (let k = 0; k < 20; k++) pt(BLESS[i].x + rnd(-10, 10), BLESS[i].y - 10, rnd(-40, 40), rnd(-90, -20), rnd(0.6, 1.3), rnd(7, 14), 0, 1, 1, 40);
   bfPane('bfMain'); $('bfName').textContent = BLESS[i].name;
   bfNote(first ? (i === 1 ? '祝福に触れた ── ここから地下墓へ降りられる。「休息」で傷が癒える' : '祝福に触れた ── ここが新たな目覚めの地となる。「休息」で傷が癒える') : '「休息」を選ぶと HP・FP・灰瓶が満ち、亡者も蘇る');
@@ -2975,11 +3108,21 @@ function readMove() {
 function setPause(v) { G.paused = v; $('pause').classList.toggle('on', v); if (v) { releaseInput(); writeSave(); } }
 document.addEventListener('visibilitychange', () => { if (document.hidden) { writeSave(); if ((G.mode === 'fight' || G.mode === 'play') && !G.paused) setPause(true); try { if (AC && AC.state === 'running') AC.suspend(); } catch (e) {} } else { try { if (AC && AC.state === 'suspended') AC.resume(); } catch (e) {} } }); window.addEventListener('pagehide', () => { try { if (AC) AC.suspend(); } catch (e) {} });
 function tap(id, fn) { $(id).addEventListener('click', e => { e.preventDefault(); initAudio(); SFX.ui(); fn(); }); }
-tap('bCont', continueGame);
-tap('bNew', () => { if (save.started) $('confirm').classList.add('on'); else openClass(); });
-tap('bYes', openClass);
+$('slotBox').addEventListener('click', e => { const b = e.target.closest && e.target.closest('.slot'); if (!b) return; initAudio(); SFX.ui(); tSel = +b.dataset.i; refreshTitle(); });
+tap('bCont', () => { if (!slotInfo(tSel)) return; if (tSel !== SLOT) loadSlot(tSel); continueGame(); });
+tap('bNew', () => { const go = () => { NEWSLOT = tSel; NGP = null; openClass(); }; if (slotInfo(tSel)) confirmAsk('はじめから', 'セーブ' + tSel + 'の旅の記録（ルーン・レベル・装備・図鑑）は<br>すべて灰に還ります。よろしいですか？', '灰に還す', go); else go(); });
+tap('bDel', () => { if (slotInfo(tSel)) confirmAsk('セーブを削除', 'セーブ' + tSel + 'を削除します。<br>この旅の記録は二度と戻りません。よろしいですか？', '削除する', () => { deleteSlot(tSel); refreshTitle(); }); });
+for (const id of ['bNext', 'bNextWin', 'bNextBf']) tap(id, () => { if (id === 'bNext') { if (!slotInfo(tSel)) return; if (tSel !== SLOT) loadSlot(tSel); } startCycle(); });
+tap('bYes', () => { const f = cfmAct; cfmAct = null; $('confirm').classList.remove('on'); if (f) f(); });
+for (const b of $('xfSlots').querySelectorAll('button')) b.addEventListener('click', e => { e.preventDefault(); SFX.ui(); impSlot = +b.dataset.s; impMsg(); });
 $('clsCards').addEventListener('click', e => { const b = e.target.closest && e.target.closest('.ccard'); if (!b) return; initAudio(); SFX.ui(); clsSel = b.dataset.c; refreshClass(); });
-tap('bClsGo', () => { $('cls').classList.remove('on'); newGame(clsSel); }); tap('bClsNo', () => $('cls').classList.remove('on'));
+tap('bClsGo', () => { $('cls').classList.remove('on'); if (NGP) openBless(); else newGame(clsSel); }); tap('bClsNo', () => { NGP = null; $('cls').classList.remove('on'); });
+let blSel = 'flask';
+function refreshBless() { let h = ''; for (const k of CBLIDS) h += '<button class="ccard' + (k === blSel ? ' cur' : '') + '" data-b="' + k + '"><span class="cn" style="font-size:14px;letter-spacing:.04em">' + CBL[k].n + '</span><span class="cd">' + CBL[k].d + '</span></button>'; $('blCards').innerHTML = h; $('blInfo').innerHTML = '<b>' + cycName(NGP ? NGP.cyc : 1) + '</b>の旅で、ひとつだけ授かる加護。次の周回で選び直せる。<br>選んだ加護：<b>' + CBL[blSel].n + '</b> ── ' + CBL[blSel].d + '<br>敵は <b>' + Math.round((NGP ? (NGP.cyc === 1 ? 1.3 : Math.min(2.5, 1.55 + 0.2 * (NGP.cyc - 2))) : 1) * 100) + '%</b> の強さになり、ルーンと防具の実りが少し増える'; }
+function openBless() { if (!CBL[blSel]) blSel = 'flask'; refreshBless(); $('bless').classList.add('on'); }
+$('blCards').addEventListener('click', e => { const b = e.target.closest && e.target.closest('.ccard'); if (!b) return; initAudio(); SFX.ui(); blSel = b.dataset.b; refreshBless(); });
+tap('bBlGo', () => { $('bless').classList.remove('on'); const n = NGP; NGP = null; newGame(clsSel, n, blSel); });
+tap('bBlNo', () => { $('bless').classList.remove('on'); $('cls').classList.add('on'); });
 for (const id of ['bAch', 'bAch2', 'bAch3']) tap(id, openAch); tap('bAchClose', () => $('achv').classList.remove('on'));
 for (const id of ['bOpts', 'bOpts2']) tap(id, () => { refreshTitle(); xferMode('xfMenu'); $('opts').classList.add('on'); }); tap('bOptClose', () => { writeSave(); $('opts').classList.remove('on'); });
 $('rBgm').addEventListener('input', e => { initAudio(); save.volB = clamp(+e.target.value / 100, 0, 1); }); $('rSe').addEventListener('input', e => { save.volS = clamp(+e.target.value / 100, 0, 1); });
@@ -2987,7 +3130,7 @@ $('rSe').addEventListener('change', () => { initAudio(); bgmTick(); SFX.hit(); w
 tap('bXfOut', () => { xferMode('xfOut'); $('xfCode').value = '書き出し中…'; exportCode().then(c => { $('xfCode').value = c; $('xfMsg').textContent = 'このコードを控えて、別の端末の「セーブを読み込む」に貼り付ける（' + c.length + '文字）'; }).catch(() => { $('xfMsg').textContent = '書き出しに失敗した'; }); });
 tap('bXfCopy', () => { const t = $('xfCode'); try { t.focus(); t.select(); } catch (e) {} try { navigator.clipboard.writeText(t.value).then(() => { $('xfMsg').textContent = 'コピーした'; }, () => { $('xfMsg').textContent = 'コピーできなかった ── 枠の中を長押しして選び、コピーすること'; }); } catch (e) { $('xfMsg').textContent = 'コピーできなかった ── 枠の中を長押しして選び、コピーすること'; } });
 tap('bXfIn', () => { xferMode('xfIn'); $('xfPaste').value = ''; });
-tap('bXfCheck', () => { xferData = null; $('bXfApply').style.display = 'none'; $('xfPrev').innerHTML = ''; parseCode($('xfPaste').value).then(o => { xferData = o; const st = o.st || {}, lv = ['vit', 'end', 'str', 'dex', 'int', 'fth'].reduce((a, k) => a + (+st[k] || 10), 0) - 59; let ac = 0; for (const k in (o.ach || {})) ac++; $('xfPrev').innerHTML = '素性 <b>' + (CLASS[o.cls] ? CLASS[o.cls].name : '放浪者') + '</b>　レベル <b>' + lv + '</b>　ルーン <b>' + fmtN(+o.souls || 0) + '</b><br>旅の時間 <b>' + fmtTime(+o.time || 0) + '</b>　王 <b>' + (o.bossDead ? '討伐済み' : '未討伐') + '</b>　地下墓 <b>' + (o.cryptDeep ? 'B' + o.cryptDeep : 'なし') + '</b>　実績 <b>' + ac + '</b>'; $('xfMsg').textContent = '読み込むと、この端末のいまのセーブは上書きされる'; $('bXfApply').style.display = ''; }).catch(er => { $('xfMsg').textContent = '読み込めない ── ' + (er && er.message || 'コードが正しくない'); }); });
+tap('bXfCheck', () => { xferData = null; $('bXfApply').style.display = 'none'; $('xfPrev').innerHTML = ''; parseCode($('xfPaste').value).then(o => { xferData = o; const st = o.st || {}, lv = ['vit', 'end', 'str', 'dex', 'int', 'fth'].reduce((a, k) => a + (+st[k] || 10), 0) - 59; let ac = 0; for (const k in (o.ach || {})) ac++; $('xfPrev').innerHTML = '素性 <b>' + (CLASS[o.cls] ? CLASS[o.cls].name : '放浪者') + '</b>　レベル <b>' + lv + '</b>　ルーン <b>' + fmtN(+o.souls || 0) + '</b><br>旅の時間 <b>' + fmtTime(+o.time || 0) + '</b>　王 <b>' + (o.bossDead ? '討伐済み' : '未討伐') + '</b>　地下墓 <b>' + (o.cryptDeep ? 'B' + o.cryptDeep : 'なし') + '</b>　実績 <b>' + ac + '</b>'; impMsg(); $('bXfApply').style.display = ''; }).catch(er => { $('xfMsg').textContent = '読み込めない ── ' + (er && er.message || 'コードが正しくない'); }); });
 tap('bXfApply', applyImport); for (const id of ['bXfBack1', 'bXfBack2']) tap(id, () => xferMode('xfMenu')); tap('bNo', () => $('confirm').classList.remove('on'));
 tap('bRetry', respawn); tap('bAgain', () => { save.bonfire = 0; spawnAt(0); });
 tap('bDeadTitle', toTitle); tap('bWinTitle', toTitle); tap('bQuit', toTitle);
@@ -3107,7 +3250,7 @@ function startRoll() {
   let dx = inp.mx, dy = inp.my; const d = Math.hypot(dx, dy);
   if (d > 0.2) { dx /= d; dy /= d; }
   else { const tg = target(G.zone === 'a' ? 1e4 : 220), a = tg ? Math.atan2(P.y - tg.y, P.x - tg.x) : P.face; dx = Math.cos(a); dy = Math.sin(a); }
-  P.rdx = dx; P.rdy = dy; P.state = 'roll'; P.t = 0; P.dodged = false; P.face = Math.atan2(dy, dx); useSt(ROLLS[M.roll].st * (1 - 0.25 * tk('clasp'))); SFX.roll();
+  P.rdx = dx; P.rdy = dy; P.state = 'roll'; P.t = 0; P.dodged = false; P.face = Math.atan2(dy, dx); useSt(ROLLS[M.roll].st * (1 - 0.25 * tk('clasp')) * (1 - blessRoll())); SFX.roll();
 }
 function startCast() {
   const id = curSpell(); if (!id) { toast('魔法を記憶していない ── メニューの「装備 → 魔法」で記憶する'); SFX.nost(); return false; }
@@ -3422,7 +3565,7 @@ function hurtPlayer(dmg, fx, fy, kb, light, src, proj) {
   }
   if ((P.state === 'guard' || (P.state === 'atk' && P.gAtk)) && offKind() === 'shield' && !(light && !src && !proj) && Math.abs(angDiff(Math.atan2(fy - P.y, fx - P.x), P.face)) < 1.9) { if (G.god) return false; return guardHit(dmg, fx, fy, kb, src, proj); }
   if (G.god) return false;
-  dmg = Math.max(1, Math.round(dmg * G.dm * (src || proj ? 1 : 1 - AB.el) * (1 - M.def) * (P.ward > 0 ? 0.55 : 1) * (P.hp <= P.maxHp * 0.3 ? 1 - 0.3 * tk('wedge') : 1))); mechHurt(dmg);
+  dmg = Math.max(1, Math.round(dmg * G.dm * (G.zone === 'a' ? cycK() : 1) * (src || proj ? 1 : 1 - AB.el) * (1 - M.def) * (P.ward > 0 ? 0.55 : 1) * (P.hp <= P.maxHp * 0.3 ? 1 - 0.3 * tk('wedge') : 1))); mechHurt(dmg);
   if (!light && w.armor && (P.state === 'atk' || P.state === 'heavy') && P.t > 0.1 && dmg < (w.armor === true ? 22 : w.armor)) light = true;
   if (!light && ((AB.poise > 0 && dmg < AB.poise) || (P.ward > 0 && dmg < 20))) light = true;
   /* v1.6.4 interrupt chance: only 怯ませる力 of the source decides whether a hit that gets through staggers the player. Mid-bosses / bosses / 強敵 interrupt (nearly) always. A hit that fails to interrupt still hurts but the action goes on. */
@@ -3682,7 +3825,7 @@ const WTS = {};
 function hitBoss(dmg, poise, heavy, bleed) {
   let mult = 1, crit = false;
   const rk = KRES[G.dt] || 1; dmg *= rk;
-  if (B.state === 'stagger') { mult = 1.35; if (heavy && !B.critDone) { mult = 2.0 * (G.critK || 1); crit = true; onCrit(); B.critDone = true; B.t = Math.min(B.t, 0.75); } }
+  if (B.state === 'stagger') { mult = 1.35; if (heavy && !B.critDone) { mult = 2.0 * (G.critK || 1) * blessCrit(); crit = true; onCrit(); B.critDone = true; B.t = Math.min(B.t, 0.75); } }
   dmg = Math.max(1, Math.round(dmg * mult * rnd(0.94, 1.06)) || 0); let bl = 0;
   if (bleed) { B.bleed += bleed * bleedMult(); B.bleedT = 5; if (B.bleed >= B.bleedMax) { B.bleed = 0; B.bleedMax *= 1.12; bl = Math.round(62 * bleedMult()); } } if (!isFinite(dmg)) dmg = 0; if (!isFinite(bl)) bl = 0;
   B.hp -= dmg + bl; if (!isFinite(B.hp)) B.hp = 0; B.flash = 0.12; B.dmgAcc += dmg + bl; B.dmgT = 2.2;
@@ -3708,7 +3851,7 @@ function bossDie() {
   B.state = 'dead'; B.t = 0; G.mode = 'win'; G.t = 0; G.shown = false; G.slow = 0.3; G.slowT = 1.3; clearBossTele();
   spikes.length = rings.length = shots.length = fires.length = 0;
   G.first = !save.bossDead; save.bossDead = true; save.wins++; G.newBest = !save.best || G.time < save.best; if (G.newBest) save.best = G.time;
-  if (G.first) { save.clear = save.time; save.mats.x++; } gainSouls(3000); fightWon(); grantBoss('king'); dropKing(); writeSave();
+  if (G.first) { save.clear = save.time; save.mats.x++; } gainSouls(Math.round(3000 * cycRune() * (1 + blessRune()))); fightWon(); grantBoss('king'); dropKing(); writeSave();
   SFX.boom(); G.hitstop = 0.25; shake(20); vib([60, 40, 200]); G.flashW = 0.6; setDrone(0.015, 120);
   if (P.state !== 'idle' && P.state !== 'dead') { P.state = 'idle'; }
 }
@@ -4110,7 +4253,10 @@ const ACH = [
   ['power', '力を宿す', '大いなる力を呼び覚ます', () => Object.keys(save.pw).some(k => save.pw[k] === 2)],
   ['maps', '地図を継ぐ者', '地図の断片を8つ集める', () => Object.keys(save.maps).length >= 8, () => [Math.min(8, Object.keys(save.maps).length), 8]],
   ['respec', '生まれ変わり', '追憶の雫で能力を振り直す', () => save.cnt.respec],
-  ['bare', '持たざる王殺し', '素性「持たざる者」で王を斃す', () => save.bossDead && save.cls === 'none']
+  ['bare', '持たざる王殺し', '素性「持たざる者」で王を斃す', () => save.bossDead && save.cls === 'none'],
+  ['cyc2', '灰の輪', '二周目の旅を始める', () => CYC() >= 1],
+  ['cyc3', '巡る灰', '三周目の旅を始める', () => CYC() >= 2],
+  ['cycK', '輪廻の王殺し', '二周目以降で、灰冠の騎士王を斃す', () => CYC() >= 1 && save.bossDead]
 ];
 function checkAch() {
   for (const a of ACH) if (!save.ach[a[0]] && a[3]()) { save.ach[a[0]] = 1; SFX.item(); if (G.mode === 'title') continue; queueCard('実績解除', '── ' + a[1] + ' ──', 2.8); writeSave(); }
@@ -4124,13 +4270,14 @@ function openAch() {
 
 /* ---------- class selection ---------- */
 let clsSel = 'knight';
-function clsLevel(id) { return level(CLASS[id].st); }
+const clsSt = id => { const o = Object.assign({}, CLASS[id].st); if (NGP) for (const k in o) o[k] += NGP.cb[k] | 0; return o; };
+function clsLevel(id) { return level(clsSt(id)); }
 function refreshClass() {
-  let h = ''; for (const id of CLSIDS) { const c = CLASS[id]; h += '<button class="ccard' + (id === clsSel ? ' cur' : '') + '" data-c="' + id + '"><span class="cn">' + c.name + '</span><span class="cl">Lv ' + clsLevel(id) + '</span><span class="cw">' + c.w.map(w => WPN[w].name).concat((c.sh || []).map(k => SHD[k].name)).join('・') + '</span></button>'; }
-  $('clsCards').innerHTML = h; const c = CLASS[clsSel];
-  $('clsInfo').innerHTML = '<b>' + c.name + '</b>　' + c.desc + '<br>' + STATS.map(s => s[1] + ' <b>' + c.st[s[0]] + '</b>').join('　') + '<br>武器 <b>' + c.w.map(w => WPN[w].name).concat((c.sh || []).map(k => SHD[k].name)).join('・') + '</b>　防具 <b>' + ARM[c.a].name + '</b>' + (c.sp.length ? '　魔法 <b>' + c.sp.map(s => SPELL[s].name).join('・') + '</b>' : '') + (c.ar.length ? '　戦技 <b>' + c.ar.map(s => ART[s].name).join('・') + '</b>' : '') + (c.sr ? '　霊鈴 <b>' + SPIRIT[c.sr].name + '</b>' : '');
+  let h = ''; for (const id of CLSIDS) { const c = CLASS[id]; h += '<button class="ccard' + (id === clsSel ? ' cur' : '') + '" data-c="' + id + '"><span class="cn">' + c.name + '</span><span class="cl">Lv ' + clsLevel(id) + '</span>' + (NGP ? '<span class="cb">引継ぎ +' + Object.values(NGP.cb).reduce((a, b) => a + b, 0) + '</span>' : '') + '<span class="cw">' + c.w.map(w => WPN[w].name).concat((c.sh || []).map(k => SHD[k].name)).join('・') + '</span></button>'; }
+  $('clsCards').innerHTML = h; const c = CLASS[clsSel]; $('cls').querySelector('h2').textContent = NGP ? '素性を選ぶ ─ ' + cycName(NGP.cyc) : '素性を選ぶ';
+  $('clsInfo').innerHTML = '<b>' + c.name + '</b>　' + c.desc + '<br>' + STATS.map(s => s[1] + ' <b>' + (c.st[s[0]] + (NGP ? NGP.cb[s[0]] | 0 : 0)) + '</b>' + (NGP && NGP.cb[s[0]] ? '<i>(+' + NGP.cb[s[0]] + ')</i>' : '')).join('　') + '<br>武器 <b>' + c.w.map(w => WPN[w].name).concat((c.sh || []).map(k => SHD[k].name)).join('・') + '</b>　防具 <b>' + ARM[c.a].name + '</b>' + (c.sp.length ? '　魔法 <b>' + c.sp.map(s => SPELL[s].name).join('・') + '</b>' : '') + (c.ar.length ? '　戦技 <b>' + c.ar.map(s => ART[s].name).join('・') + '</b>' : '') + (c.sr ? '　霊鈴 <b>' + SPIRIT[c.sr].name + '</b>' : '');
 }
-function openClass() { $('confirm').classList.remove('on'); refreshClass(); $('cls').classList.add('on'); }
+function openClass() { $('confirm').classList.remove('on'); cfmAct = null; refreshClass(); $('cls').classList.add('on'); }
 
 /* ---------- save transfer ---------- */
 function fnv(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(16).padStart(8, '0'); }
@@ -4149,11 +4296,12 @@ async function parseCode(code) {
   const o = JSON.parse(new TextDecoder().decode(u8)); if (!o || typeof o !== 'object' || o.v !== 1 || !o.st) throw new Error('セーブの中身が正しくない'); return o;
 }
 let xferData = null;
-function xferMode(m) { for (const id of ['xfMenu', 'xfOut', 'xfIn']) $(id).style.display = id === m ? '' : 'none'; $('xfMsg').textContent = ''; $('xfPrev').innerHTML = ''; $('bXfApply').style.display = 'none'; xferData = null; }
+function xferMode(m) { if (m === 'xfIn') { impSlot = SLOT; impMsg(); } for (const id of ['xfMenu', 'xfOut', 'xfIn']) $(id).style.display = id === m ? '' : 'none'; $('xfMsg').textContent = ''; $('xfPrev').innerHTML = ''; $('bXfApply').style.display = 'none'; xferData = null; }
+let impSlot = 1;
+function impMsg() { const s = slotInfo(impSlot); $('xfMsg').textContent = s ? '読み込むと、セーブ' + impSlot + '（' + CLASS[s.cls].name + ' Lv ' + level(s.st) + '）は上書きされる' : '読み込むと、空きのセーブ' + impSlot + 'に入る'; for (const b of $('xfSlots').querySelectorAll('button')) b.classList.toggle('cur', +b.dataset.s === impSlot); }
 function applyImport() {
-  if (!xferData) return; const keepAudio = { mute: save.mute, volB: save.volB, volS: save.volS };
-  for (const k in save) delete save[k]; Object.assign(save, freshSave(), { mute: false, best: 0, wins: 0, clear: 0, hintOff: false, ach: {}, volB: 0.7, volS: 1 }, xferData, keepAudio);
-  sanitize(); writeSave(); for (const k in seenRoom) delete seenRoom[k]; CASTLE = buildCastle(save.night); L = null; useLevel(CASTLE); P.slot = 0; xferData = null;
+  if (!xferData) return; writeSave(); const keepG = pickG(save); keepG.ach = Object.assign({}, xferData.ach || {}, save.ach);
+  SLOT = impSlot; fillSave(xferData, null, keepG); enterSaveWorld(); writeSave(); xferData = null;
   G.paused = false; toTitle(); $('opts').classList.remove('on'); xferMode('xfMenu'); G.toast = '';
 }
 
@@ -4238,7 +4386,7 @@ function startGuard() {
 function tagText(e, txt, col) { floatText(e.x, e.y - (e.r || 30) - 50, txt, col || '#9fe8d0', 11); }
 /* returns true when the hit was taken on the shield */
 function guardHit(dmg, fx, fy, kb, src, proj) {
-  const s = SHD[save.off], raw = dmg * G.dm, cut = src || proj ? s.cut : s.cut * s.el, dealt = Math.max(0, Math.round(raw * (src || proj ? 1 : 1 - AB.el) * (1 - M.def) * (1 - cut) * (P.ward > 0 ? 0.55 : 1)));
+  const s = SHD[save.off], raw = dmg * G.dm * (G.zone === 'a' ? cycK() : 1), cut = src || proj ? s.cut : s.cut * s.el, dealt = Math.max(0, Math.round(raw * (src || proj ? 1 : 1 - AB.el) * (1 - M.def) * (1 - cut) * (P.ward > 0 ? 0.55 : 1)));
   P.st -= raw * 0.9 * s.stab; P.stDelay = 0.9; save.cnt.guard++; P.ctr = 1.2; P.inv = 0.22;
   const a = Math.atan2(P.y - fy, P.x - fx); P.kx = Math.cos(a) * kb * 0.22; P.ky = Math.sin(a) * kb * 0.22;
   SFX.hit(); tone('triangle', 700, 420, 0.12, 0.16); shake(3); burst(P.x + Math.cos(P.face) * 16, P.y + Math.sin(P.face) * 16, 8, 220, 0.3, 7, 0, 2);
@@ -4322,7 +4470,7 @@ function holdCharge(h, dt) {
   return true;
 }
 /* random talisman of a given rarity (drops) */
-function randTal(r) { const pool = []; for (const k in TAL) if (!TAL[k].l2 && !TAL[k].md && k !== 'socket' && (!TAL[k].night || save.night)) pool.push(k); return { t: pool[Math.floor(Math.random() * pool.length)], r }; }
+function randTal(r) { const pool = []; for (const k in TAL) if (!TAL[k].l2 && !TAL[k].md && !TAL[k].ng && k !== 'socket' && (!TAL[k].night || save.night)) pool.push(k); return { t: pool[Math.floor(Math.random() * pool.length)], r }; }
 
 /* =====================================================================
    3f systems. Everything here is keyed by map id / region id / item id (never by layer number),
@@ -4561,6 +4709,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.7.0', d: '2026-11-18', t: '三つのセーブと周回', items: ['セーブデータを3つまで保存できるようになりました', '周回プレイ（二周目以降）を追加しました'] },
   { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具のサブステータスの値がA〜Eの5段階になりました（新しく拾った防具から）', '中ボスのいる部屋の雑魚を少し減らし、中ボス戦の最中は離れた雑魚が加わりにくくしました', '雑魚の攻撃の予兆を少し早めました', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました', 'モンスターのAIを調整しました', 'プレイヤーの移動速度を調整しました', '敵の攻撃で行動が中断されることがあるようになりました', '大剣や刀を持つ新しい敵が現れるようになりました'] },
   { v: '1.6.3', d: '2026-11-18', t: '歯ごたえのある亡者たち', items: ['雑魚の亡者が、いまの強さに見合うだけ頑丈になり、攻撃も重くなりました。第1層・夜・第2層・ミニダンジョン、そして地下墓 B1〜B7 まで、「そのあたりで戦うころの強さ」を目安に整え直しています（レベルや強化を重ねれば、ちゃんと楽になります）', 'そのかわり、雑魚の近づいてくる足は約3割ゆっくりに。数を恐れず、間合いを読んで戦えます。攻撃の隙は少し短く、振りかぶりの途中は軽い攻撃では怯まなくなりました（予兆はこれまでどおり赤い枠）', '新しい敵「盾持ちの亡者」「聖都の盾衛士」が登場（第1層・第2層・地下墓 B2 以降）。正面からの軽い攻撃はほとんど防がれ、削られるのは盾の気力。ゼロになる「ガード崩し」で大きく体勢が崩れます。強攻撃、横や背中への回り込み、攻撃直後の隙を狙いましょう', '双刃の影 イズリル（夜の姿・地下墓の個体も）が簡単にひるまされ、連続攻撃で動けなくなる不具合を直しました。体勢が崩れにくくなり、回避の最中は攻撃が当たらず、立て続けに斬られると影に紛れて背後から反撃します', '強敵・精鋭・層の中ボス共通で、短い間に二度ほど怯まされると、しばらく怯まなくなって反撃してきます（頭上に「怯まず」）。崩れから立ち直った直後も、少しのあいだ崩れません']},
   { v: '1.6.2', d: '2026-11-17', t: '最初の手応えへ', items: ['祝福は「触れる」だけでは回復しなくなりました。触れると灯がともって復活地点と転移先になり、「休息」を選んだときだけ HP・FP・灰瓶が満ちて亡者が蘇ります（転移で着いたときも同じです）', 'どの素性もレベル1から。初めの持ち物も控えめにしました（騎士は革鎧と小盾、魔術師は魔法一つ、聖職者は霊鈴なし）', '第1層の亡者が少し丈夫に、少し痛くなり、新しい攻め手が増えました。そのかわり、一度に斬りかかってくるのは二体ほどまで。残りは周りで隙をうかがいます', '体勢を崩す力を武器の種類ごとに見直しました（大剣・特大剣・槌を控えめに）。崩された敵は、しばらく崩れにくくなります', '防具の守りを見直しました（第1層の重装一式で被害 -15% ほど。深い層の防具ほどしっかり堅くなります）', '武器の固有の技は、鍛えるほど本領を発揮するように。タリスマン・防具のサブステータス・致命の一撃も、序盤は控えめに', '霊体を弱めました。助けにはなりますが、強敵を任せきりにはできません（時間とともに薄れます）', '光や火花をおとなしくしました。画面全体が白くなることはもうありません。設定に「エフェクト：標準／控えめ」を追加', '武器が種類ごとに並ぶようになりました（装備・強化・図鑑）。種類で絞り込めます', '侵入者（赤い霊体）は、いったんお休みです', '灰冠の騎士王に関する不具合を調べ、体力がなくなれば必ず斃れるようにしました', 'セーブはそのまま引き継がれます'] },
@@ -4613,7 +4762,7 @@ function disGain(it) { const d = DISM[it.r]; return { r: Math.round(d.r * (1 + 0
 const gainTxt = g => fmtN(g.r) + ' ルーン' + Object.keys(g.m).map(k => '・' + MAT[k] + '×' + g.m[k]).join('');
 /* where a drop comes from decides its tier (1..10): the layer number, +1 at night; 地下墓 B1-2 → 1, B3-4 → 2, B5-6 → 3, B7 → 4 */
 function lootTier() { if (G.zone === 'a') return save.night ? 2 : 1; if (L.id === 'crypt') return clamp(Math.ceil(L.floor / 2), 1, TIER_MAX); return clamp((L.tier || L.lay || 1) + (L.night ? 1 : 0), 1, TIER_MAX); }
-function lootLuck() { if (G.zone === 'a') return 0; return L.id === 'crypt' ? 0.07 * L.floor : L.night ? 0.2 : 0; }
+function lootLuck() { const cl = cycLuck(); if (G.zone === 'a') return cl; return cl + (L.id === 'crypt' ? 0.07 * L.floor : L.night ? 0.2 : 0); }
 
 /* ---------- drops ---------- */
 function spawnLoot(x, y, it, quiet) {
@@ -4636,7 +4785,7 @@ function dropArmor(e) {
   else if (e.elite) { if (Math.random() < DROPP.e[0]) dropLoot(e.x, e.y, 'e', 1, t); }
   else { const q = lootQ(t, lootLuck()); if (Math.random() < (DROPP.n[0] + (DROPP.n[1] - DROPP.n[0]) * q) * (e.type === 'knight' ? 2 : 1)) dropLoot(e.x, e.y, 'n', 1, t); }
 }
-function dropKing() { dropLoot(B.x, B.y, 'b', DROPN.b, lootTier()); }
+function dropKing() { dropLoot(B.x, B.y, 'b', DROPN.b, lootTier()); if (CYC() > 0 && !save.chests.ngk) { save.chests.ngk = 1; giveItem({ ap: 'ngf_b', r: CYC() >= 2 ? 5 : 4 }); } }
 function pickLoot(l, byHand) {
   if (save.inv.length >= ARM_CAP) { if (byHand || G.now - l.full > 4) { l.full = G.now; toast('防具がいっぱいだ（' + save.inv.length + ' / ' + ARM_CAP + '）── メニューの「装備 → 防具」で分解すること', 3.6); SFX.nost(); } return false; }
   const i = loots.indexOf(l); if (i >= 0) loots.splice(i, 1); const it = addArmor(l.it), b = ARMP[it.b];
@@ -5367,6 +5516,7 @@ function drawHUD() {
     ctx.fillStyle = '#bfe0ff'; ctx.beginPath(); ctx.moveTo(x + 6, sy - 7); ctx.lineTo(x + 11, sy); ctx.lineTo(x + 6, sy + 7); ctx.lineTo(x + 1, sy); ctx.closePath(); ctx.fill();
     ctx.font = '800 15px ' + FONT; const stw = ctx.measureText(stxt).width; ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText(stxt, x + 19, sy + 2); ctx.fillStyle = save.souls !== Math.round(G.soulShow) ? '#ffffff' : '#e6ecf5'; ctx.fillText(stxt, x + 18, sy + 1);
     ctx.font = '500 10.5px ' + FONT; ctx.fillStyle = '#8f9aa8'; ctx.fillText('ルーン', x + 24 + stw, sy + 2);
+    if (CYC() > 0) { ctx.font = '600 10px ' + FONT; ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillText(cycName(CYC()), x + 1, sy + 20); ctx.fillStyle = 'rgba(255,176,96,.78)'; ctx.fillText(cycName(CYC()), x, sy + 19); }
     { let bxx = x + 78 + stw; ctx.font = '800 11.5px ' + FONT; if (P.ward > 0) { ctx.fillStyle = '#a9d0ff'; ctx.fillText('障壁 ' + P.ward.toFixed(0), bxx, sy + 2); bxx += 50; } if (P.buffF > 0) { ctx.fillStyle = '#ffb060'; ctx.fillText('炎 ' + P.buffF.toFixed(0), bxx, sy + 2); bxx += 40; } if (P.buffR > 0) { ctx.fillStyle = '#ff8a70'; ctx.fillText('雄叫 ' + P.buffR.toFixed(0), bxx, sy + 2); } }
   }
   if (live) {
@@ -5596,7 +5746,8 @@ window.__debug = {
   newGame, continueGame, spawnAt, enterBoss, openBonfire, rest, queue, doInteract, killPlayer, level, lvCost, atkMult, los, solid, hitEnemy, eStart, mbStart, aggro, killEnemy, swapSpell,
   find(type) { return enemies.find(e => e.type === type || e.key === type); },
   killAll() { for (const e of enemies) if (e.state !== 'dead' && !e.def.boss) killEnemy(e); }, calm() { for (const e of enemies) if (e.state !== 'dead') resetEnemy(e); G.mb = null; },
-  wipe() { try { localStorage.removeItem(SAVE_KEY); } catch (e) {} }
+  wipe() { try { localStorage.removeItem(SAVE_KEY); localStorage.removeItem(GKEY); localStorage.removeItem(OLDBAK); for (let i = 1; i <= 3; i++) localStorage.removeItem(SKEY(i)); } catch (e) {} },
+  toTitle, blessRoll, blessCrit, blessRune, blessLoad, get SLOT() { return SLOT; }, get NGP() { return NGP; }, get tSel() { return tSel; }, loadSlot, deleteSlot, renderSlots, startCycle, slotInfo, cycK, cycRune, cycLuck, CBL, dexView, dexSync, SKEY, GKEY, impMsg, enterSaveWorld, fillSave, pickG, carryOf, hurtPlayer, dropKing, startNew(c) { NEWSLOT = tSel; NGP = null; newGame(c); }
 };
 })();
 
