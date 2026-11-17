@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta name="theme-color" content="#0d0d1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ちいさな勇者の冒険">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>ちいさな勇者の冒険</title>
+<link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0d0d1a;--win:#000;--line:#fff;--hp:#4cd964;--mp:#4ca6ff;--ex:#ffcc33;--danger:#ff5a5a}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:#fff;font-family:"DotGothic16",system-ui,sans-serif;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent;overflow:hidden}
+#app{max-width:480px;height:100%;margin:0 auto;display:flex;flex-direction:column;padding:10px 10px calc(10px + env(safe-area-inset-bottom))}
+.win{background:var(--win);border:3px solid var(--line);border-radius:8px;box-shadow:0 0 0 2px #000,inset 0 0 0 2px #000;padding:8px 10px}
+#status{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;font-size:14px;align-items:center}
+#status .top{grid-column:1/3;display:flex;justify-content:space-between;font-size:15px}
+.bar{height:10px;background:#333;border-radius:3px;overflow:hidden;position:relative}
+.bar>i{display:block;height:100%;transition:width .3s}
+.bar span{position:absolute;right:4px;top:-3px;font-size:11px;text-shadow:0 0 2px #000,0 0 2px #000}
+#scene{flex:1;margin:8px 0;border-radius:8px;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;transition:background .5s;min-height:150px}
+#scene .place{font-size:20px;position:absolute;top:8px;left:10px;text-shadow:0 2px 4px #000}
+#scene .sub{position:absolute;top:34px;left:10px;font-size:13px;opacity:.85;text-shadow:0 1px 3px #000}
+.monster{font-size:96px;line-height:1;position:relative;filter:drop-shadow(0 6px 6px rgba(0,0,0,.5))}
+.monster.boss{font-size:120px}
+.monster .crown{position:absolute;font-size:40px;left:50%;top:-34px;transform:translateX(-50%)}
+.mname{margin-top:8px;font-size:16px;text-shadow:0 1px 3px #000}
+.ehp{width:60%;margin-top:6px}
+.shake{animation:shake .3s}
+@keyframes shake{20%{transform:translateX(-10px)}40%{transform:translateX(10px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+.dead{animation:die .6s forwards}
+@keyframes die{to{opacity:0;transform:scale(.3) rotate(20deg)}}
+.flash{animation:flash .3s}
+@keyframes flash{30%{background:#a00}}
+.pop{position:absolute;font-size:28px;font-weight:bold;color:#fff;text-shadow:0 0 4px #000,0 0 4px #000;animation:pop .8s forwards;pointer-events:none}
+.pop.heal{color:#7fff9a}
+.pop.crit{color:#ffdd33;font-size:34px}
+@keyframes pop{0%{transform:translateY(0);opacity:1}100%{transform:translateY(-50px);opacity:0}}
+.townicon{font-size:84px}
+#msg{min-height:96px;max-height:120px;overflow:hidden;font-size:15px;line-height:1.55}
+#msg p{margin:0}
+#cmds{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#cmds button,#list button{font-family:inherit;font-size:16px;color:#fff;background:#000;border:3px solid #fff;border-radius:8px;padding:12px 6px;cursor:pointer;touch-action:manipulation}
+#cmds button:active,#list button:active{background:#333}
+#cmds button:disabled{opacity:.35}
+#cmds button.wide{grid-column:1/3}
+#cmds button.gold{border-color:var(--ex)}
+#cmds button.red{border-color:var(--danger)}
+#list{position:absolute;inset:0;background:rgba(0,0,0,.92);overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:6px}
+#list button{text-align:left;display:flex;justify-content:space-between;align-items:center;font-size:15px;padding:10px}
+#list button .r{font-size:13px;opacity:.85;text-align:right}
+#list button.owned{border-color:#777;color:#aaa}
+#list button.eq{border-color:var(--ex)}
+#list button:disabled{opacity:.4}
+#list h3{margin:4px 0 2px;font-weight:normal;font-size:17px}
+.st{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;font-size:16px;padding:6px}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="status" class="win"></div>
+  <div id="scene"></div>
+  <div id="msg" class="win"></div>
+  <div id="cmds"></div>
+</div>
+<script>
+//DATA_START
+const WEAPONS=[
+ {n:'ひのきのぼう',a:0,p:0,u:0},{n:'こんぼう',a:4,p:40,u:0},{n:'どうのつるぎ',a:10,p:180,u:0},
+ {n:'てつのつるぎ',a:20,p:700,u:1},{n:'はがねのつるぎ',a:34,p:2200,u:2},
+ {n:'ほのおのつるぎ',a:52,p:3800,u:3},{n:'ゆうしゃのつるぎ',a:80,p:8000,u:4}];
+const ARMORS=[
+ {n:'ぬののふく',d:0,p:0,u:0},{n:'かわのよろい',d:4,p:30,u:0},{n:'くさりかたびら',d:9,p:150,u:0},
+ {n:'てつのよろい',d:17,p:600,u:1},{n:'はがねのよろい',d:28,p:2000,u:2},
+ {n:'ミスリルメイル',d:42,p:3500,u:3},{n:'ひかりのよろい',d:62,p:7500,u:4}];
+const ITEMS=[
+ {id:'herb',n:'やくそう',p:8,desc:'HPを40かいふく',hp:40},
+ {id:'herb2',n:'じょうやくそう',p:60,desc:'HPを200かいふく',hp:200,u:2},
+ {id:'water',n:'まほうのせいすい',p:40,desc:'MPを30かいふく',mp:30,u:1},
+ {id:'elixir',n:'エリクサー',p:800,desc:'HPとMPをぜんかいふく',hp:99999,mp:99999,u:3}];
+const SKILLS=[
+ {n:'ファイア',lv:3,mp:3,t:'mag',pow:s=>14+s.lv*5,desc:'ほのおで こうげき'},
+ {n:'ヒール',lv:5,mp:5,t:'heal',pow:s=>Math.round(20+maxHp(s)*0.4),desc:'HPを かいふく'},
+ {n:'かえんぎり',lv:8,mp:7,t:'phys',mul:1.9,desc:'つよい いちげき'},
+ {n:'サンダー',lv:13,mp:10,t:'mag',pow:s=>40+s.lv*9,desc:'いかずちで こうげき'},
+ {n:'ハイヒール',lv:17,mp:12,t:'heal',pow:s=>Math.round(maxHp(s)*0.85),desc:'HPを おおきく かいふく'},
+ {n:'ギガスラッシュ',lv:22,mp:20,t:'phys',mul:3.2,desc:'ひっさつの いちげき'},
+ {n:'メテオ',lv:27,mp:30,t:'mag',pow:s=>200+s.lv*20,desc:'いんせきを おとす'}];
+const AREAS=[
+ {n:'はじまりのそうげん',rec:'Lv1〜5',bg:'linear-gradient(#7ec8f0,#a8e07a 60%,#5fae4a)',
+  e:[{n:'スライム',ic:'🟢',hp:12,atk:6,def:1,spd:3,exp:3,g:4},{n:'あばれガラス',ic:'🐦',hp:15,atk:7,def:2,spd:8,exp:4,g:5},{n:'いたずらウサギ',ic:'🐰',hp:19,atk:8,def:2,spd:6,exp:5,g:7}],
+  boss:{n:'キングスライム',ic:'🟢',hp:110,atk:14,def:5,spd:4,exp:50,g:80}},
+ {n:'まよいのもり',rec:'Lv6〜10',bg:'linear-gradient(#2f5e3a,#1f4a2a 60%,#173a20)',
+  e:[{n:'おばけキノコ',ic:'🍄',hp:48,atk:19,def:8,spd:5,exp:16,g:14},{n:'もりオオカミ',ic:'🐺',hp:58,atk:22,def:9,spd:11,exp:19,g:17},{n:'どくグモ',ic:'🕷️',hp:52,atk:21,def:10,spd:9,exp:18,g:16}],
+  boss:{n:'じゅれいトレント',ic:'🌳',hp:420,atk:32,def:15,spd:6,exp:260,g:300}},
+ {n:'やみのどうくつ',rec:'Lv11〜15',bg:'linear-gradient(#2a2438,#1a1625 60%,#0f0c18)',
+  e:[{n:'きゅうけつコウモリ',ic:'🦇',hp:110,atk:40,def:18,spd:17,exp:40,g:34},{n:'いわのゴーレム',ic:'🗿',hp:170,atk:46,def:30,spd:4,exp:55,g:46},{n:'さまようゴースト',ic:'👻',hp:130,atk:48,def:20,spd:13,exp:48,g:40}],
+  boss:{n:'ブラックドラゴン',ic:'🐲',hp:1100,atk:66,def:34,spd:14,exp:900,g:900}},
+ {n:'ほのおのかざん',rec:'Lv16〜21',bg:'linear-gradient(#4a1010,#8a2a10 60%,#c2501a)',
+  e:[{n:'マグマリザード',ic:'🦎',hp:260,atk:74,def:38,spd:14,exp:110,g:85},{n:'ほのおのせいれい',ic:'🔥',hp:240,atk:80,def:34,spd:19,exp:115,g:90},{n:'ようがんサソリ',ic:'🦂',hp:330,atk:84,def:50,spd:12,exp:135,g:105}],
+  boss:{n:'まじんイフリート',ic:'👹',hp:1800,atk:104,def:54,spd:20,exp:3000,g:3000}},
+ {n:'まおうじょう',rec:'Lv22〜28',bg:'linear-gradient(#1a0a2a,#2d0f3f 60%,#120518)',
+  e:[{n:'ダークナイト',ic:'🤺',hp:560,atk:110,def:70,spd:20,exp:280,g:270},{n:'アークデーモン',ic:'👿',hp:620,atk:118,def:62,spd:24,exp:310,g:290},{n:'リッチ',ic:'💀',hp:540,atk:124,def:56,spd:22,exp:300,g:300}],
+  boss:{n:'まおう ゼノス',ic:'😈',hp:4500,atk:145,def:84,spd:28,exp:20000,g:20000}}];
+const BOSS_NEED=5;
+function expNext(lv){return Math.round(7*Math.pow(lv,1.75)+4*lv)}
+function maxHp(s){return 34+(s.lv-1)*16}
+function maxMp(s){return 8+(s.lv-1)*5}
+function atk(s){return 9+(s.lv-1)*3+WEAPONS[s.w].a}
+function def(s){return 3+(s.lv-1)*2+ARMORS[s.a].d}
+function spd(s){return 5+(s.lv-1)}
+function rnd(a,b){return a+Math.random()*(b-a)}
+function phys(a,d,mul=1){return Math.max(1,Math.round((a*mul-d/2)*rnd(.85,1.15)))}
+function magic(p,d){return Math.max(1,Math.round((p-d/4)*rnd(.9,1.1)))}
+function newSave(){return {lv:1,exp:0,hp:34,mp:8,gold:60,w:0,a:0,items:{herb:3},cleared:0,wins:[0,0,0,0,0],ended:false}}
+//DATA_END
+
+let S, view='town', areaIdx=0, battle=null, busy=false;
+const $=id=>document.getElementById(id);
+function save(){try{localStorage.setItem('chiisana_yusha',JSON.stringify(S))}catch(e){}}
+function load(){try{const d=JSON.parse(localStorage.getItem('chiisana_yusha'));if(d&&d.lv)return Object.assign(newSave(),d)}catch(e){}return null}
+
+/* ---------- audio ---------- */
+let ac=null;
+function tone(f,d=.08,type='square',v=.06,delay=0){try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();const t=ac.currentTime+delay,o=ac.createOscillator(),g=ac.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d)}catch(e){}}
+const SE={
+ hit:()=>{tone(220,.06);tone(140,.08,'square',.06,.04)},
+ hurt:()=>{tone(120,.15,'sawtooth',.08)},
+ magic:()=>{[660,880,1100].forEach((f,i)=>tone(f,.1,'triangle',.07,i*.05))},
+ heal:()=>{[523,659,784,1046].forEach((f,i)=>tone(f,.12,'sine',.08,i*.07))},
+ win:()=>{[523,659,784,1046,784,1046].forEach((f,i)=>tone(f,.14,'square',.05,i*.1))},
+ lvup:()=>{[392,523,659,784,1046,1318].forEach((f,i)=>tone(f,.16,'triangle',.08,i*.09))},
+ buy:()=>{tone(988,.06,'square',.05);tone(1318,.12,'square',.05,.06)},
+ lose:()=>{[392,330,262,196].forEach((f,i)=>tone(f,.25,'triangle',.08,i*.2))},
+ tap:()=>tone(880,.03,'square',.03)
+};
+function buzz(ms){try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}}
+
+/* ---------- UI helpers ---------- */
+function bar(cur,max,color){const p=Math.max(0,Math.min(100,cur/max*100));return `<div class="bar"><i style="width:${p}%;background:${color}"></i><span>${cur}/${max}</span></div>`}
+function renderStatus(){
+  const need=expNext(S.lv);
+  $('status').innerHTML=`<div class="top"><span>ゆうしゃ　Lv ${S.lv}</span><span>💰 ${S.gold} G</span></div>
+  <span>HP</span>${bar(S.hp,maxHp(S),S.hp<maxHp(S)*.25?'var(--danger)':'var(--hp)')}
+  <span>MP</span>${bar(S.mp,maxMp(S),'var(--mp)')}
+  <span>EX</span>${bar(S.exp,need,'var(--ex)')}`;
+}
+function say(lines,clear=true){
+  if(typeof lines==='string')lines=[lines];
+  const m=$('msg');
+  if(clear)m.innerHTML='';
+  lines.forEach(l=>{const p=document.createElement('p');p.textContent=l;m.appendChild(p)});
+  while(m.scrollHeight>m.clientHeight+2&&m.children.length>1)m.removeChild(m.firstChild);
+}
+const wait=ms=>new Promise(r=>setTimeout(r,ms));
+async function sayStep(lines,ms=420){for(const l of lines){say(l,false);await wait(ms)}}
+function cmds(list){
+  const c=$('cmds');c.innerHTML='';
+  list.forEach(b=>{if(!b)return;const el=document.createElement('button');el.textContent=b.t;if(b.cls)el.className=b.cls;if(b.dis)el.disabled=true;
+    el.onclick=()=>{if(busy)return;SE.tap();b.f()};c.appendChild(el)});
+}
+function closeList(){const l=$('list');if(l)l.remove()}
+function openList(html){closeList();const d=document.createElement('div');d.id='list';d.innerHTML=html;$('scene').appendChild(d);return d}
+function popNum(text,cls='',target){
+  const sc=$('scene');const el=document.createElement('div');el.className='pop '+cls;el.textContent=text;
+  el.style.left=(40+Math.random()*20)+'%';el.style.top=target==='player'?'70%':'38%';
+  sc.appendChild(el);setTimeout(()=>el.remove(),800);
+}
+
+/* ---------- TOWN ---------- */
+function town(text){
+  view='town';closeList();renderStatus();
+  const sc=$('scene');sc.style.background='linear-gradient(#f6c98a,#e8a25c 60%,#a86a3a)';
+  sc.innerHTML=`<div class="place">🏘️ はじまりのまち</div><div class="townicon">🏰</div>`;
+  say(text||['ここは はじまりのまち。','どこへ いく？']);
+  cmds([
+   {t:'⚔️ ぼうけんにでる',f:chooseArea,cls:'wide gold'},
+   {t:'🛏️ やどや',f:inn},{t:'🗡️ ぶきや',f:()=>shop('w')},
+   {t:'🛡️ ぼうぐや',f:()=>shop('a')},{t:'🧪 どうぐや',f:itemShop},
+   {t:'📜 つよさ',f:statusView},{t:'⚙️ せってい',f:settings}
+  ]);
+}
+function inn(){
+  const cost=Math.max(5,S.lv*6);
+  say([`やどやの主人「ひとばん ${cost}G だよ。とまっていくかい？」`]);
+  cmds([{t:`とまる (${cost}G)`,f:()=>{
+    if(S.gold<cost){say('「おかねが たりないようだね…」');return}
+    if(S.hp===maxHp(S)&&S.mp===maxMp(S)){say('「げんきそうだね！ またおいで」');return}
+    S.gold-=cost;S.hp=maxHp(S);S.mp=maxMp(S);save();SE.heal();
+    town(['ぐっすり ねむった…','HPと MPが ぜんかいふくした！']);
+  },cls:'gold'},{t:'もどる',f:()=>town()}]);
+}
+function shop(kind){
+  const L=kind==='w'?WEAPONS:ARMORS, cur=kind==='w'?S.w:S.a, key=kind==='w'?'a':'d', label=kind==='w'?'こうげき':'しゅび';
+  let h=`<h3>${kind==='w'?'🗡️ ぶきや':'🛡️ ぼうぐや'}</h3>`;
+  L.forEach((it,i)=>{
+    if(i===0)return;
+    if(it.u>S.cleared){h+=`<button disabled><span>？？？</span><span class="r">ボスを たおすと<br>入荷</span></button>`;return}
+    const diff=it[key]-L[cur][key];
+    const st=i===cur?'eq':i<cur?'owned':'';
+    const r=i===cur?'そうびちゅう':i<cur?'もっと良いものを持っている':`${it.p}G<br>${label}+${it[key]} (${diff>=0?'+':''}${diff})`;
+    h+=`<button class="${st}" data-i="${i}" ${i<=cur?'disabled':''}><span>${it.n}</span><span class="r">${r}</span></button>`;
+  });
+  const l=openList(h);
+  l.querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{
+    const i=+b.dataset.i,it=L[i];
+    if(S.gold<it.p){say(`${it.n}は ${it.p}G。 おかねが たりない…`);return}
+    S.gold-=it.p;if(kind==='w')S.w=i;else S.a=i;save();SE.buy();renderStatus();
+    say([`${it.n}を かった！`,`さっそく そうびした。（${label} ${kind==='w'?atk(S):def(S)}）`]);shop(kind);
+  });
+  say([kind==='w'?'ぶきやの主人「いい ぶきが そろってるよ」':'ぼうぐやの主人「みを まもるのは だいじだぞ」',`いまの${label}りょく：${kind==='w'?atk(S):def(S)}`]);
+  cmds([{t:'もどる',f:()=>town(),cls:'wide'}]);
+}
+function itemShop(){
+  let h=`<h3>🧪 どうぐや</h3>`;
+  ITEMS.forEach(it=>{
+    if((it.u||0)>S.cleared){h+=`<button disabled><span>？？？</span><span class="r">ボスを たおすと<br>入荷</span></button>`;return}
+    h+=`<button data-id="${it.id}"><span>${it.n}<br><small>${it.desc}</small></span><span class="r">${it.p}G<br>もちもの ${S.items[it.id]||0}</span></button>`;
+  });
+  const l=openList(h);
+  l.querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>{
+    const it=ITEMS.find(x=>x.id===b.dataset.id);
+    if(S.gold<it.p){say('おかねが たりない…');return}
+    if((S.items[it.id]||0)>=99){say('これいじょう もてない！');return}
+    S.gold-=it.p;S.items[it.id]=(S.items[it.id]||0)+1;save();SE.buy();renderStatus();
+    say(`${it.n}を かった！（もちもの ${S.items[it.id]}こ）`);itemShop();
+  });
+  say('どうぐやの主人「なにを かうんだい？」');
+  cmds([{t:'もどる',f:()=>town(),cls:'wide'}]);
+}
+function statusView(){
+  const sk=SKILLS.filter(k=>k.lv<=S.lv).map(k=>k.n).join('、')||'なし';
+  const nextSk=SKILLS.find(k=>k.lv>S.lv);
+  openList(`<h3>📜 ゆうしゃの つよさ</h3><div class="st">
+   <span>レベル</span><span>${S.lv}</span><span>つぎまで</span><span>${expNext(S.lv)-S.exp} EXP</span>
+   <span>HP</span><span>${S.hp}/${maxHp(S)}</span><span>MP</span><span>${S.mp}/${maxMp(S)}</span>
+   <span>こうげき</span><span>${atk(S)}</span><span>しゅび</span><span>${def(S)}</span><span>すばやさ</span><span>${spd(S)}</span>
+   <span>ぶき</span><span>${WEAPONS[S.w].n}</span><span>よろい</span><span>${ARMORS[S.a].n}</span>
+   <span>じゅもん</span><span>${sk}</span>
+   <span>ボス撃破</span><span>${S.cleared} / ${AREAS.length}</span></div>
+   ${nextSk?`<p style="padding:0 6px;opacity:.8">Lv${nextSk.lv}で「${nextSk.n}」をおぼえる</p>`:''}`);
+  say('いまの つよさだ。');
+  cmds([{t:'もどる',f:()=>view==='area'?area(areaIdx):town(),cls:'wide'}]);
+}
+function settings(){
+  say(['セーブは じどうで おこなわれるよ。','さいしょから やりなおす？']);
+  cmds([{t:'さいしょから',cls:'red',f:()=>{
+    say('ほんとうに けしていい？ もとに もどせないよ。');
+    cmds([{t:'けす',cls:'red',f:()=>{S=newSave();save();town(['あたらしい ぼうけんが はじまる…！'])}},{t:'やめる',f:()=>town()}]);
+  }},{t:'もどる',f:()=>town()}]);
+}
+
+/* ---------- FIELD ---------- */
+function chooseArea(){
+  let h='<h3>⚔️ どこへ いく？</h3>';
+  AREAS.forEach((a,i)=>{
+    if(i>S.cleared){h+=`<button disabled><span>？？？</span><span class="r">ちかくのボスを<br>たおそう</span></button>`;return}
+    const done=i<S.cleared?'👑 ':'';
+    h+=`<button data-i="${i}"><span>${done}${a.n}</span><span class="r">めやす ${a.rec}</span></button>`;
+  });
+  const l=openList(h);
+  l.querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{SE.tap();area(+b.dataset.i,true)});
+  say('いきさきを えらんでね。');
+  cmds([{t:'もどる',f:()=>town(),cls:'wide'}]);
+}
+function area(i,arrive){
+  view='area';areaIdx=i;closeList();renderStatus();
+  const a=AREAS[i],w=S.wins[i];
+  const sc=$('scene');sc.style.background=a.bg;
+  sc.innerHTML=`<div class="place">${a.n}</div><div class="sub">めやす ${a.rec}${i>=S.cleared?`　ボスまで ${Math.max(0,BOSS_NEED-w)}しょう`:''}</div><div class="townicon">🧭</div>`;
+  if(arrive)say([`${a.n}に やってきた。`,'どうする？']);
+  const bossOk=w>=BOSS_NEED||i<S.cleared;
+  cmds([
+   {t:'🔍 たんさくする',f:explore,cls:'wide gold'},
+   {t:bossOk?'👑 ボスにいどむ':`👑 ボス (あと${BOSS_NEED-w}しょう)`,f:()=>startBattle(a.boss,true),dis:!bossOk,cls:'red'},
+   {t:'🧪 どうぐ',f:()=>useItemMenu(false)},
+   {t:'📜 つよさ',f:statusView},
+   {t:'🏘️ まちへもどる',f:()=>town(['まちに かえってきた。'])}
+  ]);
+}
+function explore(){
+  const r=Math.random(),a=AREAS[areaIdx];
+  if(r<.78){const e=a.e[Math.floor(Math.random()*a.e.length)];startBattle(e,false)}
+  else if(r<.9){
+    if(Math.random()<.5){const g=Math.round(a.e[0].g*rnd(2,4));S.gold+=g;save();SE.buy();say(['たからばこを みつけた！',`${g}G を てにいれた！`])}
+    else{const id=areaIdx>=2&&Math.random()<.4?'herb2':(Math.random()<.3&&areaIdx>=1?'water':'herb');S.items[id]=(S.items[id]||0)+1;save();SE.buy();say(['たからばこを みつけた！',`${ITEMS.find(x=>x.id===id).n}を てにいれた！`])}
+    area(areaIdx);
+  } else if(r<.96){
+    const h=Math.round(maxHp(S)*.3);S.hp=Math.min(maxHp(S),S.hp+h);S.mp=Math.min(maxMp(S),S.mp+Math.round(maxMp(S)*.2));save();SE.heal();
+    say(['きれいな いずみを みつけた。','ひとやすみして すこし かいふくした！']);area(areaIdx);
+  } else {say(['あたりを しらべたが…','なにも みつからなかった。']);area(areaIdx)}
+}
+
+/* ---------- BATTLE ---------- */
+function startBattle(base,boss){
+  view='battle';closeList();
+  const e=Object.assign({},base,{boss,max:base.hp});battle={e,turn:0};
+  const sc=$('scene');
+  sc.innerHTML=`<div class="place">${AREAS[areaIdx].n}</div>
+   <div class="monster ${boss?'boss':''}" id="mon">${boss?'<span class="crown">👑</span>':''}${e.ic}</div>
+   <div class="mname">${e.n}</div><div class="ehp" id="ehp"></div>`;
+  updEnemy();renderStatus();
+  say(boss?[`${e.n}が あらわれた！`,'これは てごわそうだ…！']:[`${e.n}が あらわれた！`]);
+  if(boss){[196,185,175].forEach((f,i)=>tone(f,.25,'sawtooth',.06,i*.18))}
+  battleCmds();
+}
+function updEnemy(){const e=battle.e;$('ehp').innerHTML=bar(Math.max(0,e.hp),e.max,'var(--danger)')}
+function battleCmds(){
+  const hasSk=SKILLS.some(k=>k.lv<=S.lv);
+  cmds([{t:'⚔️ たたかう',f:()=>act({k:'atk'}),cls:'gold'},{t:'✨ じゅもん',f:skillMenu,dis:!hasSk},
+        {t:'🧪 どうぐ',f:()=>useItemMenu(true)},{t:'🏃 にげる',f:()=>act({k:'run'})}]);
+}
+function skillMenu(){
+  let h='<h3>✨ じゅもん</h3>';
+  SKILLS.filter(k=>k.lv<=S.lv).forEach((k,i)=>{h+=`<button data-n="${k.n}" ${S.mp<k.mp?'disabled':''}><span>${k.n}<br><small>${k.desc}</small></span><span class="r">MP ${k.mp}</span></button>`});
+  const l=openList(h);
+  l.querySelectorAll('button[data-n]').forEach(b=>b.onclick=()=>{closeList();act({k:'skill',s:SKILLS.find(x=>x.n===b.dataset.n)})});
+  say('どの じゅもんを つかう？');
+  cmds([{t:'もどる',f:()=>{closeList();say('どうする？');battleCmds()},cls:'wide'}]);
+}
+function useItemMenu(inBattle){
+  const own=ITEMS.filter(it=>(S.items[it.id]||0)>0);
+  if(!own.length){say('つかえる どうぐを もっていない。');return}
+  let h='<h3>🧪 どうぐ</h3>';
+  own.forEach(it=>{h+=`<button data-id="${it.id}"><span>${it.n}<br><small>${it.desc}</small></span><span class="r">×${S.items[it.id]}</span></button>`});
+  const l=openList(h);
+  l.querySelectorAll('button[data-id]').forEach(b=>b.onclick=()=>{
+    const it=ITEMS.find(x=>x.id===b.dataset.id);closeList();
+    if(inBattle)act({k:'item',it});
+    else{applyItem(it);renderStatus();save();say(lastItemMsg);area(areaIdx)}
+  });
+  say('どの どうぐを つかう？');
+  cmds([{t:'もどる',f:()=>{closeList();if(inBattle){say('どうする？');battleCmds()}else area(areaIdx)},cls:'wide'}]);
+}
+let lastItemMsg=[];
+function applyItem(it){
+  S.items[it.id]--;const lines=[`ゆうしゃは ${it.n}を つかった！`];
+  if(it.hp){const b=S.hp;S.hp=Math.min(maxHp(S),S.hp+it.hp);lines.push(`HPが ${S.hp-b} かいふくした！`);popNum('+'+(S.hp-b),'heal','player')}
+  if(it.mp){const b=S.mp;S.mp=Math.min(maxMp(S),S.mp+it.mp);lines.push(`MPが ${S.mp-b} かいふくした！`)}
+  SE.heal();lastItemMsg=lines;return lines;
+}
+function shake(id){const el=$(id);if(!el)return;el.classList.remove('shake');void el.offsetWidth;el.classList.add('shake')}
+function flashScene(){const el=$('scene');el.classList.remove('flash');void el.offsetWidth;el.classList.add('flash')}
+
+async function act(cmd){
+  if(busy)return;busy=true;closeList();cmds([]);say('');
+  const e=battle.e;
+  const playerFirst=spd(S)*rnd(.8,1.2)>=e.spd*rnd(.8,1.2)||cmd.k==='item';
+  const order=playerFirst?['p','e']:['e','p'];
+  for(const who of order){
+    if(who==='p'){
+      const r=await playerAct(cmd);
+      if(r==='ran'){busy=false;area(areaIdx);return}
+      if(e.hp<=0){await victory();busy=false;return}
+    } else {
+      await enemyAct();
+      if(S.hp<=0){await defeat();busy=false;return}
+    }
+  }
+  save();busy=false;say('どうする？',false);battleCmds();
+}
+async function playerAct(cmd){
+  const e=battle.e;
+  if(cmd.k==='run'){
+    await sayStep(['ゆうしゃは にげだした！']);
+    if(e.boss){await sayStep(['しかし まわりこまれてしまった！']);return}
+    if(Math.random()<.65){await sayStep(['うまく にげきれた！']);await wait(200);return 'ran'}
+    await sayStep(['しかし にげられなかった！']);return;
+  }
+  if(cmd.k==='item'){await sayStep(applyItem(cmd.it));renderStatus();return}
+  if(cmd.k==='atk'){
+    await sayStep(['ゆうしゃの こうげき！'],300);
+    const crit=Math.random()<1/12;
+    const d=crit?Math.round(atk(S)*1.6*rnd(.95,1.05)):phys(atk(S),e.def);
+    if(crit)await sayStep(['かいしんの いちげき！'],250);
+    hitEnemy(d,crit);await sayStep([`${e.n}に ${d}の ダメージ！`]);return;
+  }
+  if(cmd.k==='skill'){
+    const k=cmd.s;S.mp-=k.mp;renderStatus();
+    await sayStep([`ゆうしゃは ${k.n}を となえた！`],300);
+    if(k.t==='heal'){const b=S.hp;S.hp=Math.min(maxHp(S),S.hp+k.pow(S));SE.heal();popNum('+'+(S.hp-b),'heal','player');renderStatus();await sayStep([`HPが ${S.hp-b} かいふくした！`]);return}
+    const d=k.t==='mag'?magic(k.pow(S),e.def):phys(atk(S),e.def,k.mul);
+    SE.magic();await wait(150);hitEnemy(d,false);await sayStep([`${e.n}に ${d}の ダメージ！`]);return;
+  }
+}
+function hitEnemy(d,crit){const e=battle.e;e.hp-=d;SE.hit();shake('mon');popNum(d,crit?'crit':'');updEnemy();buzz(10)}
+async function enemyAct(){
+  const e=battle.e;
+  const strong=e.boss&&Math.random()<.28;
+  await sayStep([strong?`${e.n}の はげしい こうげき！`:`${e.n}の こうげき！`],300);
+  if(!strong&&Math.random()<.06){await sayStep(['ゆうしゃは ひらりと みをかわした！']);return}
+  const d=phys(e.atk,def(S),strong?1.5:1);
+  S.hp=Math.max(0,S.hp-d);SE.hurt();flashScene();buzz(30);popNum(d,'','player');renderStatus();
+  await sayStep([`ゆうしゃは ${d}の ダメージを うけた！`]);
+}
+async function victory(){
+  const e=battle.e;$('mon').classList.add('dead');SE.win();
+  await sayStep([`${e.n}を たおした！`]);
+  S.exp+=e.exp;S.gold+=e.g;
+  await sayStep([`${e.exp}の けいけんちと ${e.g}G を てにいれた！`]);
+  if(!e.boss&&areaIdx>=S.cleared)S.wins[areaIdx]++;
+  if(!e.boss&&Math.random()<.08){S.items.herb=(S.items.herb||0)+1;await sayStep([`${e.n}は やくそうを おとしていった！`])}
+  while(S.exp>=expNext(S.lv)){
+    S.exp-=expNext(S.lv);const oh=maxHp(S),om=maxMp(S);S.lv++;
+    S.hp+=maxHp(S)-oh;S.mp+=maxMp(S)-om;SE.lvup();renderStatus();
+    await sayStep([`🎉 レベルが ${S.lv}に あがった！`],600);
+    const sk=SKILLS.find(k=>k.lv===S.lv);if(sk)await sayStep([`✨ ${sk.n}を おぼえた！`],600);
+  }
+  renderStatus();
+  let firstClear=false;
+  if(e.boss&&areaIdx===S.cleared){S.cleared++;firstClear=true}
+  save();
+  await wait(500);
+  if(firstClear){
+    if(S.cleared>=AREAS.length){S.ended=true;save();return ending()}
+    await sayStep([`👑 ${AREAS[areaIdx].n}の ボスを たおした！`,`あたらしい ばしょ「${AREAS[S.cleared].n}」へ いけるようになった！`,'まちの おみせに あたらしい しなものが はいったようだ。'],700);
+    await wait(600);town(['まちに かえってきた。','おみせを のぞいてみよう！']);return;
+  }
+  area(areaIdx);
+}
+async function defeat(){
+  SE.lose();await sayStep(['ゆうしゃは ちからつきた…'],900);
+  const lost=Math.floor(S.gold/2);S.gold-=lost;S.hp=maxHp(S);S.mp=maxMp(S);save();
+  town(['……','きがつくと まちの きょうかいにいた。',`しょじきんの はんぶん（${lost}G）を うしなった…`]);
+}
+async function ending(){
+  const sc=$('scene');sc.style.background='linear-gradient(#ffe9a8,#ffc46b 60%,#ff9a6b)';
+  sc.innerHTML=`<div class="townicon">🌅</div><div class="mname" style="color:#222;text-shadow:none">THE END</div>`;
+  cmds([]);say('');
+  [523,659,784,1046,1318,1568].forEach((f,i)=>tone(f,.3,'triangle',.08,i*.2));
+  await sayStep(['まおうは たおれ…','せかいに へいわが もどった！','ありがとう ちいさな勇者よ！','🎉 ゲームクリア おめでとう！'],1200);
+  cmds([{t:'まちへもどる（つづきを遊ぶ）',f:()=>town(['へいわになった まち。','つよさを きわめるのも いいだろう。']),cls:'wide gold'}]);
+}
+
+/* ---------- boot ---------- */
+S=load();
+if(S){S.hp=Math.min(S.hp,maxHp(S));town(['おかえり、ゆうしゃ！','ぼうけんの つづきを はじめよう。'])}
+else{S=newSave();save();town(['ここは はじまりのまち。','まおうを たおす たびが いま はじまる…！','まずは そうげんで レベルを あげよう。'])}
+</script>
+</body>
+</html>
