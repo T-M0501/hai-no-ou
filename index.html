@@ -314,7 +314,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.7.1</div>
+  <div id="verTxt" class="ver">v1.7.2</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -484,6 +484,8 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
       <label class="sld"><span>効果音</span><input id="rSe" type="range" min="0" max="100" step="5" aria-label="効果音の音量"></label>
       <div class="trow"><button id="bMute" class="btn sub"></button><button id="bHints" class="btn sub"></button></div>
       <div class="trow"><button id="bFx" class="btn sub" style="min-width:218px"></button></div>
+      <div class="trow"><button id="bVis" class="btn sub" style="min-width:218px"></button></div>
+      <div style="text-align:center;font-size:11px;opacity:.65;margin:-4px 0 6px">向いている方向しか見えなくなります</div>
       <div class="trow"><button id="bEdit" class="btn sub">ボタン配置</button></div>
       <div class="trow"><button id="bXfOut" class="btn sub">セーブを書き出す</button><button id="bXfIn" class="btn sub">セーブを読み込む</button></div>
     </div>
@@ -586,11 +588,11 @@ function freshSave() {
     cls: 'wanderer', arts: [], wart: {}, spirits: [], spirit: null, spLv: {}, tearShop: 0, lords: {}, seenE: {}, trar: {}, shields: [], off: null, hands: 0, walls: {}, maps: {}, mdSeen: {}, mem: {}, pw: {}, pwOn: null,
     av: 0, inv: [], aeq: { h: null, b: null, a: null, l: null }, aseq: 1, afound: {}, asort: 'r' };
 }
-const SAVE_EXTRA = () => ({ mute: false, best: 0, wins: 0, clear: 0, hintOff: false, fxLow: false, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {}, btn: { p: {}, l: {} }, cyc: 0, cam: 2, bless: null, cb: null, dex: null, last: 0 });
+const SAVE_EXTRA = () => ({ mute: false, best: 0, wins: 0, clear: 0, hintOff: false, fxLow: false, visMode: false, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {}, btn: { p: {}, l: {} }, cyc: 0, cam: 2, bless: null, cb: null, dex: null, last: 0 });
 const save = Object.assign(freshSave(), SAVE_EXTRA());
 /* v1.7.0: three save slots. Per-slot data lives in SKEY(i); settings (sound, hints, effects, button layout) and achievements are global in GKEY and shared by every slot.
    The old single save (SAVE_KEY) is copied into slot 1 once and then left untouched as a backup. */
-const GKEY = 'hai_no_ou3_g', OLDBAK = 'hai_no_ou3_v1_bak', SKEY = i => 'hai_no_ou3_s' + i, GF = ['mute', 'hintOff', 'fxLow', 'volB', 'volS', 'cam', 'btn', 'ach', 'cnt', 'bossCat'];
+const GKEY = 'hai_no_ou3_g', OLDBAK = 'hai_no_ou3_v1_bak', SKEY = i => 'hai_no_ou3_s' + i, GF = ['mute', 'hintOff', 'fxLow', 'visMode', 'volB', 'volS', 'cam', 'btn', 'ach', 'cnt', 'bossCat'];
 let SLOT = 1;
 function lsJ(k) { try { const o = JSON.parse(localStorage.getItem(k) || 'null'); return o && typeof o === 'object' ? o : null; } catch (e) { return null; } }
 function migrateSaves() {
@@ -682,7 +684,7 @@ function sanitize() {
   save.bonfire = clamp(Math.floor(+save.bonfire || 0), 0, 99); if (!save.btn.p || typeof save.btn.p !== 'object') save.btn.p = {}; if (!save.btn.l || typeof save.btn.l !== 'object') save.btn.l = {}; save.time = +save.time || 0; save.deaths = Math.floor(+save.deaths || 0);
   save.tears = clamp(Math.floor(+save.tears || 0), 0, 9); save.cryptDeep = clamp(Math.floor(+save.cryptDeep || 0), 0, 7); save.night = !!save.night && !!save.bossDead;
   delete save.invS; if (save.cnt) delete save.cnt.inv; if (save.ach) delete save.ach.inv; if (save.hints) delete save.hints.invade;
-  save.fxLow = !!save.fxLow;
+  save.fxLow = !!save.fxLow; save.visMode = !!save.visMode;
   armSanitize();
   const s = save.stain; if (s && !(typeof s === 'object' && isFinite(s.x) && isFinite(s.y) && s.s > 0 && (s.z === 'a' || s.z === 'd' || s.z === 'c'))) save.stain = null;
   if (save.stain && save.stain.tv !== 50) { if (save.stain.z !== 'a') { save.stain.x = Math.round(save.stain.x * 1.25); save.stain.y = Math.round(save.stain.y * 1.25); } save.stain.tv = 50; } /* v1.7.1: tile 40 -> 50 */
@@ -2754,7 +2756,7 @@ function refreshTitle() {
   if (si && si.wins > 0) s += '　王討伐 <b>' + si.wins + '</b>　最速 <b>' + fmtTime(si.best) + '</b>';
   if (si && (tSel || SLOT) === SLOT) s += '<span class="br"></span>収集率 <b>' + collection().pct + '%</b>' + (save.night ? '　<b>灰の降る夜</b>' : '');
   $('tStats').innerHTML = s;
-  $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入'); $('bFx').textContent = 'エフェクト ： ' + (save.fxLow ? '控えめ' : '標準'); $('rBgm').value = Math.round(save.volB * 100); $('rSe').value = Math.round(save.volS * 100); $('rCam').value = camIdx(); $('camLbl').textContent = 'カメラの距離 ： ' + CAMN[camIdx()];
+  $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入'); $('bFx').textContent = 'エフェクト ： ' + (save.fxLow ? '控えめ' : '標準'); $('bVis').textContent = '視界制限（ハード） ： ' + (save.visMode ? '入' : '切'); $('rBgm').value = Math.round(save.volB * 100); $('rSe').value = Math.round(save.volS * 100); $('rCam').value = camIdx(); $('camLbl').textContent = 'カメラの距離 ： ' + CAMN[camIdx()];
   $('xfCur').innerHTML = '操作の対象 ： <b>セーブ' + SLOT + '</b>';
 }
 
@@ -3196,6 +3198,7 @@ tap('bDeadTitle', toTitle); tap('bWinTitle', toTitle); tap('bQuit', toTitle);
 tap('bResume', closeMenu); tap('bMenu', openMenu); tap('bBook2', () => openFieldPane('bfBook'));
 tap('bMute', () => { save.mute = !save.mute; writeSave(); if (master) master.gain.value = save.mute ? 0 : 0.55; refreshTitle(); });
 tap('bHints', () => { save.hintOff = !save.hintOff; writeSave(); refreshTitle(); });
+tap('bVis', () => { save.visMode = !save.visMode; writeSave(); refreshTitle(); });
 tap('bFx', () => { save.fxLow = !save.fxLow; writeSave(); refreshTitle(); });
 for (const id of ['bGuide', 'bGuide2']) tap(id, () => { $('guide').classList.add('on'); $('gdBody').scrollTop = 0; });
 tap('bGdClose', () => $('guide').classList.remove('on'));
@@ -4768,6 +4771,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.7.2', d: '2026-11-18', t: '視界制限', items: ['設定に「視界制限（ハード）」を追加しました'] },
   { v: '1.7.1', d: '2026-11-18', t: 'マップとカメラ', items: ['マップを広くしました', '縦画面と横画面でボタン位置がずれる問題を修正しました', 'カメラの距離を設定で調整できるようにしました', 'プレイ中のメニューから全画面に戻せるようにしました', '周回プレイで引き継ぐ能力を選べるようにしました'] },
   { v: '1.7.0', d: '2026-11-18', t: '三つのセーブと周回', items: ['セーブデータを3つまで保存できるようになりました', '周回プレイ（二周目以降）を追加しました'] },
   { v: '1.6.4', d: '2026-11-18', t: '回避の調整', items: ['回避時のバランス調整を行いました', '防具のサブステータスの値がA〜Eの5段階になりました（新しく拾った防具から）', '中ボスのいる部屋の雑魚を少し減らし、中ボス戦の最中は離れた雑魚が加わりにくくしました', '雑魚の攻撃の予兆を少し早めました', '防具の防御力を見直しました（以前に拾った防具も含め、すべて同じ基準になります）', '攻撃時に画面左上へ小さな画面が映り込むことがある表示の不具合を直しました', 'モンスターのAIを調整しました', 'プレイヤーの移動速度を調整しました', '敵の攻撃で行動が中断されることがあるようになりました', '大剣や刀を持つ新しい敵が現れるようになりました'] },
@@ -4881,7 +4885,7 @@ function slotIcon(sl, col, dark) {
 }
 function drawLoots(pass) {
   for (const l of loots) {
-    if (l.z !== G.zone) continue; const r = l.it.r, hi = r >= 4, b = ARMP[l.it.b], col = rarCol(r), pop = Math.min(1, l.t / 0.35), bob = Math.sin(G.now * 3 + l.s) * 2.5;
+    if (l.z !== G.zone || !visPt(l.x, l.y, 12)) continue; const r = l.it.r, hi = r >= 4, b = ARMP[l.it.b], col = rarCol(r), pop = Math.min(1, l.t / 0.35), bob = Math.sin(G.now * 3 + l.s) * 2.5;
     if (!hi && G.zone !== 'a' && !vis(l.x, l.y, 60)) continue;
     if (pass === 0) {
       ctx.globalAlpha = 0.4; ctx.fillStyle = '#000'; ctx.beginPath(); ctx.ellipse(l.x, l.y + 5, 10, 5, 0, 0, TAU); ctx.fill();
@@ -5380,7 +5384,7 @@ function drawFoe(e) {
 
 function drawEnemyBars() {
   for (const e of enemies) {
-    if (e.state === 'dead' || e.def.boss || e.state === 'idle' && e.show <= 0 || !vis(e.x, e.y, 40)) continue;
+    if (e.state === 'dead' || e.def.boss || e.state === 'idle' && e.show <= 0 || !vis(e.x, e.y, 40) || !visPt(e.x, e.y, 20)) continue;
     if (e.hp >= e.mhp && e.bleed <= 0 && e.type !== 'knight' && !e.elite && !(e.def.sh && e.gd < e.def.sh.gd)) continue;
     const kn = e.type === 'knight', w = kn ? 50 : e.elite ? 40 : 30, x = e.x - w / 2, y = e.y - e.r * (kn ? 1.4 : 1) - 16;
     ctx.fillStyle = 'rgba(8,6,4,.8)'; ctx.fillRect(x - 1, y - 1, w + 2, 5);
@@ -5425,7 +5429,7 @@ function drawProps() {
   }
   for (const t of L.traps) { if (!vis(t.x, t.y, 30)) continue; ctx.fillStyle = '#16110e'; ctx.beginPath(); ctx.arc(t.x, t.y, 13, 0, TAU); ctx.fill(); ctx.strokeStyle = '#5a3a26'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = '#0a0706'; for (let i = 0; i < 5; i++) { const a = i * TAU / 5; ctx.beginPath(); ctx.arc(t.x + Math.cos(a) * 6, t.y + Math.sin(a) * 6, 2, 0, TAU); ctx.fill(); } if (t.t < 1.0 && t.t > 0.15) { const k = (t.t - 0.15) / 0.85; ctx.fillStyle = `rgba(235,60,25,${0.12 + k * 0.25})`; ctx.beginPath(); ctx.arc(t.x, t.y, 22 * k, 0, TAU); ctx.fill(); ctx.strokeStyle = 'rgba(255,90,50,.7)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(t.x, t.y, 22, 0, TAU); ctx.stroke(); } }
   for (const c of CHESTS) {
-    if (!vis(c.x, c.y, 40)) continue; const open = chestOpen(c), nt = !open && c.nit && save.chests[c.id];
+    if (!vis(c.x, c.y, 40) || !visPt(c.x, c.y, 30)) continue; const open = chestOpen(c), nt = !open && c.nit && save.chests[c.id];
     ctx.fillStyle = 'rgba(0,0,0,.5)'; ctx.beginPath(); ctx.ellipse(c.x + 2, c.y + 6, 19, 12, 0, 0, TAU); ctx.fill();
     ctx.fillStyle = nt ? '#27304a' : '#4a3520'; ctx.fillRect(c.x - 15, c.y - 10, 30, 20);
     if (open) { ctx.fillStyle = '#0d0a07'; ctx.fillRect(c.x - 12, c.y - 7, 24, 12); ctx.fillStyle = '#35261a'; ctx.fillRect(c.x - 15, c.y - 16, 30, 6); }
@@ -5690,7 +5694,41 @@ function drawHUD() {
     ctx.globalAlpha = 1;
   }
 }
+/* v1.7.2: vision mode (hard). A forward cone limited by walls plus a dim circle around the player; everything else is under darkness. */
+const VIS_ANG = 60 * PI / 180, VIS_NEAR = 70, VIS_N = 100, visRay = new Float32Array(VIS_N + 1), visC = document.createElement('canvas'), visX = visC.getContext('2d');
+let visK = 0, visA = 0, visRange = 500, visLast = 0;
+function visWant() { return !!save.visMode && G.zone !== 'a' && G.mode !== 'fight' && G.mode !== 'title' && !G.mb && !G.edit; }
+function visUpdate() {
+  const dt = clamp(G.now - visLast, 0, 0.1); visLast = G.now; const want = visWant();
+  if (want && visK <= 0) visA = P.face; else if (visK > 0) { let d = P.face - visA; d = Math.atan2(Math.sin(d), Math.cos(d)); visA += d * (1 - Math.exp(-18 * dt)); }
+  visK = clamp(visK + (want ? dt : -dt) / 0.4, 0, 1); if (visK <= 0) return;
+  visRange = Math.min(700, Math.hypot(W / 2 / S, Math.max(CY, H - CY) / S) + 10);
+  for (let i = 0; i <= VIS_N; i++) {
+    const a = visA - VIS_ANG / 2 + VIS_ANG * i / VIS_N, cx = Math.cos(a), cy = Math.sin(a); let d = 0;
+    for (; d < visRange; d += 8) if (solid(Math.floor((P.x + cx * d) / T), Math.floor((P.y + cy * d) / T))) break;
+    visRay[i] = d;
+  }
+}
+function visPt(x, y, m) {
+  if (visK < 0.5) return true; const dx = x - P.x, dy = y - P.y, d = Math.hypot(dx, dy);
+  if (d < VIS_NEAR + m) return true; if (d - m > visRange) return false;
+  let df = Math.atan2(dy, dx) - visA; df = Math.atan2(Math.sin(df), Math.cos(df));
+  if (Math.abs(df) > VIS_ANG / 2 + Math.atan(m / d)) return false;
+  return d - m <= visRay[clamp(Math.round((df + VIS_ANG / 2) / VIS_ANG * VIS_N), 0, VIS_N)] + 6;
+}
+function drawVis() {
+  if (visK <= 0.01) return; const w = Math.ceil(W / 2), h = Math.ceil(H / 2);
+  if (visC.width !== w || visC.height !== h) { visC.width = w; visC.height = h; }
+  visX.globalCompositeOperation = 'source-over'; visX.setTransform(1, 0, 0, 1, 0, 0); visX.clearRect(0, 0, w, h); visX.fillStyle = 'rgba(3,2,5,0.92)'; visX.fillRect(0, 0, w, h);
+  visX.setTransform(S / 2, 0, 0, S / 2, (W / 2 - cam.x * S) / 2, (CY - cam.y * S) / 2); visX.globalCompositeOperation = 'destination-out';
+  let g = visX.createRadialGradient(P.x, P.y, 0, P.x, P.y, VIS_NEAR); g.addColorStop(0, 'rgba(0,0,0,.6)'); g.addColorStop(0.7, 'rgba(0,0,0,.45)'); g.addColorStop(1, 'rgba(0,0,0,0)'); visX.fillStyle = g; visX.fillRect(P.x - VIS_NEAR, P.y - VIS_NEAR, VIS_NEAR * 2, VIS_NEAR * 2);
+  g = visX.createRadialGradient(P.x, P.y, 0, P.x, P.y, visRange); g.addColorStop(0, 'rgba(0,0,0,1)'); g.addColorStop(0.7, 'rgba(0,0,0,1)'); g.addColorStop(1, 'rgba(0,0,0,.35)'); visX.fillStyle = g;
+  visX.beginPath(); visX.moveTo(P.x, P.y); for (let i = 0; i <= VIS_N; i++) { const a = visA - VIS_ANG / 2 + VIS_ANG * i / VIS_N, d = Math.min(visRay[i] + 6, visRange); visX.lineTo(P.x + Math.cos(a) * d, P.y + Math.sin(a) * d); } visX.closePath(); visX.fill();
+  visX.setTransform(1, 0, 0, 1, 0, 0); visX.globalCompositeOperation = 'source-over';
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = visK; ctx.drawImage(visC, 0, 0, W, H); ctx.globalAlpha = 1;
+}
 function render() {
+  visUpdate();
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; if ('filter' in ctx) ctx.filter = 'none';
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#060504'; ctx.fillRect(0, 0, cv.width, cv.height);
   const shx = G.shake ? rnd(-G.shake, G.shake) : 0, shy = G.shake ? rnd(-G.shake, G.shake) : 0, k = DPR * S, arena = G.zone === 'a';
@@ -5706,10 +5744,10 @@ function render() {
     ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; drawMap();
     drawStain(); drawXWorld(); drawProps(); drawTele(); drawHazardsLow(); drawLoots(0);
     drawParts(1);
-    for (const e of enemies) if (e.state === 'dead' && e.t < 1.6 && vis(e.x, e.y, 80)) drawFoe(e);
-    for (const e of enemies) if (e.state !== 'dead' && e.y <= P.y && vis(e.x, e.y, 110)) drawFoe(e);
+    for (const e of enemies) if (e.state === 'dead' && e.t < 1.6 && vis(e.x, e.y, 80) && visPt(e.x, e.y, 20)) drawFoe(e);
+    for (const e of enemies) if (e.state !== 'dead' && e.y <= P.y && vis(e.x, e.y, 110) && visPt(e.x, e.y, 20)) drawFoe(e);
     drawPlayer();
-    for (const e of enemies) if (e.state !== 'dead' && e.y > P.y && vis(e.x, e.y, 110)) drawFoe(e);
+    for (const e of enemies) if (e.state !== 'dead' && e.y > P.y && vis(e.x, e.y, 110) && visPt(e.x, e.y, 20)) drawFoe(e);
     drawAlly();
     drawSpikesHigh(); drawMagSpikes(); drawSlashes();
     for (const a of arrows) if (a.on) { const n = 1 / 540; ctx.strokeStyle = '#e6dfc8'; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(a.x - a.vx * n * 22, a.y - a.vy * n * 22); ctx.stroke(); ctx.fillStyle = '#fff'; ctx.fillRect(a.x - 1.5, a.y - 1.5, 3, 3); }
@@ -5727,7 +5765,7 @@ function render() {
     ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText(t.txt, t.x + 1, t.y + 1.5); ctx.fillStyle = t.col; ctx.fillText(t.txt, t.x, t.y);
   }
   ctx.globalAlpha = 1;
-  ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+  ctx.setTransform(DPR, 0, 0, DPR, 0, 0); drawVis();
   if (G.p2 > 0) { ctx.fillStyle = `rgba(120,30,5,${0.1 * G.p2})`; ctx.fillRect(0, 0, W, H); }
   if (!arena && L.night && G.mode !== 'title') { ctx.fillStyle = 'rgba(14,22,60,.13)'; ctx.fillRect(0, 0, W, H); }
   if (!arena && G.mb && G.mb.def.hb && G.mb.ph === 2) { ctx.fillStyle = 'rgba(10,60,50,.12)'; ctx.fillRect(0, 0, W, H); }
