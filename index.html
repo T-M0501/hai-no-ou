@@ -5316,6 +5316,7 @@ function drawHUD() {
   }
 }
 function render() {
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; if ('filter' in ctx) ctx.filter = 'none';
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#060504'; ctx.fillRect(0, 0, cv.width, cv.height);
   const shx = G.shake ? rnd(-G.shake, G.shake) : 0, shy = G.shake ? rnd(-G.shake, G.shake) : 0, k = DPR * S, arena = G.zone === 'a';
   ctx.setTransform(k, 0, 0, k, DPR * (W / 2 + shx) - cam.x * k, DPR * (CY + shy) - cam.y * k);
@@ -5327,7 +5328,7 @@ function render() {
     if (P.y < B.y) { drawPlayer(); drawBoss(); } else { drawBoss(); drawPlayer(); } drawAlly();
     drawSpikesHigh(); drawSlashes(); drawShots(); drawLoots(1);
   } else {
-    drawMap();
+    ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; drawMap();
     drawStain(); drawXWorld(); drawProps(); drawTele(); drawHazardsLow(); drawLoots(0);
     drawParts(1);
     for (const e of enemies) if (e.state === 'dead' && e.t < 1.6 && vis(e.x, e.y, 80)) drawFoe(e);
@@ -5362,7 +5363,7 @@ function render() {
   if (G.mode === 'dead') { ctx.fillStyle = `rgba(0,0,0,${clamp(G.t / 2.2, 0, 0.45)})`; ctx.fillRect(0, 0, W, H); }
   if (G.fadeT > 0) { ctx.fillStyle = `rgba(0,0,0,${clamp(G.fadeT / 0.7, 0, 1)})`; ctx.fillRect(0, 0, W, H); }
   if (G.nightT > 0) { ctx.fillStyle = `rgba(2,3,10,${clamp((G.nightT - 0.4) / 2.6, 0, 1)})`; ctx.fillRect(0, 0, W, H); }
-  drawLootMarks(); drawHUD();
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; drawLootMarks(); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; drawHUD();
   if (G.edit) {
     ctx.fillStyle = 'rgba(4,3,2,.72)'; ctx.fillRect(0, 0, W, H); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     for (const k of EDK) { const o = edObj(k), sel = k === ED.sel, r = Math.max(14, k === 'pause' ? o.r * 0.8 : o.r); ctx.fillStyle = sel ? 'rgba(150,118,52,.55)' : 'rgba(12,10,7,.6)'; ctx.beginPath(); ctx.arc(o.x, o.y, r, 0, TAU); ctx.fill(); ctx.strokeStyle = sel ? '#fff3c8' : 'rgba(190,160,90,.85)'; ctx.lineWidth = sel ? 3 : 1.6; if (k === 'joy') ctx.setLineDash([5, 6]); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = '#eadcae'; ctx.font = '800 ' + Math.round(Math.max(10, Math.min(15, r * 0.36))) + 'px ' + FONT; ctx.fillText(k === 'joy' ? '移動' : k === 'int' ? '調べる' : EDN[k], o.x, o.y + 1); }
