@@ -7,7 +7,7 @@ HAI_DATA('md_chapel', {
   bless: [[20, 28, '地下聖堂の祝福']], carpets: [[19.1, 1, 1.8, 8, 'rgba(120,30,30,.3)']],
   chests: [['mh1', 36, 13, { m: { l: 2 } }], ['mh2', 36, 25, { t: 'vial', r: 4 }], ['mh3', 2, 20, { s: 1800 }]],
   doors: [['m4d', [[19, 11], [20, 11]], 'y', 0, '内陣への格子が上がった', 1]],
-  spawns: [['cantor', 14, 15, 0], ['cantor', 26, 18, 2], ['pilgrim', 18, 16, 3], ['pilgrim', 22, 19, 3], ['pilgrim', 36, 16, 2], ['guard2', 36, 19, 2, 'E'], ['statue', 3, 18, 1], ['md_abbot', 20, 4, 3]],
+  spawns: [['cantor', 14, 15, 0], ['cantor', 25, 18, 2], ['pilgrim', 18, 16, 3], ['pilgrim', 22, 19, 3], ['pilgrim', 36, 16, 2], ['guard2', 36, 19, 2, 'E'], ['statue', 3, 18, 1], ['md_abbot', 20, 4, 3]],
   secrets: [['mw4', [[36, 22]]]], traps: [[14, 17], [20, 15], [26, 17]], crumble: [[19, 22], [20, 22], [19, 23], [20, 23]],
   props: [{ t: 'mdout', tx: 18, ty: 26 }, { t: 'lever', door: 'm4d', tx: 2, ty: 13 }]
 });

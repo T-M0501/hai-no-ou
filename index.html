@@ -108,9 +108,9 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 .tag{font-size:11px;color:#e2b765;border:1px solid #a88d4e;padding:2px 6px;white-space:nowrap}
 .tabs{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;width:100%;flex:none}
 .mech{color:#9fe8d0;font-size:11.5px}
-.slots{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;width:100%}
-.slots .sl{border:1px solid #5d5238;background:rgba(14,11,7,.8);color:#8a8068;font-size:10.5px;font-weight:800;padding:8px 2px;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
-.slots .sl.lock{border-style:dashed;color:#6d6552;font-size:9.5px}
+.tslots{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:5px;width:100%}
+.tslots .sl{border:1px solid #5d5238;background:rgba(14,11,7,.8);color:#8a8068;font-size:10.5px;font-weight:800;padding:8px 2px;text-align:center;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.tslots .sl.lock{border-style:dashed;color:#6d6552;font-size:9.5px}
 .tab{appearance:none;border:1px solid #5d5238;background:rgba(14,11,7,.8);color:#b3a682;font-family:inherit;font-size:12.5px;font-weight:800;letter-spacing:0;white-space:nowrap;padding:13px 0;touch-action:manipulation;cursor:pointer}
 .tab.on{border-color:#e2b765;color:#f3e2ac;background:rgba(70,56,26,.6)}
 .eqInfo{font-size:12px;color:#a99f88;letter-spacing:.05em;line-height:1.6;margin:7px 0;flex:none}
@@ -314,7 +314,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.7.4</div>
+  <div id="verTxt" class="ver">v1.7.5</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -1470,7 +1470,7 @@ const C_SPAWNS = [
   ['archer', 23, 25, 1], ['archer', 33, 25, 1], ['spear', 30, 31, 1], ['hollow', 27, 29, 1], ['hollow', 34, 29, 1],
   ['hollow', 17, 28, 0], ['hollow', 19, 30, 0], ['hollow', 39, 8, 1],
   ['hollow', 34, 6, 0], ['hollow', 31, 9, 0], ['spear', 27, 8, 0], ['archer', 25, 5, 0], ['hollow', 28, 5, 0],
-  ['knight', 13, 13, 1], ['archer', 9, 16, 0], ['hollow', 26, 14, 2], ['hollow', 25, 17, 3],
+  ['knight', 13, 13, 1, 'E'], ['archer', 9, 16, 0], ['hollow', 26, 14, 2], ['hollow', 25, 17, 3],
   ['hollow', 41, 45, 2], ['ghoul', 44, 49, 3], ['spear', 47, 42, 2], ['ghoul', 42, 41, 1], ['mb_beast', 58, 47, 2],
   ['archer', 47, 14, 1], ['archer', 49, 20, 1], ['spear', 47, 25, 1], ['hollow', 48, 30, 1], ['hollow', 42, 28, 0],
   ['acolyte', 64, 13, 1], ['acolyte', 67, 17, 2], ['hollow', 60, 22, 2], ['spear', 63, 23, 3], ['acolyte', 66, 20, 2], ['mb_mage', 63, 30, 3],
@@ -1485,7 +1485,7 @@ const NG_NEW = [['ng1', 33, 19, { ap: 'ngf_h', r: 4 }], ['ng2', 31, 10, { ap: 'n
   ['ng4', 10, 5, { t: 'amber2', r: 3 }], ['ng5', 17, 5, { t: 'gilt2', r: 3 }], ['ng6', 37, 25, { t: 'fist2', r: 3 }], ['ng7', 68, 23, { t: 'wedge2', r: 3 }]];
 const N_SPAWNS = [
   ['ghoul', 23, 48, 1], ['knight', 18, 43, 0, 'E'], ['acolyte', 10, 42, 0], ['ghoul', 4, 42, 1], ['ghoul', 24, 32, 1], ['ghoul', 36, 25, 2], ['spear', 22, 14, 0, 'E'],
-  ['knight', 30, 6, 2, 'E'], ['knight', 16, 12, 1], ['acolyte', 56, 13, 1], ['acolyte', 58, 22, 3], ['ghoul', 13, 29, 0], ['hollow', 48, 27, 1, 'E'], ['archer', 46, 18, 0, 'E'],
+  ['knight', 30, 6, 2, 'E'], ['knight', 16, 12, 1, 'E'], ['acolyte', 56, 13, 1], ['acolyte', 58, 22, 3], ['ghoul', 13, 29, 0], ['hollow', 48, 27, 1, 'E'], ['archer', 46, 18, 0, 'E'],
   ['mb_giant', 43, 46, 2, 'n_giant'], ['mb_assassin', 48, 22, 1, 'n_assassin'], ['ghoul', 57, 44, 2], ['ghoul', 61, 48, 2], ['acolyte', 62, 27, 1, 'E'], ['ghoul', -8, 14, 1], ['ghoul', -4, 18, 1], ['spear', 58, 6, 2, 'E']
 ];
 /* 3f: small additions to 第1層 that host the new systems (appended, so old room indices in saves stay valid). 8th room field = 1 marks a secret room (never shown by a map fragment). */
@@ -1556,9 +1556,19 @@ function widenLevel(Lv) {
 }
 /* v1.7.3: every mid-boss fights 1-on-1 in a sealed arena. Built once per level: the room is cleared of pillars, the floor tiles just outside its doorways become the seal
    (solid fog while the fight is on), and every other enemy that stood inside is moved out into the nearest corridor / room. */
-function setupArenas(Lv) {
-  const W0 = Lv.MW, H0 = Lv.MH, g = Lv.grid; Lv.arenas = [];
-  const bs = Lv.enemies.filter(e => e.def.boss && !e.def.lord && !e.def.night && !e.need);
+/* v1.7.5: per-map edits that give every arena exactly one doorway. fix = { wall: [[x, y, w, h]...] (closed with wall), carve: [[x, y, w, h]...] (opened as floor) } in final tile coordinates */
+function fixMap(Lv, fix) {
+  if (!fix) return; const W0 = Lv.MW, g = Lv.grid;
+  for (const r of fix.wall || []) for (let y = r[1]; y < r[1] + r[3]; y++) for (let x = r[0]; x < r[0] + r[2]; x++) { g[y * W0 + x] = 0; Lv.roomOf[y * W0 + x] = -1; if (Lv.doorAt) Lv.doorAt[y * W0 + x] = -1; }
+  for (const r of fix.carve || []) for (let y = r[1]; y < r[1] + r[3]; y++) for (let x = r[0]; x < r[0] + r[2]; x++) {
+    const k = y * W0 + x; let n = -1; for (const s of [1, -1, W0, -W0]) if (g[k + s] > 0 && Lv.roomOf[k + s] >= 0) { n = k + s; break; }
+    g[k] = 1; Lv.roomOf[k] = n >= 0 ? Lv.roomOf[n] : -1; if (n >= 0) Lv.tint[k] = Lv.tint[n];
+  }
+  Lv.torches = Lv.torches.filter(t => g[t[1] * W0 + t[0]] === 0);
+}
+function setupArenas(Lv, fix) {
+  const W0 = Lv.MW, H0 = Lv.MH, g = Lv.grid; Lv.arenas = []; fixMap(Lv, fix);
+  const bs = Lv.enemies.filter(e => e.def.boss && !e.def.lord && !e.def.night && !e.need && !/^n_/.test(e.key)); /* the two night roamers (n_giant, n_assassin) fight in the open */
   for (const b of bs) {
     const ri = Lv.roomOf[Math.floor(b.hy / T) * W0 + Math.floor(b.hx / T)]; if (ri < 0 || Lv.arenas.some(a => a.ri === ri)) continue;
     const r = Lv.rooms[ri], x0 = r[0], y0 = r[1], w = r[2], h = r[3], seal = [];
@@ -1576,7 +1586,22 @@ function setupArenas(Lv) {
     const ok = k => { const tx = k % W0, ty = Math.floor(k / W0); return dist.get(k) >= 3 && used.every(u => Math.hypot(u[0] - tx - 0.5, u[1] - ty - 0.5) > 2.4) && Lv.bless.every(b2 => Math.hypot(b2.x / T - tx - 0.5, b2.y / T - ty - 0.5) > 4) && Lv.chests.every(c2 => Math.hypot(c2.x / T - tx - 0.5, c2.y / T - ty - 0.5) > 1.5); };
     for (const e of mv) { const k = q.find(ok); if (k === undefined) continue; const tx = k % W0, ty = Math.floor(k / W0); e.hx = e.x = tc(tx); e.hy = e.y = tc(ty); used.push([tx + 0.5, ty + 0.5]); }
   }
+  /* v1.7.5: the doorway (the seal tiles that are not a secret wall) is a fog wall until the mid-boss is beaten; the player enters it with the 霧に入る prompt */
+  const sec = new Set(); for (const s of Lv.secrets || []) for (const t of s.tiles) sec.add(t[1] * W0 + t[0]);
+  for (const a of Lv.arenas) {
+    const r = a.rect, s = new Set(a.seal.filter(k => !sec.has(k))), seen = new Set(); a.gates = []; a.open = false; a.gsnap = [];
+    for (const k0 of s) {
+      if (seen.has(k0)) continue; const grp = [], q = [k0]; seen.add(k0);
+      while (q.length) { const c = q.pop(); grp.push(c); for (const d of [1, -1, W0, -W0]) { const j = c + d; if (s.has(j) && !seen.has(j)) { seen.add(j); q.push(j); } } }
+      let sx = 0, sy = 0; for (const k of grp) { sx += k % W0 + 0.5; sy += Math.floor(k / W0) + 0.5; } sx /= grp.length; sy /= grp.length;
+      const t0 = grp[0] % W0, u0 = Math.floor(grp[0] / W0), dx = t0 < r[0] ? 1 : t0 >= r[0] + r[2] ? -1 : 0, dy = dx ? 0 : u0 < r[1] ? 1 : -1;
+      a.gates.push({ tiles: grp, x: sx * T, y: sy * T, ex: (sx + dx * 2.5) * T, ey: (sy + dy * 2.5) * T, face: Math.atan2(dy, dx) });
+    }
+    for (const gt of a.gates) for (const k of gt.tiles) { a.gsnap.push([k, g[k]]); g[k] = 3; }
+  }
 }
+/* v1.7.5: 獣の檻 keeps its west doorway (next to its 祝福); the south one is closed */
+const C_FIX = { wall: [[70, 53, 3, 1]] };
 let CASTLE = null;
 function buildCastle(night) {
   AREA_HF = HF_LAY[1]; const Lv = mkLevel('castle', 88, 70), W0 = Lv.MW;
@@ -1607,8 +1632,10 @@ function buildCastle(night) {
   if (!night) Lv.enemies = SW.map(day);
   else { Lv.enemies = SW.filter(s => !inCellar(s)).map(ngt).concat(N_SPAWNS.map(ngt)); for (const r of X1.roam) { const e = mkEnemy(r[0], tc(r[1][0][0] + OX), tc(r[1][0][1] + OY), 0, 1, 1.3, 1); e.route = r[1].map(p => [tc(p[0] + OX), tc(p[1] + OY)]); e.ri = 0; Lv.enemies.push(e); } }
   applyExtras(Lv, X1, OX, OY);
+  /* v1.7.5: the 鎧騎士 of 騎士の間 (the last room before the king's fog gate) is a tougher elite: poise x1.3, shorter rests */
+  for (const e of Lv.enemies) if (e.type === 'knight' && (Lv.rooms[Lv.roomOf[Math.floor(e.hy / T) * W0 + Math.floor(e.hx / T)]] || [])[4] === '騎士の間') { e.def = Object.assign({}, e.def, { poise: Math.round(e.def.poise * 1.3) }); e.restK = 0.8; }
   widenLevel(Lv);
-  setupArenas(Lv);
+  setupArenas(Lv, C_FIX);
   { const fr = Lv.rooms[20]; for (let y = fr[1]; y < fr[1] + fr[3]; y++) for (let x = fr[0]; x < fr[0] + fr[2]; x++) Lv.grid[y * W0 + x] = 3; Lv.fog = { x: (fr[0] + fr[2] / 2) * T, y: (fr[1] + fr[3] / 2) * T }; Lv.fogN = fr[2]; }
   return Lv;
 }
@@ -1630,7 +1657,7 @@ function buildLayer(def) {
   for (const r of def.roam || []) { const e = mkEnemy(r[0], tc(r[1][0][0]), tc(r[1][0][1]), 0, 1, def.bossDm, 1); e.route = r[1].map(p => [tc(p[0]), tc(p[1])]); e.ri = 0; e.need = 'lord'; Lv.enemies.push(e); }
   applyExtras(Lv, def, 0, 0);
   widenLevel(Lv);
-  setupArenas(Lv);
+  setupArenas(Lv, def);
   return Lv;
 }
 /* data that is fetched on demand (data/<key>.js calls HAI_DATA(key, def)); LVC caches the built levels */
@@ -1714,9 +1741,9 @@ function genCrypt(floor, seed) {
 }
 function cryptCheck(Lv) {
   const W0 = Lv.MW, seen = new Uint8Array(W0 * Lv.MH), q = [], k0 = Math.floor(Lv.start.y / T) * W0 + Math.floor(Lv.start.x / T); let floorN = 0, reach = 0;
-  for (let i = 0; i < Lv.grid.length; i++) if (Lv.grid[i] === 1 || Lv.grid[i] === 5) floorN++;
+  for (let i = 0; i < Lv.grid.length; i++) if (Lv.grid[i] === 1 || Lv.grid[i] === 5 || Lv.grid[i] === 3) floorN++;
   seen[k0] = 1; q.push(k0);
-  while (q.length) { const k = q.pop(); reach++; for (const d of [1, -1, W0, -W0]) { const j = k + d; if (j >= 0 && j < seen.length && !seen[j] && (Lv.grid[j] === 1 || Lv.grid[j] === 5)) { seen[j] = 1; q.push(j); } } }
+  while (q.length) { const k = q.pop(); reach++; for (const d of [1, -1, W0, -W0]) { const j = k + d; if (j >= 0 && j < seen.length && !seen[j] && (Lv.grid[j] === 1 || Lv.grid[j] === 5 || Lv.grid[j] === 3)) { seen[j] = 1; q.push(j); } } }
   const ok = o => !!seen[Math.floor(o.y / T) * W0 + Math.floor(o.x / T)];
   return { cells: Lv.cells.length, floorN, reach, all: floorN === reach, boss: !!Lv.bossPos && ok(Lv.bossPos), chests: Lv.chests.length, chestsOk: Lv.chests.every(ok), enemies: Lv.enemies.length, enemiesOk: Lv.enemies.every(ok), kinds: Lv.cells.map(c => c.tpl).join(',') };
 }
@@ -2006,32 +2033,36 @@ function mobSpace(e, d, ty, dist, dt) {
   if (e.mode === 'flee' && dist < p.ring - 16) eMove(e, e.face + PI, spd * 0.9, dt);
   return false;
 }
-/* v1.7.3: sealed mid-boss arenas (see setupArenas in b.js). The seal is solid fog on the doorway tiles; it closes when the player walks in and opens when the boss dies, resets or the player dies. */
+/* v1.7.3: sealed mid-boss arenas (see setupArenas in b.js). v1.7.5: every arena has ONE doorway ("gate") that is a solid fog wall until the mid-boss is beaten. The player taps 霧に入る (enterArena) to be carried
+   a few tiles into the room, the whole ring of doorway tiles seals at once, and it opens when the boss dies, resets or the player dies (the gate fog returns while the boss lives). */
 const arenaOn = () => !!(L && L.arenas && L.arenas.some(a => a.sealed));
 function arenaSet(a, on) {
   if (on === a.sealed) return; a.sealed = on;
   if (on) { a.snap = a.seal.map(k => a.g[k]); for (const k of a.seal) a.g[k] = 3; }
   else a.seal.forEach((k, i) => { if (a.g[k] === 3) a.g[k] = a.snap[i]; });
 }
+function gateOpen(a) { if (a.open) return; a.open = true; for (const s of a.gsnap) if (a.g[s[0]] === 3) a.g[s[0]] = s[1]; }
+function enterArena(a, gt) {
+  const b = a.boss; if (a.sealed || a.open || b.state === 'dead' || P.state === 'dead') return;
+  arenaSet(a, true); P.x = gt.ex; P.y = gt.ey; P.face = gt.face; P.kx = P.ky = 0; cam.x = P.x; cam.y = P.y; G.fadeT = 0.6; const r = a.rect;
+  for (const e of enemies) {
+    if (e === b || e.state === 'dead') continue; const tx = Math.floor(e.x / T), ty = Math.floor(e.y / T);
+    if (tx >= r[0] && ty >= r[1] && tx < r[0] + r[2] && ty < r[1] + r[3]) resetEnemy(e);
+    else if (a.seal.includes(ty * MW + tx)) { const dx = e.x - (r[0] + r[2] / 2) * T, dy = e.y - (r[1] + r[3] / 2) * T, n = Math.hypot(dx, dy) || 1; for (let i = 0; i < 6 && a.seal.includes(Math.floor(e.y / T) * MW + Math.floor(e.x / T)); i++) { e.x += dx / n * 26; e.y += dy / n * 26; } }
+  }
+  SFX.gate(); shake(5); toast('霧が退路を閉ざした'); aggro(b);
+}
 function updArenas(dt) {
   if (!L || !L.arenas) return;
   for (const a of L.arenas) {
-    const b = a.boss, r = a.rect;
+    const b = a.boss;
     if (a.sealed) {
-      if (b.state === 'dead') { arenaSet(a, false); toast('霧が晴れた'); }
+      if (b.state === 'dead') { arenaSet(a, false); gateOpen(a); toast('霧が晴れた'); }
       else if (P.state === 'dead' || b.state === 'idle' || b.state === 'return') arenaSet(a, false);
       continue;
     }
+    if (b.state === 'dead') { gateOpen(a); continue; }
     if (b.state === 'idle' && b.hp < b.mhp) b.hp = b.hpLag = b.mhp;
-    if (b.state === 'dead' || P.state === 'dead' || G.mode !== 'play') continue;
-    const px = P.x / T, py = P.y / T; if (px < r[0] + 1.5 || py < r[1] + 1.5 || px > r[0] + r[2] - 1.5 || py > r[1] + r[3] - 1.5) continue;
-    arenaSet(a, true);
-    for (const e of enemies) {
-      if (e === b || e.state === 'dead') continue; const tx = Math.floor(e.x / T), ty = Math.floor(e.y / T);
-      if (tx >= r[0] && ty >= r[1] && tx < r[0] + r[2] && ty < r[1] + r[3]) resetEnemy(e);
-      else if (a.seal.includes(ty * MW + tx)) { const dx = e.x - (r[0] + r[2] / 2) * T, dy = e.y - (r[1] + r[3] / 2) * T, n = Math.hypot(dx, dy) || 1; for (let i = 0; i < 6 && a.seal.includes(Math.floor(e.y / T) * MW + Math.floor(e.x / T)); i++) { e.x += dx / n * 26; e.y += dy / n * 26; } }
-    }
-    SFX.gate(); shake(5); toast('霧が退路を閉ざした'); aggro(b);
   }
 }
 function resetEnemies() {
@@ -2244,7 +2275,7 @@ function updEnemy(e, dt) {
       break;
     case 'rec':
       e.t -= dt; if (e.t < A.rec - 0.2) e.sl = lerp(e.sl, 0, 1 - Math.exp(-8 * dt));
-      if (e.t <= 0) { if (A.next) eStart(e, A.next); else { e.state = 'chase'; e.t = d.ai === 'great' ? rnd(0.8, 1.4) : e.type === 'knight' ? rnd(0.4, 0.8) : rnd(0.35, 0.85); e.nd = undefined; } }
+      if (e.t <= 0) { if (A.next) eStart(e, A.next); else { e.state = 'chase'; e.t = d.ai === 'great' ? rnd(0.8, 1.4) : (e.type === 'knight' ? rnd(0.4, 0.8) : rnd(0.35, 0.85)) * (e.restK || 1); e.nd = undefined; } }
       break;
     case 'hurt': e.t -= dt; if (e.t <= 0) { e.state = 'chase'; e.t = rnd(0.25, 0.6); } break;
     case 'stagger': e.t -= dt; if (e.t <= 0) { e.state = 'chase'; e.t = d.esc ? 0.2 : 0.5; if (tough(e)) e.grace = d.esc ? 1.4 : 0.9; if (d.sh) e.gd = d.sh.gd; } break;
@@ -2952,7 +2983,7 @@ function refreshEquip() {
     if (!save.spirits.length) h += '<div class="row" style="opacity:.5"><span class="ef">まだ霊鈴を持っていない。墓守の祝福の近くの宝箱を探すこと。</span></div>';
   } else if (eqTab === 't') {
     const n = save.teq.filter(Boolean).length; info = 'タリスマン枠 <b>' + n + ' / ' + save.tslots + '</b>（最大4）　触れて付け外しする<br>品：' + [1, 2, 3, 4].map(r => '<span style="color:' + RAR[r].c + '">' + starsOf(r) + RAR[r].n + '</span>').join('　') + '　★3から副効果';
-    h += '<div class="slots">'; for (let i = 0; i < 4; i++) { const t = save.teq[i]; h += i < save.tslots ? '<span class="sl' + (t ? ' on' : '') + '"' + (t ? ' style="border-color:' + RAR[trar(t)].c + ';color:' + RAR[trar(t)].c + '"' : '') + '>' + (t ? TAL[t].name : '空き') + '</span>' : '<span class="sl lock">鍵：護符の紐で解放</span>'; } h += '</div>';
+    h += '<div class="tslots">'; for (let i = 0; i < 4; i++) { const t = save.teq[i]; h += i < save.tslots ? '<span class="sl' + (t ? ' on' : '') + '"' + (t ? ' style="border-color:' + RAR[trar(t)].c + ';color:' + RAR[trar(t)].c + '"' : '') + '>' + (t ? TAL[t].name : '空き') + '</span>' : '<span class="sl lock">鍵：護符の紐で解放</span>'; } h += '</div>';
     for (const id of save.tals) { const r = trar(id); h += row(id, has(id), '<span style="color:' + RAR[r].c + '">' + starsOf(r) + '</span> ' + TAL[id].name, '<b>' + tdesc(id, r) + '</b><br><span class="nw" style="color:' + RAR[r].c + '">' + RAR[r].n + '</span>', has(id) ? '装備中' : ''); }
     if (!save.tals.length) h += '<div class="row" style="opacity:.5"><span class="ef">まだタリスマンを持っていない。宝箱や強敵が隠し持つ。</span></div>';
   } else {
@@ -3086,6 +3117,7 @@ function updWorld(dt) {
   for (const c of CHESTS) { if (chestOpen(c)) continue; const d = Math.hypot(P.x - c.x, P.y - c.y); if (d < 52 && d < bd) { bd = d; setNear('chest', '宝箱を開ける', '開ける', 0, c); hint('chest', '宝箱は「開ける」で中身を得る\n武器・防具・魔法・タリスマンが眠っている'); } }
   for (const dr of DOORS) { if (save.doors[dr.id]) continue; const d = Math.hypot(P.x - dr.x, P.y - dr.y); if (d < 90 && d < bd) { bd = d; setNear('door', '扉を調べる', '調べる', 0, dr); } }
   for (const p of PROPS) { if (p.t === 'gate' || (p.need && !save.bossDead)) continue; const d = Math.hypot(P.x - p.x, P.y - p.y); if (d < 54 && d < bd) { const pr = propNear(p); if (pr) { if (pr === 2) bd = d; continue; } bd = d; if (p.t === 'lift') setNear('lift', layerOf(p.to).name.split('　')[0] + 'へ ' + (p.to >= L.base + 10 ? '降りる' : '昇る'), p.to >= L.base + 10 ? '降りる' : '昇る', 0, p); else if (p.t === 'fogL') setNear('fogL', '霧をくぐる', 'くぐる', 0, p); else if (p.t === 'exitL') setNear('exitL', '聖座を去る', '去る', 0, p); else if (p.t === 'stairs') setNear('stairs', 'B' + (L.floor + 1) + ' へ降りる', '降りる', 0, p); else setNear('return', '城へ帰還する', '帰還', 0, p); } }
+  if (L.arenas) for (const a of L.arenas) { if (a.open || a.sealed || a.boss.state === 'dead') continue; for (const gt of a.gates) { const d = Math.hypot(P.x - gt.x, P.y - gt.y); if (d < 100 && d < bd && !gt.tiles.some(k => a.gsnap.some(s => s[0] === k && s[1] === 2 && !save.doors[DOORS[doorAt[k]] && DOORS[doorAt[k]].id]))) { bd = d; setNear('fogM', '霧に入る', '入る', 0, { a, gt }); } } }
   if (FOG) { const d = Math.hypot(P.x - FOG.x, P.y - FOG.y); if (d < 96 && d < bd) { bd = d; setNear('fog', save.bossDead ? '霧をくぐる（再戦）' : '霧をくぐる', 'くぐる', 0, null); } }
 }
 function doInteract() {
@@ -3101,10 +3133,11 @@ function doInteract() {
     else toast(dr.lever ? 'どこかの梃子で開く格子だ' : 'こちらからは開かない');
   } else if (n.t === 'x') propUse(n.c, hot);
   else if (n.t === 'fog') enterBoss();
+  else if (n.t === 'fogM') { if (!hot()) enterArena(n.c.a, n.c.gt); }
   else if (n.t === 'stairs') { if (!hot()) enterCrypt(L.floor + 1); }
   else if (n.t === 'return') { if (!hot()) leaveCrypt(); }
   else if (n.t === 'lift') { if (!hot()) travelTo(n.c.to, true); }
-  else if (n.t === 'fogL') { const lord = enemies.find(e => e.def.lord); if (lord && lord.state === 'dead') { toast('主は、もう灰へ還った'); return; } P.x = n.c.tx; P.y = n.c.ty; P.face = -PI / 2; cam.x = P.x; cam.y = P.y; G.fadeT = 0.7; SFX.gate(); }
+  else if (n.t === 'fogL') { const lord = enemies.find(e => e.def.lord); if (lord && lord.state === 'dead') { toast('主は、もう灰へ還った'); return; } P.x = n.c.ex; P.y = n.c.ey; P.face = -PI / 2; cam.x = P.x; cam.y = P.y; G.fadeT = 0.7; SFX.gate(); }
   else if (n.t === 'exitL') { const f = PROPS.find(p => p.t === 'fogL'); P.x = f.x + 50; P.y = f.y; cam.x = P.x; cam.y = P.y; G.fadeT = 0.7; SFX.gate(); }
 }
 function checkStain() {
@@ -4730,6 +4763,7 @@ function openMap() {
   const label = (t, x, y, col, fs) => { g.font = '800 ' + fs + 'px ' + FONT; g.fillStyle = 'rgba(0,0,0,.85)'; g.fillText(t, x + 1, y + 1); g.fillStyle = col; g.fillText(t, x, y); };
   L.regions.forEach((r, i) => { let any = false, sx = 0, sy = 0, n = 0; ROOMS.forEach((R, k) => { if (L.regOf[k] !== i || R[7]) return; if (roomSeen(k) || mapHeld(k)) any = true; sx += R[0] + R[2] / 2; sy += R[1] + R[3] / 2; n++; }); if (any && n) label(r.name + (save.maps[L.mid + ':' + r.id] ? '' : '（断片なし）'), ox + sx / n * sc, oy + sy / n * sc, save.maps[L.mid + ':' + r.id] ? 'rgba(236,217,160,.85)' : 'rgba(150,140,120,.7)', 12); });
   for (const p of PROPS) { if (p.t === 'mdin' && save.mdSeen[layerOf(p.to).key]) { g.fillStyle = '#b48cff'; g.fillRect(X(p.x) - 4, Y(p.y) - 4, 8, 8); label(layerOf(p.to).name, X(p.x), Y(p.y) - 11, '#cdb4ff', 10); } else if (p.t === 'ped' && !save.maps[L.mid + ':' + p.reg] && roomSeen(roomOf[Math.floor(p.y / T) * MW + Math.floor(p.x / T)])) { g.fillStyle = '#8fb8ff'; g.beginPath(); g.arc(X(p.x), Y(p.y), 3.5, 0, TAU); g.fill(); } }
+  for (const p of PROPS) if (p.t === 'fogL') { g.fillStyle = '#b9c6e6'; g.fillRect(X(p.x) - 4, Y(p.y) - 4, 8, 8); label('主の間（霧）', X(p.x), Y(p.y) - 11, '#cfd9f2', 10); }
   BLESS.forEach((b, i) => { if (!isLit(i)) return; const x = X(b.x), y = Y(b.y); g.fillStyle = '#ffd76a'; g.beginPath(); g.moveTo(x, y - 6); g.lineTo(x + 5, y); g.lineTo(x, y + 6); g.lineTo(x - 5, y); g.closePath(); g.fill(); label(b.name, x, y + 13, '#f3e2ac', 10); });
   if (stainHere(save.stain)) { g.fillStyle = '#ff5040'; g.beginPath(); g.arc(X(save.stain.x), Y(save.stain.y), 4, 0, TAU); g.fill(); }
   { const x = X(P.x), y = Y(P.y); g.save(); g.translate(x, y); g.rotate(P.face); g.fillStyle = '#ffffff'; g.strokeStyle = '#000'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(8, 0); g.lineTo(-5, 5); g.lineTo(-2, 0); g.lineTo(-5, -5); g.closePath(); g.fill(); g.stroke(); g.restore(); }
@@ -4834,6 +4868,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.7.5', d: '2026-11-18', t: '中ボスの部屋と視界', items: ['中ボスの部屋は霧から入るようにしました', '視界制限（ハード）の見え方を修正しました', '大ボス前の騎士を強化しました', '護符の画面がタブレットで見切れる問題を修正しました', '第2層の主の間に入れない問題を修正しました'] },
   { v: '1.7.4', d: '2026-11-18', t: '手応えの調整', items: ['エリアごとの手応えを調整しました', '攻撃力が足りないときに知らせる表示を追加しました'] },
   { v: '1.7.3', d: '2026-11-18', t: '中ボスの部屋', items: ['中ボスと一対一で戦える部屋を追加しました', 'モンスターを少し打たれ強くしました'] },
   { v: '1.7.2', d: '2026-11-18', t: '視界制限', items: ['設定に「視界制限（ハード）」を追加しました'] },
@@ -5120,6 +5155,7 @@ function drawSpikesHigh() {
 }
 function drawSlashes() {
   for (const s of slashes) {
+    if (!visPt(s.x, s.y, s.r)) continue;
     const k = s.life / s.max, ccw = s.a1 < s.a0;
     ctx.fillStyle = `rgba(${s.col},${k * 0.55})`;
     ctx.beginPath(); ctx.arc(s.x, s.y, s.r, s.dir + s.a0, s.dir + s.a1, ccw); ctx.arc(s.x, s.y, s.r * (s.w + (1 - k) * 0.25), s.dir + s.a1, s.dir + s.a0, !ccw); ctx.closePath(); ctx.fill();
@@ -5486,7 +5522,7 @@ function drawProps() {
     if (p.need && !save.bossDead) continue;
     if (drawXProp(p)) continue;
     if (p.t === 'lift') { ctx.fillStyle = '#17140f'; ctx.fillRect(p.x - 22, p.y - 22, 44, 44); ctx.strokeStyle = '#a88d4e'; ctx.lineWidth = 2; ctx.strokeRect(p.x - 22, p.y - 22, 44, 44); ctx.strokeRect(p.x - 15, p.y - 15, 30, 30); ctx.beginPath(); ctx.moveTo(p.x - 22, p.y - 22); ctx.lineTo(p.x - 15, p.y - 15); ctx.moveTo(p.x + 22, p.y - 22); ctx.lineTo(p.x + 15, p.y - 15); ctx.moveTo(p.x - 22, p.y + 22); ctx.lineTo(p.x - 15, p.y + 15); ctx.moveTo(p.x + 22, p.y + 22); ctx.lineTo(p.x + 15, p.y + 15); ctx.stroke(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.35 + Math.sin(G.now * 2) * 0.12; ctx.drawImage(SPR[1], p.x - 36, p.y - 36, 72, 72); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; continue; }
-    if (p.t === 'fogL') { ctx.globalCompositeOperation = 'lighter'; for (let i = 0; i < 6; i++) { const y = p.y - 34 + i * 13.5, s2 = 30 + Math.sin(G.now * 1.7 + i * 1.3) * 7; ctx.globalAlpha = 0.32 + Math.sin(G.now * 2.3 + i) * 0.08; ctx.drawImage(SPR[2], p.x - s2 * 1.3, y - s2, s2 * 2.6, s2 * 2); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; continue; }
+    if (p.t === 'fogL') { const fh = p.fh || 68; if (p.fh) { ctx.globalAlpha = 0.5 + Math.sin(G.now * 1.9) * 0.08; ctx.fillStyle = '#a9b6d4'; ctx.fillRect(p.x - T / 2, p.y - fh / 2, T, fh); ctx.globalAlpha = 1; } ctx.globalCompositeOperation = 'lighter'; for (let i = 0; i < 6; i++) { const y = p.y - fh / 2 + 4 + i * (fh - 8) / 5, s2 = 30 + Math.sin(G.now * 1.7 + i * 1.3) * 7; ctx.globalAlpha = 0.32 + Math.sin(G.now * 2.3 + i) * 0.08; ctx.drawImage(SPR[2], p.x - s2 * 1.3, y - s2, s2 * 2.6, s2 * 2); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; continue; }
     if (p.t === 'exitL') { ctx.globalCompositeOperation = 'lighter'; const s2 = 26 + Math.sin(G.now * 2.4) * 4; ctx.globalAlpha = 0.5; ctx.drawImage(SPR[1], p.x - s2 * 2, p.y - s2 * 2, s2 * 4, s2 * 4); ctx.globalAlpha = 0.9; ctx.strokeStyle = '#f3e2ac'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(p.x, p.y, 20, 13, 0, G.now, G.now + 5); ctx.stroke(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; continue; }
     if (p.t === 'gate') { ctx.fillStyle = '#050406'; ctx.fillRect(p.x, p.y - T + 4, 30, 2 * T - 8); ctx.strokeStyle = '#5c6070'; ctx.lineWidth = 3; ctx.strokeRect(p.x + 1.5, p.y - T + 4, 30, 2 * T - 8); ctx.strokeStyle = 'rgba(140,150,170,.5)'; ctx.lineWidth = 1; for (let i = 1; i < 5; i++) { ctx.beginPath(); ctx.moveTo(p.x + i * 6, p.y - T + 10 + i * 3); ctx.lineTo(p.x + i * 6, p.y + T - 10 - i * 3); ctx.stroke(); } ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.3 + Math.sin(G.now * 1.5) * 0.1; ctx.drawImage(SPR[8], p.x - 30, p.y - 50, 100, 100); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
     else if (p.t === 'stairs') { ctx.fillStyle = '#050406'; ctx.fillRect(p.x - 22, p.y - 18, 44, 36); for (let i = 0; i < 4; i++) { ctx.fillStyle = `rgb(${70 - i * 14},${74 - i * 14},${86 - i * 16})`; ctx.fillRect(p.x - 22 + i * 4, p.y - 18 + i * 9, 44 - i * 8, 8); } ctx.strokeStyle = '#8d8676'; ctx.lineWidth = 1.5; ctx.strokeRect(p.x - 22, p.y - 18, 44, 36); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.3 + Math.sin(G.now * 2) * 0.1; ctx.drawImage(SPR[8], p.x - 40, p.y - 40, 80, 80); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
@@ -5510,19 +5546,20 @@ function drawProps() {
     ctx.fillStyle = '#2a2622'; ctx.beginPath(); ctx.ellipse(x, y, 18, 11, 0, 0, TAU); ctx.fill();
     ctx.strokeStyle = lit ? '#c9a455' : '#5d5238'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.ellipse(x, y, 13, 7.5, 0, 0, TAU); ctx.stroke(); ctx.beginPath(); ctx.ellipse(x, y, 7, 4, 0, 0, TAU); ctx.stroke();
     ctx.globalCompositeOperation = 'lighter';
-    if (lit) { const fl = 0.9 + Math.sin(G.now * 3 + i) * 0.1, s = 30 * fl; ctx.globalAlpha = 0.4; ctx.drawImage(SPR[1], x - s * 3.4, y - s * 3.4 - 6, s * 6.8, s * 6.8); ctx.globalAlpha = 0.9; ctx.drawImage(SPR[1], x - 9, y - 64, 18, 70); ctx.drawImage(SPR[1], x - s * 0.8, y - s * 0.8 - 22 - Math.sin(G.now * 2) * 3, s * 1.6, s * 1.6); ctx.drawImage(SPR[2], x - s * 0.3, y - s * 0.3 - 22 - Math.sin(G.now * 2) * 3, s * 0.6, s * 0.6); }
+    if (!visPt(x, y, 60)) { } else if (lit) { const fl = 0.9 + Math.sin(G.now * 3 + i) * 0.1, s = 30 * fl; ctx.globalAlpha = 0.4; ctx.drawImage(SPR[1], x - s * 3.4, y - s * 3.4 - 6, s * 6.8, s * 6.8); ctx.globalAlpha = 0.9; ctx.drawImage(SPR[1], x - 9, y - 64, 18, 70); ctx.drawImage(SPR[1], x - s * 0.8, y - s * 0.8 - 22 - Math.sin(G.now * 2) * 3, s * 1.6, s * 1.6); ctx.drawImage(SPR[2], x - s * 0.3, y - s * 0.3 - 22 - Math.sin(G.now * 2) * 3, s * 0.6, s * 0.6); }
     else { ctx.globalAlpha = 0.3 + Math.sin(G.now * 2) * 0.1; ctx.drawImage(SPR[1], x - 14, y - 22, 28, 28); }
     ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
   }
   ctx.globalCompositeOperation = 'lighter'; const ts = crypt ? 8 : 0;
-  for (const t of TORCHES) { const x = tc(t[0]), y = t[1] * T + T * 0.56; if (!vis(x, y, 150)) continue; const fl = 0.85 + Math.sin(G.now * 11 + x) * 0.15, s = 15 * fl, g = night ? 130 : 90; ctx.globalAlpha = night ? 0.42 : 0.3; ctx.drawImage(SPR[ts], x - g, y - g * 0.78, g * 2, g * 2); ctx.globalAlpha = 0.95; ctx.drawImage(SPR[ts], x - s, y - s - 3, s * 2, s * 2); ctx.drawImage(SPR[crypt ? 2 : 1], x - s * 0.5, y - s * 0.5 - 4, s, s); }
+  for (const t of TORCHES) { const x = tc(t[0]), y = t[1] * T + T * 0.56; if (!vis(x, y, 150) || !visPt(x, y, 80)) continue; const fl = 0.85 + Math.sin(G.now * 11 + x) * 0.15, s = 15 * fl, g = night ? 130 : 90; ctx.globalAlpha = night ? 0.42 : 0.3; ctx.drawImage(SPR[ts], x - g, y - g * 0.78, g * 2, g * 2); ctx.globalAlpha = 0.95; ctx.drawImage(SPR[ts], x - s, y - s - 3, s * 2, s * 2); ctx.drawImage(SPR[crypt ? 2 : 1], x - s * 0.5, y - s * 0.5 - 4, s, s); }
   if (FOG && vis(FOG.x, FOG.y, 120)) for (let i = 0; i < 9; i++) { const x = FOG.x - (L.fogN || 3) * T / 2 + 6 + i * ((L.fogN || 3) * T - 12) / 8, y = FOG.y + 4, s = 34 + Math.sin(G.now * 1.7 + i * 1.3) * 8; ctx.globalAlpha = 0.3 + Math.sin(G.now * 2.3 + i) * 0.08; ctx.drawImage(SPR[2], x - s, y - s * 1.3, s * 2, s * 2.6); }
-  if (L.arenas) for (const a of L.arenas) if (a.sealed) for (const k of a.seal) { const tx = k % MW, ty = Math.floor(k / MW), x = tc(tx), y = tc(ty); if (!vis(x, y, 70)) continue; ctx.globalAlpha = 0.16; ctx.fillStyle = '#b9c6e6'; ctx.fillRect(tx * T, ty * T, T, T); for (let i = 0; i < 3; i++) { const s = 30 + Math.sin(G.now * 1.7 + i * 1.3 + k) * 7; ctx.globalAlpha = 0.34 + Math.sin(G.now * 2.3 + i + k) * 0.08; ctx.drawImage(SPR[2], x + (i - 1) * 16 - s, y - s * 1.1 + 4, s * 2, s * 2.2); } }
+  if (L.arenas) for (const a of L.arenas) if (a.sealed || !a.open) for (const k of (a.sealed ? a.seal : a.gates.reduce((n, q) => n.concat(q.tiles), []))) { const tx = k % MW, ty = Math.floor(k / MW), x = tc(tx), y = tc(ty); if (!vis(x, y, 70)) continue; ctx.globalAlpha = a.sealed ? 0.16 : 0.36; ctx.fillStyle = '#b9c6e6'; ctx.fillRect(tx * T, ty * T, T, T); for (let i = 0; i < 3; i++) { const s = 30 + Math.sin(G.now * 1.7 + i * 1.3 + k) * 7; ctx.globalAlpha = 0.34 + Math.sin(G.now * 2.3 + i + k) * 0.08; ctx.drawImage(SPR[2], x + (i - 1) * 16 - s, y - s * 1.1 + 4, s * 2, s * 2.2); } }
   ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
 }
 function drawShots() {
   ctx.globalCompositeOperation = 'lighter';
   for (const s of shots) {
+    if (!visPt(s.x, s.y, 40)) continue;
     if (s.kind === undefined) { ctx.drawImage(SPR[0], s.x - 26, s.y - 26, 52, 52); ctx.drawImage(SPR[1], s.x - 12, s.y - 12, 24, 24); }
     else if (s.kind === 1) { ctx.drawImage(SPR[7], s.x - 22, s.y - 22, 44, 44); ctx.drawImage(SPR[2], s.x - 8, s.y - 8, 16, 16); }
     else if (s.kind === 2) { ctx.globalCompositeOperation = 'source-over'; const a = Math.atan2(s.vy, s.vx); ctx.save(); ctx.translate(s.x, s.y); ctx.rotate(a); ctx.fillStyle = '#e6e0f5'; ctx.beginPath(); ctx.moveTo(10, 0); ctx.lineTo(-6, -3); ctx.lineTo(-6, 3); ctx.closePath(); ctx.fill(); ctx.restore(); ctx.globalCompositeOperation = 'lighter'; ctx.drawImage(SPR[7], s.x - 12, s.y - 12, 24, 24); }
@@ -5596,6 +5633,7 @@ function drawBoss() {
 }
 function drawParts(type) {
   let gl = 0; const cap = save.fxLow ? 70 : 150, gs = save.fxLow ? 0.8 : 0.9; for (const p of parts) if (p.on) {
+    if (!visPt(p.x, p.y, p.size * 1.6)) continue;
     const k = p.life / p.max;
     if (type === 1 && p.type === 1) { ctx.globalAlpha = Math.min(1, k * 2); ctx.fillStyle = p.col; ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size); }
     else if (type === 2 && p.type === 2) { const s = p.size * (1.6 - k * 0.6); ctx.globalAlpha = k * 0.3; ctx.drawImage(SPR[4], p.x - s, p.y - s, s * 2, s * 2); }
@@ -5660,6 +5698,7 @@ function drawHUD() {
     ctx.globalAlpha = 0.85; ctx.drawImage(L.mini, mx, my, mw, mh); ctx.globalAlpha = 1;
     const k = ms / T, crypt = L.id === 'crypt';
     for (let i = 0; i < BLESS.length; i++) { const b = BLESS[i], lit = isLit(i); if (!lit && !roomSeen(roomOf[Math.floor(b.y / T) * MW + Math.floor(b.x / T)])) continue; ctx.fillStyle = lit ? '#ffd76a' : '#6b6152'; ctx.beginPath(); ctx.arc(mx + b.x * k, my + b.y * k, 2.4, 0, TAU); ctx.fill(); }
+    for (const p of PROPS) if (p.t === 'fogL') { ctx.fillStyle = '#b9c6e6'; ctx.fillRect(mx + p.x * k - 2.5, my + p.y * k - 2.5, 5, 5); }
     for (const p of PROPS) if (p.t === 'lift' || p.t === 'stairs' || p.t === 'return' || p.t === 'mdout' || (p.t === 'mdin' && save.mdSeen[layerOf(p.to).key])) { ctx.fillStyle = p.t === 'stairs' ? '#7dffd0' : '#fff3c8'; ctx.fillRect(mx + p.x * k - 2, my + p.y * k - 2, 4, 4); }
     const s = save.stain; if (stainHere(s)) { ctx.fillStyle = Math.sin(G.now * 6) > 0 ? '#ff4a3a' : '#7dffb0'; ctx.fillRect(mx + s.x * k - 2, my + s.y * k - 2, 4, 4); }
     ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(mx + P.x * k, my + P.y * k, 2.2, 0, TAU); ctx.fill();

@@ -20,7 +20,10 @@ const d = {
     ['q13', 64, 46, { w: 'ultra2', m: { l: 2 } }], ['q14', 55, 39, { w: 'claws3' }], ['q15', 48, 7, { w: 'great2' }], ['q16', 48, 16, { w: 'halberd2' }], ['q25', 45, 16, { w: 'hsword', t: 'vial', r: 3 }], ['q17', 33, 16, { w: 'shield3', sh: 'tower2' }], ['q18', 64, 5, { a: 'vest' }],
     ['q19', 57, 14, { w: 'dagger3' }], ['q20', 64, 14, { w: 'mace3', m: { e: 1 } }], ['q21', 57, 5, { t: 'censer', r: 3 }], ['q22', 24, 16, { w: 'bow2' }], ['q23', 15, 16, { w: 'shield2', sh: 'round2', m: { l: 1 } }]
   ],
-  doors: [['L2d0', [[8, 45], [9, 45]], 'y', -1, '昇降機の広場への近道が開いた'], ['L2d1', [[60, 16], [61, 16]], 'y', -1, '宿坊への近道が開いた'], ['L2d2', [[52, 44], [52, 45]], 'x', 1, '水路への近道が開いた']],
+  doors: [['L2d0', [[8, 45], [9, 45]], 'y', -1, '昇降機の広場への近道が開いた']],
+  /* v1.7.5: each mid-boss room has one doorway (灰守りの庭 north, 巡礼者の宿坊 west, 聖具室 west); the other doorways and the two shortcut doors between the rooms are walled up, and 灰晶の採掘場 / the 祝福 corridor get their own corridors */
+  wall: [[52, 43, 2, 3], [66, 41, 1, 3], [57, 34, 4, 1], [59, 16, 3, 6]],
+  carve: [[52, 49, 18, 3], [67, 44, 3, 5], [48, 35, 9, 2], [13, 10, 1, 3]],
   spawns: [
     ['pilgrim', 22, 47, 1], ['pilgrim', 27, 44, 2], ['pilgrim', 29, 51, 2], ['crow', 20, 52, 1], ['crow', 25, 49, 0], ['pilgrim', 22, 38, 3],
     ['guard2', 22, 30, 3], ['guard2', 27, 31, 3], ['pilgrim', 18, 32, 1], ['pilgrim', 24, 27, 3], ['cantor', 28, 27, 2], ['crow', 33, 30, 2],
@@ -30,7 +33,7 @@ const d = {
     ['guard2', 28, 10, 0], ['statue', 22, 15, 1], ['l2_lord', 7, 7, 3]
   ],
   carpets: [[39.1, 6, 3.8, 12, 'rgba(120,30,30,.3)'], [6.1, 2, 1.8, 14, 'rgba(120,30,30,.34)']],
-  props: [{ t: 'lift', x: 5.5 * 50, y: 47.5 * 50, to: 5 }, { t: 'fogL', x: 14.7 * 50, y: 11 * 50, tx: 7 * 50, ty: 14.6 * 50 }]
+  props: [{ t: 'lift', x: 5.5 * 50, y: 47.5 * 50, to: 5 }, { t: 'fogL', tx: 13, ty: 11, fh: 150, ex: 7 * 50, ey: 14.6 * 50 }]
 };
 /* 3f: two small side areas that host the new systems (appended so old room indices stay valid) */
 d.w = 96; d.h = 72;
