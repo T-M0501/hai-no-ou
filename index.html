@@ -314,7 +314,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.7.7</div>
+  <div id="verTxt" class="ver">v1.8.0</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -564,7 +564,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
     </div>
     <div id="bfCrypt" class="bfPane">
       <div id="crInfo" class="eqInfo"></div>
-      <div class="floorSel"><button id="bCrDn" class="plus" aria-label="浅い階へ">−</button><div id="crFloor" class="fl">B1</div><button id="bCrUp" class="plus" aria-label="深い階へ">＋</button></div>
+      <div class="floorSel"><button id="bCrDn10" class="plus" style="font-size:15px" aria-label="10階浅く">−10</button><button id="bCrDn" class="plus" aria-label="浅い階へ">−</button><div id="crFloor" class="fl">B1</div><button id="bCrUp" class="plus" aria-label="深い階へ">＋</button><button id="bCrUp10" class="plus" style="font-size:15px" aria-label="10階深く">＋10</button></div>
       <button id="bCrGo" class="btn">降りる</button>
       <button id="bCrBack" class="btn sub">戻る</button>
     </div>
@@ -695,7 +695,7 @@ function sanitize() {
   if (save.started && !save.fv) { save.fv = 1; save.flaskMax = 2 + (save.chests && save.chests.c4 ? 1 : 0) + (save.chests && save.chests.q21 ? 1 : 0) + ((save.cryptRw && save.cryptRw[5]) || save.cryptDeep >= 5 ? 1 : 0) + (save.bless === 'flask' ? 1 : 0); save.flaskFp = save.cls === 'mage' || save.cls === 'cleric' ? 1 : 0; }
   save.flaskFp = clamp(Math.floor(+save.flaskFp || 0), 0, save.flaskMax);
   save.bonfire = clamp(Math.floor(+save.bonfire || 0), 0, 99); if (!save.btn.p || typeof save.btn.p !== 'object') save.btn.p = {}; if (!save.btn.l || typeof save.btn.l !== 'object') save.btn.l = {}; save.time = +save.time || 0; save.deaths = Math.floor(+save.deaths || 0);
-  save.tears = clamp(Math.floor(+save.tears || 0), 0, 9); save.cryptDeep = clamp(Math.floor(+save.cryptDeep || 0), 0, 7); save.night = !!save.night && !!save.bossDead; save.nightOn = save.night && (save.nightOn === undefined ? true : !!save.nightOn);
+  save.tears = clamp(Math.floor(+save.tears || 0), 0, 9); save.cryptDeep = clamp(Math.floor(+save.cryptDeep || 0), 0, 30); save.night = !!save.night && !!save.bossDead; save.nightOn = save.night && (save.nightOn === undefined ? true : !!save.nightOn);
   delete save.invS; if (save.cnt) delete save.cnt.inv; if (save.ach) delete save.ach.inv; if (save.hints) delete save.hints.invade;
   save.fxLow = !!save.fxLow; save.visMode = !!save.visMode;
   armSanitize();
@@ -1310,7 +1310,7 @@ const ABMAX = { atk: 25, red: 15, vit: 20, end: 20, str: 20, dex: 20, int: 20, f
    q = (tier - 1) / 9 + luck (night +0.2, 地下墓 +0.07 per floor). Boss tables are fixed. */
 const DROPP = { n: [0.05, 0.08], e: [0.25, 0.25] }, DROPN = { m: 1, b: 2 };
 const RARW = { n: [[78, 19, 2.7, 0.3, 0], [38, 34, 20, 6.8, 1.2]], e: [[0, 60, 34, 5.5, 0.5], [0, 26, 46, 22, 6]], m: [[0, 0, 70, 30, 0], [0, 0, 70, 30, 0]], b: [[0, 0, 0, 85, 15], [0, 0, 0, 85, 15]] };
-const lootQ = (tier, luck) => clamp((tier - 1) / (TIER_MAX - 1) + (luck || 0), 0, 1);
+const lootQ = (tier, luck) => clamp((tier - 1) / (TIER_MAX - 1) + (luck || 0), 0, 1.6); /* v1.8.0: q above 1 extrapolates the table (deep crypt) */
 const rarW = (src, q) => RARW[src][0].map((a, i) => a + (RARW[src][1][i] - a) * q);
 const DISM = [null, { r: 40 }, { r: 120, m: { s: 1 } }, { r: 400, m: { c: 1 } }, { r: 1200, m: { l: 1, e: 1 } }, { r: 3600, m: { l: 2, e: 2 } }];
 const wpick = (arr, wf, rng) => { let t = 0; for (const a of arr) t += wf(a); let q = (rng || Math.random)() * t; for (const a of arr) { q -= wf(a); if (q < 0) return a; } return arr[arr.length - 1]; };
@@ -1361,8 +1361,8 @@ function armSanitize() {
 }
 
 const MBLIST = [['l2_warden', '灰像の番人 ゴルドア'], ['l2_captain', '聖堂騎士長 ヴェスパル'], ['l2_priest', '灰の司祭 メルヒナ'], ['l2_lord', '灰燼の大主教 オルドヴァン'], ['knight', '鎧騎士'], ['mb_giant', '巨いなる亡者 ドゥーグ'], ['mb_assassin', '双刃の影 イズリル'], ['mb_beast', '灼喉の獣 ボルガ'], ['mb_mage', '禁書の魔術師 オルフェン'], ['n_giant', '夜の巨いなる亡者'], ['n_assassin', '夜の双刃の影'], ['hb', '灰喰らいの墓主 ザルヴァーン']];
-const CRYPT_PRE = 3, CRYPT_DEEP = 7;
-const cryptCap = () => save.bossDead ? CRYPT_DEEP : CRYPT_PRE, cryptTop = () => Math.min(cryptCap(), save.cryptDeep + 1);
+const CRYPT_PRE = 3, CRYPT_DEEP = 7, CRYPT_MAX = 30; /* v1.8.0: B8..B30 added; CRYPT_DEEP is still the hidden boss floor (B7) */
+const cryptCap = () => save.bossDead ? CRYPT_MAX : CRYPT_PRE, cryptTop = () => Math.min(cryptCap(), save.cryptDeep + 1);
 const dmgAll = () => (1 + AB.atk) * (1 + 0.1 * tk('shard')) * (1 + 0.12 * tk('socket')) * (save.pwOn === 'hb' ? 1.08 : 1);
 sanitize();
 const STATS = [['vit', '体力'], ['end', '持久力'], ['str', '筋力'], ['dex', '技量'], ['int', '知力'], ['fth', '信仰']];
@@ -1653,6 +1653,7 @@ function buildCastle(night) {
   widenLevel(Lv);
   setupArenas(Lv, C_FIX);
   { const fr = Lv.rooms[20]; for (let y = fr[1]; y < fr[1] + fr[3]; y++) for (let x = fr[0]; x < fr[0] + fr[2]; x++) Lv.grid[y * W0 + x] = 3; Lv.fog = { x: (fr[0] + fr[2] / 2) * T, y: (fr[1] + fr[3] / 2) * T }; Lv.fogN = fr[2]; }
+  safeBless(Lv);
   return Lv;
 }
 
@@ -1674,6 +1675,7 @@ function buildLayer(def) {
   applyExtras(Lv, def, 0, 0);
   widenLevel(Lv);
   setupArenas(Lv, def);
+  safeBless(Lv);
   return Lv;
 }
 /* data that is fetched on demand (data/<key>.js calls HAI_DATA(key, def)); LVC caches the built levels */
@@ -1699,13 +1701,40 @@ const TPL = {
 };
 const DX = [1, 0, -1, 0], DY = [0, 1, 0, -1];
 const CRYPT_BOSS = ['mb_giant', 'mb_assassin', 'mb_beast', 'mb_mage', 'mb_giant', 'mb_assassin', 'hb'];
+/* v1.8.0: B1..B30. Map bands: B1-9 4x4 cells of 16, B10-19 5x5 of 15, B20-30 6x6 of 15. Every 10th floor has a 深層版 boss; floors >= 10 may be cursed. */
+const DEEPB = { 10: 'ab_giant', 20: 'ab_blade', 30: 'ab_priest' };
+const CURSES = { fog: '霧深き階', fren: '狂乱', tough: '堅牢', toxic: '灰毒' }, CURSE_KEYS = ['fog', 'fren', 'tough', 'toxic'];
+const cryptBand = f => f < 10 ? { g: 4, c: 16, n: clamp(7 + f, 8, 13) } : f < 20 ? { g: 5, c: 15, n: Math.min(16, 14 + ((f - 10) >> 2)) } : { g: 6, c: 15, n: Math.min(20, 18 + Math.floor((f - 20) / 5)) };
+const cryptBossType = f => f <= 7 ? CRYPT_BOSS[f - 1] : CRYPT_BOSS[(f - 1) % 6];
+const PAIR = { shieldh: 'archer', guard3: 'archer', archer: 'shieldh', greatsw: 'katana', katana: 'greatsw' };
+const curseOf = k => !!(L && L.curses && L.curses.includes(k));
+/* v1.8.0: nothing may stand within R tiles of a blessing (or lantern): such spawns are moved to the nearest valid floor tile farther away. Returns how many were moved. */
+function safeBless(Lv, R) {
+  R = R || 7; const W0 = Lv.MW, H0 = Lv.MH, g = Lv.grid, pts = Lv.bless.map(b => [b.x / T, b.y / T]);
+  for (const p of Lv.props) if (p.t === 'lantern') pts.push([p.x / T, p.y / T]); if (!pts.length) return 0;
+  const near = (x, y) => { for (const q of pts) if (Math.hypot(x - q[0], y - q[1]) < R) return true; return false; };
+  const used = Lv.enemies.map(e => [e.hx / T, e.hy / T]), ar = Lv.arenas || []; let moved = 0;
+  Lv.enemies.forEach((e, i) => {
+    if (e.def.boss || e.route || e.arena || e.def.obj || !near(used[i][0], used[i][1])) return;
+    const ex = used[i][0], ey = used[i][1], cx = Math.floor(ex), cy = Math.floor(ey); let best = null, bd = 1e9;
+    for (let y = Math.max(1, cy - 32); y < Math.min(H0 - 1, cy + 33); y++) for (let x = Math.max(1, cx - 32); x < Math.min(W0 - 1, cx + 33); x++) {
+      if (g[y * W0 + x] !== 1) continue; const tx = x + 0.5, ty = y + 0.5, d = Math.hypot(tx - ex, ty - ey); if (d >= bd || near(tx, ty)) continue;
+      if (ar.some(a => x >= a.rect[0] && y >= a.rect[1] && x < a.rect[0] + a.rect[2] && y < a.rect[1] + a.rect[3])) continue;
+      if (used.some((u, j) => j !== i && Math.hypot(u[0] - tx, u[1] - ty) < 1.8) || Lv.chests.some(c => Math.hypot(c.x / T - tx, c.y / T - ty) < 1.5)) continue;
+      best = [tx, ty]; bd = d;
+    }
+    if (best) { e.hx = e.x = best[0] * T; e.hy = e.y = best[1] * T; used[i] = best; moved++; }
+  });
+  return moved;
+}
 function genCrypt(floor, seed) {
-  const rng = mulberry(seed), ri = n => Math.floor(rng() * n), GW = 4, GH = 4, Lv = mkLevel('crypt', GW * CELL, GH * CELL), W0 = Lv.MW; AREA_HF = HF_CRYPT(floor);
-  Lv.floor = floor; Lv.seed = seed; Lv.tex = seed | 0;
-  const n = clamp(6 + floor, 7, 12), cells = [], at = new Int8Array(GW * GH).fill(-1);
+  const rng = mulberry(seed), ri = n => Math.floor(rng() * n), bd = cryptBand(floor), GW = bd.g, GH = bd.g, CL = bd.c, o = 1 + ((CL - 14) >> 1), sh = o - 1, Lv = mkLevel('crypt', GW * CL, GH * CL), W0 = Lv.MW; AREA_HF = HF_CRYPT(floor);
+  Lv.floor = floor; Lv.seed = seed; Lv.tex = seed | 0; Lv.plates = []; Lv.curses = [];
+  if (floor >= 10 && rng() < 0.6) { const k1 = CURSE_KEYS[ri(4)]; Lv.curses.push(k1); if (floor >= 20 && rng() < 0.3) { const rest = CURSE_KEYS.filter(k => k !== k1); Lv.curses.push(rest[ri(3)]); } }
+  const n = bd.n, cells = [], at = new Int8Array(GW * GH).fill(-1);
   const add = (cx, cy, par) => { at[cy * GW + cx] = cells.length; cells.push({ cx, cy, links: [0, 0, 0, 0], d: par < 0 ? 0 : cells[par].d + 1, kind: 'n' }); };
   add(ri(GW), ri(GH), -1);
-  for (let guard = 0; cells.length < n && guard < 2000; guard++) {
+  for (let guard = 0; cells.length < n && guard < 4000; guard++) {
     const i = rng() < 0.6 ? cells.length - 1 : ri(cells.length), c = cells[i], dir = ri(4), nx = c.cx + DX[dir], ny = c.cy + DY[dir];
     if (nx < 0 || ny < 0 || nx >= GW || ny >= GH || at[ny * GW + nx] >= 0) continue;
     add(nx, ny, i); c.links[dir] = 1; cells[cells.length - 1].links[(dir + 2) % 4] = 1;
@@ -1719,41 +1748,103 @@ function genCrypt(floor, seed) {
   if (!loot) for (let i = cells.length - 1; i > 0; i--) if (cells[i].kind === 'n') { cells[i].kind = 't'; break; }
   for (const c of cells) for (let dir = 0; dir < 2; dir++) {
     const nx = c.cx + DX[dir], ny = c.cy + DY[dir]; if (nx >= GW || ny >= GH) continue; const j = at[ny * GW + nx]; if (j < 0 || c.links[dir]) continue;
-    const o = cells[j]; if (c.kind !== 'n' || o.kind !== 'n' || rng() > 0.35) continue; c.links[dir] = 1; o.links[(dir + 2) % 4] = 1;
+    const o2 = cells[j]; if (c.kind !== 'n' || o2.kind !== 'n' || rng() > 0.35) continue; c.links[dir] = 1; o2.links[(dir + 2) % 4] = 1;
   }
-  const NSET = TPL.n.concat(TPL.d), bag = []; const hm = 2.5 + 0.23 * (floor - 1), dm = 2.05 + 0.135 * (floor - 1), rm = 1.1 + 0.37 * (floor - 1), bdm = 1.15 + 0.13 * (floor - 1); /* v1.6.3: B1..B7 follow the expected player (Lv ~18 .. ~36), see BALANCE.md */
-  const pick = () => { const r = rng(); if (floor >= 2 && r < 0.14) return 'acolyte'; if (r < 0.42) return 'ghoul'; if (r < 0.66) return floor >= 2 && rng() < 0.4 ? (floor >= 5 && rng() < 0.5 ? 'guard3' : 'shieldh') : 'hollow'; if (r < 0.84) return floor >= 2 && r < 0.73 ? 'katana' : floor >= 3 && r < 0.78 ? 'greatsw' : 'spear'; return 'archer'; };
+  /* mid-floor ash lantern (floors >= 10): the cell halfway along the start -> boss path */
+  let lanternCell = -1;
+  if (floor >= 10) {
+    const pv = new Array(cells.length).fill(-2), qq = [0]; pv[0] = -1;
+    for (let h = 0; h < qq.length; h++) { const c = cells[qq[h]]; for (let dir = 0; dir < 4; dir++) if (c.links[dir]) { const j = at[(c.cy + DY[dir]) * GW + c.cx + DX[dir]]; if (j >= 0 && pv[j] === -2) { pv[j] = qq[h]; qq.push(j); } } }
+    const path = []; for (let i = cells.indexOf(boss); i >= 0; i = pv[i]) path.unshift(i);
+    for (let k = path.length >> 1; k > 0 && lanternCell < 0; k--) if (cells[path[k]].kind === 'n') lanternCell = path[k];
+  }
+  /* trap gauntlets: dead-end leaf cells (never the start, the boss or the lantern) */
+  const nG = floor < 3 ? 0 : floor < 6 ? 1 : floor < 10 ? 1 + (rng() < 0.5 ? 1 : 0) : floor < 20 ? 2 : 3;
+  { const cand = []; cells.forEach((c, i) => { if (i > 0 && c.kind !== 'b' && c.kind !== 's' && deg(c) === 1 && i !== lanternCell) cand.push(c); }); cand.sort((a, b2) => (a.kind === 't') - (b2.kind === 't') || b2.d - a.d);
+    for (let i = 0; i < nG && i < cand.length; i++) { cand[i].kind = 'g'; cand[i].gk = (i + ri(2)) % 2; } }
+  const NSET = TPL.n.concat(TPL.d), bag = []; const hm = 2.5 + 0.23 * (floor - 1), dm = 2.05 + 0.135 * (floor - 1), rm = (1.1 + 0.37 * (floor - 1)) * Math.pow(1.3, Lv.curses.length), bdm = 1.15 + 0.13 * (floor - 1); /* v1.6.3: B1..B7 follow the expected player (Lv ~18 .. ~36), see BALANCE.md; v1.8.0 extends the same lines to B30 */
+  const eliteP = floor < 4 ? 0 : floor < 10 ? 0.2 : floor < 20 ? Math.min(0.32, 0.2 + 0.012 * (floor - 9)) : Math.min(0.45, 0.32 + 0.012 * (floor - 19));
+  let prevT = '';
+  const pick0 = () => { const r = rng(); if (floor >= 2 && r < 0.14) return 'acolyte'; if (r < 0.42) return 'ghoul'; if (r < 0.66) return floor >= 2 && rng() < 0.4 ? (floor >= 5 && rng() < 0.5 ? 'guard3' : 'shieldh') : 'hollow'; if (r < 0.84) return floor >= 2 && r < 0.73 ? 'katana' : floor >= 3 && r < 0.78 ? 'greatsw' : 'spear'; return 'archer'; };
+  const pickD = () => { const r = rng(); return r < 0.17 ? 'greatsw' : r < 0.34 ? 'katana' : r < 0.48 ? 'guard3' : r < 0.56 ? 'shieldh' : r < 0.64 ? 'spear' : r < 0.77 ? 'archer' : r < 0.84 ? 'knight' : r < 0.92 ? 'acolyte' : r < 0.97 ? 'ghoul' : 'hollow'; };
+  const pick = () => { let t; if (floor >= 10) { if (PAIR[prevT] && rng() < 0.5) { t = PAIR[prevT]; prevT = ''; return t; } t = pickD(); } else t = pick0(); prevT = t; return t; };
+  const wtile = (x0, y0, p) => [tc(x0 + p[0]), tc(y0 + p[1])];
+  const gauntlet = (c, ci, x0, y0) => {
+    const dir = c.links.indexOf(1), A = c.gk === 0, PP = (u, v) => dir === 2 ? [u, v] : dir === 0 ? [11 - u, v] : dir === 3 ? [v, u] : [v, 11 - u], wt = (u, v) => wtile(x0, y0, PP(u, v));
+    const fl = (u, v) => { const p = PP(u, v), k = (y0 + p[1]) * W0 + x0 + p[0]; Lv.grid[k] = 1; Lv.tint[k] = 6; Lv.roomOf[k] = ci; };
+    const pil = A ? ['2,5', '4,4', '6,6', '8,4'] : [];
+    for (let u = 0; u <= 8; u++) for (let v = 4; v <= 6; v++) if (!pil.includes(u + ',' + v)) fl(u, v);
+    for (let u = 9; u <= 10; u++) for (let v = 2; v <= 8; v++) fl(u, v);
+    const ch = wt(10, A ? 8 : 5); Lv.chests.push({ id: 'k' + ci, x: ch[0], y: ch[1], crypt: 1, rich: 1 });
+    if (A) { const l = wt(10, 5), d0 = wt(0, 5), e = mkEnemy('launcher', l[0], l[1], Math.atan2(d0[1] - l[1], d0[0] - l[0]), REC_CRYPT(floor) / 150 / AREA_HF, dm, 1); e.gr = ci; e.per = 1.5 + rng() * 1.0; Lv.enemies.push(e); }
+    const us = A ? (floor >= 10 ? [7] : []) : floor >= 10 ? [2, 4, 6, 8] : [2, 5, 7];
+    for (const u of us) { const om = A ? 5 : ri(3) + 4; for (let v = 4; v <= 6; v++) if (v !== om) { const p = wt(u, v); Lv.plates.push({ x: p[0], y: p[1], s1: wt(u, 3), s2: wt(u, 7), st: 0, t: 0, q: 0 }); } }
+    if (floor >= 8 && rng() < 0.3) for (const pos of [wt(9, 3), wt(9, 7)]) Lv.enemies.push(mkEnemy(pick(), pos[0], pos[1], ri(4) * PI / 2 - PI, hm, dm, rm, true));
+    c.tpl = 'g' + (A ? 'a' : 'p'); Lv.rooms.push([x0, y0, 12, 12, '罠の回廊', A ? '矢の通り道' : '踏めば、矢が降る', 6]);
+  };
   cells.forEach((c, ci) => {
+    const x0 = c.cx * CL + o, y0 = c.cy * CL + o; if (c.kind === 'g') { gauntlet(c, ci, x0, y0); return; }
     const set = c.kind === 'n' && floor >= 4 ? NSET : TPL[c.kind]; let ti;
     if (c.kind === 'n') { if (!bag.length) for (let i = 0; i < set.length; i++) bag.splice(ri(bag.length + 1), 0, i); ti = bag.pop(); } else ti = c.kind === 'b' && floor === CRYPT_DEEP ? 0 : ri(set.length);
-    const tp = set[ti], fx = rng() < 0.5, fy = rng() < 0.5, tr = rng() < 0.5, x0 = c.cx * CELL + 1, y0 = c.cy * CELL + 1; c.tpl = (c.kind === 'n' && ti >= TPL.n.length ? 'd' + (ti - TPL.n.length) : c.kind + ti);
+    const tp = set[ti], fx = rng() < 0.5, fy = rng() < 0.5, tr = rng() < 0.5; c.tpl = (c.kind === 'n' && ti >= TPL.n.length ? 'd' + (ti - TPL.n.length) : c.kind + ti);
     for (let j = 0; j < 12; j++) for (let i = 0; i < 12; i++) {
       let a = fx ? 11 - i : i, b = fy ? 11 - j : j; if (tr) { const q = a; a = b; b = q; }
       const ch = tp[b * 12 + a], x = x0 + i, y = y0 + j, k = y * W0 + x, px = tc(x), py = tc(y);
       if (ch === '#') continue; Lv.roomOf[k] = ci; Lv.tint[k] = ch === '~' ? 4 : 6; if (ch === 'o') continue; Lv.grid[k] = 1;
       if (ch === '^') Lv.traps.push({ x: px, y: py, t: rng() * 3.6, on: false });
-      else if (ch === 'e') { if (rng() < 0.72 + floor * 0.05) Lv.enemies.push(mkEnemy(pick(), px, py, ri(4) * PI / 2 - PI, hm, dm, rm, floor >= 4 && rng() < 0.2)); }
+      else if (ch === 'e') { if (rng() < 0.72 + floor * 0.05) Lv.enemies.push(mkEnemy(pick(), px, py, ri(4) * PI / 2 - PI, hm, dm, rm, floor >= 4 && rng() < eliteP)); }
       else if (ch === 'E') Lv.enemies.push(mkEnemy(floor >= 3 && rng() < (floor >= 4 ? 0.42 : 0.22) ? 'knight' : rng() < 0.5 ? 'spear' : floor >= 2 ? 'acolyte' : 'ghoul', px, py, ri(4) * PI / 2 - PI, hm, dm, rm));
       else if (ch === 'c') Lv.chests.push({ id: 'k' + ci, x: px, y: py, crypt: 1 });
       else if (ch === 's') Lv.bless.push({ x: px, y: py, name: '地下墓の祝福 B' + floor });
-      else if (ch === 'B') { Lv.bossPos = { x: px + T / 2, y: py + T / 2 }; const hb = floor === CRYPT_DEEP; Lv.enemies.push(mkEnemy(CRYPT_BOSS[(floor - 1) % 7], px + T / 2, py + T / 2, PI / 2, hb ? 1 : 0.9 + 0.22 * (floor - 1), hb ? 1 : bdm, hb ? 1 : rm)); }
+      else if (ch === 'B') {
+        Lv.bossPos = { x: px + T / 2, y: py + T / 2 }; const dp = DEEPB[floor], hb = floor === CRYPT_DEEP, bt = cryptBossType(floor), bh = 0.9 + 0.22 * (floor - 1);
+        if (dp) Lv.enemies.push(mkEnemy(dp, px + T / 2, py + T / 2, PI / 2, 1.3 * EDEF[bt].hp * bh / EDEF[dp].hp, bdm * 1.1, rm * 1.5));
+        else Lv.enemies.push(mkEnemy(bt, px + T / 2, py + T / 2, PI / 2, hb ? 1 : bh, hb ? 1 : bdm, hb ? 1 : rm));
+      }
     }
-    Lv.rooms.push([x0, y0, 12, 12, c.kind === 's' ? '地下墓 B' + floor : c.kind === 'b' ? (floor === CRYPT_DEEP ? '最奥・墓主の玉座' : '墓主の間') : c.kind === 't' ? '副葬の間' : '', c.kind === 's' ? '種 #' + (seed >>> 0).toString(16).toUpperCase().padStart(8, '0') : c.kind === 'b' ? '眠りを妨げる者に死を' : c.kind === 't' ? '死者への供え物' : '', 6]);
+    Lv.rooms.push([x0, y0, 12, 12, c.kind === 's' ? '地下墓 B' + floor : c.kind === 'b' ? (floor === CRYPT_DEEP ? '最奥・墓主の玉座' : DEEPB[floor] ? '深淵の間' : '墓主の間') : c.kind === 't' ? '副葬の間' : '', c.kind === 's' ? '種 #' + (seed >>> 0).toString(16).toUpperCase().padStart(8, '0') : c.kind === 'b' ? '眠りを妨げる者に死を' : c.kind === 't' ? '死者への供え物' : '', 6]);
   });
   // door lanes: carve from the cell border inward until the template's floor is met
   cells.forEach((c, ci) => {
-    for (let dir = 0; dir < 4; dir++) if (c.links[dir]) for (const lane of [5, 6, 7]) for (let s = 0; s < 8; s++) {
-      const lx = dir === 0 ? 13 - s : dir === 2 ? s : lane, ly = dir === 1 ? 13 - s : dir === 3 ? s : lane, k = (c.cy * CELL + ly) * W0 + c.cx * CELL + lx;
+    for (let dir = 0; dir < 4; dir++) if (c.links[dir]) for (const lane0 of [5, 6, 7]) for (let s = 0; s < 8; s++) {
+      const lane = lane0 + sh, lx = dir === 0 ? CL - 1 - s : dir === 2 ? s : lane, ly = dir === 1 ? CL - 1 - s : dir === 3 ? s : lane, k = (c.cy * CL + ly) * W0 + c.cx * CL + lx;
       if (Lv.grid[k] === 1) break; Lv.grid[k] = 1; Lv.tint[k] = 6; Lv.roomOf[k] = ci;
     }
-    const y = c.cy * CELL; for (const i of [3, 10]) { const x = c.cx * CELL + i; if (Lv.grid[y * W0 + x] === 0 && Lv.grid[(y + 1) * W0 + x] === 1) Lv.torches.push([x, y]); }
+    const y = c.cy * CL; for (const i of [3, 10]) { const x = c.cx * CL + i + sh; if (Lv.grid[y * W0 + x] === 0 && Lv.grid[(y + o) * W0 + x] === 1) Lv.torches.push([x, y]); }
   });
   cells.forEach((c, ci) => {
     if (c.kind !== 't' || deg(c) !== 1 || rng() > 0.55) return; const dir = c.links.indexOf(1), ts = [];
-    for (const lane of [5, 6, 7]) { const lx = dir === 0 ? 13 : dir === 2 ? 0 : lane, ly = dir === 1 ? 13 : dir === 3 ? 0 : lane, x = c.cx * CELL + lx, y = c.cy * CELL + ly; if (Lv.grid[y * W0 + x] === 1) { Lv.grid[y * W0 + x] = 5; ts.push([x, y]); } }
+    for (const lane0 of [5, 6, 7]) { const lane = lane0 + sh, lx = dir === 0 ? CL - 1 : dir === 2 ? 0 : lane, ly = dir === 1 ? CL - 1 : dir === 3 ? 0 : lane, x = c.cx * CL + lx, y = c.cy * CL + ly; if (Lv.grid[y * W0 + x] === 1) { Lv.grid[y * W0 + x] = 5; ts.push([x, y]); } }
     if (ts.length) Lv.secrets.push({ id: 'cs' + ci, tiles: ts, x: (tc(ts[0][0]) + tc(ts[ts.length - 1][0])) / 2, y: (tc(ts[0][1]) + tc(ts[ts.length - 1][1])) / 2 });
   });
-  Lv.cells = cells; Lv.start = Lv.bless[0]; setupArenas(Lv); return Lv;
+  Lv.cells = cells; Lv.start = Lv.bless[0];
+  /* the lantern: an open floor tile of the halfway cell (all 8 neighbours open, away from traps and chests) */
+  if (lanternCell >= 0) {
+    const lc = cells[lanternCell], cx0 = lc.cx * CL + (CL >> 1), cy0 = lc.cy * CL + (CL >> 1); let best = null, bdd = 1e9;
+    for (let y = cy0 - 7; y <= cy0 + 7; y++) for (let x = cx0 - 7; x <= cx0 + 7; x++) {
+      const k = y * W0 + x; if (Lv.grid[k] !== 1 || Lv.roomOf[k] !== lanternCell) continue; let open = true; for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) if (Lv.grid[(y + j) * W0 + x + i] !== 1) open = false;
+      const d = Math.hypot(x - cx0, y - cy0); if (!open || d >= bdd || Lv.traps.some(t => Math.hypot(t.x / T - x - 0.5, t.y / T - y - 0.5) < 3) || Lv.chests.some(c2 => Math.hypot(c2.x / T - x - 0.5, c2.y / T - y - 0.5) < 2)) continue; best = [x, y]; bdd = d;
+    }
+    if (best) Lv.props.push({ t: 'lantern', x: tc(best[0]), y: tc(best[1]), used: false });
+  }
+  /* 灰毒: scattered poison patches (2x2), never near a blessing, the lantern, chests or the boss room */
+  if (Lv.curses.includes('toxic')) {
+    const np = 6 + (GW * GH >> 2), ok = cells.filter(c => c.kind === 'n' || c.kind === 't'); let made = 0;
+    for (let g2 = 0; g2 < 600 && made < np && ok.length; g2++) {
+      const c = ok[ri(ok.length)], x = c.cx * CL + o + ri(11), y = c.cy * CL + o + ri(11); let good = true;
+      for (let j = 0; j < 2; j++) for (let i = 0; i < 2; i++) if (Lv.grid[(y + j) * W0 + x + i] !== 1) good = false;
+      if (!good || Lv.bless.some(b2 => Math.hypot(b2.x / T - x, b2.y / T - y) < 9) || Lv.props.some(p => Math.hypot(p.x / T - x, p.y / T - y) < 9) || Lv.chests.some(c2 => Math.hypot(c2.x / T - x, c2.y / T - y) < 3) || Lv.haz.some(h => Math.hypot(h.x0 / T - x, h.y0 / T - y) < 4)) continue;
+      Lv.haz.push({ t: 'mire', x0: x * T, y0: y * T, x1: (x + 2) * T, y1: (y + 2) * T }); made++;
+    }
+  }
+  /* depth bands and curses on the mobs: recovery / rest / extra hit / feint, 狂乱 and 堅牢 */
+  for (const e of Lv.enemies) {
+    if (e.def.obj) continue; const mob = !e.def.boss;
+    if (floor >= 10) { if (mob) e.recK = floor >= 20 ? 0.75 : 0.85; e.restK = floor >= 20 ? 0.8 : 0.9; if (mob && floor >= 20) { e.xn = 1; e.fnt = 1; } }
+    if (Lv.curses.includes('fren')) e.restK = (e.restK || 1) * 0.75;
+    if (Lv.curses.includes('tough')) e.def = Object.assign({}, e.def, { poise: Math.round(e.def.poise * 1.4) });
+  }
+  setupArenas(Lv); safeBless(Lv); return Lv;
 }
 function cryptCheck(Lv) {
   const W0 = Lv.MW, seen = new Uint8Array(W0 * Lv.MH), q = [], k0 = Math.floor(Lv.start.y / T) * W0 + Math.floor(Lv.start.x / T); let floorN = 0, reach = 0;
@@ -1991,7 +2082,7 @@ function tryAtk(e, k) {
   G.atkGap = 0.28; eStart(e, k); return true;
 }
 function ringMove(e, d, dist, dt) { if (dist < 96) eMove(e, e.face + PI, d.spd * 0.5, dt); else if (dist > 142) eMove(e, e.face, d.spd, dt); else { eMove(e, e.face + PI / 2 * e.strafe, d.spd * 0.45, dt); if (Math.random() < dt * 0.4) e.strafe = -e.strafe; } }
-const arrows = []; for (let i = 0; i < 12; i++) arrows.push({ on: false, x: 0, y: 0, vx: 0, vy: 0, life: 0, dmg: 13 });
+const arrows = []; for (let i = 0; i < 24; i++) arrows.push({ on: false, x: 0, y: 0, vx: 0, vy: 0, life: 0, dmg: 13 });
 function resetEnemy(e) {
   Object.assign(e, { x: e.hx, y: e.hy, face: e.hf, hp: e.mhp, hpLag: e.mhp, state: 'idle', t: 0, cd: 0, atk: '', poise: e.def.poise, poiseT: 0, bleed: 0, bleedT: 0, bleedMax: 100, flash: 0, walk: rnd(6), sa: 1.2, saT: 1.2, sl: 0, kx: 0, ky: 0, see: false, losT: rnd(0.3), lost: 0, lx: e.hx, ly: e.hy, hitDone: false, flip: false, critDone: false, strafe: Math.random() < 0.5 ? 1 : -1, r: e.def.r, show: 0, at: 0, pat: 0, al: 1, hide: false, v1: 0, v2: 0, n: 0, ax: 0, ay: 0, bx: 0, by: 0, wall: false, last: '', tl: null, ph: 1, gd: e.def.sh ? e.def.sh.gd : 0, gdT: 0, bk: 0, grace: 0, imm: 0, fc: 0, fcT: 0, cT: 0, hq: 0, hqT: 0, escCd: 0 });
   for (const k in e.cds) e.cds[k] = 0; e.sres = 0; e.wt = 0;
@@ -2083,7 +2174,7 @@ function updArenas(dt) {
 }
 function resetEnemies() {
   if (L) L.inited = 1;
-  for (const e of enemies) { resetEnemy(e); if (e.def.boss && ((L.id === 'castle' ? save.mbC[e.key] : L.bossDead) || (e.need === 'lord' && !save.lords[2]))) { e.state = 'dead'; e.t = 99; e.hp = 0; } }
+  for (const e of enemies) { resetEnemy(e); if (e.perm) { e.state = 'dead'; e.t = 99; e.hp = 0; } if (e.def.boss && ((L.id === 'castle' ? save.mbC[e.key] : L.bossDead) || (e.need === 'lord' && !save.lords[2]))) { e.state = 'dead'; e.t = 99; e.hp = 0; } }
   /* v1.6.4: fewer 雑魚 around a living mid-boss — about 40% of the regular enemies sharing its room (or within 420px) are left out */
   const rmOf = (x, y) => { const tx = Math.floor(x / T), ty = Math.floor(y / T); return roomOf && tx >= 0 && ty >= 0 && tx < MW && ty < MH ? roomOf[ty * MW + tx] : -1; };
   for (const b of enemies) { if (!b.def.boss || b.def.lord || b.arena || b.state === 'dead') continue; const br = rmOf(b.hx, b.hy);
@@ -2094,7 +2185,7 @@ function resetEnemies() {
 }
 function clearTeleOf(e) { for (let i = tele.length - 1; i >= 0; i--) if (tele[i].src === e || tele[i].own === e) tele.splice(i, 1); }
 function eStart(e, k) {
-  const a = EATK[k]; e.state = 'wind'; e.atk = k; e.t = 0; e.hitDone = false; e.flip = !e.flip; e.hl = 0; e.hd = 0; e.lw = false;
+  const a = EATK[k]; e.state = 'wind'; e.atk = k; e.t = 0; e.fd = 0; e.hitDone = false; e.flip = !e.flip; e.hl = 0; e.hd = 0; e.lw = false;
   if (a.tele === 'arc') { addTele('arc', a.w, { src: e, r: a.r, half: a.half }); e.saT = e.flip ? 2.3 : -2.3; e.sl = 0; }
   else { addTele('line', a.w, { src: e, len: a.len, w: a.wd }); e.saT = 0; e.sl = -9; }
 }
@@ -2141,6 +2232,7 @@ function mbEngage(e) { if (G.mb !== e) { G.mb = e; queueCard(e.def.name, '──
 function onCrit() { G.critNow = 1; save.cnt.crit++; }
 function aggro(e) { if (!mayAggro(e)) return; if (e.state === 'idle' || e.state === 'return') { e.state = 'chase'; e.t = e.def.boss ? 0.9 : rnd(0.25, 0.6); e.lost = 0; e.cd = rnd(0.4, 1); if (e.def.boss) mbEngage(e); else hint('enemy', '赤い予兆が見えたら「回避」── 出始めは無敵\n攻撃のあとの隙に斬り返せ'); } }
 function killEnemy(e) {
+  if (e.def.obj) { clearTeleOf(e); e.state = 'dead'; e.t = 0; e.hp = 0; e.perm = 1; SFX.boom(); shake(5); burst(e.x, e.y, 20, 200, 0.8, 6, 1, '#5d564a'); burst(e.x, e.y, 8, 100, 0.8, 22, 2, 0); toast('射出機を破壊した'); return; }
   clearTeleOf(e); e.state = 'dead'; e.t = 0; e.hp = 0; e.al = 1; e.hide = false; SFX.edie();
   burst(e.x, e.y, 16, 180, 0.8, 5, 1, '#5d564a'); burst(e.x, e.y, 6, 80, 0.9, 26, 2, 0);
   for (let i = 0; i < 8; i++) pt(e.x + rnd(-10, 10), e.y + rnd(-10, 10), rnd(-30, 30), rnd(-60, -20), rnd(0.6, 1.1), 9, 0, 2, 1, 40);
@@ -2220,12 +2312,24 @@ function dcol(crit, rk, magic) { return crit ? '#ffd76a' : rk > 1.1 ? '#ffb040' 
 function resTag(o, rk) { if (rk <= 1.1 && rk >= 0.9) return; if (G.now - (o.tagT || 0) < 1.4) return; o.tagT = G.now; floatText(o.x, o.y - (o.r || 30) - 34, rk > 1.1 ? '弱点' : '耐性', rk > 1.1 ? '#ffb040' : '#8794a8', 11); }
 function lineHitP(x, y, a, len, w) { const cx = Math.cos(a), cy = Math.sin(a), dx = P.x - x, dy = P.y - y, t = clamp(dx * cx + dy * cy, 0, len), ex = dx - cx * t, ey = dy - cy * t; return ex * ex + ey * ey <= (w / 2 + P.r * 0.6) * (w / 2 + P.r * 0.6); }
 function eMove(e, ang, sp, dt) { e.x += Math.cos(ang) * sp * dt; e.y += Math.sin(ang) * sp * dt; e.walk += dt * sp * 0.085; }
+/* v1.8.0 trap arrows (shared pool) and the wall-mounted arrow launcher (an `obj` enemy: it can be destroyed, which ends the volleys for this visit) */
+function trapArrow(x, y, a, life, dmg) { for (const ar of arrows) if (!ar.on) { ar.on = true; ar.x = x; ar.y = y; ar.vx = Math.cos(a) * 540; ar.vy = Math.sin(a) * 540; ar.life = life; ar.dmg = dmg; return true; } return false; }
+function launcherAI(e, dt) {
+  if (e.state === 'dead') return; e.state = 'idle'; e.sl = 0;
+  const tx = Math.floor(P.x / T), ty = Math.floor(P.y / T), act = G.mode === 'play' && P.state !== 'dead' && tx >= 0 && ty >= 0 && tx < MW && ty < MH && roomOf[ty * MW + tx] === e.gr && Math.hypot(P.x - e.x, P.y - e.y) < 680;
+  if (!act) { e.cg = 0; e.ck = 0; return; }
+  e.cg = (e.cg || 0) + dt; const per = e.per || 2, pa = Math.atan2(P.y - e.y, P.x - e.x);
+  if (e.cg < per - 0.3) e.face = pa;
+  if (e.cg >= per - 0.6 && !e.ck) { e.ck = 1; SFX.ui(); }
+  if (e.cg >= per) { e.cg = 0; e.ck = 0; trapArrow(e.x + Math.cos(e.face) * 22, e.y + Math.sin(e.face) * 22, e.face, 1.5, 13 * e.dm); SFX.arrow(); }
+}
 function updEnemy(e, dt) {
   if (e.state !== 'dead' && !(e.hp > 0.5)) { e.hp = 0; killEnemy(e); return; }
   const d = e.def; e.flash = Math.max(0, e.flash - dt); if (e.cd > 0) e.cd -= dt; if (e.show > 0) e.show -= dt; if (e.iv > 0) e.iv -= dt;
   if (e.grace > 0) e.grace -= dt; if (e.imm > 0) e.imm -= dt; else e.immTag = 0; if (e.cT > 0) e.cT -= dt; if (e.escCd > 0) e.escCd -= dt; if (e.bk > 0) e.bk -= dt; if (e.fcT > 0) e.fcT -= dt; else e.fc = 0; if (e.hqT > 0) e.hqT -= dt; else e.hq = 0;
   if (e.gdT > 0) e.gdT -= dt; else if (d.sh && e.gd > 0 && e.gd < d.sh.gd && e.state === 'chase') e.gd = Math.min(d.sh.gd, e.gd + 9 * dt);
   e.hpLag = e.hpLag > e.hp ? Math.max(e.hp, e.hpLag - e.mhp * (d.boss ? 0.2 : 0.5) * dt) : e.hp;
+  if (d.obj) { launcherAI(e, dt); return; }
   if (e.sres > 0) e.sres = Math.max(0, e.sres - dt * (1 + e.sres) / 25); if (e.poiseT > 0) e.poiseT -= dt; else e.poise = pzMax(e);
   if (e.bleedT > 0) e.bleedT -= dt; else if (e.bleed > 0) e.bleed = Math.max(0, e.bleed - 12 * dt);
   if (Math.abs(e.kx) + Math.abs(e.ky) > 1) { e.x += e.kx * dt; e.y += e.ky * dt; const k = Math.exp(-9 * dt); e.kx *= k; e.ky *= k; }
@@ -2281,7 +2385,7 @@ function updEnemy(e, dt) {
       e.t += dt;
       if (e.t < A.w - 0.16 && e.t < A.w * (A.tele === 'line' ? 0.5 : 1)) e.face = turnTo(e.face, pa, A.trk * (e.t < A.w * 0.6 ? 1 : 0.12) * dt);
       if (A.step && e.t < A.w - 0.1 && dist > d.r + P.r + 14) eMove(e, e.face, A.step, dt);
-      if (e.t >= A.w) { if (A.hold) { e.hd = 1; e.hl = A.hold * rnd(0.9, 1.2); for (const t of tele) if (t.src === e) { t.dur = A.hold / 0.25; t.t = t.dur * 0.75; } } else eFire(e); }
+      if (e.t >= A.w) { if (A.hold) { e.hd = 1; e.hl = A.hold * rnd(0.9, 1.2); for (const t of tele) if (t.src === e) { t.dur = A.hold / 0.25; t.t = t.dur * 0.75; } } else if (e.fnt && !e.fd && !A.shoot && !A.bolt && Math.random() < 0.22) { e.fd = 1; e.hd = 1; e.hl = rnd(0.3, 0.5); for (const t of tele) if (t.src === e) { t.dur = e.hl / 0.25; t.t = t.dur * 0.75; } } else eFire(e); }
       break;
     case 'dash':
       e.t += dt; e.x += Math.cos(e.face) * A.dash * dt; e.y += Math.sin(e.face) * A.dash * dt;
@@ -2290,8 +2394,8 @@ function updEnemy(e, dt) {
       if (e.state === 'dash' && e.t >= A.dur) { e.state = 'rec'; e.t = A.rec; }
       break;
     case 'rec':
-      e.t -= dt; if (e.t < A.rec - 0.2) e.sl = lerp(e.sl, 0, 1 - Math.exp(-8 * dt));
-      if (e.t <= 0) { if (A.next) eStart(e, A.next); else { e.state = 'chase'; e.t = d.ai === 'great' ? rnd(0.8, 1.4) : (e.type === 'knight' ? rnd(0.4, 0.8) : rnd(0.35, 0.85)) * (e.restK || 1); e.nd = undefined; } }
+      e.t -= dt / (e.recK || 1); if (e.t < A.rec - 0.2) e.sl = lerp(e.sl, 0, 1 - Math.exp(-8 * dt));
+      if (e.t <= 0) { if (A.next) eStart(e, A.next); else if (e.xn && !e.fu && !A.shoot && !A.bolt && A.rec <= 1.1 && dist < d.reach + 46 && Math.random() < 0.33) { e.fu = 1; eStart(e, e.atk === 'kat2b' ? 'kat2' : e.atk); } else { e.fu = 0; e.state = 'chase'; e.t = d.ai === 'great' ? rnd(0.8, 1.4) : (e.type === 'knight' ? rnd(0.4, 0.8) : rnd(0.35, 0.85)) * (e.restK || 1); e.nd = undefined; } }
       break;
     case 'hurt': e.t -= dt; if (e.t <= 0) { e.state = 'chase'; e.t = rnd(0.25, 0.6); } break;
     case 'stagger': e.t -= dt; if (e.t <= 0) { e.state = 'chase'; e.t = d.esc ? 0.2 : 0.5; if (tough(e)) e.grace = d.esc ? 1.4 : 0.9; if (d.sh) e.gd = d.sh.gd; } break;
@@ -2352,7 +2456,7 @@ function updMB(e, dt, dist, pa, alive) {
       break;
     case 'act':
       e.pat = e.at === 0 ? -1 : e.at; e.at += dt;
-      if (M2[e.atk](e, dt, dist, pa) && e.state === 'act') { e.state = 'chase'; e.t = rnd(d.rest[0], d.rest[1]); e.al = 1; e.hide = false; }
+      if (M2[e.atk](e, dt, dist, pa) && e.state === 'act') { e.state = 'chase'; e.t = rnd(d.rest[0], d.rest[1]) * (e.restK || 1); e.al = 1; e.hide = false; }
       break;
     case 'stagger': e.t -= dt; if (e.t <= 0) { e.state = 'chase'; e.t = d.esc ? 0.2 : 0.5; if (tough(e)) e.grace = d.esc ? 1.4 : 0.9; if (d.sh) e.gd = d.sh.gd; } break;
   }
@@ -2786,6 +2890,7 @@ function enterCrypt(floor) {
   floor = clamp(floor | 0, 1, cryptTop()); const seed = Math.floor(Math.random() * 4294967296) >>> 0;
   for (const k in seenRoom) delete seenRoom[k];
   useLevel(genCrypt(floor, seed)); if (save.stain && save.stain.z === 'c') save.stain = { z: 'c', x: Math.round(BLESS[0].x - 40), y: Math.round(BLESS[0].y + 34), s: save.stain.s, tv: 50 }; G.floor = floor; G.seed = seed; spawnCrypt(true); SFX.stairs(); G.flashW = 0; G.fadeT = 0.9; hint('crypt', '地下墓は入るたびに形が変わる\n最奥の墓主を斃せば、下り階段が現れる');
+  if (L.curses.length) { queueCard('この階は呪われている', '── ' + L.curses.map(k => CURSES[k]).join('・') + ' ──', 3.4); toast('呪い：' + L.curses.map(k => CURSES[k]).join('・') + '\n得るルーンが増え、良い品が出やすい', 4); }
 }
 function leaveCrypt() { for (const k in seenRoom) delete seenRoom[k]; spawnAt(save.bonfire, true); G.fadeT = 0.9; SFX.stairs(); toast('祝福へ帰還した'); }
 function travelTo(g, lift) {
@@ -2904,20 +3009,25 @@ function giveItem(it) {
 }
 function openChest(c) {
   SFX.chest(); burst(c.x, c.y - 6, 14, 120, 0.7, 9, 0, 1);
-  if (c.crypt) { L.opened[c.id] = 1; const n = Math.round(rnd(150, 260) * (1 + 0.35 * (L.floor - 1)) / 10) * 10; giveItem({ s: n, m: L.floor <= 2 ? { s: 2 } : L.floor <= 4 ? { c: 2 } : { l: 1, c: 1 } }); if (Math.random() < 0.35) dropLoot(c.x, c.y + 26, 'e', 1, lootTier()); }
+  if (c.a5) { L.opened[c.id] = 1; save.cryptRw['a' + L.floor] = 1; const x = addArmor(mkArmor({ src: 'b', tier: lootTier(), r: 5, crypt: true })); queueCard('★5 ' + ARMP[x.b].name, '── ' + subsLine(x) + ' ──', 3.6, null, 5); giveItem({ s: 1500 * L.floor, m: { l: 2, e: 2 } }); }
+  else if (c.crypt) { L.opened[c.id] = 1; const rich = !!c.rich, n = Math.round(rnd(150, 260) * (1 + 0.35 * (L.floor - 1)) * (rich ? 2 : 1) / 10) * 10; giveItem({ s: n, m: rich ? { l: 1 + (L.floor >= 10 ? 1 : 0), c: 2, e: L.floor >= 6 ? 1 : 0 } : L.floor <= 2 ? { s: 2 } : L.floor <= 4 ? { c: 2 } : { l: 1, c: 1 } });
+    if (rich) { G.richLuck = 0.25; dropLoot(c.x, c.y + 26, 'e', L.floor >= 10 ? 2 : 1, lootTier()); G.richLuck = 0; } else if (Math.random() < 0.35) dropLoot(c.x, c.y + 26, 'e', 1, lootTier()); }
   else {
     if (!save.chests[c.id]) { save.chests[c.id] = 1; giveItem(c.it); }
     if (c.nit && !save.chests[c.id + 'n']) { save.chests[c.id + 'n'] = 1; giveItem(c.nit); }
   }
   writeSave();
 }
+function plateShot(p, a, b) { const ang = Math.atan2(b[1] - a[1], b[0] - a[0]); trapArrow(a[0] + Math.cos(ang) * (T / 2 + 3), a[1] + Math.sin(ang) * (T / 2 + 3), ang, 0.55, 13 * (2.05 + 0.135 * (L.floor - 1)) * 0.85); SFX.arrow(); }
 function cryptCleared() {
   const f = L.floor, bp = L.bossPos; L.bossDead = true; save.cryptDeep = Math.max(save.cryptDeep, f);
   if (!save.cryptRw[f]) { save.cryptRw[f] = 1; for (const it of CRYPT_RW[f] || []) giveItem(it); } else giveItem({ s: 400 * f });
-  giveItem({ m: f <= 3 ? { c: 2 } : { l: 2, e: 1 } });
+  giveItem({ m: f <= 3 ? { c: 2 } : { l: 2, e: 1 } }); if (f > CRYPT_DEEP && !save.cryptRw[f + 'x']) { save.cryptRw[f + 'x'] = 1; giveItem({ s: 800 * f }); }
+  if (f % 10 === 0 && !save.cryptRw['a' + f]) { let cx = bp.x, cy = bp.y + 62; if (solid(Math.floor(cx / T), Math.floor(cy / T))) cy = bp.y - 62; L.chests.push({ id: 'k_a5', x: cx, y: cy, crypt: 1, a5: 1 }); queueCard('深淵の宝箱が現れた', '── ★5 の防具が眠っている ──', 3); }
   if (f < cryptCap()) PROPS.push({ t: 'stairs', x: bp.x - 62, y: bp.y + 10 }); PROPS.push({ t: 'return', x: bp.x + 62, y: bp.y + 10 });
   if (f === CRYPT_PRE && !save.bossDead) queueCard('この先は霧に閉ざされている', '── 王を斃せば、深層への道が開く ──', 3.4);
-  if (f === CRYPT_DEEP) queueCard('地下墓 踏破', '── 灰喰らいの墓主は、灰へ還った ──', 3.6);
+  if (f === CRYPT_DEEP) queueCard('地下墓 最奥へ', '── 灰喰らいの墓主は、灰へ還った。だが穴はまだ深い ──', 3.6);
+  if (f === CRYPT_MAX) queueCard('地下墓 踏破', '── 深淵の底に、静けさが戻った ──', 3.6);
 }
 const collection = () => dexView(collection0);
 function collection0() {
@@ -3113,7 +3223,7 @@ function refreshBook0() {
   sec('タリスマン', c.t[0], c.t[1]); for (const k in TAL) { const ok = save.tals.includes(k), r = ok ? trar(k) : 1; if (TAL[k].ng && !ok) continue; cell(ok, '<span style="color:' + RAR[r].c + '">' + starsOf(r) + '</span> ' + TAL[k].name, tdesc(k, r) + '（見つけた最上の品：' + RAR[r].n + '）', TAL[k].night); }
   sec('戦技の書', c.ar[0], c.ar[1]); for (const k in ART) if (!ART[k].hidden) cell(save.arts.includes(k), ART[k].name, '消費FP ' + ART[k].fp);
   sec('霊鈴', c.sr[0], c.sr[1]); for (const k in SPIRIT) cell(save.spirits.includes(k), SPIRIT[k].name + ((save.spLv[k] | 0) ? ' +' + save.spLv[k] : ''), SPIRIT[k].ally);
-  { let n = 0, m = 0; for (const k in EDEF) { m++; if (save.seenE[k]) n++; } sec('出会った敵（倒すと記される）', n, m); for (const k in EDEF) cell(save.seenE[k], EDEF[k].name.split(' ')[0], EDEF[k].boss ? '強敵' : '討伐済み'); }
+  { let n = 0, m = 0; for (const k in EDEF) { if (EDEF[k].obj) continue; m++; if (save.seenE[k]) n++; } sec('出会った敵（倒すと記される）', n, m); for (const k in EDEF) if (!EDEF[k].obj) cell(save.seenE[k], EDEF[k].name.split(' ')[0], EDEF[k].boss ? '強敵' : '討伐済み'); }
   { const n = Object.keys(save.walls).length; sec('隠し壁', n, WALLN); cell(n > 0, '崩した隠し壁', n + ' 箇所。怪しい壁は、斬れば分かる'); }
   { let n = 0; for (const k of MDB) if (save.mb[k]) n++; sec('ミニダンジョンの主', n, MDB.length); for (const k of MDB) { const ly = LAYERS.find(l => DATAKEY[k] === l.key); cell(save.mb[k], EDEF[k].name, (ly ? ly.name + '・' : '') + '討伐済み'); } }
   { let n = 0; for (const k of NBS) if (save.mb[k]) n++; sec('夜の強敵', n, NBS.length); for (const k of NBS) cell(save.mb[k], EDEF[k].name, EDEF[k].sub, 1); }
@@ -3127,10 +3237,10 @@ function refreshBook0() {
 }
 function refreshCrypt() {
   const top = cryptTop(); selFloor = clamp(selFloor, 1, top);
-  $('crFloor').textContent = 'B' + selFloor; $('bCrDn').disabled = selFloor <= 1; $('bCrUp').disabled = selFloor >= top;
+  $('crFloor').textContent = 'B' + selFloor; $('bCrDn').disabled = selFloor <= 1; $('bCrUp').disabled = selFloor >= top; $('bCrDn10').disabled = selFloor <= 1; $('bCrUp10').disabled = selFloor >= top;
   $('crInfo').innerHTML = '入るたびに形を変える墓。階ごとの墓主を斃せば、さらに下へ降りられる。<br>到達最深 <b>' + (save.cryptDeep ? 'B' + save.cryptDeep : 'なし') + '</b>　挑める階層 <b>B1〜B' + top + '</b><br>' +
-    (save.bossDead ? '<b>王の死により深層 B4〜B' + CRYPT_DEEP + ' が開いた。</b>最奥 B' + CRYPT_DEEP + ' に、墓主が眠る' : '深層（B' + (CRYPT_PRE + 1) + '〜）は霧に閉ざされている ── 王を斃せば開く') +
-    '<br>深い階ほど敵は強く、得るルーンは多い' + (selFloor >= 4 ? '。<span class="bad">深層：炎の罠と精鋭が待つ</span>' : '');
+    (save.bossDead ? '<b>王の死により深層 B4〜B' + CRYPT_MAX + ' が開いた。</b>B' + CRYPT_DEEP + ' に墓主が、その先に深淵が続く。B10・B20・B30 には深淵の主と宝箱が待つ' : '深層（B' + (CRYPT_PRE + 1) + '〜）は霧に閉ざされている ── 王を斃せば開く') +
+    '<br>深い階ほど敵は強く、得るルーンは多い' + (selFloor >= 3 ? '。<span class="bad">矢の罠と精鋭が待つ</span>' : '') + (selFloor >= 10 ? '<br><span class="bad">B10〜：階に「呪い」が降りることがある。中ほどに灰の灯りがある</span>' : '');
   $('bCrGo').textContent = 'B' + selFloor + ' へ降りる';
 }
 function openBonfire(i) {
@@ -3156,6 +3266,13 @@ function updWorld(dt) {
     if (Math.abs(t.x - P.x) > 700 || Math.abs(t.y - P.y) > 700) continue;
     t.t += dt; if (t.t >= 3.6) { t.t -= 3.6; t.on = false; }
     if (t.t >= 1.0 && !t.on) { t.on = true; fires.push({ x: t.x, y: t.y, r: 22, life: 0.95, max: 0.95, s: rnd(TAU), dmg: 9 * (1 + 0.12 * (L.floor - 1)) }); if (vis(t.x, t.y, 0)) burst(t.x, t.y, 6, 120, 0.4, 12, 0, 0); }
+  }
+  for (const p of L.plates || []) {
+    if (Math.abs(p.x - P.x) > 640 || Math.abs(p.y - P.y) > 640) continue;
+    const on = G.mode === 'play' && P.state !== 'dead' && Math.abs(P.x - p.x) < 24 && Math.abs(P.y - p.y) < 24;
+    if (p.st === 0) { if (on) { p.st = 1; p.t = 0; SFX.ui(); hint('plate', '床の踏み板を踏むと、壁の隙間から矢が飛ぶ\nカチリと鳴ったら、回避で抜けること'); } }
+    else if (p.st === 1) { p.t += dt; if (p.t >= 0.5) { p.st = 2; p.t = 0; p.q = 1; plateShot(p, p.s1, p.s2); } }
+    else { p.t += dt; if (p.q && p.t >= 0.3) { p.q = 0; plateShot(p, p.s2, p.s1); } if (p.t >= 2.2 && !on) p.st = 0; }
   }
   G.near = null; if (G.mode !== 'play') return;
   let bd = 1e9;
@@ -3359,7 +3476,7 @@ tap('bCrypt', () => {
   if (!save.lit[1]) { bfNote('「墓守の祝福」に触れれば、道が開く'); return; }
   selFloor = cryptTop(); bfPane('bfCrypt'); bfNote(save.bossDead && !save.deepSeen ? '王の死により、地下墓の深層が開いた' : ''); save.deepSeen = save.deepSeen || save.bossDead; refreshCrypt(); refreshBf();
 });
-tap('bCrDn', () => { selFloor--; refreshCrypt(); }); tap('bCrUp', () => { selFloor++; refreshCrypt(); });
+tap('bCrDn', () => { selFloor--; refreshCrypt(); }); tap('bCrUp', () => { selFloor++; refreshCrypt(); }); tap('bCrDn10', () => { selFloor -= 10; refreshCrypt(); }); tap('bCrUp10', () => { selFloor += 10; refreshCrypt(); });
 tap('bCrGo', () => { $('bonfire').classList.remove('on'); writeSave(); enterCrypt(selFloor); });
 tap('bLeave', leaveBonfire);
 tap('bMap', openMap); tap('bMapClose', closeMap); tap('bPower', () => openAltar(false)); tap('bAlBack', closeAltar); tap('bNews', openNews); tap('bNewsClose', () => $('news').classList.remove('on'));
@@ -4436,6 +4553,7 @@ const ACH = [
   ['noflask', '渇きの勝利', '王か強敵を、灰瓶を飲まずに斃す', () => save.cnt.noFlask],
   ['b3', '墓荒らし', '地下墓 B3 を制する', () => save.cryptDeep >= 3, () => [Math.min(3, save.cryptDeep), 3]],
   ['b7', '最奥に至る', '地下墓 B7 に辿り着く', () => save.cryptDeep >= 6, () => [Math.min(6, save.cryptDeep), 6]],
+  ['b30', '深淵の底へ', '地下墓 B30 に辿り着く', () => save.cryptDeep >= 29, () => [Math.min(29, save.cryptDeep), 29]],
   ['bless', '七つの灯', '第1層のすべての祝福に触れる', () => Object.keys(save.lit).filter(k => k < 10).length >= 7, () => [Object.keys(save.lit).filter(k => k < 10).length, 7]],
   ['lord2', '聖都を鎮める', '第2層の主、灰燼の大主教を斃す', () => save.lords[2]],
   ['l2mb', '聖都の番人たち', '第2層の強敵を三体とも斃す', () => save.mb.l2_warden && save.mb.l2_captain && save.mb.l2_priest, () => [(save.mb.l2_warden ? 1 : 0) + (save.mb.l2_captain ? 1 : 0) + (save.mb.l2_priest ? 1 : 0), 3]],
@@ -4790,6 +4908,7 @@ function propNear(p) {
   if (p.t === 'mdout') { setNear('x', '外へ出る', '出る', 0, p); return 2; }
   if (p.t === 'lever') { if (save.doors[p.door]) return true; setNear('x', '梃子を引く', '引く', 0, p); return 2; }
   if (p.t === 'altar') { setNear('x', '追憶の祭壇を調べる', '調べる', 0, p); return 2; }
+  if (p.t === 'lantern') { if (p.used) return true; setNear('x', '灰の灯りに触れる', '触れる', 0, p); return 2; }
   if (p.t === 'note') { setNear('x', '書き置きを読む', '読む', 0, p); return 2; }
   return false;
 }
@@ -4799,6 +4918,7 @@ function propUse(p, hot) {
   else if (p.t === 'mdout') { if (!hot()) exitMd(); }
   else if (p.t === 'lever') { save.doors[p.door] = 1; const dr = DOORS.find(d => d.id === p.door); SFX.door(); shake(5); buildMini(); showCard('梃子を引いた', '── ' + (dr ? dr.msg : '') + ' ──', 2.6); writeSave(); }
   else if (p.t === 'altar') { if (!hot()) openAltar(true); }
+  else if (p.t === 'lantern') { p.used = true; P.flasks = flaskHp(); P.fflasks = save.flaskFp; SFX.heal(); SFX.bonfire(); burst(p.x, p.y - 8, 18, 120, 0.8, 9, 0, 1); toast('灰の灯りが灰瓶を満たした\n（この階では一度きり）', 3.4); }
   else if (p.t === 'note') { SFX.ui(); toast('書き置き\n' + p.msg, 7, true); }
 }
 function exitMd() {
@@ -4833,6 +4953,12 @@ function closeMap() { $('mapv').classList.remove('on'); $('pause').classList.add
 
 /* ---------- bosses that borrow existing move sets: mini-dungeon keepers, night roamers ---------- */
 const mkB = (id, from, o, res, drop) => { EDEF[id] = Object.assign({}, EDEF[from], { look: EDEF[from].look || from }, o); MBAI[id] = MBAI[from]; RES[id] = res; MBDROP[id] = drop; };
+/* v1.8.0: 深層版 bosses of B10 / B20 / B30 reuse the 層の中ボス move sets; `deep` is a hue-rotate (deg) used for the recolour, sc is 1.15x the original */
+mkB('ab_giant', 'l2_warden', { name: '深淵の巨像 ガルゴス', sub: '底なしの墓に、立ち続けるもの', sc: 1.32, r: 42, hp: 2300, souls: 2500, deep: 210 }, RES.l2_warden, []);
+mkB('ab_blade', 'l2_captain', { name: '深淵の剣聖 ヴェイル', sub: '光の届かぬ底で、刃を研ぐ', sc: 1.5, r: 19, hp: 1700, souls: 2500, deep: 250 }, RES.l2_captain, []);
+mkB('ab_priest', 'l2_priest', { name: '深淵の大司祭 アルカナ', sub: '最も深い灰の底で、祈りを止めぬ者', sc: 1.38, r: 17, hp: 1500, souls: 2500, deep: 290 }, RES.l2_priest, []);
+/* v1.8.0: the arrow launcher of a trap corridor. `obj` = a destructible object that is handled by launcherAI (c.js) instead of the normal enemy states */
+EDEF.launcher = { name: '矢の射出機', obj: 1, r: 18, hp: 80, spd: 0, souls: 0, poise: 99999, sight: 0, reach: 0, res: {} };
 mkB('md_gnaw', 'mb_beast', { name: '灰喰いの大鼠 グルム', sub: '洞に巣食い、灰を喰らう', sc: 0.85, r: 23, hp: 560, souls: 1500, poise: 80 }, { fire: 1.3, slash: 1.1, strike: 0.9 }, [{ t: 'rat', r: 3 }, { m: { c: 3 } }]);
 mkB('md_keeper', 'mb_giant', { name: '墓所の番人 オルグ', sub: '葬られた者たちの、最後の盾', sc: 0.9, r: 30, hp: 720, souls: 1800 }, { strike: 1.3, holy: 1.2, slash: 0.8, bleed: 0.3 }, [{ sr: 'grave' }, { m: { l: 1, e: 1 } }]);
 mkB('md_miner', 'l2_warden', { name: '灰晶喰いの坑夫長 ダグラム', sub: '掘り続けて、石になった', sc: 1.0, r: 34, hp: 1700, souls: 5000 }, { strike: 1.3, pierce: 1.15, slash: 0.75, bleed: 0.2 }, [{ w: 'pick' }, { m: { l: 3, e: 2 } }]);
@@ -4920,6 +5046,7 @@ function drawXProp(p) {
   if (p.t === 'ped') { const got = save.maps[L.mid + ':' + p.reg]; ctx.fillStyle = '#2b2823'; ctx.fillRect(x - 11, y - 6, 22, 16); ctx.fillStyle = '#4a453b'; ctx.fillRect(x - 8, y - 16, 16, 14); ctx.strokeStyle = '#8d8676'; ctx.lineWidth = 1.2; ctx.strokeRect(x - 8, y - 16, 16, 14); if (!got) { ctx.fillStyle = '#d9c58c'; ctx.fillRect(x - 5, y - 14, 10, 8); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.45 + Math.sin(G.now * 3) * 0.15; ctx.drawImage(SPR[6], x - 22, y - 32, 44, 44); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; } return true; }
   if (p.t === 'mdin' || p.t === 'mdout') { if (p.t === 'mdin' && !layerOf(p.to).open()) return true; ctx.fillStyle = '#050403'; ctx.beginPath(); ctx.ellipse(x, y, 24, 17, 0, 0, TAU); ctx.fill(); ctx.strokeStyle = p.t === 'mdin' ? '#7a5cc0' : '#a88d4e'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.ellipse(x, y, 24, 17, 0, 0, TAU); ctx.stroke(); ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.lineWidth = 1.5; for (let i = -1; i <= 1; i++) { ctx.beginPath(); ctx.moveTo(x - 14, y + i * 6); ctx.lineTo(x + 14, y + i * 6); ctx.stroke(); } ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.3 + Math.sin(G.now * 2.4) * 0.1; ctx.drawImage(SPR[p.t === 'mdin' ? 7 : 1], x - 34, y - 34, 68, 68); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; return true; }
   if (p.t === 'lever') { const on = save.doors[p.door]; ctx.fillStyle = '#2b2823'; ctx.fillRect(x - 9, y - 3, 18, 10); ctx.strokeStyle = '#a58b4c'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + (on ? 10 : -10), y - 16); ctx.stroke(); ctx.fillStyle = on ? '#7dffd0' : '#c9a455'; ctx.beginPath(); ctx.arc(x + (on ? 10 : -10), y - 16, 3.5, 0, TAU); ctx.fill(); return true; }
+  if (p.t === 'lantern') { const on = !p.used; ctx.fillStyle = '#26221c'; ctx.fillRect(x - 7, y + 4, 14, 8); ctx.fillStyle = '#3d382f'; ctx.fillRect(x - 3, y - 14, 6, 18); ctx.strokeStyle = on ? '#e8b85a' : '#6b6152'; ctx.lineWidth = 1.5; ctx.strokeRect(x - 7, y - 24, 14, 12); if (on) { ctx.globalCompositeOperation = 'lighter'; const s = 22 + Math.sin(G.now * 3) * 3; ctx.globalAlpha = 0.55; ctx.drawImage(SPR[1], x - s * 1.6, y - 18 - s * 1.6, s * 3.2, s * 3.2); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.fillStyle = '#ffd98a'; ctx.fillRect(x - 3, y - 21, 6, 6); } return true; }
   if (p.t === 'note') { ctx.save(); ctx.translate(x, y); ctx.rotate(-0.12); ctx.fillStyle = '#c9bb90'; ctx.fillRect(-9, -6, 18, 12); ctx.strokeStyle = '#7a6c48'; ctx.lineWidth = 1; ctx.strokeRect(-9, -6, 18, 12); ctx.fillStyle = '#6b5d3c'; ctx.fillRect(-6, -3, 12, 1.4); ctx.fillRect(-6, 0, 9, 1.4); ctx.fillRect(-6, 3, 11, 1.4); ctx.restore(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.18 + Math.sin(G.now * 2.4) * 0.08; ctx.drawImage(SPR[1], x - 22, y - 22, 44, 44); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; return true; }
   if (p.t === 'altar') { ctx.fillStyle = '#26221c'; ctx.fillRect(x - 17, y - 8, 34, 18); ctx.fillStyle = '#3d382f'; ctx.fillRect(x - 13, y - 16, 26, 10); ctx.strokeStyle = '#a88d4e'; ctx.lineWidth = 1.4; ctx.strokeRect(x - 13, y - 16, 26, 10); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.5 + Math.sin(G.now * 2) * 0.15; ctx.drawImage(SPR[1], x - 26, y - 40, 52, 52); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; return true; }
   return false;
@@ -4928,6 +5055,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.8.0', d: '2026-11-18', t: '深い地下墓', items: ['地下墓をさらに深くしました', '深い階に呪いが現れるようになりました', '深い階の報酬と強敵を追加しました', '地下墓の深い階を広くしました', '地下墓に罠を追加しました', '祝福のまわりに敵が出ないようにしました'] },
   { v: '1.7.7', d: '2026-11-18', t: '昼と夜', items: ['第1層の昼と夜を祝福で切り替えられるようにしました', '王を倒したあとは城の入口に戻るようにしました'] },
   { v: '1.7.6', d: '2026-11-18', t: '灰瓶と書き置き', items: ['隠された場所にヒントを置きました', 'FPを回復する瓶を追加しました', '回復瓶の数と回復量を見直しました', 'レベルアップ画面に武器の情報を表示しました', '周回プレイは今後の階層追加後に開放します'] },
   { v: '1.7.5', d: '2026-11-18', t: '中ボスの部屋と視界', items: ['中ボスの部屋は霧から入るようにしました', '視界制限（ハード）の見え方を修正しました', '大ボス前の騎士を強化しました', '護符の画面がタブレットで見切れる問題を修正しました', '第2層の主の間に入れない問題を修正しました'] },
@@ -4987,8 +5115,8 @@ const rarCol = r => r >= 5 ? 'hsl(' + Math.floor(G.now * 120 % 360) + ',90%,72%)
 function disGain(it) { const d = DISM[it.r]; return { r: Math.round(d.r * (1 + 0.15 * (it.t - 1)) / 10) * 10, m: d.m || {} }; }
 const gainTxt = g => fmtN(g.r) + ' ルーン' + Object.keys(g.m).map(k => '・' + MAT[k] + '×' + g.m[k]).join('');
 /* where a drop comes from decides its tier (1..10): the layer number, +1 at night; 地下墓 B1-2 → 1, B3-4 → 2, B5-6 → 3, B7 → 4 */
-function lootTier() { if (G.zone === 'a') return save.nightOn ? 2 : 1; if (L.id === 'crypt') return clamp(Math.ceil(L.floor / 2), 1, TIER_MAX); return clamp((L.tier || L.lay || 1) + (L.night ? 1 : 0), 1, TIER_MAX); }
-function lootLuck() { const cl = cycLuck(); if (G.zone === 'a') return cl; return cl + (L.id === 'crypt' ? 0.07 * L.floor : L.night ? 0.2 : 0); }
+function lootTier() { if (G.zone === 'a') return save.nightOn ? 2 : 1; if (L.id === 'crypt') return L.floor <= 7 ? Math.ceil(L.floor / 2) : clamp(4 + Math.round((L.floor - 7) * 6 / 23), 4, TIER_MAX); return clamp((L.tier || L.lay || 1) + (L.night ? 1 : 0), 1, TIER_MAX); }
+function lootLuck() { const cl = cycLuck(); if (G.zone === 'a') return cl; return cl + (L.id === 'crypt' ? 0.07 * Math.min(L.floor, 7) + 0.02 * Math.max(0, L.floor - 7) + 0.1 * (L.curses ? L.curses.length : 0) + (G.richLuck || 0) : L.night ? 0.2 : 0); }
 
 /* ---------- drops ---------- */
 function spawnLoot(x, y, it, quiet) {
@@ -5532,14 +5660,22 @@ function drawBlade(e, sc) {
   if (hot > 0.55) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = (hot - 0.55) * 0.9; ctx.strokeStyle = '#ff7a50'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(7, 0); ctx.lineTo(d.blade === 'great' ? 58 : 48, 0); ctx.stroke(); }
   ctx.restore(); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
 }
+function drawLauncher(e) {
+  const dead = e.state === 'dead', ch = dead ? 0 : clamp(((e.cg || 0) - ((e.per || 2) - 0.6)) / 0.6, 0, 1);
+  ctx.save(); ctx.translate(e.x, e.y); ctx.fillStyle = dead ? '#1d1a16' : '#3a352d'; ctx.strokeStyle = dead ? '#3b352c' : '#8d8676'; ctx.lineWidth = 2; ctx.beginPath(); ctx.arc(0, 0, dead ? 11 : 17, 0, TAU); ctx.fill(); ctx.stroke();
+  if (!dead) { ctx.rotate(e.face); ctx.fillStyle = '#25211b'; ctx.fillRect(2, -6, 24, 12); ctx.strokeRect(2, -6, 24, 12); if (ch > 0) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = ch; ctx.fillStyle = '#ff7a3a'; ctx.fillRect(22, -4, 6, 8); ctx.beginPath(); ctx.arc(0, 0, 7 + ch * 4, 0, TAU); ctx.fill(); ctx.globalAlpha = ch * 0.35; ctx.fillRect(28, -1.5, 320 * ch, 3); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; } }
+  ctx.restore(); if (!dead && e.hp < e.mhp) { const w = 34; ctx.fillStyle = 'rgba(0,0,0,.7)'; ctx.fillRect(e.x - w / 2, e.y - 30, w, 4); ctx.fillStyle = '#c9a24a'; ctx.fillRect(e.x - w / 2, e.y - 30, w * e.hp / e.mhp, 4); }
+}
 function drawFoe(e) {
-  const d = e.def, t0 = e.type; 
+  const d = e.def, t0 = e.type; if (d.obj) { drawLauncher(e); return; }
+  const hue = d.deep && 'filter' in ctx && e.state !== 'dead' ? d.deep : 0; if (hue) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.3 + Math.sin(G.now * 2.4) * 0.08; ctx.drawImage(SPR[2], e.x - 110, e.y - 110, 220, 220); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'hue-rotate(' + hue + 'deg) saturate(1.4) brightness(.9)'; }
+
   if (e.elite && e.state !== 'dead') { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.5 + Math.sin(G.now * 4 + e.hx) * 0.15; ctx.drawImage(SPR[3], e.x - 34, e.y - 30, 68, 68); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
   if (d.lord && e.state !== 'dead' && e.al > 0.2) { const p2 = e.ph === 2; ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = (p2 ? 0.55 : 0.3) * e.al; ctx.drawImage(SPR[p2 ? 0 : 1], e.x - 80, e.y - 80, 160, 160); ctx.globalAlpha = 0.8 * e.al; ctx.strokeStyle = p2 ? '#ffb060' : '#fff3c8'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(e.x, e.y, 40 + Math.sin(G.now * 3) * 3, 0, TAU); ctx.stroke(); if (p2) for (const sd of [-1, 1]) { ctx.beginPath(); for (let i = 0; i < 5; i++) { const a = e.face + PI + sd * (0.5 + i * 0.28), r = 86 - i * 9 + Math.sin(G.now * 5 + i) * 5; ctx.moveTo(e.x, e.y); ctx.lineTo(e.x + Math.cos(a) * r, e.y + Math.sin(a) * r); } ctx.stroke(); } ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
   if (d.look) e.type = d.look; const sc = d.sc || 1;
   if (sc !== 1) { ctx.save(); ctx.translate(e.x, e.y); ctx.scale(sc, sc); ctx.translate(-e.x, -e.y); }
   if (d.boss) drawMB(e); else if (e.type === 'ghoul' || e.type === 'acolyte') drawEnemy2(e); else drawEnemy(e);
-  if (sc !== 1) ctx.restore(); e.type = t0;
+  if (sc !== 1) ctx.restore(); e.type = t0; if (hue) ctx.filter = 'none';
   if (d.sh && e.state !== 'dead') drawShield(e, sc);
   if (d.blade && e.state !== 'dead') drawBlade(e, sc);
   if (d.ash && e.state !== 'dead' && !e.hide) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.2 * (e.al === undefined ? 1 : e.al); const z = e.r * sc * 2.1; ctx.drawImage(SPR[2], e.x - z, e.y - z, z * 2, z * 2); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
@@ -5590,6 +5726,7 @@ function drawProps() {
     else if (p.t === 'stairs') { ctx.fillStyle = '#050406'; ctx.fillRect(p.x - 22, p.y - 18, 44, 36); for (let i = 0; i < 4; i++) { ctx.fillStyle = `rgb(${70 - i * 14},${74 - i * 14},${86 - i * 16})`; ctx.fillRect(p.x - 22 + i * 4, p.y - 18 + i * 9, 44 - i * 8, 8); } ctx.strokeStyle = '#8d8676'; ctx.lineWidth = 1.5; ctx.strokeRect(p.x - 22, p.y - 18, 44, 36); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.3 + Math.sin(G.now * 2) * 0.1; ctx.drawImage(SPR[8], p.x - 40, p.y - 40, 80, 80); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
     else { ctx.globalCompositeOperation = 'lighter'; const s = 26 + Math.sin(G.now * 2.4) * 4; ctx.globalAlpha = 0.5; ctx.drawImage(SPR[1], p.x - s * 2, p.y - s * 2, s * 4, s * 4); ctx.globalAlpha = 0.9; ctx.strokeStyle = '#f3e2ac'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(p.x, p.y, 20, 13, 0, G.now, G.now + 5); ctx.stroke(); ctx.drawImage(SPR[1], p.x - 12, p.y - 26 - Math.sin(G.now * 2) * 4, 24, 24); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; }
   }
+  for (const p of L.plates || []) { if (!vis(p.x, p.y, 30)) continue; const dn = p.st === 1 || p.st === 2; ctx.fillStyle = dn ? '#2a241d' : '#4a4338'; ctx.fillRect(p.x - 18, p.y - 18, 36, 36); ctx.strokeStyle = dn ? '#1a1612' : '#6d6454'; ctx.lineWidth = 1.5; ctx.strokeRect(p.x - 18, p.y - 18, 36, 36); ctx.strokeStyle = 'rgba(0,0,0,.35)'; ctx.strokeRect(p.x - 11, p.y - 11, 22, 22); if (p.st === 1) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.5; ctx.fillStyle = '#ff9a50'; ctx.fillRect(p.x - 18, p.y - 18, 36, 36); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; } }
   for (const t of L.traps) { if (!vis(t.x, t.y, 30)) continue; ctx.fillStyle = '#16110e'; ctx.beginPath(); ctx.arc(t.x, t.y, 13, 0, TAU); ctx.fill(); ctx.strokeStyle = '#5a3a26'; ctx.lineWidth = 2; ctx.stroke(); ctx.fillStyle = '#0a0706'; for (let i = 0; i < 5; i++) { const a = i * TAU / 5; ctx.beginPath(); ctx.arc(t.x + Math.cos(a) * 6, t.y + Math.sin(a) * 6, 2, 0, TAU); ctx.fill(); } if (t.t < 1.0 && t.t > 0.15) { const k = (t.t - 0.15) / 0.85; ctx.fillStyle = `rgba(235,60,25,${0.12 + k * 0.25})`; ctx.beginPath(); ctx.arc(t.x, t.y, 22 * k, 0, TAU); ctx.fill(); ctx.strokeStyle = 'rgba(255,90,50,.7)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.arc(t.x, t.y, 22, 0, TAU); ctx.stroke(); } }
   for (const c of CHESTS) {
     if (!vis(c.x, c.y, 40) || !visPt(c.x, c.y, 30)) continue; const open = chestOpen(c), nt = !open && c.nit && save.chests[c.id];
@@ -5761,11 +5898,12 @@ function drawHUD() {
     const k = ms / T, crypt = L.id === 'crypt';
     for (let i = 0; i < BLESS.length; i++) { const b = BLESS[i], lit = isLit(i); if (!lit && !roomSeen(roomOf[Math.floor(b.y / T) * MW + Math.floor(b.x / T)])) continue; ctx.fillStyle = lit ? '#ffd76a' : '#6b6152'; ctx.beginPath(); ctx.arc(mx + b.x * k, my + b.y * k, 2.4, 0, TAU); ctx.fill(); }
     for (const p of PROPS) if (p.t === 'fogL') { ctx.fillStyle = '#b9c6e6'; ctx.fillRect(mx + p.x * k - 2.5, my + p.y * k - 2.5, 5, 5); }
-    for (const p of PROPS) if (p.t === 'lift' || p.t === 'stairs' || p.t === 'return' || p.t === 'mdout' || (p.t === 'mdin' && save.mdSeen[layerOf(p.to).key])) { ctx.fillStyle = p.t === 'stairs' ? '#7dffd0' : '#fff3c8'; ctx.fillRect(mx + p.x * k - 2, my + p.y * k - 2, 4, 4); }
+    for (const p of PROPS) if (p.t === 'lift' || p.t === 'stairs' || p.t === 'return' || p.t === 'lantern' || p.t === 'mdout' || (p.t === 'mdin' && save.mdSeen[layerOf(p.to).key])) { ctx.fillStyle = p.t === 'stairs' ? '#7dffd0' : '#fff3c8'; ctx.fillRect(mx + p.x * k - 2, my + p.y * k - 2, 4, 4); }
     const s = save.stain; if (stainHere(s)) { ctx.fillStyle = Math.sin(G.now * 6) > 0 ? '#ff4a3a' : '#7dffb0'; ctx.fillRect(mx + s.x * k - 2, my + s.y * k - 2, 4, 4); }
     ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(mx + P.x * k, my + P.y * k, 2.2, 0, TAU); ctx.fill();
     const lab = crypt ? '地下墓 B' + L.floor + '　#' + (L.seed >>> 0).toString(16).toUpperCase().padStart(8, '0') : L.night ? '灰の降る夜' : '';
     if (lab) { ctx.font = '800 10.5px ' + FONT; ctx.textAlign = 'right'; ctx.textBaseline = 'top'; ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText(lab, mx + mw + 4, my + mh + 8); ctx.fillStyle = crypt ? '#9fe8d0' : '#a9bff0'; ctx.fillText(lab, mx + mw + 3, my + mh + 7); }
+    if (crypt && L.curses && L.curses.length) { const ct = '呪い：' + L.curses.map(k => CURSES[k]).join('・'); ctx.font = '800 10.5px ' + FONT; ctx.textAlign = 'right'; ctx.textBaseline = 'top'; ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText(ct, mx + mw + 4, my + mh + 22); ctx.fillStyle = '#d79bff'; ctx.fillText(ct, mx + mw + 3, my + mh + 21); }
   }
   // boss bar
   if (arena && G.mode !== 'intro' && !(B.state === 'dead' && B.t > 1.5)) {
@@ -5865,11 +6003,12 @@ function drawHUD() {
   }
 }
 /* v1.7.2: vision mode (hard). A forward cone limited by walls plus a dim circle around the player; everything else is under darkness. */
-const VIS_ANG = 60 * PI / 180, VIS_NEAR = 70, VIS_N = 100, visRay = new Float32Array(VIS_N + 1), visC = document.createElement('canvas'), visX = visC.getContext('2d');
+let VIS_ANG = 60 * PI / 180, VIS_NEAR = 70; const VIS_N = 100, visRay = new Float32Array(VIS_N + 1), visC = document.createElement('canvas'), visX = visC.getContext('2d');
 let visK = 0, visA = 0, visRange = 500, visLast = 0;
-function visWant() { return !!save.visMode && G.zone !== 'a' && G.mode !== 'fight' && G.mode !== 'title' && !G.mb && !arenaOn() && !G.edit; }
+function visWant() { return (!!save.visMode || curseOf('fog')) && G.zone !== 'a' && G.mode !== 'fight' && G.mode !== 'title' && !G.mb && !arenaOn() && !G.edit; }
 function visUpdate() {
   const dt = clamp(G.now - visLast, 0, 0.1); visLast = G.now; const want = visWant();
+  if (save.visMode) { VIS_ANG = 60 * PI / 180; VIS_NEAR = 70; } else { VIS_ANG = 90 * PI / 180; VIS_NEAR = 105; } /* 霧深き階 alone is softer: 90deg cone + a larger near circle */
   if (want && visK <= 0) visA = P.face; else if (visK > 0) { let d = P.face - visA; d = Math.atan2(Math.sin(d), Math.cos(d)); visA += d * (1 - Math.exp(-18 * dt)); }
   visK = clamp(visK + (want ? dt : -dt) / 0.4, 0, 1); if (visK <= 0) return;
   visRange = Math.min(700, Math.hypot(W / 2 / S, Math.max(CY, H - CY) / S) + 10);
@@ -6039,7 +6178,7 @@ window.__debug = {
   tal(t, on) { if (!save.tals.includes(t)) save.tals.push(t); const k = save.teq.indexOf(t); if (on === false) { if (k >= 0) save.teq[k] = null; } else if (k < 0) { const f = save.teq.indexOf(null); save.teq[f < 0 ? 0 : f] = t; } recalc(); refreshBf(); },
   giveItem, setStat(k, v) { save.st[k] = v; recalc(); }, recalc, magMult, calcLoad, collection, cryptTop, cryptCap, hint,
   setCleared(v) { save.bossDead = !!v; if (v) { if (!save.wins) save.wins = 1; if (!save.night) startNight(); G.nightT = 0; } else { save.night = false; save.nightOn = false; CASTLE = buildCastle(false); } if (G.mode === 'play' || G.mode === 'menu') { $('bonfire').classList.remove('on'); spawnAt(save.bonfire); } else useLevel(CASTLE); writeSave(); },
-  genCrypt(f, seed) { const Lv = genCrypt(f, seed); return cryptCheck(Lv); }, enterCrypt, leaveCrypt, cryptCleared, respawn,
+  genCrypt(f, seed) { const Lv = genCrypt(f, seed); return cryptCheck(Lv); }, genInfo(f, seed) { const Lv = genCrypt(f, seed), c = cryptCheck(Lv), pts = Lv.bless.map(b => [b.x, b.y]).concat(Lv.props.filter(p => p.t === 'lantern').map(p => [p.x, p.y])); let md = 1e9; for (const e of Lv.enemies) if (!e.def.obj) for (const q of pts) md = Math.min(md, Math.hypot(e.hx - q[0], e.hy - q[1]) / T); const bs = Lv.enemies.find(e => e.def.boss); return Object.assign(c, { W: Lv.MW, H: Lv.MH, curses: Lv.curses, lantern: Lv.props.filter(p => p.t === 'lantern').length, plates: Lv.plates.length, launch: Lv.enemies.filter(e => e.type === 'launcher').length, gaunt: Lv.cells.filter(q => q.kind === 'g').length, md, bossName: bs && bs.def.name, bossHp: bs && bs.mhp, bossDm: bs && bs.dm, elites: Lv.enemies.filter(e => e.elite).length }); }, safeBless, enterArena, openChest, killEnemy, get PROPS() { return PROPS; }, enterCrypt, leaveCrypt, cryptCleared, respawn,
   SHD, RAR, WMECH, offKind, offId, wcat, guardHit, setEnch, mechInfo, mechReset, spellList, curSpell, guardBtnOn, tk, trar, tdesc, randTal, dropTal, catId, canCast, comboLen, startGuard, playerStrike, enemiesPush(e) { enemies.push(e); }, mkEnemy,
   off(o) { if (SHD[o] && !save.shields.includes(o)) save.shields.push(o); if (WPN[o] && !save.weapons.includes(o)) save.weapons.push(o); save.off = o; mechReset(); recalc(); refreshBf(); },
   newGame, continueGame, spawnAt, enterBoss, openBonfire, rest, queue, doInteract, killPlayer, level, lvCost, atkMult, los, solid, hitEnemy, eStart, mbStart, aggro, killEnemy, swapSpell,
