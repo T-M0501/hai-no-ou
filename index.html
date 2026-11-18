@@ -178,8 +178,12 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 .chip.on{border-color:#e2b765;color:#fff3c8;background:rgba(90,70,30,.8)}
 .row.whd .mech{color:#9fb8a0;font-size:10.5px}
 /* v1.6 armor inventory */
-.ar1{color:#b8b2a4}.ar2{color:#8fd08a}.ar3{color:#7fb4ff}.ar4{color:#f3d27a;text-shadow:0 0 6px rgba(243,210,122,.6)}
-.ar5{background:linear-gradient(90deg,#ff8ad0,#ffd76a,#8fe8a0,#7fc4ff,#c79aff,#ff8ad0);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;animation:prism 2.4s linear infinite}
+.ar1{color:#b8b2a4}.ar2{color:#8fd08a}.ar3{color:#7fb4ff}.ar4{color:#b98cff;text-shadow:0 0 6px rgba(160,100,255,.65)}
+.ar5{color:#ffd24a;text-shadow:0 0 7px rgba(255,200,40,.75)}
+.ar1n{color:#d8d2c2}.ar2n{color:#cfe8cb}.ar3n{color:#bcd6ff}.ar4n{color:#d3b4ff;text-shadow:0 0 5px rgba(160,100,255,.5)}.ar5n{color:#ffe08a;text-shadow:0 0 6px rgba(255,200,40,.6)}
+.row.wp.wr4{border-color:#8f62d8;box-shadow:inset 0 0 14px rgba(150,95,240,.25)}.row.wp.wr5{border-color:#e2b53a;box-shadow:inset 0 0 16px rgba(255,200,50,.28)}
+.row.wp.tr2{border-color:#4f78b8;box-shadow:inset 0 0 12px rgba(110,160,255,.18)}.row.wp.tr3,.row.wp.tr4{border-color:#8f62d8;box-shadow:inset 0 0 14px rgba(150,95,240,.24)}.row.wp.tr4{box-shadow:inset 0 0 18px rgba(170,110,255,.36)}
+.row.wcopy{margin-left:10px;align-items:center;flex-wrap:wrap;opacity:.95}
 @keyframes prism{to{background-position:200% 0}}
 @keyframes prismB{0%{border-color:#ff8ad0}25%{border-color:#ffd76a}50%{border-color:#8fe8a0}75%{border-color:#7fc4ff}100%{border-color:#ff8ad0}}
 .ahd{display:flex;flex-direction:column;gap:5px;min-width:0}
@@ -197,7 +201,7 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 .asl em{font-style:normal;font-size:9.5px;max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#a99f88}
 .asl em.no,.atot .no{color:#6d6552}
 .asl.on{border-color:#e2b765;background:rgba(70,56,26,.6)}
-.asl.r4{box-shadow:inset 0 0 12px rgba(243,210,122,.3)}.asl.r5{box-shadow:inset 0 0 14px rgba(255,154,213,.38)}
+.asl.r4{box-shadow:inset 0 0 12px rgba(160,100,255,.38)}.asl.r5{box-shadow:inset 0 0 14px rgba(255,200,50,.42)}
 .atot{font-size:11.5px;color:#a99f88;line-height:1.55;letter-spacing:.03em;border:1px solid #3f3826;background:rgba(14,11,7,.6);padding:5px 8px}
 .atot b{color:#f1d98a}.atot .nw{white-space:nowrap}
 .abar{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
@@ -218,8 +222,8 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 .row.arow .nm span{display:block;font-size:10px;line-height:1.1}
 .row.arow .sub{color:#b9c9e6}
 .row.arow .lk{font-size:12px}
-.row.arow.r4{border-color:#b99a4c;box-shadow:inset 0 0 16px rgba(243,210,122,.22)}
-.row.arow.r5{animation:prismB 3s linear infinite;box-shadow:inset 0 0 18px rgba(255,154,213,.26)}
+.row.arow.r4{border-color:#8f62d8;box-shadow:inset 0 0 16px rgba(150,95,240,.26)}
+.row.arow.r5{border-color:#e2b53a;box-shadow:inset 0 0 18px rgba(255,200,50,.3)}
 .row.arow.cur{border-color:#e2b765;box-shadow:inset 0 0 20px rgba(200,150,60,.3)}
 .row.arow.sel{background:rgba(34,27,14,.95);outline:1px solid #e2b765}
 .adet{flex-basis:100%;border-top:1px solid #5d5238;margin-top:5px;padding-top:6px;min-width:0}
@@ -314,7 +318,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.9.4</div>
+  <div id="verTxt" class="ver">v1.9.5</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -593,7 +597,7 @@ function freshSave() {
   return { v: 1, started: false, deaths: 0, souls: 0, st: { vit: 10, end: 10, str: 10, dex: 10, int: 10, fth: 10 }, weapons: ['sword'], weapon: 'sword', armors: ['rags'], armor: 'rags',
     spells: [], slots: [null, null], tals: [], teq: [null, null], tslots: 2, flaskMax: 2, flaskFp: 0, fv: 0, chests: {}, doors: {}, lit: { 0: 1 }, bonfire: 0, stain: null, bossDead: false, time: 0, rooms: {},
     mb: {}, mbC: {}, tears: 0, cryptDeep: 0, cryptRw: {}, night: false, deepSeen: false, hints: {}, up: {}, mats: { s: 0, c: 0, l: 0, e: 0, x: 0 }, shop: { s: 0, c: 0, l: 0 },
-    cls: 'wanderer', arts: [], wart: {}, spirits: [], spirit: null, spLv: {}, tearShop: 0, lords: {}, seenE: {}, trar: {}, shields: [], off: null, hands: 0, walls: {}, maps: {}, mdSeen: {}, mem: {}, pw: {}, pwOn: null,
+    cls: 'wanderer', arts: [], wart: {}, spirits: [], spirit: null, spLv: {}, tearShop: 0, wst: {}, wx: [], wseq: 1, tearB: {}, lords: {}, seenE: {}, trar: {}, shields: [], off: null, hands: 0, walls: {}, maps: {}, mdSeen: {}, mem: {}, pw: {}, pwOn: null,
     av: 0, inv: [], aeq: { h: null, b: null, a: null, l: null }, aseq: 1, afound: {}, asort: 'r' };
 }
 const SAVE_EXTRA = () => ({ mute: false, best: 0, wins: 0, clear: 0, hintOff: false, fxLow: false, visMode: false, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {}, btn: { p: {}, l: {} }, cyc: 0, cam: 2, bless: null, cb: null, dex: null, last: 0, v19: 0, clk: 0, rev: {}, walk: '', views: {}, steed: 1, fbf: 0, horse: 0 });
@@ -636,6 +640,22 @@ const blessRoll = () => bOn('roll') ? 0.15 : 0, blessCrit = () => bOn('crit') ? 
 /* every stat starts at the class value + floor(10% of the same stat at the end of the last run) */
 /* v1.7.1: a cycle carries over only the ONE stat the player picks (10%, floored); without a pick nothing is carried */
 const carryOf = (st, only) => { const o = {}; for (const k of ['vit', 'end', 'str', 'dex', 'int', 'fth']) o[k] = k === only ? Math.floor(((st && st[k]) | 0) * 0.1) : 0; return o; };
+/* v1.9.5 weapon rarity: every owned weapon type has one 'primary' instance (save.wst[key] star, save.up[key] level) that all existing code reads;
+   extra copies live in save.wx = [{u, k, s, up}] and are swapped into the primary slot when equipped. Attack x0.86 / 0.93 / 1 / 1.08 / 1.16 for ★1..★5. */
+const WSK = [0, 0.86, 0.93, 1, 1.08, 1.16], WX_CAP = 60, WDISM = [0, 40, 100, 300, 900, 2500];
+const wstar = id => clamp((save.wst && save.wst[id]) | 0 || 3, 1, 5), wstK = id => WSK[wstar(id)];
+const WSTAR_W = { n: [65, 25, 10, 0, 0], e: [0, 65, 30, 5, 0], g: [40, 30, 20, 12, 8] };
+const rollWStar = (src, rng) => wpick([1, 2, 3, 4, 5], r => WSTAR_W[src || 'g'][r - 1], rng);
+const WD_BASE = ['sword', 'shield', 'spear', 'dagger', 'curved', 'rapier', 'katana', 'axe', 'mace', 'great', 'claws', 'bow', 'staff', 'seal'];
+const WD_OWN = { hollow: 'sword', spear: 'spear', shieldh: 'shield', archer: 'bow', knight: 'sword', ghoul: 'claws', acolyte: 'staff', pilgrim: 'rapier', guard2: 'shield', guard3: 'shield', cantor: 'seal', greatsw: 'great', great2: 'great', katana: 'katana', katana2: 'katana', statue: 'mace' };
+function wdropKey(type, tier) {
+  const b = WD_OWN[type] || WD_BASE[Math.floor(Math.random() * WD_BASE.length)], vs = [b];
+  for (const n of [2, 3]) { const k = b + n; if (WPN[k] && !WPN[k].special && !WPN[k].hidden) vs.push(k); }
+  if (tier <= 1 || vs.length === 1) return vs[0]; if (tier === 2) return vs[Math.random() < 0.5 ? 0 : 1];
+  return vs[Math.max(0, vs.length - 1 - Math.floor(Math.random() * 2))];
+}
+function wAdd(k, s) { if (!save.weapons.includes(k)) { save.weapons.push(k); save.wst[k] = s; save.up[k] = 0; return 'new'; } if (save.wx.length >= WX_CAP) return ''; save.wx.push({ u: save.wseq++, k, s, up: 0 }); return 'copy'; }
+function wSwap(u) { const x = save.wx.find(q => q.u === u); if (!x) return false; const k = x.k, s0 = wstar(k), u0 = save.up[k] | 0; save.wst[k] = x.s; save.up[k] = x.up; x.s = s0; x.up = u0; return true; }
 const DEXA = ['weapons', 'shields', 'spells', 'tals', 'arts', 'spirits'], DEXO = ['walls', 'mb', 'mem', 'pw', 'lords', 'cryptRw'], DEXN = ['trar', 'spLv'];
 /* 図鑑 memory: everything ever owned / seen in this slot survives a new cycle */
 function dexSync() {
@@ -690,6 +710,9 @@ function sanitize() {
   for (const k of ['s', 'c', 'l', 'e', 'x']) save.mats[k] = clamp(Math.floor(+save.mats[k] || 0), 0, 999);
   for (const k of ['s', 'c', 'l']) save.shop[k] = clamp(Math.floor(+save.shop[k] || 0), 0, 99);
   for (const k in save.up) { if (!WPN[k]) delete save.up[k]; else save.up[k] = clamp(Math.floor(+save.up[k] || 0), 0, WPN[k].special ? 5 : 10); }
+  if (!save.wst || typeof save.wst !== 'object') save.wst = {}; if (!Array.isArray(save.wx)) save.wx = []; if (!save.tearB || typeof save.tearB !== 'object') save.tearB = {};
+  for (const k in save.wst) if (!WPN[k] || !save.weapons.includes(k)) delete save.wst[k]; for (const k of save.weapons) save.wst[k] = clamp(Math.floor(+save.wst[k]) || 3, 1, 5);
+  { const seen = {}; let mx = 0; save.wx = save.wx.filter(x => x && WPN[x.k] && save.weapons.includes(x.k) && !WPN[x.k].hidden && (x.u = Math.floor(+x.u) || 0) > 0 && !seen[x.u] && (seen[x.u] = 1)).slice(0, WX_CAP); for (const x of save.wx) { x.s = clamp(Math.floor(+x.s) || 3, 1, 5); x.up = clamp(Math.floor(+x.up) || 0, 0, WPN[x.k].special ? 5 : 10); mx = Math.max(mx, x.u); } save.wseq = Math.max(Math.floor(+save.wseq) || 1, mx + 1); }
   save.souls = Math.max(0, Math.floor(+save.souls || 0)); save.flaskMax = clamp(Math.floor(+save.flaskMax || 2), 1, 8);
   /* v1.7.6: the flask total is recomputed once from progress (start 2, 第1層 +1, 第2層 +1, 深層 B5 +1, 周回の加護 +1) */
   if (save.started && !save.fv) { save.fv = 1; save.flaskMax = 2 + (save.chests && save.chests.c4 ? 1 : 0) + (save.chests && save.chests.q21 ? 1 : 0) + ((save.cryptRw && save.cryptRw[5]) || save.cryptDeep >= 5 ? 1 : 0) + (save.bless === 'flask' ? 1 : 0); save.flaskFp = save.cls === 'mage' || save.cls === 'cleric' ? 1 : 0; }
@@ -699,7 +722,7 @@ function sanitize() {
   save.flaskFp = clamp(Math.floor(+save.flaskFp || 0), 0, save.flaskMax);
   save.bonfire = clamp(Math.floor(+save.bonfire || 0), 0, 99); if (!save.btn.p || typeof save.btn.p !== 'object') save.btn.p = {}; if (!save.btn.l || typeof save.btn.l !== 'object') save.btn.l = {}; save.time = +save.time || 0; save.deaths = Math.floor(+save.deaths || 0);
   save.tears = clamp(Math.floor(+save.tears || 0), 0, 9); save.cryptDeep = clamp(Math.floor(+save.cryptDeep || 0), 0, 30); save.night = !!save.night; save.nightOn = false; if (!save.rev || typeof save.rev !== 'object') save.rev = {}; if (!save.views || typeof save.views !== 'object') save.views = {}; if (typeof save.walk !== 'string') save.walk = ''; save.clk = clamp(+save.clk || 0, 0, 1319); save.steed = 1; migrate190(); migrate192(); migrate193();
-migrate194();
+migrate194(); migrate195();
   delete save.invS; if (save.cnt) delete save.cnt.inv; if (save.ach) delete save.ach.inv; if (save.hints) delete save.hints.invade;
   save.fxLow = !!save.fxLow; save.visMode = !!save.visMode;
   armSanitize();
@@ -1294,7 +1317,7 @@ for (const k in ARM) addFamily(k);
 /* v1.7.0: the family that only turns up in 周回 (fixed chests and the king's drop). dw 0 = never in the random pool. */
 addFamily('ngf', { name: '還り火の装束', tier: 4, dw: 0, hidden: 2, pf: 'medium', pn: ['還り火の面', '還り火の装束', '還り火の籠手', '還り火の脛当て'], str: 0.12, el: 0.08, desc: '灰の周を巡った者だけが纏える。消えぬ残り火を縫い込んだ装束で、スタミナの戻りが早い。周回の宝箱と王の遺品にだけ現れる。', c: ['#2c2440', '#8a58c8', '#e3bfff', '#1c1228', 3] });
 /* armor rarity: ★1 並 / ★2 良 / ★3 稀 / ★4 伝説 / ★5 神話. `n` = number of sub-stats */
-const ARAR = [null, { n: '並', c: '#b8b2a4', s: 0 }, { n: '良', c: '#8fd08a', s: 1 }, { n: '稀', c: '#7fb4ff', s: 2 }, { n: '伝説', c: '#f3d27a', s: 3 }, { n: '神話', c: '#ff9ad5', s: 3 }];
+const ARAR = [null, { n: '並', c: '#b8b2a4', s: 0 }, { n: '良', c: '#8fd08a', s: 1 }, { n: '稀', c: '#7fb4ff', s: 2 }, { n: '伝説', c: '#b98cff', s: 3 }, { n: '神話', c: '#ffd24a', s: 3 }];
 /* sub-stats: w = weight, p = decimals, r[rarity] = [lo, hi]. The region tier narrows the roll inside [lo, hi] (TIERWIN). */
 const SUBS = {
   vit: { n: '体力', u: '', w: 10, p: 0, r: [0, 0, [1, 1], [1, 2], [2, 3], [2, 4]] }, end: { n: '持久力', u: '', w: 10, p: 0, r: [0, 0, [1, 1], [1, 2], [2, 3], [2, 4]] },
@@ -1375,7 +1398,7 @@ const M = { cap: 30, wt: 7, load: 0.2, roll: 0, over: false, def: 0.04 };
 let IFR = 0.3, ROLL_T = 0.44;
 const has = t => save.teq.includes(t);
 /* talisman rarity: ★1 並 / ★2 良 / ★3 稀 / ★4 伝説. Effects scale by k; ★3 and ★4 also cut damage taken by 2% / 4%. */
-const RAR = [null, { n: '並', c: '#b8b2a4', k: 0.75 }, { n: '良', c: '#8fd08a', k: 1 }, { n: '稀', c: '#7fb4ff', k: 1.3 }, { n: '伝説', c: '#f3d27a', k: 1.7 }];
+const RAR = [null, { n: '並', c: '#b8b2a4', k: 0.75 }, { n: '良', c: '#7fb4ff', k: 1 }, { n: '稀', c: '#b98cff', k: 1.3 }, { n: '伝説', c: '#d9b8ff', k: 1.7 }];
 const trar = t => save.trar[t] || 1, tk = t => { let k = has(t) ? RAR[trar(t)].k : 0; const u = t + '2'; if (TAL[u] && has(u)) k = Math.max(k, RAR[trar(u)].k * TAL[u].m); return k; }, starsOf = r => '★'.repeat(r);
 const secDef = () => { let v = (save.pwOn === 'king' ? 0.08 : 0) + 0.04 * tk('rat'); for (const t of save.teq) if (t && trar(t) >= 3) v += (trar(t) - 2) * 0.02; return v; };
 const pc = (b, k) => Math.round(b * k);
@@ -1415,8 +1438,8 @@ const upLv = id => save.up[id] | 0, upMax = id => WPN[id].special ? 5 : 10;
 const wname = id => WPN[id].name + (upLv(id) ? ' +' + upLv(id) : '');
 function upCost(id) { const lv = upLv(id) + 1; if (lv > upMax(id)) return null; if (WPN[id].special) return lv === 5 ? { m: 'x', n: 1, r: 2400 } : { m: 'e', n: lv <= 2 ? 1 : 2, r: 400 * lv }; return lv === 10 ? { m: 'x', n: 1, r: 2400 } : { m: 'scl'[Math.floor((lv - 1) / 3)], n: (lv - 1) % 3 + 1, r: 120 + 110 * lv }; }
 function reqOk(id) { const r = WPN[id || save.weapon].req; if (!r) return true; for (const k in r) if (sv(k) < r[k]) return false; return true; }
-function atkMult(id, lv) { id = id || save.weapon; const w = WPN[id], s = save.st, L2 = lv === undefined ? upLv(id) : lv; return (1 + (w.special ? 0.12 : 0.06) * L2 + (eff(sv('str')) * w.sc[0] + eff(sv('dex')) * w.sc[1] + eff(sv('int')) * w.sc[2] + eff(sv('fth')) * (w.sc[3] || 0)) * 0.04 * (1 + (w.special ? 0.08 : 0.04) * L2)) * (reqOk(id) ? 1 : 0.6) * dmgAll(); }
-function catK(id, lv) { const w = WPN[id], L2 = lv === undefined ? upLv(id) : lv; return (w.mag || 1) * (1 + (w.special ? 0.07 : 0.035) * L2); }
+function atkMult(id, lv) { id = id || save.weapon; const w = WPN[id], s = save.st, L2 = lv === undefined ? upLv(id) : lv; return wstK(id) * (1 + (w.special ? 0.12 : 0.06) * L2 + (eff(sv('str')) * w.sc[0] + eff(sv('dex')) * w.sc[1] + eff(sv('int')) * w.sc[2] + eff(sv('fth')) * (w.sc[3] || 0)) * 0.04 * (1 + (w.special ? 0.08 : 0.04) * L2)) * (reqOk(id) ? 1 : 0.6) * dmgAll(); }
+function catK(id, lv) { const w = WPN[id], L2 = lv === undefined ? upLv(id) : lv; return wstK(id) * (w.mag || 1) * (1 + (w.special ? 0.07 : 0.035) * L2); }
 function prayMult(id, lv) { id = id || catId(); return (1 + eff(sv('fth')) * 0.055) * catK(id, lv) * dmgAll() * (save.pwOn === 'lord2' ? 1.12 : 1); }
 function powerOf(id, lv) { const c = WPN[id].cat; return Math.round((c === 'staff' ? magMult(id, lv) : c === 'seal' ? prayMult(id, lv) : atkMult(id, lv)) * 100); }
 function magMult(id, lv) { id = id || catId(); return (1 + eff(sv('int')) * 0.055) * catK(id, lv) * (1 + 0.18 * tk('eye')) * (1 + AB.mag) * dmgAll() * (save.pwOn === 'lord2' ? 1.12 : 1); }
@@ -1766,7 +1789,7 @@ function genCrypt(floor, seed, cv) {
   { const cand = []; cells.forEach((c, i) => { if (i > 0 && c.kind !== 'b' && c.kind !== 's' && c.kind !== 'x' && deg(c) === 1 && i !== lanternCell) cand.push(c); }); cand.sort((a, b2) => (a.kind === 't') - (b2.kind === 't') || b2.d - a.d);
     for (let i = 0; i < nG && i < cand.length; i++) { cand[i].kind = 'g'; cand[i].gk = (i + ri(2)) % 2; } }
   const NSET = TPL.n.concat(TPL.d), bag = []; const hm = cv ? cv.hm : 2.5 + 0.23 * (floor - 1), dm = cv ? cv.dm : 2.05 + 0.135 * (floor - 1), rm = cv ? cv.rm : (1.1 + 0.37 * (floor - 1)) * Math.pow(1.3, Lv.curses.length), bdm = 1.15 + 0.13 * (floor - 1); /* v1.6.3: B1..B7 follow the expected player (Lv ~18 .. ~36), see BALANCE.md; v1.8.0 extends the same lines to B30 */
-  const eliteP = cv ? cv.eliteP : floor < 4 ? 0 : floor < 10 ? 0.2 : floor < 20 ? Math.min(0.32, 0.2 + 0.012 * (floor - 9)) : Math.min(0.45, 0.32 + 0.012 * (floor - 19));
+  const eliteP = cv ? cv.eliteP : floor < 4 ? 0 : floor < 10 ? 0.2 + 0.01 * (floor - 4) : floor < 20 ? Math.min(0.36, 0.26 + 0.012 * (floor - 9)) : Math.min(0.5, 0.36 + 0.012 * (floor - 19));
   let prevT = '';
   const pick0 = () => { const r = rng(); if (floor >= 2 && r < 0.14) return 'acolyte'; if (r < 0.42) return 'ghoul'; if (r < 0.66) return floor >= 2 && rng() < 0.4 ? (floor >= 5 && rng() < 0.5 ? 'guard3' : 'shieldh') : 'hollow'; if (r < 0.84) return floor >= 2 && r < 0.73 ? 'katana' : floor >= 3 && r < 0.78 ? 'greatsw' : 'spear'; return 'archer'; };
   const pickD = () => { const r = rng(); return r < 0.17 ? 'greatsw' : r < 0.34 ? 'katana' : r < 0.48 ? 'guard3' : r < 0.56 ? 'shieldh' : r < 0.64 ? 'spear' : r < 0.77 ? 'archer' : r < 0.84 ? 'knight' : r < 0.92 ? 'acolyte' : r < 0.97 ? 'ghoul' : 'hollow'; };
@@ -2951,7 +2974,7 @@ function newGame(cls, ng, bless) {
   if (ng) Object.assign(keep, { wins: save.wins, best: save.best, clear: save.clear, cyc: ng.cyc, cb: ng.cb, bless: CBL[bless] ? bless : null, dex: save.dex, afound: save.afound, seenE: save.seenE });
   for (const k in save) delete save[k]; Object.assign(save, freshSave(), SAVE_EXTRA(), keep); save.started = true; save.cls = CLASS[cls] ? cls : 'wanderer'; save.last = Date.now();
   save.st = Object.assign({}, c.st); if (save.cb) for (const k in save.st) save.st[k] += save.cb[k] | 0; save.flaskMax = save.bless === 'flask' ? 3 : 2; save.fv = 2; save.flaskFp = save.cls === 'mage' || save.cls === 'cleric' ? 1 : 0;
-  save.weapons = c.w.slice(); save.weapon = c.w[0]; save.armors = c.a === 'rags' ? ['rags'] : ['rags', c.a]; save.armor = c.a; save.spells = c.sp.slice(); save.slots = [c.sp[0] || null, c.sp[1] || null]; save.arts = c.ar.slice(); save.hands = 1; save.shields = (c.sh || []).slice(); save.off = c.off || null; save.trar = {}; loots.length = 0; armSanitize();
+  save.weapons = c.w.slice(); save.weapon = c.w[0]; save.wst = {}; for (const k of c.w) save.wst[k] = 3; save.wx = []; save.armors = c.a === 'rags' ? ['rags'] : ['rags', c.a]; save.armor = c.a; save.spells = c.sp.slice(); save.slots = [c.sp[0] || null, c.sp[1] || null]; save.arts = c.ar.slice(); save.hands = 1; save.shields = (c.sh || []).slice(); save.off = c.off || null; save.trar = {}; loots.length = 0; armSanitize();
   if (c.ar[0] && artOk(c.ar[0], save.weapon)) save.wart[save.weapon] = c.ar[0]; if (c.sr) { save.spirits = [c.sr]; save.spirit = c.sr; }
   for (const k in seenRoom) delete seenRoom[k]; save.v19 = 1; save.lit = { 0: 1 }; CASTLE = buildCastle(false); WLD = CASTLE; decWalk(''); WALKD = 1; for (const k in LVC) delete LVC[k]; L = null; P.slot = 0; P.pray = 0; mechReset(); P.ench = null; P.enchT = 0; writeSave(); spawnAt(0); checkAch(); toast(ng ? cycName(save.cyc) + 'の旅が始まった ── 敵は強く、そして実りも深い' : '祝福に近づき「調べる」で休息できる');
 }
@@ -3005,7 +3028,7 @@ function refreshTitle() {
 /* ---------- items ---------- */
 function giveItem(it) {
   SFX.item();
-  if (it.w) { if (!save.weapons.includes(it.w)) save.weapons.push(it.w); queueCard(WPN[it.w].name + 'を手に入れた', '── ' + WPN[it.w].cls + '（' + (WPN[it.w].two ? '両手' : '片手') + '）。メニューの「装備」で持ち替えられる ──', 3); if (WPN[it.w].cat === 'staff') hint('staff', '杖はメニュー（右上）の「装備」で構える\n強攻撃ボタンが魔法になり、FP（青い棒）を使う'); }
+  if (it.w) { if (!save.weapons.includes(it.w)) { save.weapons.push(it.w); save.wst[it.w] = rollWStar(); } queueCard(starsOf(wstar(it.w)) + ' ' + WPN[it.w].name + 'を手に入れた', '── ' + WPN[it.w].cls + '（' + (WPN[it.w].two ? '両手' : '片手') + '）。メニューの「装備」で持ち替えられる ──', 3); if (WPN[it.w].cat === 'staff') hint('staff', '杖はメニュー（右上）の「装備」で構える\n強攻撃ボタンが魔法になり、FP（青い棒）を使う'); }
   if (it.a) { giveArmorSet(it.a, it.r); queueCard(ARM[it.a].name + ' 一式を手に入れた', '── 頭・胴・腕・脚の四部位（' + ARM[it.a].cls + '）。「装備 → 防具」で着替えられる ──', 3.2); }
   if (it.ap) { const x = giveArmorPiece(it.ap, it.r); queueCard('★'.repeat(x.r) + ' ' + ARMP[x.b].name, '── ' + subsLine(x) + ' ──', 3.2, x.r >= 4 ? null : ARAR[x.r].c, x.r >= 4 ? x.r : 0); }
   if (it.sp) { if (!save.spells.includes(it.sp)) save.spells.push(it.sp); const k = save.slots.indexOf(null); if (k >= 0 && !save.slots.includes(it.sp)) save.slots[k] = it.sp; queueCard('魔法「' + SPELL[it.sp].name + '」', SPELL[it.sp].ench ? '── 杖か聖印を持てば、どちらの手でも刃に纏える ──' : '── 杖を構え、強攻撃で放つ ──', 3); if (SPELL[it.sp].ench) hint('ench', '刃に力を纏わせる魔法を得た\n左手に杖か聖印を持てば、右手の武器のまま唱えられる'); }
@@ -3020,6 +3043,7 @@ function giveItem(it) {
   }
   if (it.f) { if (save.flaskMax < 8) { save.flaskMax++; P.flasks++; } queueCard('灰瓶の欠片', '── 灰瓶の数が増えた ──', 2.8); }
   if (it.k === 'slot') { if (save.tslots < 4) { save.tslots++; save.teq.push(null); queueCard('護符の紐', '── タリスマンの枠が一つ増えた（' + save.tslots + ' / 4） ──', 3); } else { gainSouls(1500); queueCard('護符の紐', '── 枠はもう増えない。1,500 ルーンに換えた ──', 3); } }
+  if (it.k === 'tearB') { if (!save.tearB[it.id]) { save.tearB[it.id] = 1; if (save.tears < 9) { save.tears++; queueCard('追憶の雫', '── 迷宮の主が遺した。祝福で能力を振り直せる ──', 3); } } }
   if (it.k === 'tear') { save.tears++; queueCard('追憶の雫', '── 祝福で能力を振り直せる ──', 3); }
   if (it.ar) { if (!save.arts.includes(it.ar)) save.arts.push(it.ar); queueCard('戦技の書「' + ART[it.ar].name + '」', '── メニューの「装備 → 戦技」で武器に宿す ──', 3.2); hint('artbook', '戦技の書を得た\nメニューの「装備 → 戦技」で、合う武器に付け替えられる'); }
   if (it.sr) { if (!save.spirits.includes(it.sr)) save.spirits.push(it.sr); if (!save.spirit) save.spirit = it.sr; queueCard(SPIRIT[it.sr].name, '── 強敵との戦いで、霊体を呼べる ──', 3.2); hint('spirit', '霊鈴を得た ── 王や強敵との戦いが始まると\n「召喚の標」が光る。そばで「召喚」を押す'); }
@@ -3061,6 +3085,7 @@ function collection0() {
 /* ---------- blessing menu ---------- */
 const PANES = ['bfMain', 'bfFlask', 'bfLevel', 'bfEquip', 'bfForge', 'bfRespec', 'bfBook', 'bfCrypt', 'bfWarp', 'bfAltar'];
 const SHOP = [['s', 300, 10, () => true], ['c', 900, 6, () => save.lit[2]], ['l', 2500, 4, () => save.bossDead]];
+const atHub = () => !!(L && L.ow && G.bfI === 0); /* 灰の円卓 (later: a smith NPC) */
 const TEAR_PRICE = 3000, SPUP = [1, 2, 3];
 let eqTab = 'w', RS = null, selFloor = 1;
 function bfPane(id) { for (const p of PANES) $(p).classList.toggle('on', p === id); }
@@ -3121,7 +3146,7 @@ const wHdr = (c, n, extra) => '<div class="row hdr whd"' + (extra || '') + '><sp
 function refreshEquip() {
   for (const b of document.querySelectorAll('.tab')) b.classList.toggle('on', b.dataset.t === eqTab);
   let h = '', info = '';
-  const row = (id, cur, nm, ef, tag) => '<div class="row wp' + (cur ? ' cur' : '') + '" data-id="' + id + '"><span class="nm">' + nm + '</span><span class="ef">' + ef + '</span>' + (tag ? '<span class="tag">' + tag + '</span>' : '') + '</div>';
+  const row = (id, cur, nm, ef, tag, xc) => '<div class="row wp' + (cur ? ' cur' : '') + (xc || '') + '" data-id="' + id + '"><span class="nm">' + nm + '</span><span class="ef">' + ef + '</span>' + (tag ? '<span class="tag">' + tag + '</span>' : '') + '</div>';
   const load = '重量 <b>' + M.wt.toFixed(1) + ' / ' + M.cap.toFixed(1) + '</b>（' + Math.round(M.load * 100) + '%）→ ' + rollTxt(M);
   if (eqTab === 'w') {
     info = load + '<br>35%以下で軽ロール、70%以下で中ロール、それ以上は重ロール';
@@ -3130,8 +3155,10 @@ function refreshEquip() {
       const x = WPN[id], m = calcLoad(id); let rq = '';
       if (x.req) { const ok = reqOk(id); rq = '　<span class="nw' + (ok ? '' : ' bad') + '">必要 ' + Object.keys(x.req).map(k => STNM[k] + x.req[k]).join('・') + (ok ? '' : '（不足：威力-40%・消費1.5倍）') + '</span>'; }
       const wm = WMECH[wcat(id)];
-      h += row(id, id === save.weapon, wname(id), x.desc + '<br><b>' + x.cls + '</b>（' + (x.two ? '両手' : '片手') + '）　<b>' + x.scTxt + '</b>　<span class="nw">' + DTN[x.dt] + '</span>　<span class="nw">戦技 <b>' + ART[ARTDEF[id]].name + '</b></span>' + rq + '<br><span class="nw">' + (x.cat === 'staff' ? '魔法威力' : x.cat === 'seal' ? '祈祷威力' : '攻撃力') + ' <b>' + powerOf(id) + '</b></span>　<span class="nw">重さ <b>' + x.wt + '</b> → ' + (m.over ? '過重' : ROLLS[m.roll].name) + '</span>' + (wm ? '<br><span class="mech">◆ ' + wm[0] + '：' + wm[1] + (mechK(id) < 1 ? '<br>（鍛えが浅く、いまの効き目は ' + Math.round(mechK(id) * 100) + '%。' + (x.special ? '+5' : '+10') + ' で本領）' : '') + '</span>' : ''), id === save.weapon ? '装備中' : id === save.off ? '左手' : '');
+      h += row(id, id === save.weapon, wlab(id), x.desc + '<br><b>' + x.cls + '</b>（' + (x.two ? '両手' : '片手') + '）　<b>' + x.scTxt + '</b>　<span class="nw">' + DTN[x.dt] + '</span>　<span class="nw">戦技 <b>' + ART[ARTDEF[id]].name + '</b></span>' + rq + '<br><span class="nw">' + (x.cat === 'staff' ? '魔法威力' : x.cat === 'seal' ? '祈祷威力' : '攻撃力') + ' <b>' + powerOf(id) + '</b></span>　<span class="nw">重さ <b>' + x.wt + '</b> → ' + (m.over ? '過重' : ROLLS[m.roll].name) + '</span>' + (wm ? '<br><span class="mech">◆ ' + wm[0] + '：' + wm[1] + (mechK(id) < 1 ? '<br>（鍛えが浅く、いまの効き目は ' + Math.round(mechK(id) * 100) + '%。' + (x.special ? '+5' : '+10') + ' で本領）' : '') + '</span>' : ''), id === save.weapon ? '装備中' : id === save.off ? '左手' : '', wrc(wstar(id)));
+      h += wCopyRows(id);
     } }
+    h += wBulkRow();
   } else if (eqTab === 'o') {
     const rw = WPN[save.weapon], cur = offId(), ok = offKind();
     info = load + '<br>右手 <b>' + wname(save.weapon) + '</b>（' + (rw.two ? '<span class="bad">両手専用 ── 左手は使えない</span>' : '片手') + '）　左手 <b>' + (cur ? offName(cur) : 'なし') + '</b>' + (ok === 'dual' ? '<br><b>二刀流</b>：軽攻撃が左右交互に、強攻撃が双撃になる' + (wcat(save.weapon) === wcat(save.off) ? '（同じ種類：+5%）' : '') : ok === 'cat' ? '<br><b>魔法剣士</b>：詠唱ボタンで左手の触媒から魔法を放つ' : ok === 'shield' ? '<br>ガードボタン：押し続けて<b>ガード</b>' + (SHD[cur].pry ? '、押した瞬間は<b>パリィ</b>' : '（大盾はパリィ不可）') : '');
@@ -3158,7 +3185,7 @@ function refreshEquip() {
   } else if (eqTab === 't') {
     const n = save.teq.filter(Boolean).length; info = 'タリスマン枠 <b>' + n + ' / ' + save.tslots + '</b>（最大4）　触れて付け外しする<br>品：' + [1, 2, 3, 4].map(r => '<span style="color:' + RAR[r].c + '">' + starsOf(r) + RAR[r].n + '</span>').join('　') + '　★3から副効果';
     h += '<div class="tslots">'; for (let i = 0; i < 4; i++) { const t = save.teq[i]; h += i < save.tslots ? '<span class="sl' + (t ? ' on' : '') + '"' + (t ? ' style="border-color:' + RAR[trar(t)].c + ';color:' + RAR[trar(t)].c + '"' : '') + '>' + (t ? TAL[t].name : '空き') + '</span>' : '<span class="sl lock">鍵：護符の紐で解放</span>'; } h += '</div>';
-    for (const id of save.tals) { const r = trar(id); h += row(id, has(id), '<span style="color:' + RAR[r].c + '">' + starsOf(r) + '</span> ' + TAL[id].name, '<b>' + tdesc(id, r) + '</b><br><span class="nw" style="color:' + RAR[r].c + '">' + RAR[r].n + '</span>', has(id) ? '装備中' : ''); }
+    for (const id of save.tals) { const r = trar(id); h += row(id, has(id), '<span style="color:' + RAR[r].c + '">' + starsOf(r) + '</span> ' + TAL[id].name, '<b>' + tdesc(id, r) + '</b><br><span class="nw" style="color:' + RAR[r].c + '">' + RAR[r].n + '</span>', has(id) ? '装備中' : '', ' tr' + r); }
     if (!save.tals.length) h += '<div class="row" style="opacity:.5"><span class="ef">まだタリスマンを持っていない。宝箱や強敵が隠し持つ。</span></div>';
   } else {
     const n = save.slots.filter(Boolean).length, st = canCast(); info = '記憶枠 <b>' + n + ' / 2</b>　魔法威力 <b>' + Math.round(magMult() * 100) + '</b>　最大FP <b>' + P.maxFp + '</b>' + (st ? '' : '<br><span class="bad">魔法を放つには杖か聖印を、右手か左手に持つこと</span>') + '<br>FPは時間で少しずつ戻り、祝福で全快する。二つ記憶すると戦闘中に切り替えられる';
@@ -3169,6 +3196,8 @@ function refreshEquip() {
 }
 function eqClick(id) {
   if (String(id).indexOf('act:wcat:') === 0) { WUI.cat = String(id).slice(9); refreshEquip(); if ($('bfForge').classList.contains('on')) refreshForge(); $('eqRows').scrollTop = 0; return; }
+  if (String(id).indexOf('act:wdis:') === 0 || String(id).indexOf('act:wbulk:') === 0) { const p = String(id).split(':'); wAct(p[1], p[2]); recalc(); writeSave(); refreshEquip(); refreshBf(); return; }
+  if (eqTab === 'w' && String(id).indexOf('wx:') === 0) { const x = save.wx.find(q => q.u === +id.slice(3)); if (!x) return; id = x.k; wSwap(x.u); WUI.arm = ''; }
   if (eqTab === 'w' && WPN[id] && save.weapons.includes(id)) { if (save.off === id) save.off = save.weapon !== id && !WPN[save.weapon].two ? save.weapon : null; save.weapon = id; mechReset(); if (['aim', 'shoot', 'cast', 'zap', 'art', 'atk', 'heavy'].includes(P.state)) { P.state = 'idle'; P.t = 0; } P.chg = 0; P.hold = false; P.dtO = null; recalc(); SFX.swing(); bfNote(wname(id) + 'を構えた' + (WPN[id].two && save.off ? ' ── 両手専用。左手は使えない' : reqOk(id) ? '' : ' ── 能力が足りず、扱いきれない')); }
   else if (eqTab === 'o') {
     if (id === 'none') { save.off = null; bfNote('左手を空けた'); SFX.roll(); }
@@ -3202,17 +3231,17 @@ function refreshForge() {
   h += wChips(save.weapons);
   for (const [gc, gids] of wGroups(save.weapons, true)) { h += wHdr(gc, gids.length); for (const id of gids) {
     const c = upCost(id), lab = WPN[id].cat === 'staff' ? '魔法威力' : WPN[id].cat === 'seal' ? '祈祷威力' : '攻撃力', lv = upLv(id);
-    if (!c) { h += '<div class="row fgr"><span class="nm">' + wname(id) + '</span><span class="ef">' + lab + ' <b>' + powerOf(id) + '</b><br>これ以上は鍛えられない</span></div>'; continue; }
+    if (!c) { h += '<div class="row fgr' + wrc(wstar(id)) + '"><span class="nm">' + wlab(id) + '</span><span class="ef">' + lab + ' <b>' + powerOf(id) + '</b><br>これ以上は鍛えられない</span></div>'; continue; }
     const ok = m[c.m] >= c.n && save.souls >= c.r;
-    h += '<div class="row fgr' + (id === save.weapon ? ' wp cur' : '') + '"><span class="nm">' + wname(id) + '</span><span class="ef">' + lab + ' <b>' + powerOf(id) + ' → ' + powerOf(id, lv + 1) + '</b><br><span class="nw' + (m[c.m] >= c.n ? '' : ' bad') + '">' + MAT[c.m] + ' ×' + c.n + '</span>　<span class="nw' + (save.souls >= c.r ? '' : ' bad') + '">ルーン ' + fmtN(c.r) + '</span></span><button class="plus fg" data-id="' + id + '"' + (ok ? '' : ' disabled') + ' aria-label="' + WPN[id].name + 'を強化">強化</button></div>';
+    h += '<div class="row fgr' + (id === save.weapon ? ' wp cur' : '') + wrc(wstar(id)) + '"><span class="nm">' + wlab(id) + '</span><span class="ef">' + lab + ' <b>' + powerOf(id) + ' → ' + powerOf(id, lv + 1) + '</b><br><span class="nw' + (m[c.m] >= c.n ? '' : ' bad') + '">' + MAT[c.m] + ' ×' + c.n + '</span>　<span class="nw' + (save.souls >= c.r ? '' : ' bad') + '">ルーン ' + fmtN(c.r) + '</span></span><button class="plus fg" data-id="' + id + '"' + (ok ? '' : ' disabled') + ' aria-label="' + WPN[id].name + 'を強化">強化</button></div>';
   } }
   for (const [k, p, mx, need] of SHOP) { if (!need()) continue; const left = mx - save.shop[k]; h += '<div class="row fgr"><span class="nm">' + MAT[k] + '</span><span class="ef">祝福に供えられた素材を譲り受ける<br><span class="nw' + (save.souls >= p ? '' : ' bad') + '">ルーン ' + fmtN(p) + '</span>　残り <b>' + left + '</b></span><button class="plus fg" data-buy="' + k + '"' + (left > 0 && save.souls >= p ? '' : ' disabled') + ' aria-label="' + MAT[k] + 'を買う">買う</button></div>'; }
-  if (save.lit[2]) { const left = 2 - save.tearShop; h += '<div class="row fgr"><span class="nm">追憶の雫</span><span class="ef">能力を振り直すための雫<br><span class="nw' + (save.souls >= TEAR_PRICE ? '' : ' bad') + '">ルーン ' + fmtN(TEAR_PRICE) + '</span>　残り <b>' + left + '</b></span><button class="plus fg" data-buy="tear"' + (left > 0 && save.souls >= TEAR_PRICE ? '' : ' disabled') + ' aria-label="追憶の雫を買う">買う</button></div>'; }
+  if (atHub()) { const left = 2 - save.tearShop; h += '<div class="row fgr"><span class="nm">追憶の雫</span><span class="ef">能力を振り直すための雫<br><span class="nw' + (save.souls >= TEAR_PRICE ? '' : ' bad') + '">ルーン ' + fmtN(TEAR_PRICE) + '</span>　残り <b>' + left + '</b></span><button class="plus fg" data-buy="tear"' + (left > 0 && save.souls >= TEAR_PRICE ? '' : ' disabled') + ' aria-label="追憶の雫を買う">買う</button></div>'; }
   for (const id of save.spirits) { const lv = save.spLv[id] | 0, x = SPIRIT[id]; if (lv >= 3) { h += '<div class="row fgr"><span class="nm">' + x.name + ' +3</span><span class="ef">霊体はこれ以上強くならない</span></div>'; continue; } const n = SPUP[lv]; h += '<div class="row fgr"><span class="nm">' + x.name + (lv ? ' +' + lv : '') + '</span><span class="ef">霊体の体力と攻撃 <b>+18%</b><br><span class="nw' + (m.e >= n ? '' : ' bad') + '">' + MAT.e + ' ×' + n + '</span></span><button class="plus fg" data-sp="' + id + '"' + (m.e >= n ? '' : ' disabled') + ' aria-label="' + x.name + 'を強化">強化</button></div>'; }
   $('fgRows').innerHTML = h;
 }
 function forgeClick(b) {
-  if (b.dataset.buy === 'tear') { if (!save.lit[2] || save.tearShop >= 2 || save.souls < TEAR_PRICE) return; save.souls -= TEAR_PRICE; save.tearShop++; save.tears++; SFX.chest(); bfNote('追憶の雫を譲り受けた'); }
+  if (b.dataset.buy === 'tear') { if (!atHub() || save.tearShop >= 2 || save.souls < TEAR_PRICE || save.tears >= 9) return; save.souls -= TEAR_PRICE; save.tearShop++; save.tears++; SFX.chest(); bfNote('追憶の雫を譲り受けた'); }
   else if (b.dataset.sp) { const id = b.dataset.sp, lv = save.spLv[id] | 0; if (!save.spirits.includes(id) || lv >= 3 || save.mats.e < SPUP[lv]) return; save.mats.e -= SPUP[lv]; save.spLv[id] = lv + 1; SFX.level(); bfNote(SPIRIT[id].name + ' の霊体が力を増した'); }
   else if (b.dataset.buy) { const it = SHOP.find(x => x[0] === b.dataset.buy); if (!it || !it[3]() || save.shop[it[0]] >= it[2] || save.souls < it[1]) return; save.souls -= it[1]; save.shop[it[0]]++; save.mats[it[0]]++; SFX.chest(); bfNote(MAT[it[0]] + 'を譲り受けた'); }
   else { const id = b.dataset.id, c = WPN[id] && save.weapons.includes(id) ? upCost(id) : null; if (!c || save.mats[c.m] < c.n || save.souls < c.r) return; save.mats[c.m] -= c.n; save.souls -= c.r; save.up[id] = upLv(id) + 1; SFX.level(); SFX.parry(); G.flashW = 0.12; bfNote(wname(id) + ' に鍛え上げた'); }
@@ -5093,6 +5122,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.9.5', d: '2026-11-18', t: '装備の蒐集', items: ['追憶の雫を円卓で買えるようにしました', '敵が装備を落とすようになりました', '武器にもレア度を追加しました', 'レア度に合わせて装備の色を変えました'] },
   { v: '1.9.4', d: '2026-11-18', t: '三つの迷宮', items: ['砦・修道院・離宮を何階にもわたるダンジョンにしました', 'ミニマップをタップで地図が開けるようにしました', 'メニューボタンが消える問題を修正しました'] },
   { v: '1.9.3', d: '2026-11-18', t: '祝福の見直し', items: ['大地の祝福の数を見直しました'] },
   { v: '1.9.2', d: '2026-11-18', t: '入り組む大地', items: ['大地を引き締め、道や森で入り組んだ地形にしました', '祝福と寄り道の場所を増やしました', '小さな洞窟を追加しました', '三つの砦と修道院、離宮を追加しました（円卓への近道つき）'] },
@@ -5154,7 +5184,7 @@ const aname = it => astar(it.r) + ' ' + ARMP[it.b].name;
 const subV = (k, v) => (SUBS[k].p ? v.toFixed(1) : '' + v) + SUBS[k].u;
 const subTxt = (k, v) => SUBS[k].n + ' +' + subV(k, v);
 const subsLine = it => it.s.length ? it.s.map(p => subTxt(p[0], p[1]) + (p[2] ? '〔' + p[2] + '〕' : '')).join('・') : 'サブステータスなし';
-const rarCol = r => r >= 5 ? 'hsl(' + Math.floor(G.now * 120 % 360) + ',90%,72%)' : ARAR[r].c;
+const rarCol = r => ARAR[r].c;
 function disGain(it) { const d = DISM[it.r]; return { r: Math.round(d.r * (1 + 0.15 * (it.t - 1)) / 10) * 10, m: d.m || {} }; }
 const gainTxt = g => fmtN(g.r) + ' ルーン' + Object.keys(g.m).map(k => '・' + MAT[k] + '×' + g.m[k]).join('');
 /* where a drop comes from decides its tier (1..10): the layer number, +1 at night; 地下墓 B1-2 → 1, B3-4 → 2, B5-6 → 3, B7 → 4 */
@@ -5164,9 +5194,10 @@ function lootLuck() { const cl = cycLuck(); if (G.zone === 'a') return cl; retur
 /* ---------- drops ---------- */
 function spawnLoot(x, y, it, quiet) {
   loots.push({ x, y, it, t: 0, z: G.zone, s: rnd(TAU), full: 0 });
-  if (it.r >= 4 && !quiet) { SFX.beam(it.r); shake(it.r >= 5 ? 7 : 4); vib(it.r >= 5 ? [30, 40, 90] : 40); floatText(x, y - 54, ARAR[it.r].n + 'の防具', ARAR[it.r].c, 16);
-    hint('a4', '光の柱は ★4 以上の防具 ── 遠くからでも見える\n歩いて触れるか「拾う」で手に入る。休むと自動で届く'); }
-  else if (!quiet) { SFX.loot(); hint('armor', '敵が防具を落とした ── 触れると拾える\n頭・胴・腕・脚の四部位。品が高いほどサブステータスが付く'); }
+  const wp = !!it.wk;
+  if (it.r >= 4 && !quiet) { SFX.beam(it.r); shake(it.r >= 5 ? 7 : 4); vib(it.r >= 5 ? [30, 40, 90] : 40); floatText(x, y - 54, ARAR[it.r].n + (wp ? 'の武器' : 'の防具'), ARAR[it.r].c, 16);
+    hint('a4', '光の柱は ★4（紫）・★5（金）の装備 ── 遠くからでも見える\n歩いて触れるか「拾う」で手に入る。休むと自動で届く'); }
+  else if (!quiet) { SFX.loot(); hint(wp ? 'wdrop' : 'armor', wp ? '敵が武器を落とした ── 触れると拾える\n同じ武器は予備として持てる。★が多いほど攻撃力が高い' : '敵が防具を落とした ── 触れると拾える\n頭・胴・腕・脚の四部位。品が高いほどサブステータスが付く'); }
 }
 function lootSpot(x, y, i, n) { if (n <= 1 && i === 0) { const a = rnd(TAU); x += Math.cos(a) * 14; y += Math.sin(a) * 14; } else { const a = i / n * TAU + 0.6; x += Math.cos(a) * 34; y += Math.sin(a) * 34; }
   if (G.zone !== 'a' && solid(Math.floor(x / T), Math.floor(y / T))) return null; return [x, y]; }
@@ -5179,11 +5210,28 @@ function dropArmor(e) {
   if (d.lord || d.hb) dropLoot(e.x, e.y, 'b', DROPN.b, t);
   else if (d.night) dropLoot(e.x, e.y, 'b', 1, t);
   else if (d.boss) dropLoot(e.x, e.y, 'm', DROPN.m, t);
-  else if (e.elite) { if (Math.random() < DROPP.e[0]) dropLoot(e.x, e.y, 'e', 1, t); }
-  else { const q = lootQ(t, lootLuck()); if (Math.random() < (DROPP.n[0] + (DROPP.n[1] - DROPP.n[0]) * q) * (e.type === 'knight' ? 2 : 1)) dropLoot(e.x, e.y, 'n', 1, t); }
+  else if (!d.obj && Math.random() < GEAR_P) dropGear(e, t);
+}
+/* v1.9.5: every ordinary kill (elite or not) has a 40% chance to drop one piece of gear: 70% armor / 30% weapon. ★ by source (雑魚 ★1 65 / ★2 25 / ★3 10, 精鋭 ★2 65 / ★3 30 / ★4 5) */
+const GEAR_P = 0.4;
+function dropGear(e, t) {
+  const src = e.elite ? 'e' : 'n', r = rollWStar(src), p = lootSpot(e.x, e.y, 0, 1) || [e.x, e.y]; let it;
+  if (Math.random() < 0.7) it = mkArmor({ src, r, tier: t, luck: lootLuck(), crypt: G.zone !== 'a' && L.id === 'crypt' });
+  else it = { wk: wdropKey(e.type, t), r, u: 0 };
+  spawnLoot(p[0], p[1], it);
+  if (G.dropLog) G.dropLog.push([src, it.wk ? 'w' : 'a', r]);
 }
 function dropKing() { dropLoot(B.x, B.y, 'b', DROPN.b, lootTier()); if (CYC() > 0 && !save.chests.ngk) { save.chests.ngk = 1; giveItem({ ap: 'ngf_b', r: CYC() >= 2 ? 5 : 4 }); } }
+const wlName = it => WPN[it.wk].name;
+function pickWLoot(l, byHand) {
+  const it = l.it, k = it.wk; if (save.weapons.includes(k) && save.wx.length >= WX_CAP) { if (byHand || G.now - l.full > 4) { l.full = G.now; toast('予備の武器がいっぱいだ（' + save.wx.length + ' / ' + WX_CAP + '）── メニューの「装備 → 武器」で手放すこと', 3.6); SFX.nost(); } return false; }
+  const i = loots.indexOf(l); if (i >= 0) loots.splice(i, 1); const kind = wAdd(k, it.r); burst(l.x, l.y - 6, it.r >= 4 ? 22 : 10, 150, 0.7, 9, 0, 1);
+  if (it.r >= 4) { (it.r >= 5 ? SFX.loot5 : SFX.loot4)(); showCard('★'.repeat(it.r) + ' ' + wlName(it), '── ' + (kind === 'new' ? '新たな武器' : '予備の武器') + '。「装備 → 武器」で持ち替えられる ──', 3.8, null, it.r); G.card.keep = true; }
+  else { (it.r >= 3 ? SFX.loot3 : SFX.loot)(); floatText(l.x, l.y - 34, '★'.repeat(it.r) + ' ' + wlName(it), ARAR[it.r].c, 13); if (kind === 'new') toast(wlName(it) + ' を手に入れた ── 「装備 → 武器」', 3); }
+  checkAch(); writeSave(); return true;
+}
 function pickLoot(l, byHand) {
+  if (l.it.wk) return pickWLoot(l, byHand);
   if (save.inv.length >= ARM_CAP) { if (byHand || G.now - l.full > 4) { l.full = G.now; toast('防具がいっぱいだ（' + save.inv.length + ' / ' + ARM_CAP + '）── メニューの「装備 → 防具」で分解すること', 3.6); SFX.nost(); } return false; }
   const i = loots.indexOf(l); if (i >= 0) loots.splice(i, 1); const it = addArmor(l.it), b = ARMP[it.b];
   burst(l.x, l.y - 6, it.r >= 4 ? 22 : 10, 150, 0.7, 9, 0, 1);
@@ -5197,15 +5245,15 @@ function pickLoot(l, byHand) {
 /* resting, dying or leaving sweeps up whatever is still on the floor; what does not fit is dismantled */
 function lootSweep() {
   if (!loots.length) return; let n = 0, r = 0, best = 0;
-  for (const l of loots) { if (save.inv.length < ARM_CAP) { addArmor(l.it); n++; best = Math.max(best, l.it.r); } else { const g = disGain(l.it); gainSouls(g.r); for (const k in g.m) save.mats[k] = Math.min(999, save.mats[k] + g.m[k]); r += g.r; } }
-  loots.length = 0; if (n && best >= 4) queueCard('防具が手元に届いた', '── 拾い残し ' + n + ' 個（最高 ★' + best + '）。「装備 → 防具」で確かめられる ──', 3.4, ARAR[best].c); else if (n) toast('拾い残した防具 ' + n + ' 個が手元に届いた' + (best >= 4 ? '（最高 ★' + best + '）' : '') + (r ? '／入りきらない分は ' + fmtN(r) + ' ルーンに' : ''), 3.6); else if (r) toast('防具がいっぱいで、拾い残しは ' + fmtN(r) + ' ルーンに換わった', 3.6);
+  for (const l of loots) { if (l.it.wk) { if (!save.weapons.includes(l.it.wk) || save.wx.length < WX_CAP) { wAdd(l.it.wk, l.it.r); n++; best = Math.max(best, l.it.r); } else { const g = WDISM[l.it.r]; gainSouls(g); r += g; } } else if (save.inv.length < ARM_CAP) { addArmor(l.it); n++; best = Math.max(best, l.it.r); } else { const g = disGain(l.it); gainSouls(g.r); for (const k in g.m) save.mats[k] = Math.min(999, save.mats[k] + g.m[k]); r += g.r; } }
+  loots.length = 0; if (n && best >= 4) queueCard('装備が手元に届いた', '── 拾い残し ' + n + ' 個（最高 ★' + best + '）。「装備」で確かめられる ──', 3.4, ARAR[best].c); else if (n) toast('拾い残した装備 ' + n + ' 個が手元に届いた' + (best >= 4 ? '（最高 ★' + best + '）' : '') + (r ? '／入りきらない分は ' + fmtN(r) + ' ルーンに' : ''), 3.6); else if (r) toast('持ちきれず、拾い残しは ' + fmtN(r) + ' ルーンに換わった', 3.6);
   checkAch();
 }
 function lootTick(dt) {
   if (!loots.length) return; const live = (G.mode === 'play' || G.mode === 'fight') && P.state !== 'dead';
   for (let i = loots.length - 1; i >= 0; i--) { const l = loots[i]; l.t += dt; if (l.z !== G.zone || !live || l.t < 0.55) continue; if (Math.hypot(P.x - l.x, P.y - l.y) < 24) pickLoot(l, false); }
 }
-function lootNear(bd) { let best = null; for (const l of loots) { if (l.z !== G.zone) continue; const d = Math.hypot(P.x - l.x, P.y - l.y); if (d < 56 && d < bd) { bd = d; best = l; } } if (best) setNear('loot', '防具を拾う', '拾う', 0, best); return bd; }
+function lootNear(bd) { let best = null; for (const l of loots) { if (l.z !== G.zone) continue; const d = Math.hypot(P.x - l.x, P.y - l.y); if (d < 56 && d < bd) { bd = d; best = l; } } if (best) setNear('loot', best.it.wk ? '武器を拾う' : '防具を拾う', '拾う', 0, best); return bd; }
 
 /* ---------- drawing: floor icons, light pillars, off-screen markers ---------- */
 function slotIcon(sl, col, dark) {
@@ -5216,9 +5264,13 @@ function slotIcon(sl, col, dark) {
   else { ctx.moveTo(-4, -8); ctx.lineTo(2, -8); ctx.lineTo(2, 2); ctx.lineTo(7, 4); ctx.lineTo(7, 7); ctx.lineTo(-4, 7); }
   ctx.closePath(); ctx.fill(); ctx.stroke();
 }
+function wpnIcon(col, dark) {
+  ctx.fillStyle = col; ctx.strokeStyle = dark; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.moveTo(8, -8); ctx.lineTo(9, -5); ctx.lineTo(-2, 6); ctx.lineTo(-5, 6); ctx.lineTo(-5, 3); ctx.closePath(); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = '#7a6040'; ctx.beginPath(); ctx.moveTo(-7, 2); ctx.lineTo(-1, 8); ctx.lineTo(-2.5, 9.5); ctx.lineTo(-8.5, 3.5); ctx.closePath(); ctx.fill(); ctx.stroke();
+}
 function drawLoots(pass) {
   for (const l of loots) {
-    if (l.z !== G.zone || !visPt(l.x, l.y, 12)) continue; const r = l.it.r, hi = r >= 4, b = ARMP[l.it.b], col = rarCol(r), pop = Math.min(1, l.t / 0.35), bob = Math.sin(G.now * 3 + l.s) * 2.5;
+    if (l.z !== G.zone || !visPt(l.x, l.y, 12)) continue; const r = l.it.r, hi = r >= 4, b = l.it.wk ? null : ARMP[l.it.b], col = rarCol(r), pop = Math.min(1, l.t / 0.35), bob = Math.sin(G.now * 3 + l.s) * 2.5;
     if (!hi && G.zone !== 'a' && !vis(l.x, l.y, 60)) continue;
     if (pass === 0) {
       ctx.globalAlpha = 0.4; ctx.fillStyle = '#000'; ctx.beginPath(); ctx.ellipse(l.x, l.y + 5, 10, 5, 0, 0, TAU); ctx.fill();
@@ -5226,14 +5278,14 @@ function drawLoots(pass) {
       for (let i = 0; i < 3; i++) { ctx.globalAlpha = (0.1 + 0.05 * r) * pu * pop; ctx.fillStyle = col; ctx.beginPath(); ctx.arc(l.x, l.y - 2, (10 + r * 3) * (1 - i * 0.28), 0, TAU); ctx.fill(); }
       if (hi) { ctx.globalAlpha = 0.75 * pop; ctx.strokeStyle = col; ctx.lineWidth = 1.6; const a = G.now * 1.6 + l.s; for (let i = 0; i < 4; i++) { ctx.beginPath(); ctx.ellipse(l.x, l.y + 4, 22 + (r - 4) * 5, 9 + (r - 4) * 2, 0, a + i * PI / 2, a + i * PI / 2 + 0.9); ctx.stroke(); } }
       ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = pop;
-      ctx.save(); ctx.translate(l.x, l.y - 6 + bob - (1 - pop) * 14); ctx.scale(pop, pop); slotIcon(b.slot, b.c[1], '#15120c'); ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.stroke(); ctx.restore(); ctx.globalAlpha = 1;
+      ctx.save(); ctx.translate(l.x, l.y - 6 + bob - (1 - pop) * 14); ctx.scale(pop, pop); if (b) slotIcon(b.slot, b.c[1], '#15120c'); else wpnIcon('#cfd3d8', '#15120c'); ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.stroke(); ctx.restore(); ctx.globalAlpha = 1;
     } else if (hi) {
       const hgt = (r >= 5 ? 400 : 320) * Math.min(1, l.t / 0.5), wd = (r >= 5 ? 16 : 12) * (1 + Math.sin(G.now * 5 + l.s) * 0.14);
       ctx.globalCompositeOperation = 'lighter';
-      for (let i = 0; i < 3; i++) { const w = wd * [2.6, 1.3, 0.45][i], c = i === 2 ? '#ffffff' : r >= 5 ? 'hsl(' + Math.floor((G.now * 120 + i * 70 + l.s * 40) % 360) + ',95%,65%)' : i ? '#ffe9a8' : '#e8a93c';
+      for (let i = 0; i < 3; i++) { const w = wd * [2.6, 1.3, 0.45][i], c = i === 2 ? '#ffffff' : r >= 5 ? (i ? '#fff0a8' : '#f2b81c') : i ? '#e6d0ff' : '#9a5cff';
         const g = ctx.createLinearGradient(0, l.y, 0, l.y - hgt); g.addColorStop(0, c); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.globalAlpha = [0.2, 0.42, 0.8][i]; ctx.fillStyle = g; ctx.fillRect(l.x - w / 2, l.y - hgt, w, hgt); }
       for (let i = 0; i < (r >= 5 ? 14 : 9); i++) { const ph = (G.now * (0.35 + (i % 5) * 0.07) + i * 0.137 + l.s) % 1, sx = l.x + Math.sin(i * 2.4 + G.now * 1.7 + l.s) * (10 + (i % 4) * 7), sy = l.y - ph * hgt * 0.8, sz = (1.6 + (i % 3)) * (1 - ph) + 0.6;
-        ctx.globalAlpha = (1 - ph) * 0.95; ctx.fillStyle = r >= 5 ? 'hsl(' + Math.floor((i * 47 + G.now * 160) % 360) + ',95%,78%)' : '#fff1c0'; ctx.beginPath(); ctx.moveTo(sx, sy - sz * 2); ctx.lineTo(sx + sz * 0.6, sy); ctx.lineTo(sx, sy + sz * 2); ctx.lineTo(sx - sz * 0.6, sy); ctx.closePath(); ctx.fill(); ctx.fillRect(sx - sz * 1.6, sy - 0.5, sz * 3.2, 1); }
+        ctx.globalAlpha = (1 - ph) * 0.95; ctx.fillStyle = r >= 5 ? '#ffe98a' : '#ecdcff'; ctx.beginPath(); ctx.moveTo(sx, sy - sz * 2); ctx.lineTo(sx + sz * 0.6, sy); ctx.lineTo(sx, sy + sz * 2); ctx.lineTo(sx - sz * 0.6, sy); ctx.closePath(); ctx.fill(); ctx.fillRect(sx - sz * 1.6, sy - 0.5, sz * 3.2, 1); }
       ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
     }
   }
@@ -5251,15 +5303,15 @@ function drawCardFx(c, a, cy) {
   const r = c.fx, w = Math.min(W * 0.92, 380 * U), h = 60 * U, x0 = W / 2 - w / 2, t = G.now;
   ctx.globalCompositeOperation = 'lighter';
   const g = ctx.createLinearGradient(x0, 0, x0 + w, 0); g.addColorStop(0, 'rgba(0,0,0,0)');
-  if (r >= 5) for (let i = 1; i < 8; i++) g.addColorStop(i / 8, 'hsla(' + Math.floor((t * 90 + i * 45) % 360) + ',95%,60%,.55)'); else { g.addColorStop(0.25, 'rgba(232,169,60,.5)'); g.addColorStop(0.5, 'rgba(255,233,168,.62)'); g.addColorStop(0.75, 'rgba(232,169,60,.5)'); }
+  if (r >= 5) { g.addColorStop(0.25, 'rgba(240,180,30,.55)'); g.addColorStop(0.5, 'rgba(255,240,170,.7)'); g.addColorStop(0.75, 'rgba(240,180,30,.55)'); } else { g.addColorStop(0.25, 'rgba(140,80,230,.5)'); g.addColorStop(0.5, 'rgba(214,190,255,.62)'); g.addColorStop(0.75, 'rgba(140,80,230,.5)'); }
   g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.globalAlpha = a * (0.75 + Math.sin(t * 5) * 0.12); ctx.fillStyle = g; ctx.fillRect(x0, cy - h / 2, w, h);
   ctx.fillRect(x0, cy - h / 2 - 2, w, 2); ctx.fillRect(x0, cy + h / 2, w, 2);
   const sw = (t * 0.9) % 1.6; ctx.globalAlpha = a * 0.5; ctx.fillStyle = '#fff'; ctx.fillRect(x0 + w * sw - 14, cy - h / 2, 28, h);
   for (let i = 0; i < (r >= 5 ? 16 : 10); i++) { const ph = (t * (0.5 + (i % 4) * 0.13) + i * 0.21) % 1, sx = x0 + w * ((i * 0.618) % 1), sy = cy + h / 2 - ph * h * 1.5, sz = (2 + (i % 3)) * U * (1 - ph);
-    ctx.globalAlpha = a * (1 - ph); ctx.fillStyle = r >= 5 ? 'hsl(' + Math.floor((i * 53 + t * 140) % 360) + ',95%,80%)' : '#fff3c8'; ctx.beginPath(); ctx.moveTo(sx, sy - sz * 2); ctx.lineTo(sx + sz * 0.6, sy); ctx.lineTo(sx, sy + sz * 2); ctx.lineTo(sx - sz * 0.6, sy); ctx.closePath(); ctx.fill(); }
+    ctx.globalAlpha = a * (1 - ph); ctx.fillStyle = r >= 5 ? '#fff0a8' : '#efe2ff'; ctx.beginPath(); ctx.moveTo(sx, sy - sz * 2); ctx.lineTo(sx + sz * 0.6, sy); ctx.lineTo(sx, sy + sz * 2); ctx.lineTo(sx - sz * 0.6, sy); ctx.closePath(); ctx.fill(); }
   ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = a; ctx.strokeStyle = 'rgba(24,14,4,.92)'; ctx.lineWidth = 4 * U; ctx.lineJoin = 'round'; ctx.strokeText(c.title, W / 2, cy);
 }
-const cardCol = c => c.fx >= 5 ? '#ffffff' : c.fx >= 4 ? '#fff3c8' : c.col || '#ecd9a0';
+const cardCol = c => c.fx >= 5 ? '#fff2b8' : c.fx >= 4 ? '#f1e6ff' : c.col || '#ecd9a0';
 
 /* ---------- the knight's look: one colour set per slot ---------- */
 const BARE = ['#6b5c48', '#6b5c48', '#e0c9a6', '#3f352a', 6];
@@ -5327,6 +5379,37 @@ function armAct(act, v) {
 function sanitizeSort() { if (!ASORT.some(s => s[0] === save.asort)) save.asort = 'r'; }
 /* one-line summary for the blessing header */
 function armLine() { const n = SLOTS.filter(sl => save.aeq[sl]).length; return '防具 ' + n + '/4（防御力 ' + AB.sum.def + '）'; }
+
+/* v1.9.5 migration: the three dungeon mid-bosses already beaten hand over their 追憶の雫 once. (Weapon stars: unknown = ★3, see sanitize.) */
+function migrate195() {
+  if (!save.started || save.v195) { save.v195 = 1; return; }
+  for (const id of ['fb_beast', 'fb_giant', 'fb_assassin']) if (save.mbC && save.mbC[id] && !save.tearB[id]) { save.tearB[id] = 1; save.tears = Math.min(9, (+save.tears || 0) + 1); }
+  save.v195 = 1;
+}
+/* weapon labels / copies for the equipment and forge lists */
+const wstarTag = s => '<span class="ar' + s + '">' + '★'.repeat(s) + '</span>';
+const wlab = id => wstarTag(wstar(id)) + ' <span class="ar' + wstar(id) + 'n">' + wname(id) + '</span>';
+const wrc = s => s >= 4 ? ' wr' + s : '';
+const powerS = (id, lv, s) => Math.round(powerOf(id, lv) / wstK(id) * WSK[s]);
+function wDisGain(list) { let g = 0; for (const x of list) g += WDISM[x.s]; return g; }
+function wCopyRows(id, row) {
+  let h = ''; const xs = save.wx.filter(x => x.k === id).sort((a, b) => b.s - a.s || b.up - a.up);
+  for (const x of xs) { const w = WPN[x.k], lab = w.cat === 'staff' ? '魔法威力' : w.cat === 'seal' ? '祈祷威力' : '攻撃力', arm = WUI.arm === 'd' + x.u;
+    h += '<div class="row wp wcopy' + wrc(x.s) + '" data-id="wx:' + x.u + '"><span class="nm">' + wstarTag(x.s) + ' <span class="ar' + x.s + 'n">' + w.name + (x.up ? ' +' + x.up : '') + '</span></span><span class="ef">予備　<span class="nw">' + lab + ' <b>' + powerS(x.k, x.up, x.s) + '</b></span>　<span class="nw">触れると持ち替える（いまの品と入れ替わる）</span></span><button class="ab sm' + (arm ? ' arm' : '') + '" data-act="wdis" data-v="' + x.u + '">' + (arm ? 'もう一度で手放す' : '手放す +' + fmtN(WDISM[x.s])) + '</button></div>'; }
+  return h;
+}
+function wBulkRow() {
+  if (!save.wx.length) return ''; let h = '<div class="row hdr"><span class="ef">予備の武器 <b>' + save.wx.length + ' / ' + WX_CAP + '</b>　まとめて手放す：</span><div class="brow">';
+  for (const r of [1, 2, 3]) { const l = save.wx.filter(x => x.s <= r), arm = WUI.arm === 'b' + r; h += '<button class="ab sm' + (arm ? ' arm' : '') + '" data-act="wbulk" data-v="' + r + '"' + (l.length ? '' : ' disabled') + '>' + (arm ? 'もう一度で実行' : '★' + r + '以下') + '<small>' + l.length + '個 +' + fmtN(wDisGain(l)) + '</small></button>'; }
+  return h + '</div></div>';
+}
+/* returns true when handled */
+function wAct(act, v) {
+  const keep = WUI.arm; WUI.arm = '';
+  if (act === 'wdis') { const u = +v, x = save.wx.find(q => q.u === u); if (!x) return true; if (keep !== 'd' + u) { WUI.arm = 'd' + u; return true; } save.wx.splice(save.wx.indexOf(x), 1); gainSouls(WDISM[x.s]); SFX.dism(); bfNote(WPN[x.k].name + 'を手放した ── ' + fmtN(WDISM[x.s]) + ' ルーン'); return true; }
+  if (act === 'wbulk') { const r = +v, l = save.wx.filter(x => x.s <= r); if (!l.length) return true; if (keep !== 'b' + r) { WUI.arm = 'b' + r; return true; } const g = wDisGain(l); save.wx = save.wx.filter(x => x.s > r); gainSouls(g); SFX.dism(); bfNote('予備の武器 ' + l.length + ' 個を手放した ── ' + fmtN(g) + ' ルーン'); return true; }
+  return false;
+}
 /* v1.9.0 field terrain chunk renderer (tile art on a 40 grid, scaled by TQ; the castle district box uses the castle renderer) */
 function renderChunkF(cx, cy, c) {
   if (cx >= FD.cb[0] / CH && cx < (FD.cb[0] + FD.cb[2]) / CH && cy >= FD.cb[1] / CH && cy < (FD.cb[1] + FD.cb[3]) / CH) { renderChunk(cx, cy, c); return; }
@@ -5457,6 +5540,8 @@ const FB = [
   { rec: 92, hm: 1.9, dm: 1.65, rm: 1.25, hf: 1, tier: 1 }, { rec: 110, hm: 2.0, dm: 1.75, rm: 1.3, hf: 1, tier: 1 }, { rec: 135, hm: 2.4, dm: 2.0, rm: 1.55, hf: 1.1, tier: 1 },
   { rec: 170, hm: 1.0, dm: 2.2, rm: 1.2, hf: 1.2, tier: 2 }, { rec: 205, hm: 1.1, dm: 2.5, rm: 1.4, hf: 1.3, tier: 3 }, { rec: 240, hm: 1.25, dm: 2.9, rm: 1.7, hf: 1.4, tier: 4 }
 ];
+/* v1.9.5: a few ordinary field spawns are promoted to elites, more often in the later bands (better gear drops) */
+const ELITE_X = [0, 0.012, 0.025, 0.04, 0.055, 0.07], fieldElite = s => !s[4] && !['knight', 'launcher'].includes(s[0]) && !(EDEF[s[0]] && (EDEF[s[0]].boss || EDEF[s[0]].obj)) && Math.random() < (ELITE_X[s[5]] || 0);
 const bandOfY = ty => { for (let i = 0; i < 5; i++) if (ty >= FD.ridge[i]) return i; return 5; };
 const inCBox = (tx, ty) => tx >= FD.cb[0] && tx < FD.cb[0] + FD.cb[2] && ty >= FD.cb[1] && ty < FD.cb[1] + FD.cb[3];
 const bandAt = (tx, ty) => inCBox(tx, ty) ? 5 : bandOfY(ty);
@@ -5475,7 +5560,7 @@ let WLD = null, CROOMS = 0;
 /* field mid-bosses (sealed arenas with fog entry, like the castle's) */
 const FBOSS = [['fb_beast', 'mb_beast', '荒野の灼喉 ヴォルガ', '朽ちた野を、焼いて回る', 900, 1600], ['fb_giant', 'mb_giant', '湿原の巨躯 ドグラム', '泥に埋もれて、なお立つ', 1500, 2400],
   ['fb_assassin', 'mb_assassin', '回廊の双影 ネヴァル', '崩れた参道を、駆ける刃', 1100, 3000], ['fb_mage', 'mb_mage', '枯れ森の学匠 ミルハ', '鴉と共に、頁を数える', 1250, 3600], ['fb_warden', 'l2_warden', '城下の石番 ゴルダム', '王の城へ続く道を塞ぐ', 3400, 5200]];
-for (const [id, from, nm, sub, hp, so] of FBOSS) { mkB(id, from, { name: nm, sub, hp, souls: so }, RES[from] || {}, [{ s: Math.round(so * 0.6), m: { c: 2, l: id === 'fb_warden' || id === 'fb_mage' ? 1 : 0 } }].concat(id === 'fb_beast' ? [{ f: 1 }] : [])); }
+for (const [id, from, nm, sub, hp, so] of FBOSS) { mkB(id, from, { name: nm, sub, hp, souls: so }, RES[from] || {}, [{ s: Math.round(so * 0.6), m: { c: 2, l: id === 'fb_warden' || id === 'fb_mage' ? 1 : 0 } }].concat(id === 'fb_beast' ? [{ f: 1 }] : []).concat(['fb_beast', 'fb_giant', 'fb_assassin'].includes(id) ? [{ k: 'tearB', id }] : [])); }
 
 function buildCastle() { return buildField(); }
 function buildField() {
@@ -5496,7 +5581,7 @@ function buildField() {
   for (const d of FD.doors) { const k = Lv.doors.length; Lv.doors.push({ id: d.id, tiles: d.tiles.map(t => t.slice()), ax: 'y', sign: 0, msg: d.msg, lever: 1, x: 0, y: 0 }); for (const t of d.tiles) { const q = t[1] * W0 + t[0]; Lv.grid[q] = 2; Lv.doorAt[q] = k; Lv.tint[q] = 12; } }
   for (const sc of FD.secrets) Lv.secrets.push({ id: sc.id, tiles: sc.tiles.map(t => t.slice()), x: tc(sc.x), y: tc(sc.y) });
   /* ordinary spawns, roamers, chests, props */
-  for (const s of FD.sp) { const b = FB[s[5]]; AREA_HF = b.hf; Lv.enemies.push(mkEnemy(s[0], tc(s[1]), tc(s[2]), s[3] * PI / 2 - PI, b.hm, b.dm, b.rm, s[4] === 'E')); }
+  for (const s of FD.sp) { const b = FB[s[5]]; AREA_HF = b.hf; Lv.enemies.push(mkEnemy(s[0], tc(s[1]), tc(s[2]), s[3] * PI / 2 - PI, b.hm, b.dm, b.rm, s[4] === 'E' || fieldElite(s))); }
   AREA_HF = 1;
   for (const r of FD.roam) { const e = mkEnemy(r[0], tc(r[1][0][0]), tc(r[1][0][1]), 0, 1, 1, 1); e.route = r[1].map(p => [tc(p[0]), tc(p[1])]); e.ri = 0; e.nightOnly = true; e.rd = 1; Lv.enemies.push(e); }
   FD.chests.forEach((c, i) => Lv.chests.push({ id: c[0], x: tc(c[1]), y: tc(c[2]), it: c[3], nit: null }));
@@ -5883,7 +5968,7 @@ function mkDgFloor(D, f) {
   for (let tries = 0; tries < 80; tries++) {
     const seed = 7300 + D.base * 3 + f * 101 + tries * 13, pr = mulberry(seed ^ 77);
     const pick = () => { let r = pr(), a = 0; for (const [t, p] of pool) { a += p; if (r <= a) return t; } return pool[0][0]; };
-    const cv = { bd: D.bd(f), hf: b.hf, hm: b.hm * k, dm: b.dm * k, rm: b.rm * k, eliteP: 0.26, pick, boss: top ? D.boss : 'knight', raw: top, ext: top, sec: 1, ft: D.tint, th: D.th };
+    const cv = { bd: D.bd(f), hf: b.hf, hm: b.hm * k, dm: b.dm * k, rm: b.rm * k, eliteP: 0.2 + 0.04 * D.band + 0.01 * f, pick, boss: top ? D.boss : 'knight', raw: top, ext: top, sec: 1, ft: D.tint, th: D.th };
     Lv = genCrypt(f + 1, seed, cv); const c = cryptCheck(Lv);
     if (c.all && c.chestsOk && c.enemiesOk && c.boss && Lv.secrets.length === 1 && !Lv.noExt) break;
   }
@@ -5982,7 +6067,7 @@ function migrate194() {
   const M2 = FD.mig2, N = M2.length, mp = o => (o >= 8 && o < 8 + N) ? 8 + M2[o - 8] : o, lit = {};
   for (const k in (save.lit || {})) { const o = +k; if (o >= 8 && o < 8 + N) { if (save.lit[k]) lit[mp(o)] = 1; } else lit[k] = save.lit[k]; } lit[0] = 1; save.lit = lit;
   save.bonfire = mp(save.bonfire | 0); if (save.fbf != null) save.fbf = mp(save.fbf | 0);
-  if (!save.doors) save.doors = {}; for (const D of DGLIST) if (save.mbC && save.mbC[D.boss]) save.doors['rd' + D.id] = 1;
+  if (!save.doors) save.doors = {}; for (const [id, bs] of [['A', 'fb_beast'], ['B', 'fb_giant'], ['C', 'fb_assassin']]) if (save.mbC && save.mbC[bs]) save.doors['rd' + id] = 1; /* v1.9.5: no DGLIST here (it is declared later; a save loaded at startup hit the TDZ) */
   const s = save.stain; if (s && s.z === 'd' && (s.l || 1) === 1) { const tx = s.x / T, ty = s.y / T; if (FD.areas.some(a => /^(朽ちた砦|崩れた修道院|灰の離宮)$/.test(a[0]) && tx >= a[2] && tx < a[2] + a[4] && ty >= a[3] && ty < a[3] + a[5])) { save.souls = (save.souls | 0) + (s.s | 0); save.stain = null; } }
   save.v194 = 1;
 }
@@ -6880,7 +6965,7 @@ window.__debug = {
   tpRoom(name, ox, oy) { const r = ROOMS.find(r => r[4] === name); if (!r) return false; P.x = (r[0] + r[2] / 2 + (ox || 0)) * T; P.y = (r[1] + r[3] / 2 + (oy || 0)) * T; cam.x = P.x; cam.y = P.y; return true; },
   souls(n) { save.souls = n; }, give(w) { if (WPN[w] && !save.weapons.includes(w)) save.weapons.push(w); refreshBf(); }, equip(w) { this.give(w); save.weapon = w; recalc(); refreshBf(); },
   armor(a, r) { for (const sl of SLOTS) { let it = save.inv.find(x => x.b === a + '_' + sl && (!r || x.r === r)); if (!it) it = addArmor(mkArmor({ b: a + '_' + sl, r: r || 1, tier: 2 })); save.aeq[sl] = it.u; } recalc(); refreshBf(); },
-  ARMP, SUBS, SUBK, ARAR, RARW, DROPP, DROPN, DISM, ABMAX, tierWin, tierDef, ARM_PF, addFamily, lootQ, rarW, lootLuck, TIER_MAX, AB, AUI, ARM_CAP, SLOTS, loots, mkArmor, addArmor, armById, armEq, armSum, armCalc, armSanitize, armAct, armList, spawnLoot, dropLoot, dropArmor, dropKing, pickLoot, lootSweep, lootTier, disGain, refreshEquip, eqClick, sv, dmgAll, stOf, fpOf, bleedMult, refreshBook, get eqTab() { return eqTab; }, set eqTab(v) { eqTab = v; },
+  ARMP, SUBS, SUBK, ARAR, RARW, DROPP, DROPN, DISM, ABMAX, tierWin, tierDef, ARM_PF, addFamily, lootQ, rarW, lootLuck, TIER_MAX, AB, AUI, ARM_CAP, SLOTS, loots, mkArmor, addArmor, armById, armEq, armSum, armCalc, armSanitize, armAct, armList, spawnLoot, dropLoot, dropArmor, dropGear, wAdd, wSwap, wstar, wstK, WSK, WX_CAP, WDISM, rollWStar, wdropKey, wAct, WUI, GEAR_P, migrate195, logDrops(on) { G.dropLog = on ? [] : null; }, get dropLog() { return G.dropLog; }, dropKing, pickLoot, lootSweep, lootTier, disGain, refreshEquip, eqClick, sv, dmgAll, stOf, fpOf, bleedMult, refreshBook, get eqTab() { return eqTab; }, set eqTab(v) { eqTab = v; },
   get CY() { return CY; }, get S() { return S; }, get W() { return W; }, get H() { return H; }, mayAggro, nbLeash, tryAtk, ATKCAP, PZK, mechK, pzMax, bossPz, EATK, tierSub, glowK, softArrive, updEnemies, updAlly, get parts() { return parts; }, routeDist, bossRooms, get roomOf() { return roomOf; }, get MW() { return MW; },
   giveArmor(o) { const it = addArmor(mkArmor(o || {})); recalc(); return it; }, wear(u) { const it = armById(u); if (it) { save.aeq[ARMP[it.b].slot] = it.u; recalc(); } }, unwear(sl) { save.aeq[sl] = null; recalc(); },
   spell(s, slot) { if (!save.spells.includes(s)) save.spells.push(s); const k = save.slots.indexOf(s); if (k >= 0) save.slots[k] = null; save.slots[slot || 0] = s; P.slot = slot || 0; refreshBf(); },
