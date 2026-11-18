@@ -314,7 +314,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.7.6</div>
+  <div id="verTxt" class="ver">v1.7.7</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -516,6 +516,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
       <button id="bLevel" class="btn">レベルアップ</button>
       <button id="bForge" class="btn">強化</button>
       <button id="bWarp" class="btn">転移</button>
+      <button id="bDayNight" class="btn sub" style="display:none">昼に戻す</button>
       <button id="bNextBf" class="btn sub" style="display:none">次の周回へ</button>
       <button id="bPower" class="btn sub" style="display:none">大いなる力</button>
       <button id="bCrypt" class="btn">地下墓へ</button>
@@ -694,7 +695,7 @@ function sanitize() {
   if (save.started && !save.fv) { save.fv = 1; save.flaskMax = 2 + (save.chests && save.chests.c4 ? 1 : 0) + (save.chests && save.chests.q21 ? 1 : 0) + ((save.cryptRw && save.cryptRw[5]) || save.cryptDeep >= 5 ? 1 : 0) + (save.bless === 'flask' ? 1 : 0); save.flaskFp = save.cls === 'mage' || save.cls === 'cleric' ? 1 : 0; }
   save.flaskFp = clamp(Math.floor(+save.flaskFp || 0), 0, save.flaskMax);
   save.bonfire = clamp(Math.floor(+save.bonfire || 0), 0, 99); if (!save.btn.p || typeof save.btn.p !== 'object') save.btn.p = {}; if (!save.btn.l || typeof save.btn.l !== 'object') save.btn.l = {}; save.time = +save.time || 0; save.deaths = Math.floor(+save.deaths || 0);
-  save.tears = clamp(Math.floor(+save.tears || 0), 0, 9); save.cryptDeep = clamp(Math.floor(+save.cryptDeep || 0), 0, 7); save.night = !!save.night && !!save.bossDead;
+  save.tears = clamp(Math.floor(+save.tears || 0), 0, 9); save.cryptDeep = clamp(Math.floor(+save.cryptDeep || 0), 0, 7); save.night = !!save.night && !!save.bossDead; save.nightOn = save.night && (save.nightOn === undefined ? true : !!save.nightOn);
   delete save.invS; if (save.cnt) delete save.cnt.inv; if (save.ach) delete save.ach.inv; if (save.hints) delete save.hints.invade;
   save.fxLow = !!save.fxLow; save.visMode = !!save.visMode;
   armSanitize();
@@ -2759,7 +2760,11 @@ function softArrive(ks) {
   for (const t of L.traps) t.on = false; writeSave();
 }
 const keepOf = keep => keep && P.state !== 'dead' && P.hp > 0 ? { hp: P.hp, fp: P.fp, flasks: P.flasks, ff: P.fflasks } : null;
-function startNight() { save.night = true; CASTLE = buildCastle(true); G.nightT = 4.5; G.nightCard = true; writeSave(); }
+function startNight() { save.night = true; save.nightOn = true; CASTLE = buildCastle(true); G.nightT = 4.5; G.nightCard = true; writeSave(); }
+/* v1.7.7: 第1層の昼夜は最初の祝福で切り替える（save.night = 夜を迎えた、save.nightOn = いま夜） */
+function switchDayNight() {
+  if (!save.night) return; save.nightOn = !save.nightOn; CASTLE = buildCastle(save.nightOn); G.nightT = 2.6; G.swCard = save.nightOn ? 'n' : 'd'; writeSave(); spawnAt(0);
+}
 function spawnAt(g, keep) {
   if (needData(g, () => spawnAt(g, keep))) return; const ks = keepOf(keep);
   if (save.bossDead && !save.night) startNight();
@@ -2767,9 +2772,10 @@ function spawnAt(g, keep) {
   const b = BLESS[g - L.base] || BLESS[0]; G.zone = 'd'; G.home = 'd';
   if (save.stain && save.stain.z === 'c') save.stain = { z: 'd', l: L.lay, x: Math.round(b.x - 40), y: Math.round(b.y + 34), s: save.stain.s, tv: 50 };
   clearFx(); resetPlayer(b.x + 30, b.y + 24); if (ks) softArrive(ks); else rest(); warmChunks(P.x, P.y);
-  cam.x = P.x; cam.y = P.y; G.room = -1; G.mode = 'play'; G.paused = false; G.soulShow = save.souls; hideAll(); setDrone(0.035, save.night ? 95 : 120);
+  cam.x = P.x; cam.y = P.y; G.room = -1; G.mode = 'play'; G.paused = false; G.soulShow = save.souls; hideAll(); setDrone(0.035, save.nightOn ? 95 : 120);
   if (save.bossDead && !save.kingGift) { save.kingGift = 1; giveItem({ w: 'ultra3' }); queueCard('昇降機が動き出した', '── 王門の前室から、さらに下の層へ降りられる ──', 3.8); }
   if (G.afterSpawn) { const f = G.afterSpawn; G.afterSpawn = null; f(); }
+  if (G.swCard) { const w = G.swCard; G.swCard = null; if (w === 'd') showCard('朝が来た', '── 城に、昼の光が戻る ──', 3); else showCard('灰の降る夜', '── 城は再び夜に沈む ──', 3); }
   if (G.nightCard) { G.nightCard = false; showCard('灰の降る夜', '── 王は斃れ、城に夜が降りる ──', 4.2); queueCard('地下墓の深層が開いた', '── B4〜B7。最奥に、墓主が眠る ──', 3.6); toast('亡者は数を増し、宝箱には新たな品が眠る'); }
 }
 function spawnCrypt(keep) {
@@ -2802,10 +2808,15 @@ function closeMenu() { if (G.bfMenu) { G.bfMenu = false; $('pause').classList.re
 function openFieldPane(p) { if (G.mode !== 'play' && G.mode !== 'fight' && !G.bfMenu) return; G.fieldEq = true; $('pause').classList.remove('on'); bfPane(p); G.bfName0 = $('bfName').textContent; $('bfName').textContent = p === 'bfBook' ? '図鑑' : '装備'; refreshBf(); if (p === 'bfBook') { refreshBook(); bfNote(''); } else bfNote('装備はいつでも替えられる'); $('bonfire').classList.add('on'); }
 function openFieldEquip() { openFieldPane('bfEquip'); }
 function closeFieldEquip() { G.fieldEq = false; $('bonfire').classList.remove('on'); if (G.bfMenu) { $('bfName').textContent = G.bfName0 || ''; recalc(); P.hpLag = P.hp; } $('pause').classList.add('on'); btns[2].label = heavyLabel(); writeSave(); }
-function respawn() { if (G.home === 'c' && L.id === 'crypt') spawnCrypt(); else spawnAt(save.bonfire); if (save.stain) hint('death', '落としたルーンは血痕に残る（地図で点滅）\n取り戻す前に再び死ぬと、永遠に失われる'); }
+function respawn() {
+  const nt = L.id === 'castle' && L.lay === 1 && L.night && save.nightOn; if (nt) G.ndeaths = (G.ndeaths | 0) + 1;
+  if (G.home === 'c' && L.id === 'crypt') spawnCrypt(); else spawnAt(save.bonfire); let h = false;
+  if (save.stain) h = hint('death', '落としたルーンは血痕に残る（地図で点滅）\n取り戻す前に再び死ぬと、永遠に失われる');
+  if (nt && !h && G.mode === 'play' && G.ndeaths >= 2 && (G.ndeaths === 2 || Math.random() < 0.35)) toast('朽牢の祝福で、昼に戻すことができる', 5.5, true);
+}
 /* a save that is loaded or replaced as a whole: put its world back in order */
 function enterSaveWorld() {
-  sanitize(); for (const k in seenRoom) delete seenRoom[k]; for (const k in LVC) delete LVC[k]; loots.length = 0; CASTLE = buildCastle(save.night); L = null; useLevel(CASTLE);
+  sanitize(); for (const k in seenRoom) delete seenRoom[k]; for (const k in LVC) delete LVC[k]; loots.length = 0; CASTLE = buildCastle(save.nightOn); L = null; useLevel(CASTLE);
   P.slot = 0; P.pray = 0; mechReset(); P.ench = null; P.enchT = 0; G.stain = null; recalc();
 }
 let NEWSLOT = 0, NGP = null;
@@ -2861,7 +2872,7 @@ function refreshTitle() {
   const si = slotInfo(tSel || SLOT); let s = '';
   if (si) s += 'セーブ' + (tSel || SLOT) + '　ルーン <b>' + fmtN(si.souls | 0) + '</b>　死亡 <b>' + (si.deaths | 0) + '</b>';
   if (si && si.wins > 0) s += '　王討伐 <b>' + si.wins + '</b>　最速 <b>' + fmtTime(si.best) + '</b>';
-  if (si && (tSel || SLOT) === SLOT) s += '<span class="br"></span>収集率 <b>' + collection().pct + '%</b>' + (save.night ? '　<b>灰の降る夜</b>' : '');
+  if (si && (tSel || SLOT) === SLOT) s += '<span class="br"></span>収集率 <b>' + collection().pct + '%</b>' + (save.night ? (save.nightOn ? '　<b>灰の降る夜</b>' : '　昼の城') : '');
   $('tStats').innerHTML = s;
   $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入'); $('bFx').textContent = 'エフェクト ： ' + (save.fxLow ? '控えめ' : '標準'); $('bVis').textContent = '視界制限（ハード） ： ' + (save.visMode ? '入' : '切'); $('rBgm').value = Math.round(save.volB * 100); $('rSe').value = Math.round(save.volS * 100); $('rCam').value = camIdx(); $('camLbl').textContent = 'カメラの距離 ： ' + CAMN[camIdx()];
   $('xfCur').innerHTML = '操作の対象 ： <b>セーブ' + SLOT + '</b>';
@@ -2964,6 +2975,7 @@ function refreshBf() {
   $('bRespec').textContent = '振り直し（追憶の雫 ' + save.tears + '）'; $('bRespec').disabled = save.tears <= 0 || level() <= 1;
   const cb = $('bCrypt'), fresh = save.bossDead && !save.deepSeen && !inCrypt && save.lit[1];
   cb.textContent = inCrypt ? '城へ戻る' : fresh ? '地下墓へ ✦深層' : '地下墓へ'; cb.disabled = !inCrypt && !save.lit[1]; cb.style.display = inCrypt || save.lit[1] ? '' : 'none'; cb.classList.toggle('glow', !!fresh);
+  const dn = $('bDayNight'); dn.style.display = save.bossDead && save.night && L && L.id === 'castle' && L.base === 0 && G.bfI === 0 && !G.altar && !G.bfMenu && !G.fieldEq ? '' : 'none'; dn.textContent = save.nightOn ? '昼に戻す' : '夜にする';
   $('bNextBf').style.display = save.bossDead && ngOpen(save) && L && L.id === 'castle' && L.base === 0 && G.bfI === 0 && !G.altar && !G.bfMenu && !G.fieldEq ? '' : 'none';
   $('bPower').style.display = Object.keys(save.pw).some(k => save.pw[k] === 2) ? '' : 'none'; if (save.pwOn) $('bfInfo').innerHTML += '　大いなる力 <b>' + PWR[save.pwOn].name + '</b>';
   refreshLvWpn(); refreshEquip(); btns[2].label = heavyLabel(); btns[4].label = ART[artOf(save.weapon)].short;
@@ -3334,6 +3346,7 @@ tap('bVis', () => { save.visMode = !save.visMode; writeSave(); refreshTitle(); }
 tap('bFx', () => { save.fxLow = !save.fxLow; writeSave(); refreshTitle(); });
 for (const id of ['bGuide', 'bGuide2']) tap(id, () => { $('guide').classList.add('on'); $('gdBody').scrollTop = 0; });
 tap('bGdClose', () => $('guide').classList.remove('on'));
+tap('bDayNight', () => { if (G.mode === 'menu' && save.night) switchDayNight(); });
 tap('bRest', () => { rest(); SFX.bonfire(); G.flashW = 0.15; bfNote('HP・FP・灰瓶が満ち、亡者は再び彷徨う'); refreshBf(); });
 tap('bFlask', () => { refreshFlask(); bfPane('bfFlask'); bfNote('瓶の振り分けは、祝福でだけ変えられる'); });
 $('flRows').addEventListener('click', e => { const b = e.target.closest && e.target.closest('.plus'); if (!b || b.disabled) return; initAudio(); SFX.ui(); flaskShift(+b.dataset.d); });
@@ -4915,6 +4928,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.7.7', d: '2026-11-18', t: '昼と夜', items: ['第1層の昼と夜を祝福で切り替えられるようにしました', '王を倒したあとは城の入口に戻るようにしました'] },
   { v: '1.7.6', d: '2026-11-18', t: '灰瓶と書き置き', items: ['隠された場所にヒントを置きました', 'FPを回復する瓶を追加しました', '回復瓶の数と回復量を見直しました', 'レベルアップ画面に武器の情報を表示しました', '周回プレイは今後の階層追加後に開放します'] },
   { v: '1.7.5', d: '2026-11-18', t: '中ボスの部屋と視界', items: ['中ボスの部屋は霧から入るようにしました', '視界制限（ハード）の見え方を修正しました', '大ボス前の騎士を強化しました', '護符の画面がタブレットで見切れる問題を修正しました', '第2層の主の間に入れない問題を修正しました'] },
   { v: '1.7.4', d: '2026-11-18', t: '手応えの調整', items: ['エリアごとの手応えを調整しました', '攻撃力が足りないときに知らせる表示を追加しました'] },
@@ -4973,7 +4987,7 @@ const rarCol = r => r >= 5 ? 'hsl(' + Math.floor(G.now * 120 % 360) + ',90%,72%)
 function disGain(it) { const d = DISM[it.r]; return { r: Math.round(d.r * (1 + 0.15 * (it.t - 1)) / 10) * 10, m: d.m || {} }; }
 const gainTxt = g => fmtN(g.r) + ' ルーン' + Object.keys(g.m).map(k => '・' + MAT[k] + '×' + g.m[k]).join('');
 /* where a drop comes from decides its tier (1..10): the layer number, +1 at night; 地下墓 B1-2 → 1, B3-4 → 2, B5-6 → 3, B7 → 4 */
-function lootTier() { if (G.zone === 'a') return save.night ? 2 : 1; if (L.id === 'crypt') return clamp(Math.ceil(L.floor / 2), 1, TIER_MAX); return clamp((L.tier || L.lay || 1) + (L.night ? 1 : 0), 1, TIER_MAX); }
+function lootTier() { if (G.zone === 'a') return save.nightOn ? 2 : 1; if (L.id === 'crypt') return clamp(Math.ceil(L.floor / 2), 1, TIER_MAX); return clamp((L.tier || L.lay || 1) + (L.night ? 1 : 0), 1, TIER_MAX); }
 function lootLuck() { const cl = cycLuck(); if (G.zone === 'a') return cl; return cl + (L.id === 'crypt' ? 0.07 * L.floor : L.night ? 0.2 : 0); }
 
 /* ---------- drops ---------- */
@@ -6001,7 +6015,7 @@ window.addEventListener('resize', resize);
   if (can) $('bFs').addEventListener('click', () => { want = true; });
 })();
 G.fadeT = 0; G.nightT = 0; G.toastD = 2.4; G.toastH = false;
-CASTLE = buildCastle(save.night); useLevel(CASTLE);
+CASTLE = buildCastle(save.nightOn); useLevel(CASTLE);
 buildFloor(); resize(); P.maxHp = 100; P.maxSt = 100; P.maxFp = 50; P.slot = 0; resetPlayer(0, 0); resetEnemies(); resetBoss(); G.mode = 'title'; refreshTitle(); refreshBf();
 requestAnimationFrame(frame);
 
@@ -6024,7 +6038,7 @@ window.__debug = {
   spell(s, slot) { if (!save.spells.includes(s)) save.spells.push(s); const k = save.slots.indexOf(s); if (k >= 0) save.slots[k] = null; save.slots[slot || 0] = s; P.slot = slot || 0; refreshBf(); },
   tal(t, on) { if (!save.tals.includes(t)) save.tals.push(t); const k = save.teq.indexOf(t); if (on === false) { if (k >= 0) save.teq[k] = null; } else if (k < 0) { const f = save.teq.indexOf(null); save.teq[f < 0 ? 0 : f] = t; } recalc(); refreshBf(); },
   giveItem, setStat(k, v) { save.st[k] = v; recalc(); }, recalc, magMult, calcLoad, collection, cryptTop, cryptCap, hint,
-  setCleared(v) { save.bossDead = !!v; if (v) { if (!save.wins) save.wins = 1; if (!save.night) startNight(); G.nightT = 0; } else { save.night = false; CASTLE = buildCastle(false); } if (G.mode === 'play' || G.mode === 'menu') { $('bonfire').classList.remove('on'); spawnAt(save.bonfire); } else useLevel(CASTLE); writeSave(); },
+  setCleared(v) { save.bossDead = !!v; if (v) { if (!save.wins) save.wins = 1; if (!save.night) startNight(); G.nightT = 0; } else { save.night = false; save.nightOn = false; CASTLE = buildCastle(false); } if (G.mode === 'play' || G.mode === 'menu') { $('bonfire').classList.remove('on'); spawnAt(save.bonfire); } else useLevel(CASTLE); writeSave(); },
   genCrypt(f, seed) { const Lv = genCrypt(f, seed); return cryptCheck(Lv); }, enterCrypt, leaveCrypt, cryptCleared, respawn,
   SHD, RAR, WMECH, offKind, offId, wcat, guardHit, setEnch, mechInfo, mechReset, spellList, curSpell, guardBtnOn, tk, trar, tdesc, randTal, dropTal, catId, canCast, comboLen, startGuard, playerStrike, enemiesPush(e) { enemies.push(e); }, mkEnemy,
   off(o) { if (SHD[o] && !save.shields.includes(o)) save.shields.push(o); if (WPN[o] && !save.weapons.includes(o)) save.weapons.push(o); save.off = o; mechReset(); recalc(); refreshBf(); },
