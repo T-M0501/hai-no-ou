@@ -314,7 +314,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.7.3</div>
+  <div id="verTxt" class="ver">v1.7.4</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -1416,7 +1416,14 @@ function mkLevel(id, w, h) {
   return { id, MW: w, MH: h, grid: new Uint8Array(w * h), tint: new Uint8Array(w * h), roomOf: new Int16Array(w * h).fill(-1), doorAt: new Int8Array(w * h).fill(-1),
     lay: 1, base: 0, ash: false, name: '', rooms: [], torches: [], bless: [], chests: [], doors: [], props: [], carpets: [], fog: null, enemies: [], seen: {}, opened: {}, traps: [], secrets: [], haz: [], crumble: [], regions: [], regOf: null, mid: 'c1', roam: [], tier: 1, md: null, mini: null, tex: 7741, has: null, cw: Math.ceil(w / CH), chh: Math.ceil(h / CH), floor: 0, seed: 0, bossDead: false };
 }
-function mkEnemy(type, x, y, f, hm, dm, rm, elite, key) { const d = EDEF[type]; hm = hm || 1; dm = dm || 1; rm = (rm || 1) * cycRune(); if (d.stag && !d.boss) { hm = 1 + (hm - 1) * 0.35; dm *= 0.85; } hm *= cycK(); dm *= cycK(); if (elite) { hm *= 1.6; dm *= 1.08; rm *= 2; } return { type, def: d, hx: x, hy: y, hf: f, x, y, mhp: Math.round(d.hp * hm), dm, rm, r: d.r, state: 'idle', cds: {}, elite: !!elite, key: key || type, gd: d.sh ? d.sh.gd : 0 }; }
+/* v1.7.4 適正攻撃力 (recommended attack power). REC_LAY holds the hidden value per layer id (castle day 92 = starting weapons at starting stats; add layers 3..10 here). HF_LAY is the extra hits-to-kill factor for ordinary monsters. See BALANCE.md. */
+const REC_LAY = { 1: 92, 2: 190, 11: 110, 12: 110, 13: 170, 14: 170 }, REC_NIGHT = 150, REC_CRYPT = f => 150 + 15 * (f - 1);
+const HF_LAY = { 1: 1, 2: 1.3, 11: 1, 12: 1, 13: 1.2, 14: 1.2 }, HF_CRYPT = f => 1 + 0.05 * (f - 1);
+let AREA_HF = 1;
+function recArea() { if (!L) return 100; if (L.id === 'crypt') return REC_CRYPT(L.floor || 1); const y = L.lay || 1; return y === 1 && L.night ? REC_NIGHT : (REC_LAY[y] || REC_LAY[1]); }
+function recMultOf(p, rec) { const r = p / rec; return r < 1 ? Math.max(0.25, Math.pow(r, 1.8)) : 1 + (r - 1) * 0.5; }
+function recMult(mg) { if (G.recOff || !L) return 1; if (G.recW) mg = false; const k = recMultOf(powerOf(mg ? catId() : save.weapon) / 100 * 100, recArea()); return isFinite(k) && k > 0 ? k : 1; }
+function mkEnemy(type, x, y, f, hm, dm, rm, elite, key) { const d = EDEF[type]; hm = hm || 1; dm = dm || 1; rm = (rm || 1) * cycRune(); if (d.stag && !d.boss) { hm = 1 + (hm - 1) * 0.35; dm *= 0.85; } hm *= cycK(); dm *= cycK(); if (elite) { hm *= 1.6; dm *= 1.08; rm *= 2; } return { type, def: d, hx: x, hy: y, hf: f, x, y, mhp: Math.round(d.hp * hm * (d.boss || d.hb || d.lord || d.night ? 1 : AREA_HF)), dm, rm, r: d.r, state: 'idle', cds: {}, elite: !!elite, key: key || type, gd: d.sh ? d.sh.gd : 0 }; }
 
 /* castle, in design coordinates (the old keep keeps its numbers); shifted by OX/OY on build */
 const OX = 14, OY = 1;
@@ -1572,7 +1579,7 @@ function setupArenas(Lv) {
 }
 let CASTLE = null;
 function buildCastle(night) {
-  const Lv = mkLevel('castle', 88, 70), W0 = Lv.MW;
+  AREA_HF = HF_LAY[1]; const Lv = mkLevel('castle', 88, 70), W0 = Lv.MW;
   Lv.rooms = C_ROOMS.concat(X1.rooms).map(r => [r[0] + OX, r[1] + OY, r[2], r[3], r[4], r[5], r[6], r[7] || 0]);
   Lv.rooms.forEach((r, i) => { for (let y = r[1]; y < r[1] + r[3]; y++) for (let x = r[0]; x < r[0] + r[2]; x++) { Lv.grid[y * W0 + x] = 1; Lv.tint[y * W0 + x] = r[6]; Lv.roomOf[y * W0 + x] = i; } });
   for (const p of C_PILLARS.concat(X1.pillars)) Lv.grid[(p[1] + OY) * W0 + p[0] + OX] = 0;
@@ -1611,7 +1618,7 @@ function buildCastle(night) {
    To add 第3層 and beyond: write another definition like L2DEF, give it lay/base (blessing ids are base + index),
    and register it in LAYERS. Its boss is an enemy definition with `lord: 1`; a 'lift' prop links the layers. */
 function buildLayer(def) {
-  const Lv = mkLevel('castle', def.w, def.h), W0 = Lv.MW; Lv.lay = def.lay; Lv.base = def.base; Lv.ash = def.ash !== 0; Lv.tex = def.tex; Lv.name = def.name;
+  AREA_HF = HF_LAY[def.lay] || 1; const Lv = mkLevel('castle', def.w, def.h), W0 = Lv.MW; Lv.lay = def.lay; Lv.base = def.base; Lv.ash = def.ash !== 0; Lv.tex = def.tex; Lv.name = def.name;
   Lv.rooms = def.rooms.map(r => r.slice());
   Lv.rooms.forEach((r, i) => { for (let y = r[1]; y < r[1] + r[3]; y++) for (let x = r[0]; x < r[0] + r[2]; x++) { Lv.grid[y * W0 + x] = 1; Lv.tint[y * W0 + x] = r[6]; Lv.roomOf[y * W0 + x] = i; } });
   for (const p of def.pillars) Lv.grid[p[1] * W0 + p[0]] = 0;
@@ -1650,7 +1657,7 @@ const TPL = {
 const DX = [1, 0, -1, 0], DY = [0, 1, 0, -1];
 const CRYPT_BOSS = ['mb_giant', 'mb_assassin', 'mb_beast', 'mb_mage', 'mb_giant', 'mb_assassin', 'hb'];
 function genCrypt(floor, seed) {
-  const rng = mulberry(seed), ri = n => Math.floor(rng() * n), GW = 4, GH = 4, Lv = mkLevel('crypt', GW * CELL, GH * CELL), W0 = Lv.MW;
+  const rng = mulberry(seed), ri = n => Math.floor(rng() * n), GW = 4, GH = 4, Lv = mkLevel('crypt', GW * CELL, GH * CELL), W0 = Lv.MW; AREA_HF = HF_CRYPT(floor);
   Lv.floor = floor; Lv.seed = seed; Lv.tex = seed | 0;
   const n = clamp(6 + floor, 7, 12), cells = [], at = new Int8Array(GW * GH).fill(-1);
   const add = (cx, cy, par) => { at[cy * GW + cx] = cells.length; cells.push({ cx, cy, links: [0, 0, 0, 0], d: par < 0 ? 0 : cells[par].d + 1, kind: 'n' }); };
@@ -2106,7 +2113,7 @@ function hitEnemy(e, dmg, poise, heavy, bleed, magic) {
   let mult = 1, crit = false; const rk = resK(e.def); dmg *= rk;
   if (e.def.sh && e.gd > 0 && !e.lw && (e.state === 'chase' || e.state === 'wind') && Math.abs(angDiff(e.face, Math.atan2(P.y - e.y, P.x - e.x))) < e.def.sh.half) { shieldBlock(e, dmg, poise, heavy); return; }
   if (e.state === 'stagger') { mult = 1.3; if (heavy && !e.critDone) { mult = (e.def.boss ? 2.0 : 2.3) * (G.critK || 1) * blessCrit(); crit = true; onCrit(); e.critDone = true; if (e.def.boss) e.t = Math.min(e.t, 0.8); } }
-  dmg = Math.max(1, Math.round(dmg * mult * rnd(0.94, 1.06)) || 0); let bl = 0;
+  dmg = Math.max(1, Math.round(dmg * mult * recMult(magic) * rnd(0.94, 1.06)) || 0); let bl = 0;
   if (bleed) { e.bleed += bleed * bleedMult() * (e.def.boss ? 1 : 1.25) * (e.def.res && e.def.res.bleed !== undefined ? e.def.res.bleed : 1); e.bleedT = 5; if (e.bleed >= e.bleedMax) { e.bleed = 0; if (e.def.boss) e.bleedMax *= 1.12; bl = Math.round((e.def.boss ? 60 : Math.max(26, e.mhp * 0.3)) * bleedMult()); } }
   if (!isFinite(dmg)) dmg = 0; if (!isFinite(bl)) bl = 0;
   e.hp -= dmg + bl; e.flash = 0.12; e.show = 4; e.hitT = 6; e.lx = P.x; e.ly = P.y; e.lost = 0; if (!isFinite(e.hp)) e.hp = 0; if (e.hp < 0.5) e.hp = 0;
@@ -2133,7 +2140,7 @@ function hitEnemy(e, dmg, poise, heavy, bleed, magic) {
 }
 /* v1.6.3 shield bearers: a frontal hit while they guard is mostly blocked and chips their guard; a heavy hit bites deeper; at zero the guard breaks (a long stagger, open to a 致命の一撃) */
 function shieldBlock(e, dmg, poise, heavy) {
-  dmg = Math.max(1, Math.round(dmg * (heavy ? 0.55 : 0.12) * rnd(0.94, 1.06)));
+  dmg = Math.max(1, Math.round(dmg * (heavy ? 0.55 : 0.12) * recMult(G.dt === 'magic' || G.dt === 'holy' || G.dt === 'fire') * rnd(0.94, 1.06)));
   e.hp -= dmg; e.flash = 0.08; e.show = 4; e.hitT = 6; e.lx = P.x; e.ly = P.y; e.lost = 0; if (e.hp < 0.5) e.hp = 0;
   e.gd -= poise * (heavy ? 2.4 : 1.6) + 2; e.gdT = 2.5; e.bk = 0.25;
   const a = Math.atan2(e.y - P.y, e.x - P.x), hx = e.x - Math.cos(a) * e.r, hy = e.y - Math.sin(a) * e.r;
@@ -3485,12 +3492,12 @@ function updSpells(dt) {
     let dead = s.life <= 0 || (G.zone === 'a' ? s.x * s.x + s.y * s.y > R_ARENA * R_ARENA : solid(Math.floor(s.x / T), Math.floor(s.y / T)));
     if (!dead) {
       G.critK = 1; G.dt = s.dt || (s.phys ? 'pierce' : s.kind === 4 || s.kind === 6 ? 'holy' : 'magic');
-      if (G.zone === 'a') { if (!s.hitB && bossHittable() && Math.hypot(B.x - s.x, B.y - s.y) < B.r + s.r) { s.hitB = true; hitBoss(s.dmg, s.poise, s.heavy, s.bleed); if (!s.ally) onHit(false, !s.phys); G.critNow = 0; if (!s.pierce) dead = true; } }
+      if (G.zone === 'a') { if (!s.hitB && bossHittable() && Math.hypot(B.x - s.x, B.y - s.y) < B.r + s.r) { s.hitB = true; G.recOff = !!s.ally; hitBoss(s.dmg, s.poise, s.heavy, s.bleed); G.recOff = 0; if (!s.ally) onHit(false, !s.phys); G.critNow = 0; if (!s.pierce) dead = true; } }
       else for (const e of enemies) {
         if (e.state === 'dead' || e.hide) continue; const dx = e.x - s.x, dy = e.y - s.y, m = e.r + s.r; if (dx > m || dx < -m || dy > m || dy < -m || dx * dx + dy * dy > m * m) continue;
         if (s.pierce) { if (s.hit.includes(e)) continue; s.hit.push(e); }
         let dm2 = s.dmg; if (s.snipe && (e.state === 'idle' || e.state === 'stagger')) { dm2 *= 1.8; tagText(e, '狙撃', '#ffe9a0'); }
-        hitEnemy(e, dm2, s.poise, s.heavy, s.bleed, !s.phys); if (!s.ally) onHit(false, !s.phys); G.critNow = 0; if (!s.pierce) { dead = true; break; }
+        G.recOff = !!s.ally; hitEnemy(e, dm2, s.poise, s.heavy, s.bleed, !s.phys); G.recOff = 0; if (!s.ally) onHit(false, !s.phys); G.critNow = 0; if (!s.pierce) { dead = true; break; }
       }
     }
     if (dead) { s.on = false; if (s.kind === 3) burst(s.x, s.y, 4, 90, 0.3, 3, 1, '#8d8676'); else burst(s.x, s.y, s.kind === 1 ? 12 : 6, 150, 0.35, 10, 0, s.kind === 2 ? 7 : s.kind === 4 ? 1 : 6); }
@@ -3942,7 +3949,7 @@ function hitBoss(dmg, poise, heavy, bleed) {
   let mult = 1, crit = false;
   const rk = KRES[G.dt] || 1; dmg *= rk;
   if (B.state === 'stagger') { mult = 1.35; if (heavy && !B.critDone) { mult = 2.0 * (G.critK || 1) * blessCrit(); crit = true; onCrit(); B.critDone = true; B.t = Math.min(B.t, 0.75); } }
-  dmg = Math.max(1, Math.round(dmg * mult * rnd(0.94, 1.06)) || 0); let bl = 0;
+  dmg = Math.max(1, Math.round(dmg * mult * recMult(G.dt === 'magic' || G.dt === 'holy' || G.dt === 'fire') * rnd(0.94, 1.06)) || 0); let bl = 0;
   if (bleed) { B.bleed += bleed * bleedMult(); B.bleedT = 5; if (B.bleed >= B.bleedMax) { B.bleed = 0; B.bleedMax *= 1.12; bl = Math.round(62 * bleedMult()); } } if (!isFinite(dmg)) dmg = 0; if (!isFinite(bl)) bl = 0;
   B.hp -= dmg + bl; if (!isFinite(B.hp)) B.hp = 0; B.flash = 0.12; B.dmgAcc += dmg + bl; B.dmgT = 2.2;
   if (B.state !== 'stagger') { B.poise -= poise; B.poiseT = 5; }
@@ -4266,9 +4273,9 @@ function summon() {
 }
 function hurtAlly(d) { if (!ALLY.on) return; d = Math.max(1, Math.round(d)); ALLY.hp -= d; ALLY.flash = 0.2; floatText(ALLY.x, ALLY.y - 26, '' + d, '#9fb8e8', 13); burst(ALLY.x, ALLY.y, 6, 160, 0.4, 8, 0, 6); if (ALLY.hp <= 0) despawnAlly('霊体は還った'); }
 function allyHit(foe, dmg, poise, bleed) {
-  const hs = G.hitstop, sh = G.shake; G.critK = 1; dmg *= ALLY.k;
+  const hs = G.hitstop, sh = G.shake; G.critK = 1; dmg *= ALLY.k; G.recOff = 1;
   if (foe === B) { if (bossHittable()) hitBoss(dmg, poise, false, bleed || 0); } else if (!foe.hide && foe.state !== 'dead') hitEnemy(foe, dmg, poise, false, bleed || 0, false);
-  G.hitstop = hs; G.shake = sh; G.critNow = 0;
+  G.hitstop = hs; G.shake = sh; G.critNow = 0; G.recOff = 0;
 }
 function updAlly(dt) {
   if (!ALLY.on) return; const foe = fightFoe(), A = ALLY, s = SPIRIT[A.id];
@@ -4515,8 +4522,8 @@ function guardHit(dmg, fx, fy, kb, src, proj) {
 function setEnch(el, t, k) { if (el === 'base') { el = WPN[catId()].cat === 'seal' ? 'holy' : 'magic'; } else { t += 10; k *= 1.25; } P.ench = el; P.enchMax = t; P.enchT = t; P.enchK = k; SFX.ward(); SFX.cast(); floatText(P.x, P.y - 36, ENAME[el], ECOL[el], 13); for (let i = 0; i < 20; i++) { const b = i / 20 * TAU; pt(P.x + Math.cos(b) * 34, P.y + Math.sin(b) * 34, -Math.cos(b) * 80, -Math.sin(b) * 80, 0.45, 11, 0, ESPR[el], 0, 0); } }
 function enchHit(e, b) {
   const el = P.ench, x0 = b * 0.25 * P.enchK; G.dt = el; G.noBuff = true;
-  if (e === B) { if (B.state !== 'dead' && bossHittable()) hitBoss(x0, 0, false, 0); }
-  else if (e.state !== 'dead') { const k = resK(e.def), x = Math.max(1, Math.round(x0 * k)); e.hp -= x; e.show = 4; floatText(e.x + rnd(-14, 14), e.y - e.r - 30, '' + x, k > 1.1 ? '#ffb040' : k < 0.9 ? '#8794a8' : ECOL[el], 12); burst(e.x, e.y, 6, 190, 0.35, 9, 0, ESPR[el]); if (e.hp <= 0) killEnemy(e); }
+  if (e === B) { if (B.state !== 'dead' && bossHittable()) { G.recW = 1; hitBoss(x0, 0, false, 0); G.recW = 0; } }
+  else if (e.state !== 'dead') { const k = resK(e.def), x = Math.max(1, Math.round(x0 * k * (G.recW = 1, recMult(false)))); G.recW = 0; e.hp -= x; e.show = 4; floatText(e.x + rnd(-14, 14), e.y - e.r - 30, '' + x, k > 1.1 ? '#ffb040' : k < 0.9 ? '#8794a8' : ECOL[el], 12); burst(e.x, e.y, 6, 190, 0.35, 9, 0, ESPR[el]); if (e.hp <= 0) killEnemy(e); }
   G.noBuff = false;
 }
 const encCol = c => P.enchT > 0 ? ERGB[P.ench] : c;
@@ -4740,8 +4747,7 @@ mkB('md_abbot', 'l2_priest', { name: '灰の院長 セヴェリン', sub: '地�
 mkB('yk_rider', 'l2_captain', { name: '夜騎兵 ガルヴァス', sub: '夜にだけ、中庭を巡る亡霊', night: 1, sc: 1.4, r: 19, hp: 1500, souls: 6000, spd: 165, sight: 360 }, { holy: 1.3, strike: 1.15, slash: 0.85 }, [{ w: 'nlance' }, { m: { l: 2, e: 2 } }]);
 mkB('yk_hound', 'mb_beast', { name: '夜哭きの猟犬 ベルグ', sub: '闇の中で、鎖の音がする', night: 1, sc: 1.1, hp: 1300, souls: 5000, spd: 120, sight: 360 }, { holy: 1.25, pierce: 1.2, fire: 0.7 }, [{ t: 'howl', r: 3 }, { m: { l: 2, e: 1 } }]);
 mkB('yk_seer', 'mb_mage', { name: '夜見の聖女 イェルダ', sub: '主なき聖都で、夜を数える', night: 1, look: 'mb_mage', ash: 1, sc: 1.3, hp: 2000, souls: 9000, sight: 400 }, { slash: 1.2, pierce: 1.2, magic: 0.6, holy: 0.8 }, [{ sh: 'nightsh' }, { t: 'eye', r: 4 }, { m: { x: 1, e: 2 } }]);
-/* v1.7.3: normal (non-boss) monsters have 1.5x HP; mid-bosses, night bosses and lords keep theirs */
-for (const k in EDEF) { const d = EDEF[k]; if (!d.boss && !d.hb && !d.lord && !d.night && !d.hpK) { d.hp = Math.round(d.hp * 1.5); d.hpK = 1; } }
+/* v1.7.4: the flat 1.5x monster HP of v1.7.3 is gone; ordinary monsters get a per-area hits-to-kill factor instead (HF_LAY / HF_CRYPT in b.js, applied in mkEnemy). */
 const MDB = ['md_gnaw', 'md_keeper', 'md_miner', 'md_abbot'], NBS = ['yk_rider', 'yk_hound', 'yk_seer'];
 
 
@@ -4828,6 +4834,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.7.4', d: '2026-11-18', t: '手応えの調整', items: ['エリアごとの手応えを調整しました', '攻撃力が足りないときに知らせる表示を追加しました'] },
   { v: '1.7.3', d: '2026-11-18', t: '中ボスの部屋', items: ['中ボスと一対一で戦える部屋を追加しました', 'モンスターを少し打たれ強くしました'] },
   { v: '1.7.2', d: '2026-11-18', t: '視界制限', items: ['設定に「視界制限（ハード）」を追加しました'] },
   { v: '1.7.1', d: '2026-11-18', t: 'マップとカメラ', items: ['マップを広くしました', '縦画面と横画面でボタン位置がずれる問題を修正しました', 'カメラの距離を設定で調整できるようにしました', 'プレイ中のメニューから全画面に戻せるようにしました', '周回プレイで引き継ぐ能力を選べるようにしました'] },
@@ -5622,6 +5629,7 @@ function drawHUD() {
     const sf = P.stFlash > 0 && Math.sin(G.now * 40) > 0, ff = P.fpFlash > 0 && Math.sin(G.now * 40) > 0;
     bar(x, y + 18, sw, 7, Math.max(0, P.st) / P.maxSt, 0, sf ? '#d84a30' : '#5faa52', sf ? '#8a2415' : '#2f6a2c', '#000');
     bar(x, y + 32, fw, 6, P.fp / P.maxFp, 0, ff ? '#ffffff' : '#5f96e0', ff ? '#9ab8e8' : '#274a8a', '#000');
+    if ((G.mode === 'play' || G.mode === 'fight') && P.state !== 'dead' && recMult(false) < 0.95) { ctx.font = '800 10.5px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText('攻撃力不足', x + fw + 9, y + 36); ctx.fillStyle = '#e0605a'; ctx.fillText('攻撃力不足', x + fw + 8, y + 35); }
     for (let i = 0; i < save.flaskMax; i++) {
       const fx = x + 9 + i * 24, fy = y + 58, full = i < P.flasks;
       ctx.fillStyle = full ? '#e6b647' : 'rgba(30,26,20,.8)'; ctx.strokeStyle = full ? '#f6e3a0' : '#5d5238'; ctx.lineWidth = 1.3;
@@ -5932,7 +5940,7 @@ window.__debug = {
   SHD, RAR, WMECH, offKind, offId, wcat, guardHit, setEnch, mechInfo, mechReset, spellList, curSpell, guardBtnOn, tk, trar, tdesc, randTal, dropTal, catId, canCast, comboLen, startGuard, playerStrike, enemiesPush(e) { enemies.push(e); }, mkEnemy,
   off(o) { if (SHD[o] && !save.shields.includes(o)) save.shields.push(o); if (WPN[o] && !save.weapons.includes(o)) save.weapons.push(o); save.off = o; mechReset(); recalc(); refreshBf(); },
   newGame, continueGame, spawnAt, enterBoss, openBonfire, rest, queue, doInteract, killPlayer, level, lvCost, atkMult, los, solid, hitEnemy, eStart, mbStart, aggro, killEnemy, swapSpell,
-  resetEnemy, find(type) { return enemies.find(e => e.type === type || e.key === type); },
+  recMult, recArea, REC_LAY, HF_LAY, resetEnemy, find(type) { return enemies.find(e => e.type === type || e.key === type); },
   killAll() { for (const e of enemies) if (e.state !== 'dead' && !e.def.boss) killEnemy(e); }, calm() { for (const e of enemies) if (e.state !== 'dead') resetEnemy(e); G.mb = null; },
   wipe() { try { localStorage.removeItem(SAVE_KEY); localStorage.removeItem(GKEY); localStorage.removeItem(OLDBAK); for (let i = 1; i <= 3; i++) localStorage.removeItem(SKEY(i)); } catch (e) {} },
   toTitle, blessRoll, blessCrit, blessRune, blessLoad, get SLOT() { return SLOT; }, get NGP() { return NGP; }, get tSel() { return tSel; }, loadSlot, deleteSlot, renderSlots, startCycle, slotInfo, cycK, cycRune, cycLuck, CBL, dexView, dexSync, SKEY, GKEY, impMsg, enterSaveWorld, fillSave, pickG, carryOf, hurtPlayer, dropKing, startNew(c) { NEWSLOT = tSel; NGP = null; newGame(c); }
