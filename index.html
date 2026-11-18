@@ -314,7 +314,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.7.2</div>
+  <div id="verTxt" class="ver">v1.7.3</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -1434,8 +1434,8 @@ const C_ROOMS = [
   [52, 42, 12, 10, '獣の檻', '焦げた骨が散らばる', 0], [27, 54, 10, 2, '', '', 0], [37, 52, 2, 4, '', '', 4],
   [47, 34, 2, 6, '', '', 0], [46, 12, 4, 22, '灰風の城壁', '矢と風が吹き抜ける', 1], [38, 28, 8, 2, '', '', 0],
   [50, 18, 3, 2, '', '', 0], [53, 12, 16, 12, '沈黙の書庫', '頁をめくる音だけがする', 5], [62, 24, 2, 2, '', '', 5],
-  [58, 26, 10, 8, '禁書庫', '読んではならぬ', 5], [47, 8, 2, 4, '', '', 1], [44, 1, 9, 7, '見張りの塔', '城のすべてを見下ろす', 0],
-  [38, 4, 6, 2, '', '', 0], [53, 4, 2, 2, '', '', 0], [55, 1, 9, 9, '鳴らずの鐘楼', '影が梁を渡る', 3],
+  [56, 25, 12, 9, '禁書庫', '読んではならぬ', 5], [47, 8, 2, 4, '', '', 1], [44, 1, 9, 7, '見張りの塔', '城のすべてを見下ろす', 0],
+  [38, 4, 6, 2, '', '', 0], [53, 4, 2, 2, '', '', 0], [55, 1, 11, 10, '鳴らずの鐘楼', '影が梁を渡る', 3],
   [10, 28, 6, 2, '', '', 0], [-4, 24, 14, 10, '墓所の前庭', '地の底から冷気が昇る', 6], [-3, 22, 2, 2, '', '', 6],
   [-12, 10, 12, 12, '屍の広間', '積み上げられたものが、動く', 6], [3, 34, 2, 3, '', '', 0]
 ];
@@ -1444,8 +1444,8 @@ const C_PILLARS = [[14, 43], [20, 43], [26, 43], [26, 27], [33, 27], [26, 31], [
   [55, 15], [56, 15], [57, 15], [58, 15], [62, 15], [63, 15], [64, 15], [65, 15], [66, 15], [56, 18], [57, 18], [58, 18], [59, 18], [60, 18], [64, 18], [65, 18], [66, 18], [55, 21], [56, 21], [57, 21], [58, 21], [62, 21], [63, 21], [64, 21], [65, 21],
   [60, 28], [65, 28], [60, 31], [65, 31], [57, 3], [61, 3], [57, 7], [61, 7], [0, 26], [5, 26], [0, 31], [5, 31], [-10, 12], [-3, 12], [-10, 19], [-3, 19]];
 const C_TORCHES = [[21, 51], [25, 51], [12, 40], [20, 40], [26, 40], [4, 36], [18, 26], [34, 12], [37, 12], [27, 3], [34, 3], [10, 7], [17, 7], [11, 1], [16, 1], [23, 13], [28, 13],
-  [38, 39], [45, 39], [54, 41], [61, 41], [55, 11], [60, 11], [66, 11], [59, 25], [66, 25], [45, 0], [51, 0], [57, 0], [61, 0], [1, 23], [7, 23], [-10, 9], [-4, 9], [31, 53]];
-const C_BLESS = [[23, 55, '朽牢の祝福'], [2, 28, '墓守の祝福'], [37, 16, '礼拝堂の祝福'], [54, 16, '書庫の祝福'], [48, 3, '塔の祝福'], [16, 3, '王門の祝福'], [53, 44, '獣の檻の祝福']];
+  [38, 39], [45, 39], [54, 41], [61, 41], [55, 11], [60, 11], [66, 11], [59, 24], [66, 24], [45, 0], [51, 0], [57, 0], [61, 0], [1, 23], [7, 23], [-10, 9], [-4, 9], [31, 53]];
+const C_BLESS = [[23, 55, '朽牢の祝福'], [2, 28, '墓守の祝福'], [37, 16, '礼拝堂の祝福'], [54, 16, '書庫の祝福'], [48, 3, '塔の祝福'], [16, 3, '王門の祝福'], [48, 45, '獣の檻の祝福']];
 const C_CHESTS = [
   ['c1', 3, 38, { w: 'katana' }], ['c2', 16, 29, { w: 'shield', sh: 'kite', ar: 'deflect' }], ['c3', 36, 32, { a: 'leather', m: { s: 1 } }], ['c4', 36, 9, { f: 1, sh: 'buckler' }], ['c5', 9, 9, { w: 'great', ar: 'roar' }], ['c6', 24, 18, { t: 'gilt', m: { c: 1 } }], ['c7', 9, 45, { w: 'staff', sp: 'pebble' }],
   ['c8', 48, 50, { t: 'moss' }], ['c9', 37, 41, { w: 'mace', sh: 'gate', m: { s: 2 } }], ['c10', 62, 43, { a: 'plate', ar: 'flame' }], ['c11', 49, 13, { w: 'spear', ar: 'rush' }], ['c12', 46, 32, { w: 'curved', ar: 'spin' }],
@@ -1547,6 +1547,29 @@ function widenLevel(Lv) {
   });
   Lv.torches = Lv.torches.filter(t => g[t[1] * W0 + t[0]] === 0);
 }
+/* v1.7.3: every mid-boss fights 1-on-1 in a sealed arena. Built once per level: the room is cleared of pillars, the floor tiles just outside its doorways become the seal
+   (solid fog while the fight is on), and every other enemy that stood inside is moved out into the nearest corridor / room. */
+function setupArenas(Lv) {
+  const W0 = Lv.MW, H0 = Lv.MH, g = Lv.grid; Lv.arenas = [];
+  const bs = Lv.enemies.filter(e => e.def.boss && !e.def.lord && !e.def.night && !e.need);
+  for (const b of bs) {
+    const ri = Lv.roomOf[Math.floor(b.hy / T) * W0 + Math.floor(b.hx / T)]; if (ri < 0 || Lv.arenas.some(a => a.ri === ri)) continue;
+    const r = Lv.rooms[ri], x0 = r[0], y0 = r[1], w = r[2], h = r[3], seal = [];
+    for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) { const k = y * W0 + x; if (g[k] === 0) { g[k] = 1; Lv.tint[k] = r[6]; Lv.roomOf[k] = ri; } }
+    const edge = (x, y) => { if (x < 0 || y < 0 || x >= W0 || y >= H0) return; const k = y * W0 + x; if (g[k] > 0 && !seal.includes(k)) seal.push(k); };
+    for (let x = x0; x < x0 + w; x++) { edge(x, y0 - 1); edge(x, y0 + h); } for (let y = y0; y < y0 + h; y++) { edge(x0 - 1, y); edge(x0 + w, y); }
+    const a = { ri, rect: [x0, y0, w, h], boss: b, seal, sealed: false, snap: [], g }; b.arena = a; Lv.arenas.push(a);
+  }
+  const inRect = (a, tx, ty) => tx >= a.rect[0] && ty >= a.rect[1] && tx < a.rect[0] + a.rect[2] && ty < a.rect[1] + a.rect[3], inAny = (tx, ty) => Lv.arenas.some(a => inRect(a, tx, ty));
+  const used = []; for (const e of Lv.enemies) if (!e.arena && !(Lv.arenas.some(a => inRect(a, Math.floor(e.hx / T), Math.floor(e.hy / T))))) used.push([e.hx / T, e.hy / T]);
+  for (const a of Lv.arenas) {
+    const mv = Lv.enemies.filter(e => e !== a.boss && !e.arena && inRect(a, Math.floor(e.hx / T), Math.floor(e.hy / T))); if (!mv.length) continue;
+    const dist = new Map(), q = []; for (const k of a.seal) { dist.set(k, 0); q.push(k); }
+    for (let i = 0; i < q.length; i++) { const k = q[i], d = dist.get(k); for (const s of [1, -1, W0, -W0]) { const j = k + s; if (j < 0 || j >= g.length || dist.has(j) || g[j] !== 1 || inAny(j % W0, Math.floor(j / W0))) continue; dist.set(j, d + 1); q.push(j); } }
+    const ok = k => { const tx = k % W0, ty = Math.floor(k / W0); return dist.get(k) >= 3 && used.every(u => Math.hypot(u[0] - tx - 0.5, u[1] - ty - 0.5) > 2.4) && Lv.bless.every(b2 => Math.hypot(b2.x / T - tx - 0.5, b2.y / T - ty - 0.5) > 4) && Lv.chests.every(c2 => Math.hypot(c2.x / T - tx - 0.5, c2.y / T - ty - 0.5) > 1.5); };
+    for (const e of mv) { const k = q.find(ok); if (k === undefined) continue; const tx = k % W0, ty = Math.floor(k / W0); e.hx = e.x = tc(tx); e.hy = e.y = tc(ty); used.push([tx + 0.5, ty + 0.5]); }
+  }
+}
 let CASTLE = null;
 function buildCastle(night) {
   const Lv = mkLevel('castle', 88, 70), W0 = Lv.MW;
@@ -1578,6 +1601,7 @@ function buildCastle(night) {
   else { Lv.enemies = SW.filter(s => !inCellar(s)).map(ngt).concat(N_SPAWNS.map(ngt)); for (const r of X1.roam) { const e = mkEnemy(r[0], tc(r[1][0][0] + OX), tc(r[1][0][1] + OY), 0, 1, 1.3, 1); e.route = r[1].map(p => [tc(p[0] + OX), tc(p[1] + OY)]); e.ri = 0; Lv.enemies.push(e); } }
   applyExtras(Lv, X1, OX, OY);
   widenLevel(Lv);
+  setupArenas(Lv);
   { const fr = Lv.rooms[20]; for (let y = fr[1]; y < fr[1] + fr[3]; y++) for (let x = fr[0]; x < fr[0] + fr[2]; x++) Lv.grid[y * W0 + x] = 3; Lv.fog = { x: (fr[0] + fr[2] / 2) * T, y: (fr[1] + fr[3] / 2) * T }; Lv.fogN = fr[2]; }
   return Lv;
 }
@@ -1599,6 +1623,7 @@ function buildLayer(def) {
   for (const r of def.roam || []) { const e = mkEnemy(r[0], tc(r[1][0][0]), tc(r[1][0][1]), 0, 1, def.bossDm, 1); e.route = r[1].map(p => [tc(p[0]), tc(p[1])]); e.ri = 0; e.need = 'lord'; Lv.enemies.push(e); }
   applyExtras(Lv, def, 0, 0);
   widenLevel(Lv);
+  setupArenas(Lv);
   return Lv;
 }
 /* data that is fetched on demand (data/<key>.js calls HAI_DATA(key, def)); LVC caches the built levels */
@@ -1607,7 +1632,7 @@ const lvOf = key => { if (!LVC[key]) { LVC[key] = buildLayer(DATA[key]); LVC[key
 const LAYERS = [
   { lay: 1, base: 0, name: '第1層　灰の城', key: null, level: () => CASTLE, open: () => true, bl: C_BLESS.map(b => b[2]) },
   { lay: 2, base: 10, name: '第2層　灰に沈む聖都', key: 'layer2', level: () => lvOf('layer2'), open: () => save.bossDead, bl: ['昇降機の祝福', '広場の祝福', '身廊の祝福', '鐘楼の祝福', '灰守りの祝福'] },
-  { lay: 11, base: 110, name: '灰喰い洞', key: 'md_cave', md: 1, par: 0, back: 0, level: () => lvOf('md_cave'), open: () => true, bl: ['洞口の祝福'] },
+  { lay: 11, base: 110, name: '灰喰い洞', key: 'md_cave', md: 1, par: 0, back: 0, level: () => lvOf('md_cave'), open: () => true, bl: ['洞口の祝福', '巣穴前の祝福'] },
   { lay: 12, base: 120, name: '忘れられた墓所', key: 'md_tomb', md: 1, par: 0, back: 1, level: () => lvOf('md_tomb'), open: () => true, bl: ['墓所の祝福'] },
   { lay: 13, base: 130, name: '灰晶の坑道', key: 'md_mine', md: 1, par: 10, back: 11, level: () => lvOf('md_mine'), open: () => save.bossDead, bl: ['坑口の祝福'] },
   { lay: 14, base: 140, name: '崩れた礼拝堂の地下', key: 'md_chapel', md: 1, par: 10, back: 10, level: () => lvOf('md_chapel'), open: () => save.bossDead, bl: ['地下聖堂の祝福'] }
@@ -1678,7 +1703,7 @@ function genCrypt(floor, seed) {
     for (const lane of [5, 6, 7]) { const lx = dir === 0 ? 13 : dir === 2 ? 0 : lane, ly = dir === 1 ? 13 : dir === 3 ? 0 : lane, x = c.cx * CELL + lx, y = c.cy * CELL + ly; if (Lv.grid[y * W0 + x] === 1) { Lv.grid[y * W0 + x] = 5; ts.push([x, y]); } }
     if (ts.length) Lv.secrets.push({ id: 'cs' + ci, tiles: ts, x: (tc(ts[0][0]) + tc(ts[ts.length - 1][0])) / 2, y: (tc(ts[0][1]) + tc(ts[ts.length - 1][1])) / 2 });
   });
-  Lv.cells = cells; Lv.start = Lv.bless[0]; return Lv;
+  Lv.cells = cells; Lv.start = Lv.bless[0]; setupArenas(Lv); return Lv;
 }
 function cryptCheck(Lv) {
   const W0 = Lv.MW, seen = new Uint8Array(W0 * Lv.MH), q = [], k0 = Math.floor(Lv.start.y / T) * W0 + Math.floor(Lv.start.x / T); let floorN = 0, reach = 0;
@@ -1692,6 +1717,7 @@ function cryptCheck(Lv) {
 /* level switching, collision */
 const chunks = new Map(), pool = []; let frameNo = 0;
 function useLevel(Lv) {
+  if (L && L.arenas) for (const a of L.arenas) if (a.sealed) arenaSet(a, false);
   L = Lv; MW = Lv.MW; MH = Lv.MH; grid = Lv.grid; tint = Lv.tint; roomOf = Lv.roomOf; doorAt = Lv.doorAt; ROOMS = Lv.rooms; TORCHES = Lv.torches; BLESS = Lv.bless; CHESTS = Lv.chests; DOORS = Lv.doors; PROPS = Lv.props; FOG = Lv.fog; enemies = Lv.enemies;
   for (const s of Lv.secrets) { const open = Lv.id === 'crypt' ? Lv.opened[s.id] : save.walls[s.id]; for (const t of s.tiles) Lv.grid[t[1] * MW + t[0]] = open ? 1 : 5; }
   for (const c of chunks.values()) pool.push(c.c); chunks.clear();
@@ -1973,12 +1999,40 @@ function mobSpace(e, d, ty, dist, dt) {
   if (e.mode === 'flee' && dist < p.ring - 16) eMove(e, e.face + PI, spd * 0.9, dt);
   return false;
 }
+/* v1.7.3: sealed mid-boss arenas (see setupArenas in b.js). The seal is solid fog on the doorway tiles; it closes when the player walks in and opens when the boss dies, resets or the player dies. */
+const arenaOn = () => !!(L && L.arenas && L.arenas.some(a => a.sealed));
+function arenaSet(a, on) {
+  if (on === a.sealed) return; a.sealed = on;
+  if (on) { a.snap = a.seal.map(k => a.g[k]); for (const k of a.seal) a.g[k] = 3; }
+  else a.seal.forEach((k, i) => { if (a.g[k] === 3) a.g[k] = a.snap[i]; });
+}
+function updArenas(dt) {
+  if (!L || !L.arenas) return;
+  for (const a of L.arenas) {
+    const b = a.boss, r = a.rect;
+    if (a.sealed) {
+      if (b.state === 'dead') { arenaSet(a, false); toast('霧が晴れた'); }
+      else if (P.state === 'dead' || b.state === 'idle' || b.state === 'return') arenaSet(a, false);
+      continue;
+    }
+    if (b.state === 'idle' && b.hp < b.mhp) b.hp = b.hpLag = b.mhp;
+    if (b.state === 'dead' || P.state === 'dead' || G.mode !== 'play') continue;
+    const px = P.x / T, py = P.y / T; if (px < r[0] + 1.5 || py < r[1] + 1.5 || px > r[0] + r[2] - 1.5 || py > r[1] + r[3] - 1.5) continue;
+    arenaSet(a, true);
+    for (const e of enemies) {
+      if (e === b || e.state === 'dead') continue; const tx = Math.floor(e.x / T), ty = Math.floor(e.y / T);
+      if (tx >= r[0] && ty >= r[1] && tx < r[0] + r[2] && ty < r[1] + r[3]) resetEnemy(e);
+      else if (a.seal.includes(ty * MW + tx)) { const dx = e.x - (r[0] + r[2] / 2) * T, dy = e.y - (r[1] + r[3] / 2) * T, n = Math.hypot(dx, dy) || 1; for (let i = 0; i < 6 && a.seal.includes(Math.floor(e.y / T) * MW + Math.floor(e.x / T)); i++) { e.x += dx / n * 26; e.y += dy / n * 26; } }
+    }
+    SFX.gate(); shake(5); toast('霧が退路を閉ざした'); aggro(b);
+  }
+}
 function resetEnemies() {
   if (L) L.inited = 1;
   for (const e of enemies) { resetEnemy(e); if (e.def.boss && ((L.id === 'castle' ? save.mbC[e.key] : L.bossDead) || (e.need === 'lord' && !save.lords[2]))) { e.state = 'dead'; e.t = 99; e.hp = 0; } }
   /* v1.6.4: fewer 雑魚 around a living mid-boss — about 40% of the regular enemies sharing its room (or within 420px) are left out */
   const rmOf = (x, y) => { const tx = Math.floor(x / T), ty = Math.floor(y / T); return roomOf && tx >= 0 && ty >= 0 && tx < MW && ty < MH ? roomOf[ty * MW + tx] : -1; };
-  for (const b of enemies) { if (!b.def.boss || b.def.lord || b.state === 'dead') continue; const br = rmOf(b.hx, b.hy);
+  for (const b of enemies) { if (!b.def.boss || b.def.lord || b.arena || b.state === 'dead') continue; const br = rmOf(b.hx, b.hy);
     const near = enemies.filter(e => !e.def.boss && !e.elite && e.state !== 'dead' && ((br >= 0 && rmOf(e.hx, e.hy) === br) || Math.hypot(e.hx - b.hx, e.hy - b.hy) < 420)).sort((p, q) => Math.hypot(p.hx - b.hx, p.hy - b.hy) - Math.hypot(q.hx - b.hx, q.hy - b.hy));
     const cut = near.length >= 2 ? Math.round(near.length * 0.4) : 0; for (let i = 0; i < cut; i++) { const e = near[i]; e.state = 'dead'; e.t = 99; e.hp = 0; e.culled = 1; } }
   for (const a of arrows) a.on = false;
@@ -4051,7 +4105,7 @@ function update(dt) {
       if (arena) {
         if (B.bleedT > 0) B.bleedT -= wdt; else if (B.bleed > 0) B.bleed = Math.max(0, B.bleed - 10 * wdt);
         if (ALLY.on && G.aggro && G.mode === 'fight') proxyBoss(wdt); else updBoss(wdt); updAlly(wdt); updHazards(wdt); updSpells(wdt);
-      } else { updEnemies(wdt); updAlly(wdt); updArrows(wdt); updHazards(wdt); updSpells(wdt); updWorld(wdt); }
+      } else { updArenas(wdt); updEnemies(wdt); updAlly(wdt); updArrows(wdt); updHazards(wdt); updSpells(wdt); updWorld(wdt); }
       G.achT = (G.achT || 0) + dt; if (G.achT > 1.5) { G.achT = 0; if (G.mode === 'play' || G.mode === 'fight') checkAch(); }
       checkStain();
       if (G.mode === 'dead' && !G.shown && G.t > 1.7) {
@@ -4566,7 +4620,7 @@ function openSecret(s) {
   showCard('隠し壁が崩れた', '── 壁の向こうに、道がある ──', 2.6); checkAch(); writeSave();
 }
 function secretHit(range, half) {
-  for (const s of L.secrets) { if (secretOpen(s)) continue; for (const t of s.tiles) { const dx = tc(t[0]) - P.x, dy = tc(t[1]) - P.y, d = Math.hypot(dx, dy); if (d < range + 24 && Math.abs(angDiff(Math.atan2(dy, dx), P.face)) < Math.max(half, 0.9)) { openSecret(s); break; } } }
+  for (const s of L.secrets) { if (secretOpen(s) || s.tiles.some(t => grid[t[1] * MW + t[0]] === 3)) continue; for (const t of s.tiles) { const dx = tc(t[0]) - P.x, dy = tc(t[1]) - P.y, d = Math.hypot(dx, dy); if (d < range + 24 && Math.abs(angDiff(Math.atan2(dy, dx), P.face)) < Math.max(half, 0.9)) { openSecret(s); break; } } }
 }
 
 /* ---------- per-frame world extras: hazards, collapsing floors, roamers, vignettes ---------- */
@@ -4613,6 +4667,7 @@ function nbLeash(e) {
 function mayAggro(e) {
   /* v1.6.4: while a mid-boss fight is on, idle 雑魚 nearby stay out of it unless the player walks right up to them */
   if (!e.def.boss) { const m = G.mb && G.mb.state !== 'dead' ? G.mb : null; if (m && e.state === 'idle' && !(e.hitT > 0) && Math.hypot(P.x - e.x, P.y - e.y) > 95) return false; return true; }
+  if (e.arena && !e.arena.sealed) return false;
   const o = G.mb && G.mb !== e && G.mb.state !== 'dead' ? G.mb : null; if (o && (e.def.night || o.def.night)) return false;
   if (e.def.night && e.state === 'idle' && nbLeash(e)) return false;
   return true;
@@ -4685,6 +4740,8 @@ mkB('md_abbot', 'l2_priest', { name: '灰の院長 セヴェリン', sub: '地�
 mkB('yk_rider', 'l2_captain', { name: '夜騎兵 ガルヴァス', sub: '夜にだけ、中庭を巡る亡霊', night: 1, sc: 1.4, r: 19, hp: 1500, souls: 6000, spd: 165, sight: 360 }, { holy: 1.3, strike: 1.15, slash: 0.85 }, [{ w: 'nlance' }, { m: { l: 2, e: 2 } }]);
 mkB('yk_hound', 'mb_beast', { name: '夜哭きの猟犬 ベルグ', sub: '闇の中で、鎖の音がする', night: 1, sc: 1.1, hp: 1300, souls: 5000, spd: 120, sight: 360 }, { holy: 1.25, pierce: 1.2, fire: 0.7 }, [{ t: 'howl', r: 3 }, { m: { l: 2, e: 1 } }]);
 mkB('yk_seer', 'mb_mage', { name: '夜見の聖女 イェルダ', sub: '主なき聖都で、夜を数える', night: 1, look: 'mb_mage', ash: 1, sc: 1.3, hp: 2000, souls: 9000, sight: 400 }, { slash: 1.2, pierce: 1.2, magic: 0.6, holy: 0.8 }, [{ sh: 'nightsh' }, { t: 'eye', r: 4 }, { m: { x: 1, e: 2 } }]);
+/* v1.7.3: normal (non-boss) monsters have 1.5x HP; mid-bosses, night bosses and lords keep theirs */
+for (const k in EDEF) { const d = EDEF[k]; if (!d.boss && !d.hb && !d.lord && !d.night && !d.hpK) { d.hp = Math.round(d.hp * 1.5); d.hpK = 1; } }
 const MDB = ['md_gnaw', 'md_keeper', 'md_miner', 'md_abbot'], NBS = ['yk_rider', 'yk_hound', 'yk_seer'];
 
 
@@ -4771,6 +4828,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.7.3', d: '2026-11-18', t: '中ボスの部屋', items: ['中ボスと一対一で戦える部屋を追加しました', 'モンスターを少し打たれ強くしました'] },
   { v: '1.7.2', d: '2026-11-18', t: '視界制限', items: ['設定に「視界制限（ハード）」を追加しました'] },
   { v: '1.7.1', d: '2026-11-18', t: 'マップとカメラ', items: ['マップを広くしました', '縦画面と横画面でボタン位置がずれる問題を修正しました', 'カメラの距離を設定で調整できるようにしました', 'プレイ中のメニューから全画面に戻せるようにしました', '周回プレイで引き継ぐ能力を選べるようにしました'] },
   { v: '1.7.0', d: '2026-11-18', t: '三つのセーブと周回', items: ['セーブデータを3つまで保存できるようになりました', '周回プレイ（二周目以降）を追加しました'] },
@@ -5452,6 +5510,7 @@ function drawProps() {
   ctx.globalCompositeOperation = 'lighter'; const ts = crypt ? 8 : 0;
   for (const t of TORCHES) { const x = tc(t[0]), y = t[1] * T + T * 0.56; if (!vis(x, y, 150)) continue; const fl = 0.85 + Math.sin(G.now * 11 + x) * 0.15, s = 15 * fl, g = night ? 130 : 90; ctx.globalAlpha = night ? 0.42 : 0.3; ctx.drawImage(SPR[ts], x - g, y - g * 0.78, g * 2, g * 2); ctx.globalAlpha = 0.95; ctx.drawImage(SPR[ts], x - s, y - s - 3, s * 2, s * 2); ctx.drawImage(SPR[crypt ? 2 : 1], x - s * 0.5, y - s * 0.5 - 4, s, s); }
   if (FOG && vis(FOG.x, FOG.y, 120)) for (let i = 0; i < 9; i++) { const x = FOG.x - (L.fogN || 3) * T / 2 + 6 + i * ((L.fogN || 3) * T - 12) / 8, y = FOG.y + 4, s = 34 + Math.sin(G.now * 1.7 + i * 1.3) * 8; ctx.globalAlpha = 0.3 + Math.sin(G.now * 2.3 + i) * 0.08; ctx.drawImage(SPR[2], x - s, y - s * 1.3, s * 2, s * 2.6); }
+  if (L.arenas) for (const a of L.arenas) if (a.sealed) for (const k of a.seal) { const tx = k % MW, ty = Math.floor(k / MW), x = tc(tx), y = tc(ty); if (!vis(x, y, 70)) continue; ctx.globalAlpha = 0.16; ctx.fillStyle = '#b9c6e6'; ctx.fillRect(tx * T, ty * T, T, T); for (let i = 0; i < 3; i++) { const s = 30 + Math.sin(G.now * 1.7 + i * 1.3 + k) * 7; ctx.globalAlpha = 0.34 + Math.sin(G.now * 2.3 + i + k) * 0.08; ctx.drawImage(SPR[2], x + (i - 1) * 16 - s, y - s * 1.1 + 4, s * 2, s * 2.2); } }
   ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over';
 }
 function drawShots() {
@@ -5697,7 +5756,7 @@ function drawHUD() {
 /* v1.7.2: vision mode (hard). A forward cone limited by walls plus a dim circle around the player; everything else is under darkness. */
 const VIS_ANG = 60 * PI / 180, VIS_NEAR = 70, VIS_N = 100, visRay = new Float32Array(VIS_N + 1), visC = document.createElement('canvas'), visX = visC.getContext('2d');
 let visK = 0, visA = 0, visRange = 500, visLast = 0;
-function visWant() { return !!save.visMode && G.zone !== 'a' && G.mode !== 'fight' && G.mode !== 'title' && !G.mb && !G.edit; }
+function visWant() { return !!save.visMode && G.zone !== 'a' && G.mode !== 'fight' && G.mode !== 'title' && !G.mb && !arenaOn() && !G.edit; }
 function visUpdate() {
   const dt = clamp(G.now - visLast, 0, 0.1); visLast = G.now; const want = visWant();
   if (want && visK <= 0) visA = P.face; else if (visK > 0) { let d = P.face - visA; d = Math.atan2(Math.sin(d), Math.cos(d)); visA += d * (1 - Math.exp(-18 * dt)); }
@@ -5873,7 +5932,7 @@ window.__debug = {
   SHD, RAR, WMECH, offKind, offId, wcat, guardHit, setEnch, mechInfo, mechReset, spellList, curSpell, guardBtnOn, tk, trar, tdesc, randTal, dropTal, catId, canCast, comboLen, startGuard, playerStrike, enemiesPush(e) { enemies.push(e); }, mkEnemy,
   off(o) { if (SHD[o] && !save.shields.includes(o)) save.shields.push(o); if (WPN[o] && !save.weapons.includes(o)) save.weapons.push(o); save.off = o; mechReset(); recalc(); refreshBf(); },
   newGame, continueGame, spawnAt, enterBoss, openBonfire, rest, queue, doInteract, killPlayer, level, lvCost, atkMult, los, solid, hitEnemy, eStart, mbStart, aggro, killEnemy, swapSpell,
-  find(type) { return enemies.find(e => e.type === type || e.key === type); },
+  resetEnemy, find(type) { return enemies.find(e => e.type === type || e.key === type); },
   killAll() { for (const e of enemies) if (e.state !== 'dead' && !e.def.boss) killEnemy(e); }, calm() { for (const e of enemies) if (e.state !== 'dead') resetEnemy(e); G.mb = null; },
   wipe() { try { localStorage.removeItem(SAVE_KEY); localStorage.removeItem(GKEY); localStorage.removeItem(OLDBAK); for (let i = 1; i <= 3; i++) localStorage.removeItem(SKEY(i)); } catch (e) {} },
   toTitle, blessRoll, blessCrit, blessRune, blessLoad, get SLOT() { return SLOT; }, get NGP() { return NGP; }, get tSel() { return tSel; }, loadSlot, deleteSlot, renderSlots, startCycle, slotInfo, cycK, cycRune, cycLuck, CBL, dexView, dexSync, SKEY, GKEY, impMsg, enterSaveWorld, fillSave, pickG, carryOf, hurtPlayer, dropKing, startNew(c) { NEWSLOT = tSel; NGP = null; newGame(c); }
