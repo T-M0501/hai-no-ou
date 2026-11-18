@@ -314,7 +314,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.7.5</div>
+  <div id="verTxt" class="ver">v1.7.6</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -512,6 +512,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
     <div id="bfInfo" class="bfInfo"></div>
     <div id="bfMain" class="bfPane on">
       <button id="bRest" class="btn">休息</button>
+      <button id="bFlask" class="btn sub">瓶の配分</button>
       <button id="bLevel" class="btn">レベルアップ</button>
       <button id="bForge" class="btn">強化</button>
       <button id="bWarp" class="btn">転移</button>
@@ -521,7 +522,13 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
       <button id="bLeave" class="btn">祝福から離れる</button>
       <button id="bMenu" class="btn sub">メニュー</button>
     </div>
+    <div id="bfFlask" class="bfPane">
+      <div id="flInfo" class="eqInfo fgInfo"></div>
+      <div id="flRows" class="rows"></div>
+      <button id="bFlBack" class="btn sub">戻る</button>
+    </div>
     <div id="bfLevel" class="bfPane">
+      <div id="lvWpn" class="eqInfo fgInfo lvWpn"></div>
       <div id="lvRows" class="rows"></div>
       <div class="duo"><button id="bRespec" class="btn sub">振り直し</button><button id="bLvBack" class="btn sub">戻る</button></div>
     </div>
@@ -583,7 +590,7 @@ const fmtN = n => String(Math.floor(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 const SAVE_KEY = 'hai_no_ou3_v1';
 function freshSave() {
   return { v: 1, started: false, deaths: 0, souls: 0, st: { vit: 10, end: 10, str: 10, dex: 10, int: 10, fth: 10 }, weapons: ['sword'], weapon: 'sword', armors: ['rags'], armor: 'rags',
-    spells: [], slots: [null, null], tals: [], teq: [null, null], tslots: 2, flaskMax: 3, chests: {}, doors: {}, lit: {}, bonfire: 0, stain: null, bossDead: false, time: 0, rooms: {},
+    spells: [], slots: [null, null], tals: [], teq: [null, null], tslots: 2, flaskMax: 2, flaskFp: 0, fv: 0, chests: {}, doors: {}, lit: {}, bonfire: 0, stain: null, bossDead: false, time: 0, rooms: {},
     mb: {}, mbC: {}, tears: 0, cryptDeep: 0, cryptRw: {}, night: false, deepSeen: false, hints: {}, up: {}, mats: { s: 0, c: 0, l: 0, e: 0, x: 0 }, shop: { s: 0, c: 0, l: 0 },
     cls: 'wanderer', arts: [], wart: {}, spirits: [], spirit: null, spLv: {}, tearShop: 0, lords: {}, seenE: {}, trar: {}, shields: [], off: null, hands: 0, walls: {}, maps: {}, mdSeen: {}, mem: {}, pw: {}, pwOn: null,
     av: 0, inv: [], aeq: { h: null, b: null, a: null, l: null }, aseq: 1, afound: {}, asort: 'r' };
@@ -618,6 +625,8 @@ const CBL = {
   rune: { n: '収穫の加護', d: '敵から得るルーン +15%' }, load: { n: '鉄の記憶', d: '装備重量の上限 +12%' }
 };
 const CBLIDS = ['flask', 'roll', 'crit', 'rune', 'load'], KNUM = ['一', '二', '三', '四', '五', '六', '七', '八', '九', '十'];
+/* v1.7.6: 周回プレイ opens once layer NG_UNLOCK_LAYER has been cleared; NG_LAYERS is how many layers exist now. Saves already in a 周回 keep it. */
+const NG_UNLOCK_LAYER = 10, NG_LAYERS = 2, ngOpen = s => NG_LAYERS >= NG_UNLOCK_LAYER || ((s && s.cyc) | 0) >= 1;
 const CYC = () => save.cyc | 0, cycName = c => (KNUM[c] || (c + 1)) + '周目';
 const cycK = () => { const c = CYC(); return c <= 0 ? 1 : c === 1 ? 1.3 : Math.min(2.5, 1.55 + 0.2 * (c - 2)); };
 const cycRune = () => 1 + 0.15 * Math.min(CYC(), 8), cycLuck = () => Math.min(0.3, 0.05 * CYC());
@@ -680,7 +689,10 @@ function sanitize() {
   for (const k of ['s', 'c', 'l', 'e', 'x']) save.mats[k] = clamp(Math.floor(+save.mats[k] || 0), 0, 999);
   for (const k of ['s', 'c', 'l']) save.shop[k] = clamp(Math.floor(+save.shop[k] || 0), 0, 99);
   for (const k in save.up) { if (!WPN[k]) delete save.up[k]; else save.up[k] = clamp(Math.floor(+save.up[k] || 0), 0, WPN[k].special ? 5 : 10); }
-  save.souls = Math.max(0, Math.floor(+save.souls || 0)); save.flaskMax = clamp(Math.floor(+save.flaskMax || 3), 3, 6);
+  save.souls = Math.max(0, Math.floor(+save.souls || 0)); save.flaskMax = clamp(Math.floor(+save.flaskMax || 2), 1, 8);
+  /* v1.7.6: the flask total is recomputed once from progress (start 2, 第1層 +1, 第2層 +1, 深層 B5 +1, 周回の加護 +1) */
+  if (save.started && !save.fv) { save.fv = 1; save.flaskMax = 2 + (save.chests && save.chests.c4 ? 1 : 0) + (save.chests && save.chests.q21 ? 1 : 0) + ((save.cryptRw && save.cryptRw[5]) || save.cryptDeep >= 5 ? 1 : 0) + (save.bless === 'flask' ? 1 : 0); save.flaskFp = save.cls === 'mage' || save.cls === 'cleric' ? 1 : 0; }
+  save.flaskFp = clamp(Math.floor(+save.flaskFp || 0), 0, save.flaskMax);
   save.bonfire = clamp(Math.floor(+save.bonfire || 0), 0, 99); if (!save.btn.p || typeof save.btn.p !== 'object') save.btn.p = {}; if (!save.btn.l || typeof save.btn.l !== 'object') save.btn.l = {}; save.time = +save.time || 0; save.deaths = Math.floor(+save.deaths || 0);
   save.tears = clamp(Math.floor(+save.tears || 0), 0, 9); save.cryptDeep = clamp(Math.floor(+save.cryptDeep || 0), 0, 7); save.night = !!save.night && !!save.bossDead;
   delete save.invS; if (save.cnt) delete save.cnt.inv; if (save.ach) delete save.ach.inv; if (save.hints) delete save.hints.invade;
@@ -1404,8 +1416,11 @@ function prayMult(id, lv) { id = id || catId(); return (1 + eff(sv('fth')) * 0.0
 function powerOf(id, lv) { const c = WPN[id].cat; return Math.round((c === 'staff' ? magMult(id, lv) : c === 'seal' ? prayMult(id, lv) : atkMult(id, lv)) * 100); }
 function magMult(id, lv) { id = id || catId(); return (1 + eff(sv('int')) * 0.055) * catK(id, lv) * (1 + 0.18 * tk('eye')) * (1 + AB.mag) * dmgAll() * (save.pwOn === 'lord2' ? 1.12 : 1); }
 function bleedMult() { return (1 + eff(sv('dex')) * 0.025) * (1 + 0.35 * tk('fang')) * (1 + AB.bld); }
-function healAmt() { return Math.round((45 + eff(sv('fth')) * 6) * (1 + 0.3 * tk('vial'))); }
-function fpRegen() { return (2 + 1.5 * tk('spring') + AB.fpr + (sv('fth') - 10) * 0.05) * (save.pwOn === 'lord2' ? 2 : 1); }
+function healAmt() { return Math.round((45 + eff(sv('fth')) * 6) * 1.5 * (1 + 0.3 * tk('vial'))); }
+function fpFlaskAmt() { return Math.round(P.maxFp * 0.55 * (1 + 0.3 * tk('vial'))); }
+const flaskHp = () => save.flaskMax - save.flaskFp;
+/* v1.7.6: FP only trickles back (a flask or a rest is the real recovery) */
+function fpRegen() { return (0.3 + 0.2 * tk('spring') + 0.1 * AB.fpr) * (save.pwOn === 'lord2' ? 2 : 1); }
 function gainSouls(n) { save.souls += n; }
 
 /* ---------- world ---------- */
@@ -1456,7 +1471,7 @@ const C_BLESS = [[23, 55, '朽牢の祝福'], [2, 28, '墓守の祝福'], [37, 1
 const C_CHESTS = [
   ['c1', 3, 38, { w: 'katana' }], ['c2', 16, 29, { w: 'shield', sh: 'kite', ar: 'deflect' }], ['c3', 36, 32, { a: 'leather', m: { s: 1 } }], ['c4', 36, 9, { f: 1, sh: 'buckler' }], ['c5', 9, 9, { w: 'great', ar: 'roar' }], ['c6', 24, 18, { t: 'gilt', m: { c: 1 } }], ['c7', 9, 45, { w: 'staff', sp: 'pebble' }],
   ['c8', 48, 50, { t: 'moss' }], ['c9', 37, 41, { w: 'mace', sh: 'gate', m: { s: 2 } }], ['c10', 62, 43, { a: 'plate', ar: 'flame' }], ['c11', 49, 13, { w: 'spear', ar: 'rush' }], ['c12', 46, 32, { w: 'curved', ar: 'spin' }],
-  ['c13', 67, 13, { sp: 'lance', sr: 'mage' }], ['c14', 67, 22, { a: 'robe', sp: 'e_magic', m: { s: 2 } }], ['c15', 66, 32, { w: 'staff2' }], ['c16', 59, 32, { t: 'eye', w: 'msword' }], ['c17', 51, 2, { f: 1, m: { c: 2 } }], ['c18', 45, 6, { k: 'slot' }],
+  ['c13', 67, 13, { sp: 'lance', sr: 'mage' }], ['c14', 67, 22, { a: 'robe', sp: 'e_magic', m: { s: 2 } }], ['c15', 66, 32, { w: 'staff2' }], ['c16', 59, 32, { t: 'eye', w: 'msword' }], ['c17', 51, 2, { s: 1800, m: { c: 3 } }], ['c18', 45, 6, { k: 'slot' }],
   ['c19', 62, 2, { t: 'feather', r: 2 }], ['c20', 8, 25, { a: 'mail', sr: 'knight', m: { s: 2 } }], ['c21', -3, 32, { sp: 'ward' }], ['c22', -11, 11, { t: 'amber', r: 2, ar: 'wave', m: { c: 2 } }], ['c24', 33, 14, { t: 'vial', sr: 'nun' }], ['c31', 8, 32, { k: 'tear' }], ['c32', 58, 27, { w: 'dagger2' }], ['c33', 53, 50, { w: 'axe3', sp: 'e_fire' }],
   ['c25', 20, 27, { w: 'dagger', ar: 'step' }], ['c26', 18, 16, { w: 'halberd' }], ['c27', 22, 33, { w: 'bow' }], ['c28', 40, 13, { w: 'seal', ar: 'blade' }], ['c29', 54, 22, { w: 'rapier', ar: 'flurry' }], ['c30', 25, 10, { w: 'axe', ar: 'leap', m: { s: 1 } }]
 ];
@@ -1507,7 +1522,7 @@ const X1 = {
   crumble: [[44, 60], [44, 61], [45, 60], [45, 61]],
   regions: [['moat', '獣の檻と毒沼の堀', [[48, 40, 22, 26], [37, 56, 11, 6]]], ['east', '東翼', [[46, 0, 24, 40]]], ['low', '城の下層', [[-12, 34, 64, 24]]], ['up', '城の上層', [[-12, 0, 58, 34]]]],
   props: [{ t: 'ped', reg: 'low', tx: 21, ty: 53 }, { t: 'ped', reg: 'up', tx: 37, ty: 33 }, { t: 'ped', reg: 'east', tx: 49, ty: 13 }, { t: 'ped', reg: 'moat', tx: 49, ty: 65 }, 
-    { t: 'mdin', to: 110, tx: 69, ty: 57 }, { t: 'mdin', to: 120, tx: 13, ty: 39 }, { t: 'altar', tx: 21, ty: 56 }],
+    { t: 'mdin', to: 110, tx: 69, ty: 57 }, { t: 'mdin', to: 120, tx: 13, ty: 39 }, { t: 'altar', tx: 21, ty: 56 }, { t: 'note', tx: 6, ty: 41, msg: '崩れた石の向こうで、風が鳴いている。\n刃を当てれば、壁も思い出すだろう。' }, { t: 'note', tx: 39, ty: 13, msg: '行き止まりの壁だけ、積み方が違う。\n誰かが、急いで塞いだ跡だ。' }, { t: 'note', tx: 59, ty: 33, msg: 'この壁は、いつも少しだけ冷たい。\n向こうに、灯の届かない部屋がある。' }, { t: 'note', tx: 22, ty: 55, msg: '扉でない壁にも、道は続いている。\n斬ってみるといい。' }],
   /* v1.6: each night roamer keeps to rooms that hold no other boss, away from blessings (the rider circles the courtyard, the hound the west corridor) */
   roam: [['yk_rider', [[24, 25], [36, 25], [36, 32], [24, 32]]], ['yk_hound', [[12, 42], [30, 42], [30, 36], [30, 42]]]]
 };
@@ -2722,7 +2737,7 @@ function mbDie(e, n) {
 const seenRoom = {};
 function resetPlayer(x, y) {
   recalc();
-  Object.assign(P, { x, y, face: -PI / 2, hp: P.maxHp, hpLag: P.maxHp, st: P.maxSt, fp: P.maxFp, stDelay: 0, stFlash: 0, fpFlash: 0, flasks: save.flaskMax, arrows: ARROWS, chg: 0, hold: false, pray: P.pray | 0, state: 'idle', t: 0, combo: 0, hitDone: false, inv: 0, buf: '', bufT: 0, rdx: 0, rdy: -1, kx: 0, ky: 0, flash: 0, sa: 1.2, sl: 0, healed: false, dodged: false, lastHid: -1, walk: 0, alpha: 1, hv: null, parried: 0, ward: 0, sp: null, holder: null, buffF: 0, buffR: 0, z: 0, critInv: false, pry: null, art: '', n: 0, slot: P.slot | 0, wet: false, regen: 0 });
+  Object.assign(P, { x, y, face: -PI / 2, hp: P.maxHp, hpLag: P.maxHp, st: P.maxSt, fp: P.maxFp, stDelay: 0, stFlash: 0, fpFlash: 0, flasks: flaskHp(), fflasks: save.flaskFp, arrows: ARROWS, chg: 0, hold: false, pray: P.pray | 0, state: 'idle', t: 0, combo: 0, hitDone: false, inv: 0, buf: '', bufT: 0, rdx: 0, rdy: -1, kx: 0, ky: 0, flash: 0, sa: 1.2, sl: 0, healed: false, dodged: false, lastHid: -1, walk: 0, alpha: 1, hv: null, parried: 0, ward: 0, sp: null, holder: null, buffF: 0, buffR: 0, z: 0, critInv: false, pry: null, art: '', n: 0, slot: P.slot | 0, wet: false, regen: 0 });
 }
 function clearFx() {
   tele.length = spikes.length = rings.length = shots.length = fires.length = slashes.length = 0; cardQ.length = 0;
@@ -2736,14 +2751,14 @@ function resetBoss() {
   for (const k in CD) B.cd[k] = 0;
   clearFx(); G.time = 0;
 }
-function rest() { recalc(); P.hp = P.hpLag = P.maxHp; P.st = P.maxSt; P.fp = P.maxFp; P.flasks = save.flaskMax; P.arrows = ARROWS; P.ward = 0; P.buffF = P.buffR = 0; G.mark = null; despawnAlly(); lootSweep(); resetEnemies(); for (const t of L.traps) t.on = false; writeSave(); }
+function rest() { recalc(); P.hp = P.hpLag = P.maxHp; P.st = P.maxSt; P.fp = P.maxFp; P.flasks = flaskHp(); P.fflasks = save.flaskFp; P.arrows = ARROWS; P.ward = 0; P.buffF = P.buffR = 0; G.mark = null; despawnAlly(); lootSweep(); resetEnemies(); for (const t of L.traps) t.on = false; writeSave(); }
 /* v1.6.2: arriving somewhere (warp, lift, stairs) is not a rest. The player keeps HP / FP / flasks, the dead stay dead; only what was mid-fight calms down. */
 function softArrive(ks) {
-  recalc(); P.hp = P.hpLag = Math.min(P.maxHp, Math.max(1, ks.hp)); P.fp = Math.min(P.maxFp, ks.fp); P.st = P.maxSt; P.flasks = Math.min(save.flaskMax, ks.flasks); P.ward = 0; P.buffF = P.buffR = 0; G.mark = null; despawnAlly(); lootSweep();
+  recalc(); P.hp = P.hpLag = Math.min(P.maxHp, Math.max(1, ks.hp)); P.fp = Math.min(P.maxFp, ks.fp); P.st = P.maxSt; P.flasks = Math.min(flaskHp(), ks.flasks); P.fflasks = Math.min(save.flaskFp, ks.ff | 0); P.ward = 0; P.buffF = P.buffR = 0; G.mark = null; despawnAlly(); lootSweep();
   if (!L.inited) resetEnemies(); else { for (const e of enemies) if (e.state !== 'dead' && e.state !== 'idle') resetEnemy(e); for (const a of arrows) a.on = false; tele.length = spikes.length = rings.length = shots.length = fires.length = 0; G.mb = null; }
   for (const t of L.traps) t.on = false; writeSave();
 }
-const keepOf = keep => keep && P.state !== 'dead' && P.hp > 0 ? { hp: P.hp, fp: P.fp, flasks: P.flasks } : null;
+const keepOf = keep => keep && P.state !== 'dead' && P.hp > 0 ? { hp: P.hp, fp: P.fp, flasks: P.flasks, ff: P.fflasks } : null;
 function startNight() { save.night = true; CASTLE = buildCastle(true); G.nightT = 4.5; G.nightCard = true; writeSave(); }
 function spawnAt(g, keep) {
   if (needData(g, () => spawnAt(g, keep))) return; const ks = keepOf(keep);
@@ -2800,7 +2815,7 @@ function newGame(cls, ng, bless) {
   dexSync(); const c = CLASS[cls] || CLASS.wanderer, keep = pickG(save);
   if (ng) Object.assign(keep, { wins: save.wins, best: save.best, clear: save.clear, cyc: ng.cyc, cb: ng.cb, bless: CBL[bless] ? bless : null, dex: save.dex, afound: save.afound, seenE: save.seenE });
   for (const k in save) delete save[k]; Object.assign(save, freshSave(), SAVE_EXTRA(), keep); save.started = true; save.cls = CLASS[cls] ? cls : 'wanderer'; save.last = Date.now();
-  save.st = Object.assign({}, c.st); if (save.cb) for (const k in save.st) save.st[k] += save.cb[k] | 0; if (save.bless === 'flask') save.flaskMax = 4;
+  save.st = Object.assign({}, c.st); if (save.cb) for (const k in save.st) save.st[k] += save.cb[k] | 0; save.flaskMax = save.bless === 'flask' ? 3 : 2; save.fv = 1; save.flaskFp = save.cls === 'mage' || save.cls === 'cleric' ? 1 : 0;
   save.weapons = c.w.slice(); save.weapon = c.w[0]; save.armors = c.a === 'rags' ? ['rags'] : ['rags', c.a]; save.armor = c.a; save.spells = c.sp.slice(); save.slots = [c.sp[0] || null, c.sp[1] || null]; save.arts = c.ar.slice(); save.hands = 1; save.shields = (c.sh || []).slice(); save.off = c.off || null; save.trar = {}; loots.length = 0; armSanitize();
   if (c.ar[0] && artOk(c.ar[0], save.weapon)) save.wart[save.weapon] = c.ar[0]; if (c.sr) { save.spirits = [c.sr]; save.spirit = c.sr; }
   for (const k in seenRoom) delete seenRoom[k]; CASTLE = buildCastle(false); for (const k in LVC) delete LVC[k]; L = null; P.slot = 0; P.pray = 0; mechReset(); P.ench = null; P.enchT = 0; writeSave(); spawnAt(0); checkAch(); toast(ng ? cycName(save.cyc) + 'の旅が始まった ── 敵は強く、そして実りも深い' : '祝福に近づき「調べる」で休息できる');
@@ -2818,7 +2833,7 @@ function renderSlots() {
     h += '<button class="slot' + (i === tSel ? ' cur' : '') + '" data-i="' + i + '"><span class="sn">セーブ' + i + '</span>' + (s ? '<span class="sm"><b>' + CLASS[s.cls].name + '</b>　Lv <b>' + level(s.st) + '</b>　<b class="cy">' + cycName(s.cyc | 0) + '</b></span><span class="sd">プレイ時間 ' + fmtPlay(s.time) + '<br>' + bfLoc(s) + '<br>最終 ' + fmtDate(s.last) + '</span>' : '<span class="sm dim">空き</span>') + '</button>';
   }
   $('slotBox').innerHTML = h; const s = slotInfo(tSel);
-  $('bCont').style.display = s ? '' : 'none'; $('bDel').style.display = s ? '' : 'none'; $('bNext').style.display = s && s.bossDead ? '' : 'none'; $('bNew').textContent = 'はじめから';
+  $('bCont').style.display = s ? '' : 'none'; $('bDel').style.display = s ? '' : 'none'; $('bNext').style.display = s && s.bossDead && ngOpen(s) ? '' : 'none'; $('bNew').textContent = 'はじめから';
 }
 function loadSlot(i) { writeSave(); SLOT = i; fillSave(lsJ(SKEY(i)), null, pickG(save)); enterSaveWorld(); }
 function deleteSlot(i) { try { localStorage.removeItem(SKEY(i)); } catch (e) {} if (i === SLOT) { fillSave(null, null, pickG(save)); enterSaveWorld(); } tSel = i; renderSlots(); }
@@ -2826,7 +2841,7 @@ let cfmAct = null;
 function confirmAsk(t, p, y, fn) { $('cfT').textContent = t; $('cfP').innerHTML = p; $('bYes').textContent = y; cfmAct = fn; $('confirm').classList.add('on'); }
 /* 周回: pick a class again (with the +10% carry-over), then one 加護 */
 function startCycle() {
-  if (!save.started || !save.bossDead) return; if (G.mode !== 'title') toTitle();
+  if (!save.started || !save.bossDead || !ngOpen(save)) return; if (G.mode !== 'title') toTitle();
   NEWSLOT = 0; NGP = { cyc: CYC() + 1, cb: carryOf(save.st, null), prev: save.bless }; clsSel = clsSel || 'knight'; openCarry();
 }
 /* v1.7.1: choose the one stat that carries over */
@@ -2868,7 +2883,7 @@ function giveItem(it) {
       queueCard((own ? '昇格 ' : 'タリスマン ') + starsOf(r) + ' ' + TAL[t].name, '── ' + tdesc(t, r) + ' ──', 3.4, RAR[r].c); checkAch(); if (r >= 2) hint('rar', 'タリスマンには ★1 並 〜 ★4 伝説 の品がある\n星が多いほど効き目が強く、★3 からは副効果が付く');
     }
   }
-  if (it.f) { if (save.flaskMax < 6) { save.flaskMax++; P.flasks++; } queueCard('灰瓶の欠片', '── 灰瓶の数が増えた ──', 2.8); }
+  if (it.f) { if (save.flaskMax < 8) { save.flaskMax++; P.flasks++; } queueCard('灰瓶の欠片', '── 灰瓶の数が増えた ──', 2.8); }
   if (it.k === 'slot') { if (save.tslots < 4) { save.tslots++; save.teq.push(null); queueCard('護符の紐', '── タリスマンの枠が一つ増えた（' + save.tslots + ' / 4） ──', 3); } else { gainSouls(1500); queueCard('護符の紐', '── 枠はもう増えない。1,500 ルーンに換えた ──', 3); } }
   if (it.k === 'tear') { save.tears++; queueCard('追憶の雫', '── 祝福で能力を振り直せる ──', 3); }
   if (it.ar) { if (!save.arts.includes(it.ar)) save.arts.push(it.ar); queueCard('戦技の書「' + ART[it.ar].name + '」', '── メニューの「装備 → 戦技」で武器に宿す ──', 3.2); hint('artbook', '戦技の書を得た\nメニューの「装備 → 戦技」で、合う武器に付け替えられる'); }
@@ -2904,11 +2919,31 @@ function collection0() {
 }
 
 /* ---------- blessing menu ---------- */
-const PANES = ['bfMain', 'bfLevel', 'bfEquip', 'bfForge', 'bfRespec', 'bfBook', 'bfCrypt', 'bfWarp', 'bfAltar'];
+const PANES = ['bfMain', 'bfFlask', 'bfLevel', 'bfEquip', 'bfForge', 'bfRespec', 'bfBook', 'bfCrypt', 'bfWarp', 'bfAltar'];
 const SHOP = [['s', 300, 10, () => true], ['c', 900, 6, () => save.lit[2]], ['l', 2500, 4, () => save.bossDead]];
 const TEAR_PRICE = 3000, SPUP = [1, 2, 3];
 let eqTab = 'w', RS = null, selFloor = 1;
 function bfPane(id) { for (const p of PANES) $(p).classList.toggle('on', p === id); }
+function refreshFlask() {
+  const n = save.flaskMax, f = save.flaskFp, h = n - f;
+  $('flInfo').innerHTML = '灰瓶は全部で <b>' + n + '</b> 本。HP瓶とFP瓶に振り分ける<br>HP瓶 <b>+' + healAmt() + '</b>　FP瓶 <b>+' + fpFlaskAmt() + '</b>';
+  $('flRows').innerHTML = '<div class="row"><span class="nm">HP瓶</span><span class="vl">' + h + '</span><span class="ef">体力を癒やす</span></div>'
+    + '<div class="row"><span class="nm">FP瓶</span><span class="vl">' + f + '</span><span class="ef">FPを取り戻す</span><button class="plus" data-d="-1"' + (f > 0 ? '' : ' disabled') + ' aria-label="FP瓶を減らす">−</button><button class="plus" data-d="1"' + (h > 1 ? '' : ' disabled') + ' aria-label="FP瓶を増やす">＋</button></div>';
+}
+function flaskShift(d) {
+  const uh = flaskHp() - P.flasks, uf = save.flaskFp - P.fflasks;
+  if (d > 0 && flaskHp() > 1) save.flaskFp++; else if (d < 0 && save.flaskFp > 0) save.flaskFp--; else return;
+  P.flasks = clamp(flaskHp() - Math.max(0, uh), 0, flaskHp()); P.fflasks = clamp(save.flaskFp - Math.max(0, uf), 0, save.flaskFp); writeSave(); refreshFlask(); refreshBf();
+}
+const STNM = { str: '筋力', dex: '技量', int: '知力', fth: '信仰' };
+function refreshLvWpn() {
+  const el = $('lvWpn'); if (!el) return; const id = save.weapon, w = WPN[id], s = save.st, ca = caster(w), lab = ca ? (w.cat === 'seal' ? '祈祷威力' : '魔法威力') : '攻撃力', now = powerOf(id);
+  let q = ''; if (w.req) { const r = []; for (const k in w.req) r.push(sv(k) < w.req[k] ? '<span class="bad">' + STNM[k] + ' ' + w.req[k] + '（現在 ' + sv(k) + '）</span>' : STNM[k] + ' ' + w.req[k]); q = '　必要 ' + r.join('・'); }
+  const pv = []; for (let i = 0; i < 4; i++) { if (!(w.sc[i] > 0)) continue; const k = ['str', 'dex', 'int', 'fth'][i]; if (s[k] >= 50) continue; s[k]++; const v = powerOf(id); s[k]--; if (v !== now) pv.push(STNM[k] + '＋1 → <b>' + v + '</b>'); }
+  let h = '右手 <b>' + wname(id) + '</b>　' + w.scTxt + q + '<br>' + lab + ' <b>' + now + '</b>' + (reqOk(id) ? '' : '　<span class="bad">要求未満で弱まっている</span>') + (pv.length ? '　次の一点：' + pv.join('　') : '');
+  const oi = offId(); if (oi) { const o = SHD[oi]; h += '<br>左手 <b>' + offName(oi) + '</b>' + (o ? '（' + o.type + '）' : '　' + WPN[oi].scTxt + '　' + (caster(WPN[oi]) ? (WPN[oi].cat === 'seal' ? '祈祷威力 ' : '魔法威力 ') : '攻撃力 ') + '<b>' + powerOf(oi) + '</b>'); }
+  el.innerHTML = h;
+}
 function bfNote(s) { $('bfNote').textContent = s; }
 function rollTxt(m) { return m.over ? '<span class="bad">過重（鈍足・重ロール）</span>' : '<b>' + ROLLS[m.roll].name + '</b>'; }
 function refreshBf() {
@@ -2929,9 +2964,9 @@ function refreshBf() {
   $('bRespec').textContent = '振り直し（追憶の雫 ' + save.tears + '）'; $('bRespec').disabled = save.tears <= 0 || level() <= 1;
   const cb = $('bCrypt'), fresh = save.bossDead && !save.deepSeen && !inCrypt && save.lit[1];
   cb.textContent = inCrypt ? '城へ戻る' : fresh ? '地下墓へ ✦深層' : '地下墓へ'; cb.disabled = !inCrypt && !save.lit[1]; cb.style.display = inCrypt || save.lit[1] ? '' : 'none'; cb.classList.toggle('glow', !!fresh);
-  $('bNextBf').style.display = save.bossDead && L && L.id === 'castle' && L.base === 0 && G.bfI === 0 && !G.altar && !G.bfMenu && !G.fieldEq ? '' : 'none';
+  $('bNextBf').style.display = save.bossDead && ngOpen(save) && L && L.id === 'castle' && L.base === 0 && G.bfI === 0 && !G.altar && !G.bfMenu && !G.fieldEq ? '' : 'none';
   $('bPower').style.display = Object.keys(save.pw).some(k => save.pw[k] === 2) ? '' : 'none'; if (save.pwOn) $('bfInfo').innerHTML += '　大いなる力 <b>' + PWR[save.pwOn].name + '</b>';
-  refreshEquip(); btns[2].label = heavyLabel(); btns[4].label = ART[artOf(save.weapon)].short;
+  refreshLvWpn(); refreshEquip(); btns[2].label = heavyLabel(); btns[4].label = ART[artOf(save.weapon)].short;
 }
 function heavyLabel() { const w = WPN[save.weapon]; if (!caster(w)) return offKind() === 'dual' ? '双撃' : w.hLabel; const sp = curSpell(); return sp ? spDef(sp).short : '魔法'; }
 const offName = o => SHD[o] ? SHD[o].name : wname(o);
@@ -2954,7 +2989,7 @@ function refreshEquip() {
     h += wChips(save.weapons);
     for (const [gc, gids] of wGroups(save.weapons, true)) { h += wHdr(gc, gids.length); for (const id of gids) {
       const x = WPN[id], m = calcLoad(id); let rq = '';
-      if (x.req) { const ok = reqOk(id); rq = '　<span class="nw' + (ok ? '' : ' bad') + '">必要 ' + Object.keys(x.req).map(k => STN[k] + x.req[k]).join('・') + (ok ? '' : '（不足：威力-40%・消費1.5倍）') + '</span>'; }
+      if (x.req) { const ok = reqOk(id); rq = '　<span class="nw' + (ok ? '' : ' bad') + '">必要 ' + Object.keys(x.req).map(k => STNM[k] + x.req[k]).join('・') + (ok ? '' : '（不足：威力-40%・消費1.5倍）') + '</span>'; }
       const wm = WMECH[wcat(id)];
       h += row(id, id === save.weapon, wname(id), x.desc + '<br><b>' + x.cls + '</b>（' + (x.two ? '両手' : '片手') + '）　<b>' + x.scTxt + '</b>　<span class="nw">' + DTN[x.dt] + '</span>　<span class="nw">戦技 <b>' + ART[ARTDEF[id]].name + '</b></span>' + rq + '<br><span class="nw">' + (x.cat === 'staff' ? '魔法威力' : x.cat === 'seal' ? '祈祷威力' : '攻撃力') + ' <b>' + powerOf(id) + '</b></span>　<span class="nw">重さ <b>' + x.wt + '</b> → ' + (m.over ? '過重' : ROLLS[m.roll].name) + '</span>' + (wm ? '<br><span class="mech">◆ ' + wm[0] + '：' + wm[1] + (mechK(id) < 1 ? '<br>（鍛えが浅く、いまの効き目は ' + Math.round(mechK(id) * 100) + '%。' + (x.special ? '+5' : '+10') + ' で本領）' : '') + '</span>' : ''), id === save.weapon ? '装備中' : id === save.off ? '左手' : '');
     } }
@@ -3157,11 +3192,12 @@ const btns = [
   { k: 'heavy', label: '強攻撃', x: 0, y: 0, r: 0, id: -1, down: false },
   { k: 'heal', label: '回復', x: 0, y: 0, r: 0, id: -1, down: false },
   { k: 'art', label: '戦技', x: 0, y: 0, r: 0, id: -1, down: false },
-  { k: 'guard', label: 'ガード', x: 0, y: 0, r: 0, id: -1, down: false }
+  { k: 'guard', label: 'ガード', x: 0, y: 0, r: 0, id: -1, down: false },
+  { k: 'fheal', label: 'FP瓶', x: 0, y: 0, r: 0, id: -1, down: false }
 ];
 const btnInt = { x: 0, y: 0, r: 0, id: -1, down: false }, btnSw = { x: 0, y: 0, r: 0, t: 0 };
 const pauseBtn = { x: 0, y: 0, r: 20 }, JOYH = { x: 0, y: 0, r: 0 }; let JS = 1;
-const EDK = ['atk', 'heavy', 'art', 'guard', 'roll', 'heal', 'int', 'sw', 'pause', 'joy'], EDN = { guard: 'ガード・詠唱', atk: '攻撃', heavy: '強攻撃', art: '戦技', roll: '回避', heal: '回復', int: '調べる・召喚', sw: '切替', pause: 'メニュー', joy: '移動（大きさ）' };
+const EDK = ['atk', 'heavy', 'art', 'guard', 'roll', 'heal', 'fheal', 'int', 'sw', 'pause', 'joy'], EDN = { fheal: 'FP回復', guard: 'ガード・詠唱', atk: '攻撃', heavy: '強攻撃', art: '戦技', roll: '回避', heal: '回復', int: '調べる・召喚', sw: '切替', pause: 'メニュー', joy: '移動（大きさ）' };
 const edObj = k => k === 'int' ? btnInt : k === 'sw' ? btnSw : k === 'pause' ? pauseBtn : k === 'joy' ? JOYH : btns.find(b => b.k === k);
 function layoutButtons() {
   const sb = 10, RX = W - SAR - (LAND ? 12 : 0);
@@ -3173,6 +3209,7 @@ function layoutButtons() {
   btnInt.r = 31 * U; btnSw.r = 23 * U;
   if (LAND) { btns[4].x = RX - 240 * U; btns[4].y = H - 196 * U - sb; btnSw.x = RX - 150 * U; btnSw.y = H - 248 * U - sb; } else { btns[4].x = RX - 236 * U; btns[4].y = H - 126 * U - sb; } btns[4].r = 27 * U;
   if (LAND) { btns[5].x = RX - 326 * U; btns[5].y = H - 178 * U - sb; } else { btns[5].x = RX - 238 * U; btns[5].y = H - 198 * U - sb; } btns[5].r = 29 * U;
+  if (LAND) { btns[6].x = RX - 236 * U; btns[6].y = H - 286 * U - sb; } else { btns[6].x = RX - 156 * U; btns[6].y = H - 322 * U - sb; } btns[6].r = 25 * U;
   pauseBtn.x = W - SAR - 30; pauseBtn.y = 32; pauseBtn.r = 20; JOYH.x = 84 * U + SAL; JOYH.y = H - 126 * U; JOYH.r = 54 * U; JS = 1;
   if (save.btn.v !== 2) migrateBtn();
   const cfg = save.btn[LAND ? 'l' : 'p'];
@@ -3204,7 +3241,7 @@ function onDown(e) {
   if (!G.near && canSummon() && Math.hypot(x - btnInt.x, y - btnInt.y) < btnInt.r * 1.3) { summon(); return; }
   if ((G.mode === 'play' || G.mode === 'fight') && canSwap() && Math.hypot(x - btnSw.x, y - btnSw.y) < btnSw.r * 1.35) { swapSpell(); return; }
   let best = null, bd = 1e9;
-  for (const b of btns) { if (b.k === 'guard' && !guardBtnOn()) continue; const d = Math.hypot(x - b.x, y - b.y) / b.r; if (d < 1.28 && d < bd) { bd = d; best = b; } }
+  for (const b of btns) { if (b.k === 'guard' && !guardBtnOn()) continue; if (b.k === 'fheal' && !save.flaskFp) continue; const d = Math.hypot(x - b.x, y - b.y) / b.r; if (d < 1.28 && d < bd) { bd = d; best = b; } }
   if (best) { best.id = e.pointerId; best.down = true; queue(best.k); try { cv.setPointerCapture(e.pointerId); } catch (er) {} return; }
   if (joy.id === -1 && x < W * 0.6) {
     joy.id = e.pointerId; joy.on = true; joy.ox = joy.x = x; joy.oy = joy.y = y; try { cv.setPointerCapture(e.pointerId); } catch (er) {}
@@ -3245,7 +3282,7 @@ window.addEventListener('keydown', e => {
   if (G.mode === 'menu') { if (k === 'Escape' || k === 'e') { if ($('bfMain').classList.contains('on')) leaveBonfire(); else { bfPane('bfMain'); bfNote(''); } } return; }
   if (k === 'Escape' || k === 'p') { if (G.paused || G.bfMenu) closeMenu(); else openMenu(); return; }
   if (G.paused) return;
-  if (k === 'j') queue('atk'); else if (k === 'k') queue('heavy'); else if (k === ' ') queue('roll'); else if (k === 'h') queue('heal'); else if (k === 'e') doInteract(); else if (k === 'q') swapSpell(); else if (k === 'l') queue('art'); else if (k === 'f') queue('guard'); else if (k === 'r') summon();
+  if (k === 'j') queue('atk'); else if (k === 'k') queue('heavy'); else if (k === ' ') queue('roll'); else if (k === 'h') queue('heal'); else if (k === 'g') queue('fheal'); else if (k === 'e') doInteract(); else if (k === 'q') swapSpell(); else if (k === 'l') queue('art'); else if (k === 'f') queue('guard'); else if (k === 'r') summon();
 });
 window.addEventListener('keyup', e => { const k = e.key.length === 1 ? e.key.toLowerCase() : e.key; keys[k] = false; });
 function readMove() {
@@ -3264,6 +3301,7 @@ $('slotBox').addEventListener('click', e => { const b = e.target.closest && e.ta
 tap('bCont', () => { if (!slotInfo(tSel)) return; if (tSel !== SLOT) loadSlot(tSel); continueGame(); });
 tap('bNew', () => { const go = () => { NEWSLOT = tSel; NGP = null; openClass(); }; if (slotInfo(tSel)) confirmAsk('はじめから', 'セーブ' + tSel + 'の旅の記録（ルーン・レベル・装備・図鑑）は<br>すべて灰に還ります。よろしいですか？', '灰に還す', go); else go(); });
 tap('bDel', () => { if (slotInfo(tSel)) confirmAsk('セーブを削除', 'セーブ' + tSel + 'を削除します。<br>この旅の記録は二度と戻りません。よろしいですか？', '削除する', () => { deleteSlot(tSel); refreshTitle(); }); });
+setInterval(() => { const b = $('bNextWin'); if (b) b.style.display = ngOpen(save) ? '' : 'none'; }, 400);
 for (const id of ['bNext', 'bNextWin', 'bNextBf']) tap(id, () => { if (id === 'bNext') { if (!slotInfo(tSel)) return; if (tSel !== SLOT) loadSlot(tSel); } startCycle(); });
 tap('bYes', () => { const f = cfmAct; cfmAct = null; $('confirm').classList.remove('on'); if (f) f(); });
 for (const b of $('xfSlots').querySelectorAll('button')) b.addEventListener('click', e => { e.preventDefault(); SFX.ui(); impSlot = +b.dataset.s; impMsg(); });
@@ -3297,6 +3335,8 @@ tap('bFx', () => { save.fxLow = !save.fxLow; writeSave(); refreshTitle(); });
 for (const id of ['bGuide', 'bGuide2']) tap(id, () => { $('guide').classList.add('on'); $('gdBody').scrollTop = 0; });
 tap('bGdClose', () => $('guide').classList.remove('on'));
 tap('bRest', () => { rest(); SFX.bonfire(); G.flashW = 0.15; bfNote('HP・FP・灰瓶が満ち、亡者は再び彷徨う'); refreshBf(); });
+tap('bFlask', () => { refreshFlask(); bfPane('bfFlask'); bfNote('瓶の振り分けは、祝福でだけ変えられる'); });
+$('flRows').addEventListener('click', e => { const b = e.target.closest && e.target.closest('.plus'); if (!b || b.disabled) return; initAudio(); SFX.ui(); flaskShift(+b.dataset.d); });
 tap('bLevel', () => { bfPane('bfLevel'); bfNote('ルーンを捧げ、力に換える'); });
 tap('bForge', () => { bfPane('bfForge'); bfNote('素材とルーンで、武器を鍛える'); refreshForge(); $('fgRows').scrollTop = 0; });
 $('fgRows').addEventListener('click', e => { const ac = e.target.closest && e.target.closest('[data-act]'); if (ac) { initAudio(); SFX.ui(); WUI.cat = ac.dataset.v || ''; refreshForge(); $('fgRows').scrollTop = 0; return; } const b = e.target.closest && e.target.closest('.fg'); if (!b || b.disabled) return; initAudio(); forgeClick(b); });
@@ -3311,7 +3351,7 @@ tap('bCrGo', () => { $('bonfire').classList.remove('on'); writeSave(); enterCryp
 tap('bLeave', leaveBonfire);
 tap('bMap', openMap); tap('bMapClose', closeMap); tap('bPower', () => openAltar(false)); tap('bAlBack', closeAltar); tap('bNews', openNews); tap('bNewsClose', () => $('news').classList.remove('on'));
 $('alRows').addEventListener('click', e => { const r = e.target.closest && e.target.closest('.wp'); if (!r) return; initAudio(); altarClick(r); });
-for (const id of ['bLvBack', 'bEqBack', 'bBkBack', 'bCrBack', 'bFgBack', 'bWpBack']) tap(id, () => { if (G.fieldEq) { closeFieldEquip(); return; } bfPane('bfMain'); bfNote(''); });
+for (const id of ['bFlBack', 'bLvBack', 'bEqBack', 'bBkBack', 'bCrBack', 'bFgBack', 'bWpBack']) tap(id, () => { if (G.fieldEq) { closeFieldEquip(); return; } bfPane('bfMain'); bfNote(''); });
 tap('bWarp', () => { bfPane('bfWarp'); bfNote('触れたことのある祝福へ渡る'); refreshWarp(); });
 $('wpRows').addEventListener('click', e => { const r = e.target.closest && e.target.closest('.wp'); if (!r) return; initAudio(); SFX.ui(); const g = +r.dataset.g; if (!save.lit[g] || g === save.bonfire) return; travelTo(g, false); });
 tap('bEq2', openFieldEquip);
@@ -3368,7 +3408,11 @@ function tryAct() {
   const k = P.buf, w = WPN[save.weapon], ok = offKind();
   if (k === 'heal') {
     P.buf = ''; if (P.flasks <= 0 || P.hp >= P.maxHp) { SFX.nost(); return false; }
-    P.state = 'heal'; P.t = 0; P.healed = false; SFX.sip(); return true;
+    P.state = 'heal'; P.t = 0; P.healed = false; P.fk = false; SFX.sip(); return true;
+  }
+  if (k === 'fheal') {
+    P.buf = ''; if (P.fflasks <= 0 || P.fp >= P.maxFp - 1) { SFX.nost(); return false; }
+    P.state = 'heal'; P.t = 0; P.healed = false; P.fk = true; SFX.sip(); return true;
   }
   if (P.st <= 0) { P.buf = ''; P.stFlash = 0.4; SFX.nost(); return false; }
   P.buf = '';
@@ -3667,7 +3711,7 @@ function updPlayer(dt) {
     case 'heal':
       P.t += dt; vx += mx * 55; vy += my * 55;
       if (Math.random() < 0.6) pt(P.x + rnd(-12, 12), P.y + rnd(-12, 12), 0, -30, 0.5, 7, 0, 1, 0, 30);
-      if (!P.healed && P.t >= 0.72) { const h = healAmt(); P.healed = true; P.flasks--; G.fFlask++; P.hp = Math.min(P.maxHp, P.hp + h); SFX.heal(); burst(P.x, P.y, 14, 90, 0.7, 10, 0, 1); floatText(P.x, P.y - 30, '+' + h, '#f1d98a', 15); }
+      if (!P.healed && P.t >= 0.72) { P.healed = true; G.fFlask++; if (P.fk) { const h = fpFlaskAmt(); P.fflasks--; P.fp = Math.min(P.maxFp, P.fp + h); SFX.heal(); burst(P.x, P.y, 14, 90, 0.7, 10, 0, 1); floatText(P.x, P.y - 30, 'FP +' + h, '#8fb8ff', 15); } else { const h = healAmt(); P.flasks--; P.hp = Math.min(P.maxHp, P.hp + h); SFX.heal(); burst(P.x, P.y, 14, 90, 0.7, 10, 0, 1); floatText(P.x, P.y - 30, '+' + h, '#f1d98a', 15); } }
       if (P.t >= 1.15) P.state = 'idle';
       break;
     case 'hurt':
@@ -4733,6 +4777,7 @@ function propNear(p) {
   if (p.t === 'mdout') { setNear('x', '外へ出る', '出る', 0, p); return 2; }
   if (p.t === 'lever') { if (save.doors[p.door]) return true; setNear('x', '梃子を引く', '引く', 0, p); return 2; }
   if (p.t === 'altar') { setNear('x', '追憶の祭壇を調べる', '調べる', 0, p); return 2; }
+  if (p.t === 'note') { setNear('x', '書き置きを読む', '読む', 0, p); return 2; }
   return false;
 }
 function propUse(p, hot) {
@@ -4741,6 +4786,7 @@ function propUse(p, hot) {
   else if (p.t === 'mdout') { if (!hot()) exitMd(); }
   else if (p.t === 'lever') { save.doors[p.door] = 1; const dr = DOORS.find(d => d.id === p.door); SFX.door(); shake(5); buildMini(); showCard('梃子を引いた', '── ' + (dr ? dr.msg : '') + ' ──', 2.6); writeSave(); }
   else if (p.t === 'altar') { if (!hot()) openAltar(true); }
+  else if (p.t === 'note') { SFX.ui(); toast('書き置き\n' + p.msg, 7, true); }
 }
 function exitMd() {
   const ly = layerOf(L.base), g = ly.back, base = L.base;
@@ -4861,6 +4907,7 @@ function drawXProp(p) {
   if (p.t === 'ped') { const got = save.maps[L.mid + ':' + p.reg]; ctx.fillStyle = '#2b2823'; ctx.fillRect(x - 11, y - 6, 22, 16); ctx.fillStyle = '#4a453b'; ctx.fillRect(x - 8, y - 16, 16, 14); ctx.strokeStyle = '#8d8676'; ctx.lineWidth = 1.2; ctx.strokeRect(x - 8, y - 16, 16, 14); if (!got) { ctx.fillStyle = '#d9c58c'; ctx.fillRect(x - 5, y - 14, 10, 8); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.45 + Math.sin(G.now * 3) * 0.15; ctx.drawImage(SPR[6], x - 22, y - 32, 44, 44); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; } return true; }
   if (p.t === 'mdin' || p.t === 'mdout') { if (p.t === 'mdin' && !layerOf(p.to).open()) return true; ctx.fillStyle = '#050403'; ctx.beginPath(); ctx.ellipse(x, y, 24, 17, 0, 0, TAU); ctx.fill(); ctx.strokeStyle = p.t === 'mdin' ? '#7a5cc0' : '#a88d4e'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.ellipse(x, y, 24, 17, 0, 0, TAU); ctx.stroke(); ctx.strokeStyle = 'rgba(0,0,0,.6)'; ctx.lineWidth = 1.5; for (let i = -1; i <= 1; i++) { ctx.beginPath(); ctx.moveTo(x - 14, y + i * 6); ctx.lineTo(x + 14, y + i * 6); ctx.stroke(); } ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.3 + Math.sin(G.now * 2.4) * 0.1; ctx.drawImage(SPR[p.t === 'mdin' ? 7 : 1], x - 34, y - 34, 68, 68); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; return true; }
   if (p.t === 'lever') { const on = save.doors[p.door]; ctx.fillStyle = '#2b2823'; ctx.fillRect(x - 9, y - 3, 18, 10); ctx.strokeStyle = '#a58b4c'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + (on ? 10 : -10), y - 16); ctx.stroke(); ctx.fillStyle = on ? '#7dffd0' : '#c9a455'; ctx.beginPath(); ctx.arc(x + (on ? 10 : -10), y - 16, 3.5, 0, TAU); ctx.fill(); return true; }
+  if (p.t === 'note') { ctx.save(); ctx.translate(x, y); ctx.rotate(-0.12); ctx.fillStyle = '#c9bb90'; ctx.fillRect(-9, -6, 18, 12); ctx.strokeStyle = '#7a6c48'; ctx.lineWidth = 1; ctx.strokeRect(-9, -6, 18, 12); ctx.fillStyle = '#6b5d3c'; ctx.fillRect(-6, -3, 12, 1.4); ctx.fillRect(-6, 0, 9, 1.4); ctx.fillRect(-6, 3, 11, 1.4); ctx.restore(); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.18 + Math.sin(G.now * 2.4) * 0.08; ctx.drawImage(SPR[1], x - 22, y - 22, 44, 44); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; return true; }
   if (p.t === 'altar') { ctx.fillStyle = '#26221c'; ctx.fillRect(x - 17, y - 8, 34, 18); ctx.fillStyle = '#3d382f'; ctx.fillRect(x - 13, y - 16, 26, 10); ctx.strokeStyle = '#a88d4e'; ctx.lineWidth = 1.4; ctx.strokeRect(x - 13, y - 16, 26, 10); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.5 + Math.sin(G.now * 2) * 0.15; ctx.drawImage(SPR[1], x - 26, y - 40, 52, 52); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; return true; }
   return false;
 }
@@ -4868,6 +4915,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.7.6', d: '2026-11-18', t: '灰瓶と書き置き', items: ['隠された場所にヒントを置きました', 'FPを回復する瓶を追加しました', '回復瓶の数と回復量を見直しました', 'レベルアップ画面に武器の情報を表示しました', '周回プレイは今後の階層追加後に開放します'] },
   { v: '1.7.5', d: '2026-11-18', t: '中ボスの部屋と視界', items: ['中ボスの部屋は霧から入るようにしました', '視界制限（ハード）の見え方を修正しました', '大ボス前の騎士を強化しました', '護符の画面がタブレットで見切れる問題を修正しました', '第2層の主の間に入れない問題を修正しました'] },
   { v: '1.7.4', d: '2026-11-18', t: '手応えの調整', items: ['エリアごとの手応えを調整しました', '攻撃力が足りないときに知らせる表示を追加しました'] },
   { v: '1.7.3', d: '2026-11-18', t: '中ボスの部屋', items: ['中ボスと一対一で戦える部屋を追加しました', 'モンスターを少し打たれ強くしました'] },
@@ -5669,10 +5717,10 @@ function drawHUD() {
     bar(x, y + 32, fw, 6, P.fp / P.maxFp, 0, ff ? '#ffffff' : '#5f96e0', ff ? '#9ab8e8' : '#274a8a', '#000');
     if ((G.mode === 'play' || G.mode === 'fight') && P.state !== 'dead' && recMult(false) < 0.95) { ctx.font = '800 10.5px ' + FONT; ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText('攻撃力不足', x + fw + 9, y + 36); ctx.fillStyle = '#e0605a'; ctx.fillText('攻撃力不足', x + fw + 8, y + 35); }
     for (let i = 0; i < save.flaskMax; i++) {
-      const fx = x + 9 + i * 24, fy = y + 58, full = i < P.flasks;
-      ctx.fillStyle = full ? '#e6b647' : 'rgba(30,26,20,.8)'; ctx.strokeStyle = full ? '#f6e3a0' : '#5d5238'; ctx.lineWidth = 1.3;
+      const fx = x + 9 + i * 24, fy = y + 58, nh = flaskHp(), fpf = i >= nh, full = fpf ? i - nh < P.fflasks : i < P.flasks;
+      ctx.fillStyle = full ? (fpf ? '#5f96e0' : '#e6b647') : 'rgba(30,26,20,.8)'; ctx.strokeStyle = full ? (fpf ? '#bcd8ff' : '#f6e3a0') : '#5d5238'; ctx.lineWidth = 1.3;
       ctx.beginPath(); ctx.arc(fx, fy + 2, 7.5, 0, TAU); ctx.fill(); ctx.stroke();
-      ctx.fillStyle = full ? '#b98a2a' : '#3a3324'; ctx.fillRect(fx - 3, fy - 10, 6, 6); ctx.strokeRect(fx - 3, fy - 10, 6, 6);
+      ctx.fillStyle = full ? (fpf ? '#2f5fa8' : '#b98a2a') : '#3a3324'; ctx.fillRect(fx - 3, fy - 10, 6, 6); ctx.strokeRect(fx - 3, fy - 10, 6, 6);
     }
     ctx.textAlign = 'left'; ctx.textBaseline = 'middle'; ctx.font = '800 13px ' + FONT;
     const wx = x + save.flaskMax * 24 + 8, sp = canCast() ? curSpell() : null, wn = wname(save.weapon) + (offId() ? '＋' + (SHD[offId()] ? SHD[offId()].type : WPN[offId()].cls) : '') + (sp ? '・' + spDef(sp).short : '');
@@ -5740,18 +5788,20 @@ function drawHUD() {
     const sp = staff ? curSpell() : null;
     for (const b of btns) {
       if (b.k === 'guard') { if (!guardBtnOn()) continue; b.label = guardLabel(); }
+      if (b.k === 'fheal' && !save.flaskFp) continue;
       const art = b.k === 'art' ? ART[artOf(save.weapon)] : null, gc = b.k === 'guard' && offKind() === 'cat'; if (b.k === 'heavy') b.label = heavyLabel();
-      const dis = gc ? !curSpell() || P.fp < spDef(curSpell()).fp : art ? P.fp < artFp(art) : b.k === 'heal' ? P.flasks <= 0 : b.k === 'heavy' && staff ? !sp || P.fp < spDef(sp).fp : P.st <= 0;
+      const dis = gc ? !curSpell() || P.fp < spDef(curSpell()).fp : art ? P.fp < artFp(art) : b.k === 'heal' ? P.flasks <= 0 : b.k === 'fheal' ? P.fflasks <= 0 : b.k === 'heavy' && staff ? !sp || P.fp < spDef(sp).fp : P.st <= 0;
       ctx.globalAlpha = dis ? 0.4 : 1;
       ctx.fillStyle = b.down ? 'rgba(150,118,52,.55)' : 'rgba(12,10,7,.5)'; ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, TAU); ctx.fill();
       ctx.strokeStyle = b.down ? '#f3e2ac' : (b.k === 'heavy' && staff) || gc ? 'rgba(130,170,240,.9)' : b.k === 'guard' && P.state === 'guard' ? '#cfe0ff' : 'rgba(190,160,90,.85)'; ctx.lineWidth = 1.6; ctx.stroke();
       ctx.strokeStyle = 'rgba(190,160,90,.25)'; ctx.lineWidth = 1; ctx.beginPath(); ctx.arc(b.x, b.y, b.r - 5 * U, 0, TAU); ctx.stroke();
       ctx.fillStyle = '#eadcae'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      const sub = b.k === 'heal' || (b.k === 'heavy' && sp) || (art && art.fp > 0); if (art) b.label = art.short;
+      const sub = b.k === 'heal' || b.k === 'fheal' || (b.k === 'heavy' && sp) || (art && art.fp > 0); if (art) b.label = art.short;
       ctx.font = '800 ' + Math.round(b.r * (b.label.length > 2 ? 0.4 : 0.5)) + 'px ' + FONT;
       if (b.k === 'atk' && G.critOk) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.6 + Math.sin(G.now * 10) * 0.3; ctx.drawImage(SPR[1], b.x - b.r * 1.7, b.y - b.r * 1.7, b.r * 3.4, b.r * 3.4); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.strokeStyle = '#ffe9a0'; ctx.lineWidth = 3; ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, TAU); ctx.stroke(); ctx.fillStyle = '#fff3c8'; ctx.font = '800 ' + Math.round(b.r * 0.56) + 'px ' + FONT; ctx.fillText('致命', b.x, b.y + 1); continue; }
       ctx.fillText(b.label, b.x, b.y + (sub ? -4 * U : 1));
       if (b.k === 'heal') { ctx.font = '500 ' + Math.round(b.r * 0.36) + 'px ' + FONT; ctx.fillStyle = '#e6b647'; ctx.fillText('×' + P.flasks, b.x, b.y + b.r * 0.46); }
+      else if (b.k === 'fheal') { ctx.font = '500 ' + Math.round(b.r * 0.4) + 'px ' + FONT; ctx.fillStyle = '#9fc4ff'; ctx.fillText('×' + P.fflasks, b.x, b.y + b.r * 0.46); }
       else if (sub) { ctx.font = '500 ' + Math.round(b.r * 0.32) + 'px ' + FONT; ctx.fillStyle = '#9fc4ff'; ctx.fillText('FP ' + (art ? artFp(art) : spDef(sp).fp), b.x, b.y + b.r * 0.46); }
     }
     ctx.globalAlpha = 1;

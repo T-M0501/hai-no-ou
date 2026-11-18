@@ -18,7 +18,7 @@ const d = {
     ['q1', 10, 52, { w: 'sword2', m: { c: 2 } }], ['q2', 19, 53, { w: 'katana2' }], ['q3', 30, 43, { w: 'claws2' }], ['q4', 17, 27, { w: 'axe2' }], ['q5', 28, 34, { w: 'curved2' }], ['q6', 17, 34, { s: 1500, m: { l: 2 } }],
     ['q7', 46, 25, { w: 'spear2' }], ['q8', 37, 34, { t: 'crest', r: 3 }], ['q9', 41, 50, { w: 'rapier2' }], ['q24', 44, 50, { w: 'msword2' }], ['q10', 50, 41, { w: 'scythe2', m: { e: 1 } }], ['q11', 64, 23, { w: 'staff3', sh: 'crow' }], ['q12', 55, 32, { w: 'seal3', sp: 'e_holy' }],
     ['q13', 64, 46, { w: 'ultra2', m: { l: 2 } }], ['q14', 55, 39, { w: 'claws3' }], ['q15', 48, 7, { w: 'great2' }], ['q16', 48, 16, { w: 'halberd2' }], ['q25', 45, 16, { w: 'hsword', t: 'vial', r: 3 }], ['q17', 33, 16, { w: 'shield3', sh: 'tower2' }], ['q18', 64, 5, { a: 'vest' }],
-    ['q19', 57, 14, { w: 'dagger3' }], ['q20', 64, 14, { w: 'mace3', m: { e: 1 } }], ['q21', 57, 5, { t: 'censer', r: 3 }], ['q22', 24, 16, { w: 'bow2' }], ['q23', 15, 16, { w: 'shield2', sh: 'round2', m: { l: 1 } }]
+    ['q19', 57, 14, { w: 'dagger3' }], ['q20', 64, 14, { w: 'mace3', m: { e: 1 } }], ['q21', 57, 5, { t: 'censer', r: 3, f: 1 }], ['q22', 24, 16, { w: 'bow2' }], ['q23', 15, 16, { w: 'shield2', sh: 'round2', m: { l: 1 } }]
   ],
   doors: [['L2d0', [[8, 45], [9, 45]], 'y', -1, '昇降機の広場への近道が開いた']],
   /* v1.7.5: each mid-boss room has one doorway (灰守りの庭 north, 巡礼者の宿坊 west, 聖具室 west); the other doorways and the two shortcut doors between the rooms are walled up, and 灰晶の採掘場 / the 祝福 corridor get their own corridors */
@@ -52,7 +52,7 @@ d.haz = [['mire', 18, 60, 14, 5], ['ash', 72, 44, 8, 4]];
 d.crumble = [[24, 55], [25, 55], [24, 56], [25, 56]];
 d.regions = [['outer', '聖都の外縁', [[66, 34, 26, 18], [8, 54, 32, 16]]], ['north', '大聖堂', [[0, 0, 70, 24]]], ['mid', '聖都中央', [[36, 18, 32, 36]]], ['sw', '灰の大通り', [[0, 24, 36, 32]]]];
 d.props.push({ t: 'ped', reg: 'sw', tx: 10, ty: 47 }, { t: 'ped', reg: 'mid', tx: 47, ty: 35 }, { t: 'ped', reg: 'north', tx: 49, ty: 17 }, { t: 'ped', reg: 'outer', tx: 71, ty: 49 },
-  { t: 'mdin', to: 130, tx: 83, ty: 37 }, { t: 'mdin', to: 140, tx: 36, ty: 59 }, { t: 'altar', tx: 9, ty: 51 });
+  { t: 'note', tx: 17, ty: 26, msg: '説教の合間に、壁が軋むのを聞いた。\n北の石は、祈りより脆い。' }, { t: 'note', tx: 37, ty: 6, msg: '鐘を失った聖堂にも、隠し事はある。\n北の壁を叩いてみよ。' }, { t: 'note', tx: 81, ty: 41, msg: '採掘者は坑道の脇に、もう一つ穴を掘った。\n灰晶の光が、壁の奥に透けている。' }, { t: 'note', tx: 15, ty: 62, msg: '名を刻まれなかった者たちは、\nあの壁の向こうで眠っている。' }, { t: 'note', tx: 16, ty: 11, msg: '鐘楼の西の壁、霧が揺らぐ。\n説教は、まだ続いている ── 灰の聖座で。' }, { t: 'mdin', to: 130, tx: 83, ty: 37 }, { t: 'mdin', to: 140, tx: 36, ty: 59 }, { t: 'altar', tx: 9, ty: 51 });
 d.roam = [['yk_seer', [[24, 47], [23, 43], [23, 36], [22, 30], [31, 30], [22, 30], [23, 36], [23, 43]]]];
 HAI_DATA('layer2', d);
 })();
