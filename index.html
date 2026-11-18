@@ -318,7 +318,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.9.7</div>
+  <div id="verTxt" class="ver">v1.9.8</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -921,7 +921,7 @@ SPR.push(makeGlow(120, 175, 255), makeGlow(185, 120, 255), makeGlow(110, 235, 19
 const G = { mode: 'title', t: 0, now: 0, time: 0, hitstop: 0, shake: 0, slow: 1, slowT: 0, paused: false, p2: 0, hurtFlash: 0, flashW: 0, dm: 1, card: null, cardT: 0, tries: 0, shown: false, glT: 0, glX: 0, glY: 0, newBest: false };
 const cam = { x: 0, y: 0 };
 const P = { r: 13 };
-const B = { r: 30, cd: {} };
+const B = { r: 35, r0: 30, cd: {} };
 const tele = [], spikes = [], rings = [], shots = [], fires = [], slashes = [];
 const NP = 560, parts = []; let pi = 0;
 for (let i = 0; i < NP; i++) parts.push({ on: false, x: 0, y: 0, vx: 0, vy: 0, life: 0, max: 1, size: 1, type: 0, col: 0, drag: 0, rise: 0 });
@@ -1008,15 +1008,15 @@ const SPELL = {
   h_swarm: { name: '灰喰らいの群れ', short: '群れ', fp: 20, cast: 0.5, dur: 0.85, hidden: 2, desc: '六つの灰玉が敵を追う。墓主の追憶から得る。' }
 };
 const ARM = {
-  rags: { name: '放浪者の襤褸', tier: 1, dw: 2, pn: ['放浪者の頭巾', '放浪者の襤褸', '放浪者の手巻き', '放浪者の脚絆'], cls: '軽装', wt: 3, def: 0.0325, desc: '旅の始まりの服。軽いだけが取り柄。', c: ['#6f757f', '#9299a4', '#c3c8d0', '#5a1d1d', 0] },
-  leather: { name: '斥候の革鎧', tier: 1, dw: 5, pn: ['斥候の革帽', '斥候の革鎧', '斥候の革手袋', '斥候の革長靴'], cls: '軽装', wt: 7, def: 0.08, desc: '音を立てない革の鎧。身軽さを保てる。', c: ['#5b4630', '#7a5f3e', '#8a7350', '#2f3a24', 1] },
-  robe: { name: '学匠の法衣', tier: 1, dw: 4, pn: ['学匠の頭巾', '学匠の法衣', '学匠の袖', '学匠の裳裾'], cls: '軽装', wt: 4, def: 0.05, mag: 0.08, fpr: 1, desc: '魔法の威力+8%、FPの自然回復が早まる。守りは薄い。', c: ['#2c3460', '#3d4a86', '#252b4c', '#1a1f3a', 2] },
+  rags: { name: '放浪者の襤褸', tier: 1, dw: 2, pn: ['放浪者の頭巾', '放浪者の襤褸', '放浪者の手巻き', '放浪者の脚絆'], cls: '軽装', wt: 2.5, def: 0.028, desc: '旅の始まりの服。軽いだけが取り柄。', c: ['#6f757f', '#9299a4', '#c3c8d0', '#5a1d1d', 0] },
+  leather: { name: '斥候の革鎧', tier: 1, dw: 5, pn: ['斥候の革帽', '斥候の革鎧', '斥候の革手袋', '斥候の革長靴'], cls: '軽装', wt: 5.5, def: 0.066, desc: '音を立てない革の鎧。身軽さを保てる。', c: ['#5b4630', '#7a5f3e', '#8a7350', '#2f3a24', 1] },
+  robe: { name: '学匠の法衣', tier: 1, dw: 4, pn: ['学匠の頭巾', '学匠の法衣', '学匠の袖', '学匠の裳裾'], cls: '軽装', wt: 3.5, def: 0.042, mag: 0.08, fpr: 1, desc: '魔法の威力+8%、FPの自然回復が早まる。守りは薄い。', c: ['#2c3460', '#3d4a86', '#252b4c', '#1a1f3a', 2] },
   mail: { name: '騎士の鎖鎧', tier: 1, dw: 4, pn: ['騎士の兜', '騎士の鎖鎧', '騎士の手甲', '騎士の脚甲'], cls: '中装', wt: 13, def: 0.1425, desc: '城の騎士の鎖帷子。守りと動きの釣り合いが良い。', c: ['#59606b', '#8b93a0', '#aeb6c2', '#1f3d6b', 3] },
   cloak: { name: '夜警の外套', tier: 2, dw: 3, pn: ['夜警の目深帽', '夜警の外套', '夜警の手套', '夜警の長靴'], cls: '中装', wt: 9, def: 0.1225, str: 0.12, night: 1, desc: '夜の城を巡る者の外套。スタミナ回復+12%。軽さの割に守りが堅い。', c: ['#22262e', '#3a4150', '#8f98a8', '#0f1218', 5] },
   vest: { name: '聖堂騎士の鎧', tier: 2, dw: 4, pn: ['聖堂騎士の兜', '聖堂騎士の鎧', '聖堂騎士の手甲', '聖堂騎士の脚甲'], cls: '中装', wt: 17, def: 0.2, l2: 1, desc: '聖都の騎士の鎧。鎖鎧より重いが、ずっと堅い。', c: ['#8a8d92', '#c8ccd2', '#dfe2e6', '#6a2a2a', 3] },
-  plate: { name: '灰鉄の重鎧', tier: 2, dw: 3, pn: ['灰鉄の角兜', '灰鉄の重鎧', '灰鉄の篭手', '灰鉄の脚甲'], cls: '重装', wt: 22, def: 0.2375, pp: [1, 2, 1, 1], desc: '分厚い灰鉄の板金。軽い攻撃に怯まない。持久力なしでは転がれない。', c: ['#3c3f46', '#6a6f79', '#585d66', '#3d1414', 4] },
-  grave: { name: '墓守の装束', tier: 2, dw: 3, hidden: 2, pn: ['墓守の頭巾', '墓守の装束', '墓守の手袋', '墓守の脛当て'], cls: '軽装', wt: 8, def: 0.105, bld: 0.12, desc: '地下墓の墓守が纏う、土色の装束。出血の蓄積+12%（四部位）。亡者からしか得られない。', c: ['#3f4a3a', '#5d6b52', '#77866a', '#262d22', 5] },
-  crown: { name: '灰冠の王鎧', tier: 2, dw: 2, hidden: 2, pn: ['灰冠の兜', '灰冠の王鎧', '灰冠の篭手', '灰冠の脚甲'], cls: '重装', wt: 19, def: 0.2225, pp: [1, 1, 0, 1], desc: '王に仕えた近衛の鎧。重鎧より軽く、ほとんど同じだけ堅い。強敵だけが遺す。', c: ['#4a4038', '#b89a55', '#d8c48a', '#5a1a1a', 4] },
+  plate: { name: '灰鉄の重鎧', tier: 2, dw: 3, pn: ['灰鉄の角兜', '灰鉄の重鎧', '灰鉄の篭手', '灰鉄の脚甲'], cls: '重装', wt: 36, def: 0.54, pp: [1, 2, 1, 1], desc: '分厚い灰鉄の板金。軽い攻撃に怯まない。持久力なしでは転がれない。', c: ['#3c3f46', '#6a6f79', '#585d66', '#3d1414', 4] },
+  grave: { name: '墓守の装束', tier: 2, dw: 3, hidden: 2, pn: ['墓守の頭巾', '墓守の装束', '墓守の手袋', '墓守の脛当て'], cls: '軽装', wt: 7, def: 0.09, bld: 0.12, desc: '地下墓の墓守が纏う、土色の装束。出血の蓄積+12%（四部位）。亡者からしか得られない。', c: ['#3f4a3a', '#5d6b52', '#77866a', '#262d22', 5] },
+  crown: { name: '灰冠の王鎧', tier: 2, dw: 2, hidden: 2, pn: ['灰冠の兜', '灰冠の王鎧', '灰冠の篭手', '灰冠の脚甲'], cls: '重装', wt: 31, def: 0.49, pp: [1, 1, 0, 1], desc: '王に仕えた近衛の鎧。重鎧より軽く、ほとんど同じだけ堅い。強敵だけが遺す。', c: ['#4a4038', '#b89a55', '#d8c48a', '#5a1a1a', 4] },
   /* v1.6 families. `pf` = profile (ARM_PF): defense and weight come from the profile and the tier curve unless given explicitly */
   ashhunt: { name: '灰狩りの装束', tier: 1, dw: 4, hidden: 2, pf: 'swift', pn: ['灰狩りの鉢巻', '灰狩りの胴着', '灰狩りの籠手', '灰狩りの脚絆'], str: 0.08, desc: '灰の中で獣を追う狩人の装束。守りは薄いが、息が続く（スタミナ回復+8%）。', c: ['#6a4a2c', '#9a6f3a', '#c08a4a', '#3a2a1c', 1] },
   gate: { name: '門衛の具足', tier: 1, dw: 3, hidden: 2, pf: 'guard', pn: ['門衛の鉄笠', '門衛の胴丸', '門衛の腕当て', '門衛の脛当て'], pp: [0, 1, 0, 0], desc: '城門を守り続けた衛兵の具足。鎖鎧より重く、堅い。', c: ['#5a4a32', '#8f7a4a', '#a8955e', '#2c3a2a', 3] },
@@ -1318,8 +1318,8 @@ const ARMP = {}, TIER_MAX = 10;
 /* profiles for generated families: def = share of damage cut at tier 1, wt = set weight, plus built-in traits.
    tierDef(t) is the main-stat curve: +15% of the tier-1 value per tier (×2.35 at tier 10; heavy 150 → 352). Weight does not grow with tier. */
 const ARM_PF = {
-  light: { cls: '軽装', def: 0.0725, wt: 6 }, swift: { cls: '軽装', def: 0.0575, wt: 4.5 }, caster: { cls: '軽装', def: 0.06, wt: 4.5, mag: 0.1, fpr: 1.2, el: 0.08 }, ward: { cls: '軽装', def: 0.065, wt: 6, el: 0.2 },
-  medium: { cls: '中装', def: 0.135, wt: 12 }, guard: { cls: '中装', def: 0.1675, wt: 16 }, heavy: { cls: '重装', def: 0.21, wt: 21, pp: [1, 2, 1, 1] }, wardh: { cls: '重装', def: 0.185, wt: 20, el: 0.24 }
+  light: { cls: '軽装', def: 0.06, wt: 5 }, swift: { cls: '軽装', def: 0.048, wt: 3.8 }, caster: { cls: '軽装', def: 0.05, wt: 3.8, mag: 0.1, fpr: 1.2, el: 0.08 }, ward: { cls: '軽装', def: 0.055, wt: 5, el: 0.2 },
+  medium: { cls: '中装', def: 0.135, wt: 12 }, guard: { cls: '中装', def: 0.17, wt: 16 }, heavy: { cls: '重装', def: 0.5, wt: 33, pp: [1, 2, 1, 1] }, wardh: { cls: '重装', def: 0.46, wt: 32, el: 0.24 }
 };
 const tierDef = t => 1 + 0.115 * (t - 1);
 /* v1.7 adds a family with one line of data: addFamily('id', { name, tier, dw, pf, pn: [頭, 胴, 腕, 脚], desc, c: [body, shoulder, head, cloth, style 0-5] }) */
@@ -1384,7 +1384,7 @@ function armSum(over) {
 /* AB = what the equipped armor adds, in the units the formulas use */
 const AB = { el: 0, def: 0, wt: 0, atk: 0, red: 0, stm: 0, sreg: 0, fp: 0, rune: 0, bld: 0, mag: 0, fpr: 0, poise: 0, vit: 0, end: 0, str: 0, dex: 0, int: 0, fth: 0, sum: null };
 function armCalc() {
-  const o = armSum(); AB.sum = o; AB.el = Math.min(0.5, o.el); AB.def = Math.min(0.525, o.def / 1000); AB.wt = o.wt; AB.atk = o.atk / 100; AB.red = o.red / 100; AB.stm = o.stm; AB.sreg = o.sreg / 100 + o.sreg0; AB.fp = o.fp; AB.rune = o.rune / 100; AB.bld = o.bld / 100 + o.bld0; AB.mag = o.mag; AB.fpr = o.fpr; AB.poise = o.pp * 3.2;
+  const o = armSum(); AB.sum = o; AB.el = Math.min(0.5, o.el); AB.def = Math.min(0.6, o.def / 1000); AB.wt = o.wt; AB.atk = o.atk / 100; AB.red = o.red / 100; AB.stm = o.stm; AB.sreg = o.sreg / 100 + o.sreg0; AB.fp = o.fp; AB.rune = o.rune / 100; AB.bld = o.bld / 100 + o.bld0; AB.mag = o.mag; AB.fpr = o.fpr; AB.poise = o.pp * 3.2;
   for (const k of ['vit', 'end', 'str', 'dex', 'int', 'fth']) AB[k] = o[k];
   if (o.n === 4 && o.r4 === 4 && save.cnt) save.cnt.set4 = 1;
 }
@@ -1411,7 +1411,7 @@ const cryptCap = () => save.bossDead || !KING_OPEN ? CRYPT_MAX : CRYPT_PRE, cryp
 const dmgAll = () => (1 + AB.atk) * (1 + 0.1 * tk('shard')) * (1 + 0.12 * tk('socket')) * (save.pwOn === 'hb' ? 1.08 : 1);
 sanitize();
 const STATS = [['vit', '体力'], ['end', '持久力'], ['str', '筋力'], ['dex', '技量'], ['int', '知力'], ['fth', '信仰']];
-const ROLLS = [{ name: '軽ロール', T: 0.528, ifr: 0.30, st: 26, sp: 344 }, { name: '中ロール', T: 0.552, ifr: 0.25, st: 28.6, sp: 326 }, { name: '重ロール', T: 0.696, ifr: 0.18, st: 35.1, sp: 254 }];
+const ROLLS = [{ name: '軽ロール', T: 0.528, ifr: 0.30, st: 26, sp: 344 }, { name: '中ロール', T: 0.552, ifr: 0.25, st: 28.6, sp: 326 }, { name: '重ロール', T: 0.696, ifr: 0.20, st: 35.1, sp: 254 }];
 const M = { cap: 30, wt: 7, load: 0.2, roll: 0, over: false, def: 0.04 };
 let IFR = 0.3, ROLL_T = 0.44;
 const has = t => save.teq.includes(t);
@@ -1443,8 +1443,8 @@ const eff = v => v <= 30 ? v - 10 : v <= 50 ? 20 + (v - 30) * 0.5 : 30 + (v - 50
 const hpOf = () => { const v = sv('vit'); return Math.round((100 + 12 * Math.min(v - 10, 20) + 7 * clamp(v - 30, 0, 20) + 3 * Math.max(v - 50, 0)) * (1 + 0.15 * tk('amber')) * (save.pwOn === 'king' ? 1.15 : 1)); };
 const stOf = () => { const v = sv('end'); return Math.round((100 + 8 * Math.min(v - 10, 15) + 4 * Math.max(v - 25, 0) + AB.stm) * (1 + 0.12 * tk('howl'))); };
 const fpOf = () => { const v = sv('int'); return Math.round((50 + 5 * Math.min(v - 10, 20) + 2.5 * Math.max(v - 30, 0) + 20 * tk('spring') + AB.fp) * (save.pwOn === 'lord2' ? 1.3 : 1)); };
-const capOf = v => 30 + 1.5 * Math.min(v - 10, 15) + 0.8 * Math.max(v - 25, 0);
-function calcLoad(wid, awt, end, aend) { const cap = (capOf((end || save.st.end) + (aend === undefined ? AB.end : aend)) + 8 * tk('belt')) * blessLoad(), wt = Math.round((WPN[wid || save.weapon].wt + (awt === undefined || awt === null ? AB.wt : awt) + offWt(wid)) * 10) / 10, load = wt / cap; return { cap, wt, load, roll: load <= 0.35 ? 0 : load <= 0.7 ? 1 : 2, over: load > 1 }; }
+const capOf = v => 30 + 1.3 * clamp(v - 10, 0, 20) + 0.5 * clamp(v - 30, 0, 20) + 0.2 * clamp(v - 50, 0, 10); /* v1.9.8: 10-30 +1.3/pt, 30-50 +0.5, 50-60 +0.2, flat from 60 (was +1.5 to 25, then +0.8/pt with no limit) */
+function calcLoad(wid, awt, end, aend) { const cap = (capOf((end || save.st.end) + (aend === undefined ? AB.end : aend)) + 8 * tk('belt')) * blessLoad(), wt = Math.round((WPN[wid || save.weapon].wt + (awt === undefined || awt === null ? AB.wt : awt) + offWt(wid)) * 10) / 10, load = wt / cap; return { cap, wt, load, roll: load <= 0.35 ? 0 : load <= 0.5 ? 1 : 2, over: load > 1 }; }
 function recalc() {
   armCalc();
   P.maxHp = hpOf(); P.maxSt = stOf(); P.maxFp = fpOf();
@@ -2115,7 +2115,7 @@ const EATK = {
   poke: { w: 0.42, tele: 'line', len: 88, wd: 22, dmg: 13, kb: 300, rec: 0.65, trk: 5 },
   shoot: { w: 0.9, tele: 'line', len: 430, wd: 7, shoot: 1, rec: 0.5, trk: 6 },
   bolt: { w: 1.0, tele: 'line', len: 360, wd: 10, bolt: 1, rec: 0.6, trk: 5 },
-  claw: { w: 0.4, tele: 'arc', r: 52, half: 1.0, dmg: 11, kb: 200, rec: 0.12, trk: 6, next: 'clawb' },
+  claw: { w: 0.4, tele: 'arc', r: 52, half: 1.0, dmg: 11, kb: 200, rec: 0.2, trk: 6, next: 'clawb' },
   clawb: { w: 0.32, tele: 'arc', r: 54, half: 1.0, dmg: 12, kb: 300, rec: 0.75, trk: 5, step: 90 },
   cleave: { w: 0.85, tele: 'arc', r: 90, half: 0.9, dmg: 30, kb: 440, rec: 1.0, trk: 3 },
   sweep: { w: 0.62, tele: 'arc', r: 84, half: 1.35, dmg: 22, kb: 300, rec: 0.15, trk: 4, next: 'sweepb' },
@@ -2124,9 +2124,9 @@ const EATK = {
   /* v1.6.2: a few more moves so the rank and file punish carelessness (a delayed overhead, a spear sweep and double thrust, a three-claw chain, a quick double shot, a close-range burst) */
   slow: { w: 0.98, tele: 'arc', r: 64, half: 1.15, dmg: 21, kb: 380, rec: 0.85, trk: 3.4, step: 36 },
   spin: { w: 0.62, tele: 'arc', r: 80, half: 1.6, dmg: 15, kb: 400, rec: 0.9, trk: 2.5 },
-  poke2: { w: 0.44, tele: 'line', len: 88, wd: 22, dmg: 12, kb: 200, rec: 0.1, trk: 5, next: 'poke2b' },
+  poke2: { w: 0.44, tele: 'line', len: 88, wd: 22, dmg: 12, kb: 200, rec: 0.18, trk: 5, next: 'poke2b' },
   poke2b: { w: 0.34, tele: 'line', len: 104, wd: 22, dmg: 14, kb: 330, rec: 0.8, trk: 4, step: 110 },
-  claw3: { w: 0.4, tele: 'arc', r: 52, half: 1.0, dmg: 10, kb: 180, rec: 0.1, trk: 6, next: 'claw3b' },
+  claw3: { w: 0.4, tele: 'arc', r: 52, half: 1.0, dmg: 10, kb: 180, rec: 0.18, trk: 6, next: 'claw3b' },
   claw3b: { w: 0.3, tele: 'arc', r: 54, half: 1.0, dmg: 11, kb: 200, rec: 0.08, trk: 5.5, step: 90, next: 'clawc' },
   clawc: { w: 0.36, tele: 'arc', r: 58, half: 1.1, dmg: 15, kb: 360, rec: 0.95, trk: 4.5, step: 110 },
   shoot2: { w: 0.6, tele: 'line', len: 430, wd: 7, shoot: 1, rec: 0.1, trk: 6, next: 'shoot' },
@@ -2163,7 +2163,7 @@ Object.assign(EATK, {
   gsweep: { w: 0.95, tele: 'arc', r: 92, half: 1.5, dmg: 28, kb: 480, rec: 1.5, trk: 1.4, wDone: 1, tuned: 1 },
   /* v1.6.4 刀: 居合 (short tell, long dash slash), a two-hit combo, a delayed slash */
   iai: { w: 0.3, tele: 'line', len: 150, wd: 30, dash: 620, dur: 0.17, dmg: 16, kb: 300, rec: 0.95, trk: 2, wDone: 1, tuned: 1 },
-  kat2: { w: 0.4, tele: 'arc', r: 58, half: 1.0, dmg: 11, kb: 200, rec: 0.12, trk: 3, next: 'kat2b', wDone: 1, tuned: 1 },
+  kat2: { w: 0.4, tele: 'arc', r: 58, half: 1.0, dmg: 11, kb: 200, rec: 0.2, trk: 3, next: 'kat2b', wDone: 1, tuned: 1 },
   kat2b: { w: 0.36, tele: 'arc', r: 60, half: 1.05, dmg: 14, kb: 320, rec: 1.0, trk: 2.4, step: 90, wDone: 1, tuned: 1 },
   kdelay: { w: 0.44, hold: 0.5, tele: 'arc', r: 60, half: 1.0, dmg: 17, kb: 320, rec: 1.0, trk: 2.4, wDone: 1, tuned: 1 }
 });
@@ -2260,8 +2260,8 @@ function eInLine(e, len, w) {
   const cx = Math.cos(e.face), cy = Math.sin(e.face), dx = P.x - e.x, dy = P.y - e.y, t = clamp(dx * cx + dy * cy, 0, len), ex = dx - cx * t, ey = dy - cy * t;
   return ex * ex + ey * ey <= (w / 2 + P.r * 0.6) * (w / 2 + P.r * 0.6);
 }
-function inArc(e, r, half) { const dx = P.x - e.x, dy = P.y - e.y, d = Math.hypot(dx, dy); return d <= r + P.r * 0.6 && (d < e.r + 8 || Math.abs(angDiff(Math.atan2(dy, dx), e.face)) <= half + 0.08); }
-function mShot(e, a, spd, dmg, o) { const s = { x: e.x + Math.cos(a) * (e.r + 8), y: e.y + Math.sin(a) * (e.r + 8), vx: Math.cos(a) * spd, vy: Math.sin(a) * spd, r: 9, used: false, dmg: dmg * e.dm, hom: 0, kind: 1, life: 3, hold: 0, src: null, oa: 0, spd }; if (o) Object.assign(s, o); shots.push(s); return s; }
+function inArc(e, r, half) { const dx = P.x - e.x, dy = P.y - e.y, d = Math.hypot(dx, dy); return d <= r + P.r * 0.6 && (d < (e.def.r0 || e.r) + 8 || Math.abs(angDiff(Math.atan2(dy, dx), e.face)) <= half + 0.08); }
+function mShot(e, a, spd, dmg, o) { const s = { x: e.x + Math.cos(a) * ((e.def.r0 || e.r) + 8), y: e.y + Math.sin(a) * ((e.def.r0 || e.r) + 8), vx: Math.cos(a) * spd, vy: Math.sin(a) * spd, r: 9, used: false, dmg: dmg * e.dm, hom: 0, kind: 1, life: 3, hold: 0, src: null, oa: 0, spd }; if (o) Object.assign(s, o); shots.push(s); return s; }
 function eFire(e) {
   const a = EATK[e.atk];
   if (a.shoot) {
@@ -2566,9 +2566,9 @@ const MBAI = {
       const Wd = 0.7;
       if (EV(e, 0)) { addTele('arc', Wd, { src: e, r: 124, half: 1.6 }); e.saT = 2.6; }
       if (e.at < Wd - 0.2 || (e.at > Wd + 0.1 && e.at < Wd + 0.35)) e.face = turnTo(e.face, pa, 5 * dt);
-      if (EV(e, Wd)) { e.saT = e.sa = -2.4; mArc(e, 124, 1.6, 30, 420, 1, '255,235,170'); addTele('arc', 0.55, { src: e, r: 130, half: 1.6 }); }
+      if (EV(e, Wd)) { e.saT = e.sa = -2.4; mArc(e, 124, 1.6, 30, 420, 1, '255,235,170'); addTele('arc', 0.6, { src: e, r: 130, half: 1.6 }); }
       if (e.at > Wd + 0.1 && e.at < Wd + 0.45 && dist > 70) eMove(e, e.face, 140, dt);
-      if (EV(e, Wd + 0.57)) { e.saT = e.sa = 2.4; mArc(e, 130, 1.6, 34, 460, -1, '255,235,170'); }
+      if (EV(e, Wd + 0.6)) { e.saT = e.sa = 2.4; mArc(e, 130, 1.6, 34, 460, -1, '255,235,170'); }
       return e.at >= Wd + 1.5;
     },
     lances(e, dt, dist, pa) {
@@ -2600,13 +2600,13 @@ const MBAI = {
     },
     wings(e, dt, dist, pa) {
       const Wd = 0.75, D = 0.55;
-      if (EV(e, 0)) { addTele('line', Wd, { src: e, len: 470, w: 62 }); e.saT = 2.8; }
+      if (EV(e, 0)) { addTele('line', Wd, { src: e, len: 470, w: 2 * (e.r + 4) }); e.saT = 2.8; }
       if (e.at < Wd - 0.22) e.face = turnTo(e.face, pa, 5 * dt);
       else if (e.at >= Wd && e.at < Wd + D) {
         if (EV(e, Wd)) { SFX.roar(); e.v1 = 0; }
         e.x += Math.cos(e.face) * 780 * dt; e.y += Math.sin(e.face) * 780 * dt; pt(e.x, e.y, 0, 0, 0.4, 26, 0, 0, 0, 0);
         e.v1 -= dt; if (e.v1 <= 0) { e.v1 = 0.05; addFire(e.x, e.y, 2.2, 8 * e.dm); }
-        if (!e.hitDone && Math.hypot(P.x - e.x, P.y - e.y) < e.r + P.r + 10) { e.hitDone = true; mHit(e, 32, 520); }
+        if (!e.hitDone && Math.hypot(P.x - e.x, P.y - e.y) < e.r + 4 + P.r * 0.6) { e.hitDone = true; mHit(e, 32, 520); }
       }
       return e.at >= Wd + D + 0.9;
     }
@@ -2781,11 +2781,12 @@ const MBAI = {
     },
     twin(e, dt, dist, pa) {
       if (EV(e, 0)) { addTele('arc', 0.34, { src: e, r: 60, half: 1.1 }); e.saT = 2.3; }
-      if (e.at < 0.25 || (e.at > 0.4 && e.at < 0.6)) e.face = turnTo(e.face, pa, 8 * dt);
-      if (EV(e, 0.34)) { e.saT = e.sa = -2.3; mArc(e, 60, 1.1, 12, 200, 1, '200,170,255'); addTele('arc', 0.34, { src: e, r: 64, half: 1.1 }); }
-      if (e.at > 0.36 && e.at < 0.66 && dist > 44) eMove(e, e.face, 150, dt);
-      if (EV(e, 0.7)) { e.saT = e.sa = 2.3; mArc(e, 64, 1.1, 14, 340, -1, '200,170,255'); }
-      return e.at >= 1.4;
+      if (e.at < 0.25 || (e.at > 0.4 && e.at < 0.76)) e.face = turnTo(e.face, pa, 8 * dt);
+      if (EV(e, 0.34)) { e.saT = e.sa = -2.3; mArc(e, 60, 1.1, 12, 200, 1, '200,170,255'); }
+      if (EV(e, 0.46)) addTele('arc', 0.44, { src: e, r: 64, half: 1.1 });
+      if (e.at > 0.36 && e.at < 0.76 && dist > 44) eMove(e, e.face, 150, dt);
+      if (EV(e, 0.9)) { e.saT = e.sa = 2.3; mArc(e, 64, 1.1, 14, 340, -1, '200,170,255'); }
+      return e.at >= 1.55;
     },
     knives(e, dt, dist, pa) {
       if (e.at < 0.2) { e.face = turnTo(e.face, pa, 10 * dt); eMove(e, e.face + PI, 300, dt); }
@@ -2834,13 +2835,13 @@ const MBAI = {
     },
     charge(e, dt, dist, pa) {
       const Wd = 0.8, D = 0.66;
-      if (EV(e, 0)) { addTele('line', Wd, { src: e, len: 410, w: 54 }); e.sl = 0; }
+      if (EV(e, 0)) { addTele('line', Wd, { src: e, len: 410, w: 2 * (e.r + 4) }); e.sl = 0; }
       if (e.at < Wd - 0.25) e.face = turnTo(e.face, pa, 4 * dt);
       if (e.at < Wd) { e.sl = -8 * (e.at / Wd); if (Math.random() < 0.4) pt(e.x - Math.cos(e.face) * 26 + rnd(-10, 10), e.y - Math.sin(e.face) * 26 + rnd(-10, 10), 0, 0, 0.4, 14, 2, 0, 0, 0); }
       else if (e.at < Wd + D) {
         if (EV(e, Wd)) { SFX.roar(); e.sl = 8; }
         e.x += Math.cos(e.face) * 640 * dt; e.y += Math.sin(e.face) * 640 * dt; e.walk += dt * 30; pt(e.x, e.y, 0, 0, 0.35, 20, 2, 0, 0, 0);
-        if (!e.hitDone && Math.hypot(P.x - e.x, P.y - e.y) < e.r + P.r + 6) { e.hitDone = true; mHit(e, 30, 540); }
+        if (!e.hitDone && Math.hypot(P.x - e.x, P.y - e.y) < e.r + 4 + P.r * 0.6) { e.hitDone = true; mHit(e, 30, 540); }
         if (e.wall && e.at > Wd + 0.1) { shake(12); SFX.slam(); burst(e.x + Math.cos(e.face) * 28, e.y + Math.sin(e.face) * 28, 16, 260, 0.6, 5, 1, '#5d564a'); floatText(e.x, e.y - 60, '壁に激突', '#ffd76a', 13); staggerEnemy(e, 1.8); return false; }
       } else e.sl = lerp(e.sl, 0, 1 - Math.exp(-6 * dt));
       return e.at >= Wd + D + 0.9;
@@ -3179,7 +3180,7 @@ function refreshEquip() {
   const row = (id, cur, nm, ef, tag, xc) => '<div class="row wp' + (cur ? ' cur' : '') + (xc || '') + '" data-id="' + id + '"><span class="nm">' + nm + '</span><span class="ef">' + ef + '</span>' + (tag ? '<span class="tag">' + tag + '</span>' : '') + '</div>';
   const load = '重量 <b>' + M.wt.toFixed(1) + ' / ' + M.cap.toFixed(1) + '</b>（' + Math.round(M.load * 100) + '%）→ ' + rollTxt(M);
   if (eqTab === 'w') {
-    info = load + '<br>35%以下で軽ロール、70%以下で中ロール、それ以上は重ロール';
+    info = load + '<br>35%以下で軽ロール、50%以下で中ロール、それ以上は重ロール';
     h += wChips(save.weapons);
     for (const [gc, gids] of wGroups(save.weapons, true)) { h += wHdr(gc, gids.length); for (const id of gids) {
       const x = WPN[id], m = calcLoad(id); let rq = '';
@@ -4027,7 +4028,7 @@ function glint() { G.glT = 0.28; SFX.glint(); B.eye = 0.3; }
 function hitArc(r, half, dmg, kb) {
   const dx = P.x - B.x, dy = P.y - B.y, d = Math.hypot(dx, dy);
   if (d > r + P.r * 0.6) return;
-  if (d > B.r + 8 && Math.abs(angDiff(Math.atan2(dy, dx), B.face)) > half + 0.08) return;
+  if (d > (B.r0 || B.r) + 8 && Math.abs(angDiff(Math.atan2(dy, dx), B.face)) > half + 0.08) return;
   hurtPlayer(dmg, B.x, B.y, kb, false, B);
 }
 function hitCircle(x, y, r, dmg, kb) { if (Math.hypot(P.x - x, P.y - y) <= r + P.r * 0.5) hurtPlayer(dmg, x, y, kb || 380); }
@@ -4072,7 +4073,7 @@ const ATK = {
   combo: {
     start() { B.v2 = B.phase === 2 && Math.random() < 0.3 ? 1 : 0; },
     run() {
-      const t = B.at, T = [0.66, 1.2, 1.98];
+      const t = B.at, T = [0.66, 1.26, 1.98];
       for (let i = 0; i < 3; i++) {
         const s = T[i], w = i === 0 ? 0.5 : 0.42, r = i === 2 ? 130 : 114;
         if (E(s - w)) { addTele('arc', w, { fb: 1, r, half: 1.25 }); B.saT = i % 2 === 0 ? 2.2 : -2.2; }
@@ -4145,7 +4146,7 @@ const ATK = {
         hitCircle(B.x, B.y, 96, 32, 460); addRing(B.x, B.y, 70, 360, 360, 15); groundFx(B.x, B.y, 26, true);
         const dx = P.x - B.x, dy = P.y - B.y, d = Math.hypot(dx, dy) || 1, min = P.r + B.r; if (d < min) { P.x = B.x + dx / d * min; P.y = B.y + dy / d * min; }
       }
-      if (B.phase === 2 && E(1.42)) { addRing(B.x, B.y, 40, 290, 380, 15); SFX.slam(); shake(7); groundFx(B.x, B.y, 12, false); }
+      if (B.phase === 2 && E(1.58)) { addRing(B.x, B.y, 40, 290, 380, 15); SFX.slam(); shake(7); groundFx(B.x, B.y, 12, false); }
       return t >= (B.phase === 2 ? 2.35 : 2.1);
     }
   },
@@ -4197,7 +4198,7 @@ const ATK = {
   /* P2: 連環衝撃 — three shockwaves with mixed speeds */
   wave: {
     run() {
-      const t = B.at, T = [0.7, 1.36, 2.02], SP = [300, 440, 250];
+      const t = B.at, T = [0.7, 1.36, 2.02], SP = [340, 300, 260];
       for (let i = 0; i < 3; i++) {
         const s = T[i];
         if (E(s - 0.5)) { B.saT = 2.8; B.sl = 0.8; addTele('circle', 0.5, { fb: 1, r: 74 }); }
@@ -5152,6 +5153,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.9.8', d: '2026-11-19', t: '大きな敵と、ロールの違い', items: ['ボスの体を大きくしました', '回避しにくかった攻撃を調整しました', 'ローリングの重さによる違いをはっきりさせました', '防具の防御力と重さを見直しました'] },
   { v: '1.9.7', d: '2026-11-19', t: '限定の品と、補給箱', items: ['ボスを倒すと、そこでしか手に入らない限定の品が見つかるようになりました', '日ごとに中身が戻る補給箱を置きました', '中ボスは時間がたつと再び現れるようになりました'] },
   { v: '1.9.6', d: '2026-11-19', t: '大地の再編', items: ['大地を少し小さくまとめました'] },
   { v: '1.9.5', d: '2026-11-18', t: '装備の蒐集', items: ['追憶の雫を円卓で買えるようにしました', '敵が装備を落とすようになりました', '武器にもレア度を追加しました', 'レア度に合わせて装備の色を変えました'] },
@@ -5991,6 +5993,11 @@ function migrate193() {
   save.bonfire = mp(save.bonfire | 0); if (save.fbf != null) save.fbf = mp(save.fbf | 0);
   save.v193 = 1;
 }
+
+/* v1.9.8: every boss body is drawn 1.25x larger and its collision radius grows ~15% (never below 90% of the drawn body). Attack ranges / AoE stay literal numbers; `r0` keeps the old radius for the
+   "inside the body" hit zone (inArc / hitArc / projectile spawn) so the hit area still follows the drawn telegraph. */
+for (const k in EDEF) { const d = EDEF[k]; if (d.boss && d.r0 === undefined) d.r0 = d.r; }
+for (const k in EDEF) { const d = EDEF[k]; if (!d.boss || d.bigDone) continue; d.bigDone = 1; d.sc = Math.round((d.sc || 1) * 1.25 * 1000) / 1000; const b0 = (EDEF[d.look] || d).r0 || d.r; d.r = Math.max(Math.round(d.r * 1.15), Math.round(b0 * d.sc * 0.9)); }
 /* =====================================================================
    v1.9.4 legacy dungeons: 朽ちた砦 (3F) / 崩れた修道院 (4F) / 灰の離宮 (5F). On the field they are building exteriors (FD.bld, drawn by v_rc.js);
    the interiors are separate levels built here with genCrypt (themed tint / walls, exit cell after the top-floor mid-boss).
@@ -6648,10 +6655,10 @@ function drawShots() {
 function drawBoss() {
   const dead = B.state === 'dead'; if (dead && B.t > 2.3) return;
   const p2 = B.phase === 2, al = dead ? clamp(1 - B.t / 2.3, 0, 1) : 1, kn = B.kneel;
-  const sc = (1 + B.z / 300) * (1 - kn * 0.1), zs = 1 - B.z / 300;
-  ctx.globalAlpha = 0.5 * al * (0.4 + zs * 0.6); ctx.fillStyle = '#000'; ctx.beginPath(); ctx.ellipse(B.x, B.y + 6, 38 * zs, 31 * zs, 0, 0, TAU); ctx.fill();
+  const sc = 1.25 * (1 + B.z / 300) * (1 - kn * 0.1), zs = 1 - B.z / 300;
+  ctx.globalAlpha = 0.5 * al * (0.4 + zs * 0.6); ctx.fillStyle = '#000'; ctx.beginPath(); ctx.ellipse(B.x, B.y + 6, 48 * zs, 39 * zs, 0, 0, TAU); ctx.fill();
   if (p2) { ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = (0.22 + Math.sin(G.now * 5) * 0.05) * al; ctx.drawImage(SPR[0], B.x - 95, B.y - B.z - 95, 190, 190); ctx.globalCompositeOperation = 'source-over'; }
-  if (B.state === 'stagger') { ctx.globalAlpha = 0.5 + Math.sin(G.now * 12) * 0.3; ctx.strokeStyle = '#ffd76a'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(B.x, B.y, 46 + Math.sin(G.now * 12) * 3, 0, TAU); ctx.stroke(); }
+  if (B.state === 'stagger') { ctx.globalAlpha = 0.5 + Math.sin(G.now * 12) * 0.3; ctx.strokeStyle = '#ffd76a'; ctx.lineWidth = 2.5; ctx.beginPath(); ctx.arc(B.x, B.y, 58 + Math.sin(G.now * 12) * 3, 0, TAU); ctx.stroke(); }
   ctx.globalAlpha = al;
   ctx.save(); ctx.translate(B.x, B.y - B.z); ctx.rotate(B.face); ctx.scale(sc, sc);
   const w = Math.sin(G.now * 3 + B.walk) * 3;
