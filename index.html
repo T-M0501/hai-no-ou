@@ -318,7 +318,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.9.8</div>
+  <div id="verTxt" class="ver">v1.9.9</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -488,6 +488,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
       <label class="sld"><span>効果音</span><input id="rSe" type="range" min="0" max="100" step="5" aria-label="効果音の音量"></label>
       <div class="trow"><button id="bMute" class="btn sub"></button><button id="bHints" class="btn sub"></button></div>
       <div class="trow"><button id="bFx" class="btn sub" style="min-width:218px"></button></div>
+      <div class="trow"><button id="bGdT" class="btn sub" style="min-width:218px"></button></div>
       <div class="trow"><button id="bVis" class="btn sub" style="min-width:218px"></button></div>
       <div style="text-align:center;font-size:11px;opacity:.65;margin:-4px 0 6px">向いている方向しか見えなくなります</div>
       <div class="trow"><button id="bEdit" class="btn sub">ボタン配置</button></div>
@@ -600,11 +601,11 @@ function freshSave() {
     cls: 'wanderer', arts: [], wart: {}, spirits: [], spirit: null, spLv: {}, tearShop: 0, wst: {}, wx: [], wseq: 1, tearB: {}, lords: {}, seenE: {}, trar: {}, shields: [], off: null, hands: 0, walls: {}, maps: {}, mdSeen: {}, mem: {}, pw: {}, pwOn: null,
     av: 0, inv: [], aeq: { h: null, b: null, a: null, l: null }, aseq: 1, afound: {}, asort: 'r' };
 }
-const SAVE_EXTRA = () => ({ mute: false, best: 0, wins: 0, clear: 0, hintOff: false, fxLow: false, visMode: false, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {}, btn: { p: {}, l: {} }, cyc: 0, cam: 2, bless: null, cb: null, dex: null, last: 0, v19: 0, clk: 0, rev: {}, walk: '', views: {}, steed: 1, fbf: 0, horse: 0 });
+const SAVE_EXTRA = () => ({ mute: false, best: 0, wins: 0, clear: 0, hintOff: false, fxLow: false, visMode: false, guide: true, ach: {}, volB: 0.7, volS: 1, cnt: { parry: 0, crit: 0, kills: 0, summonWin: 0, noDmg: 0, noFlask: 0, respec: 0 }, bossCat: {}, btn: { p: {}, l: {} }, cyc: 0, cam: 2, bless: null, cb: null, dex: null, last: 0, v19: 0, clk: 0, rev: {}, walk: '', views: {}, steed: 1, fbf: 0, horse: 0 });
 const save = Object.assign(freshSave(), SAVE_EXTRA());
 /* v1.7.0: three save slots. Per-slot data lives in SKEY(i); settings (sound, hints, effects, button layout) and achievements are global in GKEY and shared by every slot.
    The old single save (SAVE_KEY) is copied into slot 1 once and then left untouched as a backup. */
-const GKEY = 'hai_no_ou3_g', OLDBAK = 'hai_no_ou3_v1_bak', SKEY = i => 'hai_no_ou3_s' + i, GF = ['mute', 'hintOff', 'fxLow', 'visMode', 'volB', 'volS', 'cam', 'btn', 'ach', 'cnt', 'bossCat'];
+const GKEY = 'hai_no_ou3_g', OLDBAK = 'hai_no_ou3_v1_bak', SKEY = i => 'hai_no_ou3_s' + i, GF = ['mute', 'hintOff', 'fxLow', 'visMode', 'guide', 'volB', 'volS', 'cam', 'btn', 'ach', 'cnt', 'bossCat'];
 let SLOT = 1;
 function lsJ(k) { try { const o = JSON.parse(localStorage.getItem(k) || 'null'); return o && typeof o === 'object' ? o : null; } catch (e) { return null; } }
 function migrateSaves() {
@@ -708,7 +709,7 @@ function sanitize() {
   if (!Array.isArray(save.slots)) save.slots = []; if (!Array.isArray(save.teq)) save.teq = [];
   save.slots = [0, 1].map(i => save.spells.includes(save.slots[i]) && save.slots.indexOf(save.slots[i]) === i ? save.slots[i] : null);
   const tq = []; for (let i = 0; i < save.tslots; i++) { const t = save.teq[i]; tq.push(save.tals.includes(t) && !tq.includes(t) ? t : null); } save.teq = tq;
-  for (const k of ['chests', 'crate', 'mbT', 'lit', 'rooms', 'doors', 'mb', 'mbC', 'cryptRw', 'hints', 'up', 'mats', 'shop', 'walls', 'maps', 'mdSeen', 'mem', 'pw', 'lords']) if (!save[k] || typeof save[k] !== 'object') save[k] = {};
+  for (const k of ['chests', 'crate', 'mbT', 'seenB', 'lit', 'rooms', 'doors', 'mb', 'mbC', 'cryptRw', 'hints', 'up', 'mats', 'shop', 'walls', 'maps', 'mdSeen', 'mem', 'pw', 'lords']) if (!save[k] || typeof save[k] !== 'object') save[k] = {};
   /* 3f: bosses already slain in an older save still hand over their 追憶 and 大いなる力 */
   for (const [id, ok] of [['king', save.bossDead], ['lord2', save.lords[2]], ['hb', save.mb.hb]]) { if (ok && !save.mem[id]) save.mem[id] = 1; if (ok && !save.pw[id]) save.pw[id] = 1; if (save.mem[id] && save.mem[id] !== 1 && save.mem[id] !== 'a' && save.mem[id] !== 'b') save.mem[id] = 1; if (save.pw[id] && save.pw[id] !== 2) save.pw[id] = 1; }
   if (save.pwOn && save.pw[save.pwOn] !== 2) save.pwOn = null;
@@ -730,7 +731,7 @@ function sanitize() {
   save.tears = clamp(Math.floor(+save.tears || 0), 0, 9); save.cryptDeep = clamp(Math.floor(+save.cryptDeep || 0), 0, 30); save.night = !!save.night; save.nightOn = false; if (!save.rev || typeof save.rev !== 'object') save.rev = {}; if (!save.views || typeof save.views !== 'object') save.views = {}; if (typeof save.walk !== 'string') save.walk = ''; save.clk = clamp(+save.clk || 0, 0, 1319); save.steed = 1; migrate190(); migrate192(); migrate193();
 migrate194(); migrate195(); migrate196();
   delete save.invS; if (save.cnt) delete save.cnt.inv; if (save.ach) delete save.ach.inv; if (save.hints) delete save.hints.invade;
-  save.fxLow = !!save.fxLow; save.visMode = !!save.visMode;
+  save.fxLow = !!save.fxLow; save.visMode = !!save.visMode; save.guide = save.guide !== false;
   armSanitize();
   const s = save.stain; if (s && !(typeof s === 'object' && isFinite(s.x) && isFinite(s.y) && s.s > 0 && (s.z === 'a' || s.z === 'd' || s.z === 'c'))) save.stain = null;
   if (save.stain && save.stain.tv !== 50) { if (save.stain.z !== 'a') { save.stain.x = Math.round(save.stain.x * 1.25); save.stain.y = Math.round(save.stain.y * 1.25); } save.stain.tv = 50; } /* v1.7.1: tile 40 -> 50 */
@@ -2900,7 +2901,7 @@ function mbDie(e, n) {
   save.mb[e.key] = 1; cardQ.length = 0;
   showCard(e.def.name.split(' ')[0] + ' 討伐', '── ' + fmtN(n) + ' ルーンを得た ──', 2.8);
   if (L.id === 'castle') {
-    const first = !save.mbC[e.key]; save.mbC[e.key] = 1; if (bossRespawns(e)) save.mbT[e.key] = Date.now();
+    const first = !save.mbC[e.key]; if (!first && bossRespawns(e)) save.cnt.resp = 1; save.mbC[e.key] = 1; if (bossRespawns(e)) save.mbT[e.key] = Date.now();
     /* v1.9.7: a returned boss pays out runes / materials only; flasks, tears, talismans, weapons, spells and so on are first-kill rewards */
     for (const it of MBDROP[e.key]) if (first || !bossRespawns(e) || isCrateIt(it)) giveItem(it);
     if (!first && bossRespawns(e)) queueCard('再び斃した', '── 戻ってきた強敵の、ささやかな褒賞 ──', 2.6);
@@ -3051,7 +3052,7 @@ function refreshTitle() {
   if (si && si.wins > 0) s += '　王討伐 <b>' + si.wins + '</b>　最速 <b>' + fmtTime(si.best) + '</b>';
   if (si && (tSel || SLOT) === SLOT) s += '<span class="br"></span>収集率 <b>' + collection().pct + '%</b>' + (save.night ? (save.nightOn ? '　<b>灰の降る夜</b>' : '　昼の城') : '');
   $('tStats').innerHTML = s;
-  $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入'); $('bFx').textContent = 'エフェクト ： ' + (save.fxLow ? '控えめ' : '標準'); $('bVis').textContent = '視界制限（ハード） ： ' + (save.visMode ? '入' : '切'); $('rBgm').value = Math.round(save.volB * 100); $('rSe').value = Math.round(save.volS * 100); $('rCam').value = camIdx(); $('camLbl').textContent = 'カメラの距離 ： ' + CAMN[camIdx()];
+  $('bMute').textContent = '音 ： ' + (save.mute ? '切' : '入'); $('bHints').textContent = '助言 ： ' + (save.hintOff ? '切' : '入'); $('bFx').textContent = 'エフェクト ： ' + (save.fxLow ? '控えめ' : '標準'); $('bGdT').textContent = '祝福の導き ： ' + (save.guide === false ? '切' : '入'); $('bVis').textContent = '視界制限（ハード） ： ' + (save.visMode ? '入' : '切'); $('rBgm').value = Math.round(save.volB * 100); $('rSe').value = Math.round(save.volS * 100); $('rCam').value = camIdx(); $('camLbl').textContent = 'カメラの距離 ： ' + CAMN[camIdx()];
   $('xfCur').innerHTML = '操作の対象 ： <b>セーブ' + SLOT + '</b>';
 }
 
@@ -3085,7 +3086,7 @@ function openChest(c) {
   if (c.a5) { L.opened[c.id] = 1; save.cryptRw['a' + L.floor] = 1; const x = addArmor(mkArmor({ src: 'b', tier: lootTier(), r: 5, crypt: true })); queueCard('★5 ' + ARMP[x.b].name, '── ' + subsLine(x) + ' ──', 3.6, null, 5); giveItem({ s: 1500 * L.floor, m: { l: 2, e: 2 } }); }
   else if (c.crypt) { L.opened[c.id] = 1; const rich = !!c.rich, n = Math.round(rnd(150, 260) * (1 + 0.35 * (L.floor - 1)) * (rich ? 2 : 1) / 10) * 10; giveItem({ s: n, m: rich ? { l: 1 + (L.floor >= 10 ? 1 : 0), c: 2, e: L.floor >= 6 ? 1 : 0 } : L.floor <= 2 ? { s: 2 } : L.floor <= 4 ? { c: 2 } : { l: 1, c: 1 } });
     if (rich) { G.richLuck = 0.25; dropLoot(c.x, c.y + 26, 'e', L.floor >= 10 ? 2 : 1, lootTier()); G.richLuck = 0; } else if (Math.random() < 0.35) dropLoot(c.x, c.y + 26, 'e', 1, lootTier()); }
-  else if (c.cr) { save.crate[c.id] = dayKey(); giveItem(c.it); if (Math.random() < 0.15) crateGear(c); }
+  else if (c.cr) { save.crate[c.id] = dayKey(); save.cnt.crate = (save.cnt.crate | 0) + 1; giveItem(c.it); if (Math.random() < 0.15) crateGear(c); }
   else {
     if (!save.chests[c.id]) { save.chests[c.id] = 1; giveItem(c.it); }
     if (c.nit && !save.chests[c.id + 'n']) { save.chests[c.id + 'n'] = 1; giveItem(c.nit); }
@@ -3289,7 +3290,7 @@ function refreshRespec() {
 const refreshBook = () => dexView(refreshBook0);
 function refreshBook0() {
   const c = collection(); let h = '';
-  $('bkInfo').innerHTML = '収集率 <b>' + c.pct + '%</b>　実績 <b>' + achCount() + ' / ' + ACH.length + '</b>　まだ見ぬものは「？？？」と記される';
+  $('bkInfo').innerHTML = '収集率 <b>' + c.pct + '%</b>　実績 <b>' + achCount() + ' / ' + achTotal() + '</b>　まだ見ぬものは「？？？」と記される';
   const sec = (title, n, m) => { h += '<div class="hd">' + title + '<b>' + n + ' / ' + m + '</b></div>'; };
   const cell = (ok, nm, d, nt) => { h += '<div class="cell' + (ok ? '' : ' no') + (nt ? ' nt' : '') + '"><div class="n">' + (ok ? nm : '？？？') + '</div><div class="d">' + (ok ? d : nt ? '夜の城、あるいは地下墓の深層に' : 'まだ見つけていない') + '</div></div>'; };
   for (const gc of WCATS) { const ks = Object.keys(WPN).filter(k => !WPN[k].hidden && WPN[k].cls === gc); sec('武器 ── ' + gc, ks.filter(k => save.weapons.includes(k)).length, ks.length); for (const k of ks) cell(save.weapons.includes(k), WPN[k].name + (upLv(k) ? ' +' + upLv(k) : ''), WPN[k].cls + '（' + (WPN[k].two ? '両手' : '片手') + '）・' + DTN[WPN[k].dt] + '・戦技「' + ART[ARTDEF[k]].name + '」'); }
@@ -3552,6 +3553,7 @@ tap('bResume', closeMenu); tap('bMenu', openMenu); tap('bBook2', () => openField
 tap('bMute', () => { save.mute = !save.mute; writeSave(); if (master) master.gain.value = save.mute ? 0 : 0.55; refreshTitle(); });
 tap('bHints', () => { save.hintOff = !save.hintOff; writeSave(); refreshTitle(); });
 tap('bVis', () => { save.visMode = !save.visMode; writeSave(); refreshTitle(); });
+tap('bGdT', () => { save.guide = save.guide === false; writeSave(); refreshTitle(); });
 tap('bFx', () => { save.fxLow = !save.fxLow; writeSave(); refreshTitle(); });
 for (const id of ['bGuide', 'bGuide2']) tap(id, () => { $('guide').classList.add('on'); $('gdBody').scrollTop = 0; });
 tap('bGdClose', () => $('guide').classList.remove('on'));
@@ -4681,16 +4683,36 @@ const ACH = [
   ['bare', '持たざる王殺し', '素性「持たざる者」で王を斃す', () => save.bossDead && save.cls === 'none'],
   ['cyc2', '灰の輪', '二周目の旅を始める', () => CYC() >= 1],
   ['cyc3', '巡る灰', '三周目の旅を始める', () => CYC() >= 2],
-  ['cycK', '輪廻の王殺し', '二周目以降で、灰冠の騎士王を斃す', () => CYC() >= 1 && save.bossDead]
+  ['cycK', '輪廻の王殺し', '二周目以降で、灰冠の騎士王を斃す', () => CYC() >= 1 && save.bossDead],
+  ['fbl', '灰野を灯す', '灰の大地のすべての祝福に触れる', () => fblN() >= FD.bl.length, () => [fblN(), FD.bl.length]],
+  ['horse', '灰馬の主', '灰馬の笛を手に入れる', () => save.horse],
+  ['dgA', '砦を陥とす', '朽ちた砦の主を斃す', () => save.mbC.fb_beast],
+  ['dgB', '鐘を鎮める', '崩れた修道院の主を斃す', () => save.mbC.fb_giant],
+  ['dgC', '離宮の影', '灰の離宮の主を斃す', () => save.mbC.fb_assassin],
+  ['fbD', '頁を閉じる者', '枯れ森の学匠 ミルハを斃す', () => save.mbC.fb_mage],
+  ['fbE', '石番を越える', '城下の石番 ゴルダムを斃す', () => save.mbC.fb_warden],
+  ['uniq', '銘を継ぐ者', '銘入りの武器をすべて手にする', () => uqN()[0] >= uqN()[1], () => uqN()],
+  ['steles', '見晴らしの旅', '大地のすべての石碑に触れる', () => { const r = steleCount(); return r[1] > 0 && r[0] >= r[1]; }, () => steleCount()],
+  ['crate', '補給の常連', '毎日の補給箱を30回開ける', () => save.cnt.crate >= 30, () => [Math.min(30, save.cnt.crate | 0), 30]],
+  ['gate', '城門の前に立つ', '灰の城の門に辿り着く', () => save.cnt.gate],
+  ['star5', '神話の刃', '★5の武器を手に入れる', () => save.weapons.some(w => save.wst[w] >= 5)],
+  ['b10', '地の底へ', '地下墓 B10 に辿り着く', () => save.cryptDeep >= 9, () => [Math.min(9, save.cryptDeep), 9]],
+  ['resp', '再び立つ者', '甦った強敵を再び斃す', () => save.cnt.resp],
+  ['flask5', '満ちる灰瓶', '灰瓶を5つまで増やす', () => save.flaskMax >= 5, () => [Math.min(5, save.flaskMax), 5]]
 ];
+/* v1.9.9: achievements that cannot be earned in the open field (king, layer 2, new cycles, the old castle's seven blessings) are hidden unless already earned */
+const ACHOLD = new Set(['king', 'lord2', 'l2mb', 'bare', 'cyc2', 'cyc3', 'cycK', 'bless']);
+const achShow = a => !ACHOLD.has(a[0]) || !!save.ach[a[0]], achTotal = () => ACH.filter(a => achShow(a)).length;
+function fblN() { let n = 0; for (let i = 8; i < 8 + FD.bl.length; i++) if (save.lit[i]) n++; return n; }
+function uqN() { let n = 0, m = 0; for (const k in WPN) if (WPN[k].uq) { m++; if (save.weapons.includes(k)) n++; } return [n, m]; }
 function checkAch() {
   for (const a of ACH) if (!save.ach[a[0]] && a[3]()) { save.ach[a[0]] = 1; SFX.item(); if (G.mode === 'title') continue; queueCard('実績解除', '── ' + a[1] + ' ──', 2.8); writeSave(); }
 }
 function achCount() { let n = 0; for (const a of ACH) if (save.ach[a[0]]) n++; return n; }
 function fightWon() { if (!G.fDmg) save.cnt.noDmg = 1; if (!G.fFlask) save.cnt.noFlask = 1; if (G.usedSpirit) save.cnt.summonWin = 1; if (offKind() === 'dual') save.cnt.dualWin = 1; save.bossCat[WPN[save.weapon].cls] = 1; G.mark = null; despawnAlly(); checkAch(); }
 function openAch() {
-  let h = ''; for (const a of ACH) { const ok = save.ach[a[0]], pr = !ok && a[4] ? a[4]() : null; h += '<div class="cell' + (ok ? ' got' : ' no') + '"><div class="n">' + (ok ? '◆ ' : '◇ ') + a[1] + '</div><div class="d">' + a[2] + (pr ? '　<b>' + pr[0] + ' / ' + pr[1] + '</b>' : '') + '</div></div>'; }
-  $('achInfo').innerHTML = '解除 <b>' + achCount() + ' / ' + ACH.length + '</b>　実績は「はじめから」でも失われない'; $('achRows').innerHTML = h; $('achv').classList.add('on'); $('achRows').scrollTop = 0;
+  let h = ''; for (const a of ACH) { if (!achShow(a)) continue; const ok = save.ach[a[0]], pr = !ok && a[4] ? a[4]() : null; h += '<div class="cell' + (ok ? ' got' : ' no') + '"><div class="n">' + (ok ? '◆ ' : '◇ ') + a[1] + (ACHOLD.has(a[0]) ? '（旧）' : '') + '</div><div class="d">' + a[2] + (pr ? '　<b>' + pr[0] + ' / ' + pr[1] + '</b>' : '') + '</div></div>'; }
+  $('achInfo').innerHTML = '解除 <b>' + achCount() + ' / ' + achTotal() + '</b>　実績は「はじめから」でも失われない'; $('achRows').innerHTML = h; $('achv').classList.add('on'); $('achRows').scrollTop = 0;
 }
 
 /* ---------- class selection ---------- */
@@ -5153,6 +5175,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.9.9', d: '2026-11-19', t: '祝福の導き', items: ['祝福の導きを追加しました', '実績を追加しました'] },
   { v: '1.9.8', d: '2026-11-19', t: '大きな敵と、ロールの違い', items: ['ボスの体を大きくしました', '回避しにくかった攻撃を調整しました', 'ローリングの重さによる違いをはっきりさせました', '防具の防御力と重さを見直しました'] },
   { v: '1.9.7', d: '2026-11-19', t: '限定の品と、補給箱', items: ['ボスを倒すと、そこでしか手に入らない限定の品が見つかるようになりました', '日ごとに中身が戻る補給箱を置きました', '中ボスは時間がたつと再び現れるようになりました'] },
   { v: '1.9.6', d: '2026-11-19', t: '大地の再編', items: ['大地を少し小さくまとめました'] },
@@ -5726,6 +5749,7 @@ function owMapDraw() {
     else if (p.t === 'ped' && !save.maps[L.mid + ':' + p.reg] && save.rooms[roomOf[Math.floor(p.y / T) * MW + Math.floor(p.x / T)]]) { g.fillStyle = '#8fb8ff'; g.beginPath(); g.arc(x, y, 3.5, 0, TAU); g.fill(); }
   }
   { const p = L.props.find(q => q.t === 'cgate'); if (p && (knownAt(p.x, p.y - 2 * T) || knownAt(p.x, p.y + 2 * T))) { const x = X(p.x), y = Y(p.y); g.fillStyle = '#e8b0a0'; g.fillRect(x - 4, y - 4, 8, 8); if (MAPZ) label('灰の城', x, y - 11, '#f0c8b8', 10); } }
+  L.bless.forEach((b, i) => { if (i >= 8 && !save.lit[i] && save.seenB && save.seenB[i] && save.guide !== false) label('？', X(b.x), Y(b.y), 'rgba(236,200,110,.62)', MAPZ ? 17 : 12); });
   L.bless.forEach((b, i) => { if (!save.lit[i]) return; const x = X(b.x), y = Y(b.y); g.fillStyle = '#ffd76a'; g.beginPath(); g.moveTo(x, y - 6); g.lineTo(x + 5, y); g.lineTo(x, y + 6); g.lineTo(x - 5, y); g.closePath(); g.fill(); if (MAPZ) label(b.name, x, y + 12, '#f3e2ac', 9.5); });
   if (stainHere(save.stain)) { g.fillStyle = '#ff5040'; g.beginPath(); g.arc(X(save.stain.x), Y(save.stain.y), 4, 0, TAU); g.fill(); }
   { const x = X(P.x), y = Y(P.y); g.save(); g.translate(x, y); g.rotate(P.face); g.fillStyle = '#ffffff'; g.strokeStyle = '#000'; g.lineWidth = 1.5; g.beginPath(); g.moveTo(8, 0); g.lineTo(-5, 5); g.lineTo(-2, 0); g.lineTo(-5, -5); g.closePath(); g.fill(); g.stroke(); g.restore(); }
@@ -6139,6 +6163,183 @@ function migrate194() {
   const s = save.stain; if (s && s.z === 'd' && (s.l || 1) === 1) { const tx = s.x / T, ty = s.y / T; if (FD.areas.some(a => /^(朽ちた砦|崩れた修道院|灰の離宮)$/.test(a[0]) && tx >= a[2] && tx < a[2] + a[4] && ty >= a[3] && ty < a[3] + a[5])) { save.souls = (save.souls | 0) + (s.s | 0); save.stain = null; } }
   save.v194 = 1;
 }
+/* =====================================================================
+   v1.9.9 祝福の導き (guidance of grace) on the first-layer field + the developer debug panel (only with ?debug=1, kept in sessionStorage).
+   Guidance: from the lit blessing nearest to the player a faint stream of light flows along a BFS path towards the next objective (or the nearest
+   unlit blessing on the way); unlit field blessings send up a pale pillar and, off screen, a small marker on the screen edge.
+   ===================================================================== */
+const mbK = k => !!(save.mbC && save.mbC[k]);
+const GOBJ = [
+  { k: 'A', t: [78, 256], done: () => mbK('fb_beast') }, { k: 'B', t: [324, 256], done: () => mbK('fb_giant') }, { k: 'C', t: [360, 212], done: () => mbK('fb_assassin') },
+  { k: 'X', t: [154, 190], done: () => !!save.lit[14] }, { k: 'D', t: [322, 152], done: () => mbK('fb_mage') }, { k: 'E', t: [203, 121], done: () => mbK('fb_warden') },
+  { k: 'G', t: [205, 88], done: () => !!save.lit[21] }
+];
+const GD = { key: '', pts: null, len: 0, par: null, q: null, dist: null, dirty: false };
+const gdOn = () => save.guide !== false && L && L.fld && G.zone !== 'a' && G.mode === 'play' && !G.paused;
+const gdPil = (() => { const c = document.createElement('canvas'); c.width = 32; c.height = 192; const g = c.getContext('2d'); let a = g.createLinearGradient(0, 0, 0, 192); a.addColorStop(0, 'rgba(255,214,120,0)'); a.addColorStop(0.7, 'rgba(255,214,120,.55)'); a.addColorStop(1, 'rgba(255,230,160,.95)'); g.fillStyle = a; g.fillRect(0, 0, 32, 192);
+  g.globalCompositeOperation = 'destination-in'; a = g.createLinearGradient(0, 0, 32, 0); a.addColorStop(0, 'rgba(0,0,0,0)'); a.addColorStop(0.5, 'rgba(0,0,0,1)'); a.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = a; g.fillRect(0, 0, 32, 192); return c; })();
+const GPH = 640, gdPv = (b, m) => Math.abs(b.x - cam.x) < W / 2 / S + m && b.y > cam.y - CY / S - m && b.y - GPH < cam.y + (H - CY) / S + m;
+function gdBfs(sx, sy) {
+  const n = MW * MH; if (!GD.par || GD.par.length !== n) { GD.par = new Int32Array(n); GD.q = new Int32Array(n); GD.dist = new Int32Array(n); }
+  const par = GD.par, q = GD.q, dist = GD.dist; dist.fill(-1); const s = sy * MW + sx; dist[s] = 0; par[s] = -1; let h = 0, t = 0; q[t++] = s;
+  while (h < t) { const c = q[h++], x = c % MW, y = (c / MW) | 0, d = dist[c] + 1;
+    if (x > 0 && dist[c - 1] < 0 && !solid(x - 1, y)) { dist[c - 1] = d; par[c - 1] = c; q[t++] = c - 1; }
+    if (x < MW - 1 && dist[c + 1] < 0 && !solid(x + 1, y)) { dist[c + 1] = d; par[c + 1] = c; q[t++] = c + 1; }
+    if (y > 0 && dist[c - MW] < 0 && !solid(x, y - 1)) { dist[c - MW] = d; par[c - MW] = c; q[t++] = c - MW; }
+    if (y < MH - 1 && dist[c + MW] < 0 && !solid(x, y + 1)) { dist[c + MW] = d; par[c + MW] = c; q[t++] = c + MW; } }
+}
+/* path (array of tile indices, start -> end) to the objective, or to an unlit blessing lying on the way when that comes first */
+function gdCalc(ci) {
+  const o = GOBJ.find(o => !o.done()); let lc = 0; for (const k in save.lit) lc++;
+  const key = ci + '|' + (o ? o.k : '-') + '|' + lc + '|' + Object.keys(save.doors).length; if (key === GD.key) return;
+  GD.key = key; GD.pts = null; GD.len = 0; if (!o) return;
+  const b = BLESS[ci]; gdBfs(Math.floor(b.x / T), Math.floor(b.y / T)); const dist = GD.dist, par = GD.par;
+  let tg = -1, bd = 1e9; for (let dy = -7; dy <= 7; dy++) for (let dx = -7; dx <= 7; dx++) { const x = o.t[0] + dx, y = o.t[1] + dy; if (x < 0 || y < 0 || x >= MW || y >= MH) continue; const c = y * MW + x; if (dist[c] < 0) continue; const d = dx * dx + dy * dy; if (d < bd) { bd = d; tg = c; } }
+  if (tg < 0) return;
+  const pathTo = c => { const a = []; for (; c >= 0; c = par[c]) a.push(c); return a.reverse(); };
+  let path = pathTo(tg), end = tg, bu = 1e9;
+  for (let i = 8; i < BLESS.length; i++) { if (i === ci || save.lit[i]) continue; const u = BLESS[i], c = Math.floor(u.y / T) * MW + Math.floor(u.x / T); if (dist[c] < 6 || dist[c] >= dist[tg] - 6 || dist[c] >= bu) continue;
+    let near = false; for (let j = 0; j < path.length && !near; j += 3) { const px = path[j] % MW, py = (path[j] / MW) | 0; if (Math.abs(px - u.x / T) < 13 && Math.abs(py - u.y / T) < 13) near = true; }
+    if (near) { bu = dist[c]; end = c; } }
+  if (end !== tg) path = pathTo(end);
+  if (path.length < 4) return;
+  const pts = [], cum = [0]; for (let j = 0; j < path.length; j += 3) pts.push([(path[j] % MW + 0.5) * T, (((path[j] / MW) | 0) + 0.5) * T]); const la = path[path.length - 1]; pts.push([(la % MW + 0.5) * T, (((la / MW) | 0) + 0.5) * T]);
+  let len = 0; for (let j = 1; j < pts.length; j++) { len += Math.hypot(pts[j][0] - pts[j - 1][0], pts[j][1] - pts[j - 1][1]); cum.push(len); }
+  const cap = 24 * T; if (len > cap) { let j = 1; while (j < pts.length && cum[j] < cap) j++; pts.length = j + 1; cum.length = j + 1; len = cum[cum.length - 1]; }
+  GD.pts = pts; GD.cum = cum; GD.len = len;
+}
+function gdNear() { let bi = -1, bd = 25 * T; for (let i = 0; i < BLESS.length; i++) { if (!save.lit[i]) continue; const d = Math.hypot(BLESS[i].x - P.x, BLESS[i].y - P.y); if (d < bd) { bd = d; bi = i; } } return [bi, bd]; }
+function drawGuideWorld() {
+  if (!L || !L.fld) return; const gx = FD.gate[0] * T, gy = FD.gate[1] * T; if (Math.abs(P.x - gx) < 9 * T && Math.abs(P.y - gy) < 9 * T && !save.cnt.gate) save.cnt.gate = 1;
+  if (!gdOn()) return; const now = G.now, ps = ctx.globalCompositeOperation, pa = ctx.globalAlpha; let dirty = false;
+  if (!save.seenB) save.seenB = {};
+  ctx.globalCompositeOperation = 'lighter';
+  for (let i = 8; i < BLESS.length; i++) { if (save.lit[i]) continue; const b = BLESS[i]; if (!gdPv(b, 40)) continue;
+    ctx.globalAlpha = 0.27 + Math.sin(now * 1.6 + i) * 0.06; ctx.drawImage(gdPil, b.x - 15, b.y - GPH, 30, GPH + 10);
+    if (!save.seenB[i] && gdPv(b, -10)) { save.seenB[i] = 1; dirty = true; } }
+  const [ci, cd] = gdNear();
+  if (ci >= 0) { gdCalc(ci); if (GD.pts && GD.len > 0) { const n = 12, fade = cd < 18 * T ? 1 : 1 - (cd - 18 * T) / (7 * T), pts = GD.pts, cum = GD.cum;
+    for (let j = 0; j < n * 3; j++) { const jj = j % n, tr = (j / n) | 0, ph = ((now * 0.16 + jj / n - tr * 0.006) % 1 + 1) % 1, d = ph * GD.len; let k = 1; while (k < cum.length - 1 && cum[k] < d) k++; const f = (d - cum[k - 1]) / Math.max(1, cum[k] - cum[k - 1]), x = pts[k - 1][0] + (pts[k][0] - pts[k - 1][0]) * f + Math.sin(now * 2 + jj * 2) * 4, y = pts[k - 1][1] + (pts[k][1] - pts[k - 1][1]) * f - 6 + Math.cos(now * 2.3 + jj) * 3, a = Math.sin(ph * PI) * (0.85 - tr * 0.28) * fade, sz = (34 - tr * 9) * clamp(1 / S, 1, 2.2);
+      ctx.globalAlpha = a; ctx.drawImage(SPR[1], x - sz / 2, y - sz / 2, sz, sz); if (!tr) { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = a; ctx.fillStyle = '#fff1b8'; ctx.beginPath(); ctx.arc(x, y, 4 * clamp(1 / S, 1, 2.2), 0, TAU); ctx.fill(); ctx.globalCompositeOperation = 'lighter'; } } } }
+  ctx.globalAlpha = pa; ctx.globalCompositeOperation = ps; if (dirty) writeSave();
+}
+/* screen-edge markers for unlit blessings (max 2, nearest) that are within 40 tiles but not on screen; kept clear of the HUD and the buttons */
+function drawGuideMarks() {
+  if (!gdOn() || G.shown || G.edit) return; const c = []; for (let i = 8; i < BLESS.length; i++) { if (save.lit[i]) continue; const b = BLESS[i], d = Math.hypot(b.x - P.x, b.y - P.y); if (d < 40 * T && !gdPv(b, 10)) c.push([d, b]); }
+  if (!c.length) return; c.sort((a, b) => a[0] - b[0]); c.length = Math.min(2, c.length);
+  const m = 24 * U, x0 = SAL + m, x1 = W - SAR - m, y0 = m + 14, y1 = H - m, cx = W / 2, cy = CY, rects = [], circ = [], gm = miniGeo();
+  rects.push([0, 0, LAND ? W * 0.44 : W * 0.62, 182 + 6]); rects.push([gm.mx0 - 14, gm.my0 - 14, gm.mw + 28, gm.mh + 28]);
+  for (const b of btns) circ.push([b.x, b.y, (b.r || 30) + 14 * U]); circ.push([pauseBtn.x, pauseBtn.y, Math.max(30, pauseBtn.r * 1.4) + 8]); if (btnInt && btnInt.r) circ.push([btnInt.x, btnInt.y, btnInt.r + 14 * U]);
+  const wp = x1 - x0, hp = y1 - y0, LP = 2 * (wp + hp), at = p => { p = ((p % LP) + LP) % LP; if (p < wp) return [x0 + p, y0]; p -= wp; if (p < hp) return [x1, y0 + p]; p -= hp; if (p < wp) return [x1 - p, y1]; p -= wp; return [x0, y1 - p]; };
+  const free = (x, y) => { const r = 14 * U; for (const q of rects) if (x > q[0] - r && x < q[0] + q[2] + r && y > q[1] - r && y < q[1] + q[3] + r) return false; for (const q of circ) if (Math.hypot(x - q[0], y - q[1]) < q[2] + r) return false; for (const q of used) if (Math.hypot(x - q[0], y - q[1]) < 34 * U) return false; return true; };
+  const used = [];
+  for (const [d, b] of c) { const dx = (b.x - cam.x) * S + W / 2 - cx, dy = (b.y - cam.y) * S + CY - cy, ang = Math.atan2(dy, dx), tX = dx > 0 ? (x1 - cx) / dx : dx < 0 ? (x0 - cx) / dx : 1e9, tY = dy > 0 ? (y1 - cy) / dy : dy < 0 ? (y0 - cy) / dy : 1e9, t = Math.min(tX, tY), tx = clamp(cx + dx * t, x0, x1), ty = clamp(cy + dy * t, y0, y1);
+    let bp = 0, bdist = 1e9; for (let p = 0; p < LP; p += 6) { const q = at(p), e = Math.hypot(q[0] - tx, q[1] - ty); if (e < bdist) { bdist = e; bp = p; } }
+    let pos = null; for (let o = 0; o <= LP / 2; o += 8) for (const sg of [1, -1]) { if (pos) break; const q = at(bp + o * sg); if (free(q[0], q[1])) pos = q; }
+    if (!pos) continue; used.push(pos); const pu = 1 + Math.sin(G.now * 4) * 0.12;
+    ctx.save(); ctx.translate(pos[0], pos[1]); ctx.globalCompositeOperation = 'lighter'; ctx.globalAlpha = 0.45; ctx.drawImage(SPR[1], -15 * U * pu, -15 * U * pu, 30 * U * pu, 30 * U * pu); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 0.9;
+    ctx.rotate(ang); ctx.fillStyle = '#ffd76a'; ctx.strokeStyle = '#3a2a08'; ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(9 * U, 0); ctx.lineTo(-3 * U, -6 * U); ctx.lineTo(-1 * U, 0); ctx.lineTo(-3 * U, 6 * U); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.restore(); ctx.globalAlpha = 1; }
+}
+
+/* ---------------------------------------------------------------------
+   Debug mode (developer only): open the page with ?debug=1. Nothing below exists for normal players.
+   --------------------------------------------------------------------- */
+const DBG = (() => { try { const m = /[?&]debug=(\d)/.exec(location.search); if (m) { if (m[1] === '1') sessionStorage.setItem('hai_dbg', '1'); else sessionStorage.removeItem('hai_dbg'); } return sessionStorage.getItem('hai_dbg') === '1'; } catch (e) { return false; } })();
+const DBGV = { hit: 0, fps: 0, rec: 0, info: 0, inf: 0, sel: null, fr: 0, ft: 0, fv: 0 };
+function dbgWorld() {
+  if (!DBGV.hit && !DBGV.info) return; const ps = ctx.globalCompositeOperation, pa = ctx.globalAlpha; ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; const lw = 1.5 / S;
+  const ring = (x, y, r, c, dash) => { ctx.strokeStyle = c; ctx.lineWidth = lw; ctx.setLineDash(dash ? [5 / S, 4 / S] : []); ctx.beginPath(); ctx.arc(x, y, Math.max(1, r), 0, TAU); ctx.stroke(); ctx.setLineDash([]); };
+  if (DBGV.hit) {
+    ring(P.x, P.y, P.r || 12, '#6fe08a');
+    if (G.zone === 'a') { if (B && B.hp > 0) ring(B.x, B.y, B.r || 40, '#ff4a3a'); }
+    else for (const e of enemies) { if (e.state === 'dead' || !vis(e.x, e.y, 300)) continue; ring(e.x, e.y, e.r || e.def.r, '#ff4a3a'); if (e.def.reach) ring(e.x, e.y, e.def.reach + (e.r || e.def.r), '#ffa040', 1); if (e.def.sight && Math.hypot(e.x - P.x, e.y - P.y) < e.def.sight + 120) ring(e.x, e.y, e.def.sight, 'rgba(255,255,120,.25)', 1); }
+    for (const t of tele) { const c = '#ffe14a'; if (t.r > 0) ring(t.x, t.y, t.r, c); else if (t.len) { ctx.strokeStyle = c; ctx.lineWidth = Math.max(lw, (t.w || 4)); ctx.globalAlpha = 0.35; ctx.beginPath(); ctx.moveTo(t.x, t.y); ctx.lineTo(t.x + Math.cos(t.a) * t.len, t.y + Math.sin(t.a) * t.len); ctx.stroke(); ctx.globalAlpha = 1; } }
+    for (const r of rings) if (r.r) ring(r.x, r.y, r.r, '#ff8a3a');
+  }
+  const s = DBGV.sel; if (DBGV.info && s && s.state !== undefined && (s.hp > 0 || s.state !== 'dead')) {
+    const bnd = bandAt(Math.floor(s.x / T), Math.floor(s.y / T)), ls = ['【' + (s.def.name || s.type) + '】' + (s.elite ? ' エリート' : ''), 'type ' + s.type + '  状態 ' + s.state, 'HP ' + Math.round(s.hp) + ' / ' + s.mhp, '強靭 ' + Math.round(s.poise !== undefined ? s.poise : 0) + ' / ' + Math.round(pzMax(s)), '帯 ' + bnd + '  REC ' + FB[bnd].rec + '  ダメ倍 ' + (s.dm || 1).toFixed(2)];
+    ring(s.x, s.y, (s.r || 14) + 6, '#6ff', 1); ctx.save(); ctx.translate(s.x, s.y - (s.r || 14) - 14); ctx.scale(1 / S, 1 / S); ctx.font = '700 12px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+    const w = Math.max(...ls.map(l => ctx.measureText(l).width)) + 12, h = ls.length * 15 + 6; ctx.fillStyle = 'rgba(0,0,0,.75)'; ctx.fillRect(-w / 2, -h, w, h); ctx.fillStyle = '#cdf'; ls.forEach((l, i) => ctx.fillText(l, 0, -h + 15 * (i + 1) + 1)); ctx.restore(); }
+  ctx.globalAlpha = pa; ctx.globalCompositeOperation = ps;
+}
+function dbgHud() {
+  if (DBGV.inf && (G.mode === 'play' || G.mode === 'fight')) { P.st = P.maxSt; P.fp = P.maxFp; }
+  const now = performance.now(); DBGV.fr++; if (now - DBGV.ft > 500) { DBGV.fv = Math.round(DBGV.fr * 1000 / (now - DBGV.ft)); DBGV.fr = 0; DBGV.ft = now; }
+  const ls = []; if (DBGV.fps) ls.push('FPS ' + DBGV.fv);
+  if (DBGV.rec) { try { const cl = calcLoad(); ls.push('REC ' + Math.round(recArea()) + '  攻撃力倍率 x' + recMult(false).toFixed(2)); ls.push('ロール ' + ['軽', '中', '重'][cl.roll] + '  荷重 ' + Math.round(cl.load * 100) + '%' + (cl.over ? ' 超過' : '')); } catch (e) { ls.push('REC ?'); } }
+  if (!ls.length || G.mode === 'title') return; const gm = miniGeo(); ctx.save(); ctx.font = '700 11px sans-serif'; ctx.textAlign = 'right'; ctx.textBaseline = 'top'; const x = W - SAR - 8; let y = gm.my0 + gm.mh + 8;
+  for (const l of ls) { const w = ctx.measureText(l).width + 8; ctx.fillStyle = 'rgba(0,0,0,.65)'; ctx.fillRect(x - w + 4, y - 1, w, 14); ctx.fillStyle = '#9fe8ff'; ctx.fillText(l, x, y); y += 15; } ctx.restore();
+}
+if (DBG) window.__dbgX = { GD, DBGV, GOBJ, gdNear, get ERR() { return ERRLOG; } };
+if (DBG) (() => {
+  const st = document.createElement('style');
+  st.textContent = '#dbgB{position:fixed;left:calc(env(safe-area-inset-left,0px) + 4px);top:1px;height:17px;line-height:15px;padding:0 6px;font:800 10px sans-serif;color:#9fe8ff;background:rgba(0,20,30,.7);border:1px solid #3a7a8a;border-radius:4px;z-index:14;display:none}' +
+    '#dbgP{position:fixed;left:calc(env(safe-area-inset-left,0px) + 6px);top:22px;width:min(calc(100vw - 12px),460px);max-height:calc(100vh - 28px);overflow-y:auto;-webkit-overflow-scrolling:touch;background:rgba(6,12,16,.96);border:1px solid #3a7a8a;border-radius:6px;z-index:70;display:none;color:#cfe;font:12px/1.5 sans-serif;padding:6px 8px 10px}' +
+    '#dbgP button,#dbgP select,#dbgP input{font:700 11.5px sans-serif;color:#dff;background:#173440;border:1px solid #3a7a8a;border-radius:4px;padding:3px 7px;margin:2px 2px;min-height:26px}#dbgP button.on{background:#2a7a5a;color:#fff}#dbgP h4{margin:8px 0 2px;color:#ffd76a;font-size:12.5px;border-bottom:1px solid #345;cursor:pointer}#dbgP .w{color:#ffb070;font-size:11px}#dbgP select{max-width:100%}';
+  document.head.appendChild(st);
+  const bt = document.createElement('div'); bt.id = 'dbgB'; bt.textContent = 'DBG'; document.body.appendChild(bt);
+  const pn = document.createElement('div'); pn.id = 'dbgP'; document.body.appendChild(pn);
+  const acts = [], DS = { open: { tp: 1 }, tp: 0, wc: '', w: '', ws: 5, wu: 0, we: 1, as: '', at: 5, ar: 5, asl: 'all', tl: '', tr: 4, sl: '', sp: '', el: 0 };
+  let was = false;
+  const A = (label, fn, on) => { acts.push(fn); return '<button data-a="' + (acts.length - 1) + '"' + (on ? ' class="on"' : '') + '>' + label + '</button>'; };
+  const SEL = (key, opts, cur) => '<select data-s="' + key + '">' + opts.map(o => '<option value="' + o[0] + '"' + (String(o[0]) === String(cur) ? ' selected' : '') + '>' + o[1] + '</option>').join('') + '</select>';
+  const sec = (k, title, body) => '<h4 data-o="' + k + '">' + (DS.open[k] ? '▼ ' : '▶ ') + title + '</h4>' + (DS.open[k] ? body() : '');
+  const close = () => { pn.style.display = 'none'; DBGV.hold = 0; };
+  const fieldAt = (tx, ty) => { close(); spawnAt(8, true, { x: tc(tx), y: tc(ty) }); G.fadeT = 0.5; };
+  const layerTo = base => { close(); const ly = layerOf(base); for (const l of LAYERS) l.open = () => true; spawnAt(base, true); G.fadeT = 0.5; };
+  const tpList = () => {
+    const a = [['拠点', '灰の円卓（拠点）', () => { close(); spawnAt(0, true); }]];
+    FD.bl.forEach((b, i) => a.push(['野の祝福', b[0] + (save.lit[8 + i] ? '' : '（未点灯）'), () => { close(); spawnAt(8 + i, true); }]));
+    for (let i = 1; i <= 7; i++) a.push(['城域の祝福', FBL[i] + (save.lit[i] ? '' : '（未点灯）'), () => { close(); spawnAt(i, true); }]);
+    for (const D of DGLIST) { a.push(['ダンジョン入口', D.name + '　外（正面）', () => fieldAt(FD.dg.find(d => d.id === D.id).door[0], FD.dg.find(d => d.id === D.id).door[1] + 3)]); for (let f = 1; f <= D.floors; f++) a.push(['ダンジョン', D.name + ' ' + f + 'F', () => { close(); dgGo(D, f); }]); }
+    for (let f = 1; f <= 30; f++) a.push(['地下墓', '地下墓 B' + f, () => { close(); const d = save.cryptDeep; save.cryptDeep = Math.max(d, f - 1); enterCrypt(f); save.cryptDeep = d; }]);
+    for (const l of LAYERS) if (l.md && !/^dg/.test(l.key || '') && l.lay !== 1) a.push([/^cv/.test(l.key) ? '洞窟' : 'ミニダンジョン', l.name, () => layerTo(l.base)]);
+    a.push(['城下', '灰の城の門（城下）', () => fieldAt(FD.gate[0], FD.gate[1] + 6)]);
+    FD.arenas.forEach(r => a.push(['ボス部屋', r.name + '（前）', () => fieldAt(r.rect[0] + (r.rect[2] >> 1), r.rect[1] + r.rect[3] + 4)]));
+    FD.caves.forEach((c, i) => a.push(['洞窟入口（外）', c.name, () => { const p = FD.props.find(q => q.cave === i); if (p) fieldAt(p.tx, p.ty + 3); }]));
+    return a;
+  };
+  const stat = (k, v) => { save.st[k] = clamp(v, 1, 99); recalc(); P.hp = Math.min(P.hp, P.maxHp); render2(); };
+  const WCL = [...new Set(Object.values(WPN).map(w => w.cls))];
+  const give = {
+    weapon() { const k = DS.w || Object.keys(WPN).find(q => WPN[q].cls === (DS.wc || WCL[0])); if (!k) return; if (!save.weapons.includes(k)) save.weapons.push(k); save.wst[k] = +DS.ws; save.up[k] = clamp(+DS.wu | 0, 0, upMax(k)); if (DS.we) save.weapon = k; recalc(); refreshBf(); toast('武器: ' + WPN[k].name + ' ★' + DS.ws + ' +' + save.up[k]); },
+    armor() { const set = DS.as || Object.keys(ARM)[0]; for (const sl of (DS.asl === 'all' ? SLOTS : [DS.asl])) { const b = set + '_' + sl; if (ARMP[b]) { const it = addArmor(mkArmor({ b, r: +DS.ar, tier: +DS.at })); if (DS.asl !== 'all') save.aeq[sl] = it.u; } } recalc(); refreshBf(); toast('防具: ' + ARM[set].name); },
+    tal() { giveItem({ t: DS.tl || Object.keys(TAL)[0], r: +DS.tr }); },
+    spell() { giveItem({ sp: DS.sl || Object.keys(SPELL)[0] }); }
+  };
+  const light = () => { for (let i = 0; i < 8 + FD.bl.length; i++) save.lit[i] = 1; for (const l of LAYERS) (l.bl || []).forEach((n, i) => { save.lit[l.base + i] = 1; }); writeSave(); toast('すべての祝福を灯した'); };
+  const reveal = () => { WALKM.fill(1); WALKD = 1; const W0 = WLD || L; for (const p of W0.props) if (p.t === 'stele') save.rev[p.id] = 1; if (!save.seenB) save.seenB = {}; for (let i = 8; i < 8 + FD.bl.length; i++) save.seenB[i] = 1; if (W0.ow) owMiniAll(); writeSave(); toast('地図を開いた'); };
+  const clk = v => { save.clk = ((v % CYCS) + CYCS) % CYCS; owNight(false); render2(); };
+  const doors = () => { for (const d of FD.doors) save.doors[d.id] = 1; if (L.doors) for (const d of L.doors) save.doors[d.id] = 1; if (L.secrets) for (const s of L.secrets) if (!secretOpen(s)) openSecret(s); writeSave(); toast('扉と隠し壁を開いた'); };
+  const bossKill = () => { for (const k of Object.keys(MBDROP)) { if (k === 'king' || EDEF[k].lord) continue; save.mbC[k] = 1; save.mb[k] = 1; save.mbT[k] = Date.now(); } writeSave(); toast('ボスを討伐済みにした'); };
+  const bossResp = () => { for (const k in save.mbT) save.mbT[k] = 1; toast('ボスが甦る（その場の強敵は近づくと復帰）'); };
+  const spawn = () => { const k = DS.sp || 'hollow'; if (!EDEF[k] || G.zone === 'a') return; const b = FB[fieldBandP()], ang = P.face || 0; AREA_HF = L.fld ? b.hf : 1; const e = mkEnemy(k, P.x + Math.cos(ang) * 70, P.y + Math.sin(ang) * 70, ang + PI, L.fld ? b.hm : 1, L.fld ? b.dm : 1, L.fld ? b.rm : 1, !!DS.el, 'dbg_' + k); AREA_HF = 1; resetEnemy(e); e.cx = Math.floor(e.hx / T / SECN); e.cy = Math.floor(e.hy / T / SECN); enemies.push(e); if (L.all) L.all.push(e); close(); toast('出現: ' + e.def.name); };
+  const killNear = () => { let n = 0; for (const e of enemies.slice()) if (e.state !== 'dead' && !e.def.boss && Math.hypot(e.x - P.x, e.y - P.y) < 700) { killEnemy(e); n++; } if (G.zone === 'a' && B && B.hp > 0) hitBoss(99999, 0, false); close(); toast('周囲を掃討: ' + n); };
+  const tg = (label, k, o) => A(label + '：' + (o[k] ? '入' : '切'), () => { o[k] = o[k] ? 0 : 1; render2(); }, !!o[k]);
+  function render2() {
+    const top = pn.scrollTop; acts.length = 0; let h = '<div class="w">デバッグ中の変更はセーブに残ります。試すときはセーブ3を使ってください</div><div>' + A('閉じる', close) + '</div>';
+    h += sec('tp', 'テレポート', () => { const l = tpList(), gs = []; let s = '<select data-s="tp">'; let cg = null; l.forEach((q, i) => { if (q[0] !== cg) { if (cg !== null) s += '</optgroup>'; s += '<optgroup label="' + q[0] + '">'; cg = q[0]; } s += '<option value="' + i + '"' + (i === DS.tp ? ' selected' : '') + '>' + q[1] + '</option>'; }); s += '</optgroup></select>'; return s + A('移動', () => { (tpList()[DS.tp] || [])[2](); }); });
+    h += sec('pl', 'プレイヤー', () => { let s = A('無敵：' + (G.god ? '入' : '切'), () => { G.god = !G.god; render2(); }, !!G.god) + tg('スタミナ・FP無限', 'inf', DBGV);
+      s += '<div>Lv <b>' + level() + '</b></div>'; for (const [k, n] of STATS) s += '<div>' + n + ' <b>' + save.st[k] + '</b> ' + A('−', () => stat(k, save.st[k] - 1)) + A('＋', () => stat(k, save.st[k] + 1)) + [10, 30, 60, 99].map(v => A(v, () => stat(k, v))).join('') + '</div>';
+      s += '<div>ルーン ' + fmtN(save.souls) + ' ' + A('+1万', () => { save.souls += 10000; render2(); }) + A('+10万', () => { save.souls += 100000; render2(); }) + '</div>';
+      s += '<div>灰瓶 ' + save.flaskMax + ' ' + A('−', () => { save.flaskMax = clamp(save.flaskMax - 1, 1, 8); P.flasks = Math.min(P.flasks, save.flaskMax); render2(); }) + A('＋', () => { save.flaskMax = clamp(save.flaskMax + 1, 1, 8); render2(); }) + A('瓶を満たす', () => { P.flasks = flaskHp(); P.fflasks = save.flaskFp; P.hp = P.maxHp; render2(); }) + '</div>'; return s; });
+    h += sec('it', 'アイテム', () => { const wc = DS.wc || WCL[0], wk = Object.keys(WPN).filter(k => WPN[k].cls === wc); if (!wk.includes(DS.w)) DS.w = wk[0]; const k = DS.w;
+      let s = '<div>武器 ' + SEL('wc', WCL.map(c => [c, c]), wc) + SEL('w', wk.map(q => [q, WPN[q].name]), k) + '<br>★' + SEL('ws', [1, 2, 3, 4, 5].map(v => [v, v]), DS.ws) + ' 強化+' + SEL('wu', Array.from({ length: upMax(k) + 1 }, (_, v) => [v, v]), DS.wu) + A('装備する：' + (DS.we ? '入' : '切'), () => { DS.we = DS.we ? 0 : 1; render2(); }, !!DS.we) + A('武器を入手', give.weapon) + '</div>';
+      const as = DS.as || Object.keys(ARM)[0]; s += '<div>防具 ' + SEL('as', Object.keys(ARM).map(q => [q, ARM[q].name]), as) + SEL('asl', [['all', '一式']].concat(SLOTS.map(q => [q, SLOTN[q]])), DS.asl) + '★' + SEL('ar', [1, 2, 3, 4, 5].map(v => [v, v]), DS.ar) + 'tier' + SEL('at', Array.from({ length: TIER_MAX }, (_, v) => [v + 1, v + 1]), DS.at) + A('入手', give.armor) + '</div>';
+      s += '<div>護符 ' + SEL('tl', Object.keys(TAL).map(q => [q, TAL[q].name]), DS.tl || Object.keys(TAL)[0]) + '★' + SEL('tr', [1, 2, 3, 4].map(v => [v, v]), DS.tr) + A('入手', give.tal) + '</div>';
+      s += '<div>魔法 ' + SEL('sl', Object.keys(SPELL).map(q => [q, SPELL[q].name]), DS.sl || Object.keys(SPELL)[0]) + A('覚える', give.spell) + '</div><div>素材 ' + Object.keys(MAT).map(q => A(MAT[q] + '+10', () => { save.mats[q] += 10; toast(MAT[q] + ' +10'); })).join('') + A('追憶の雫+1', () => { save.tears = Math.min(9, save.tears + 1); toast('雫 ' + save.tears); }) + A('灰馬の笛', () => { save.horse = 1; ST.chk = 0; toast('灰馬の笛を得た'); }) + '</div>'; return s; });
+    h += sec('wd', 'ワールド', () => A('祝福を全て灯す', light) + A('地図を全開', reveal) + A('扉・隠し壁を開く', doors) + '<br>' + A('昼', () => clk(0)) + A('夜', () => clk(DAYS + 10)) + A('+1分', () => clk((save.clk || 0) + 60)) + A('+5分', () => clk((save.clk || 0) + 300)) + ' ' + (isNight() ? '夜' : '昼') + ' ' + Math.round(save.clk || 0) + '<br>' + A('ボスを討伐済みに', bossKill) + A('ボスを今すぐ甦らせる', bossResp) + A('補給箱をリセット', () => { save.crate = {}; toast('補給箱をリセット'); }) + A('視界制限：' + (save.visMode ? '入' : '切'), () => { save.visMode = !save.visMode; render2(); }, !!save.visMode));
+    h += sec('ds', '表示', () => tg('当たり判定・攻撃範囲', 'hit', DBGV) + tg('FPS', 'fps', DBGV) + tg('REC・倍率・ロール', 'rec', DBGV) + tg('敵情報（タップ）', 'info', DBGV));
+    h += sec('sp', '出現・掃討', () => { const en = Object.keys(EDEF).filter(k => !EDEF[k].obj), op = [['', '敵を選ぶ']].concat(en.map(k => [k, (EDEF[k].boss ? '[ボス] ' : '') + EDEF[k].name + ' (' + k + ')'])); return SEL('sp', op, DS.sp) + A('エリート：' + (DS.el ? '入' : '切'), () => { DS.el = DS.el ? 0 : 1; render2(); }, !!DS.el) + A('隣に出す', spawn) + A('周囲の敵を全て倒す', killNear); });
+    pn.innerHTML = h; pn.scrollTop = top;
+  }
+  pn.addEventListener('click', e => { const b = e.target.closest('button'), o = e.target.closest('h4'); if (b && b.dataset.a !== undefined) { const f = acts[+b.dataset.a]; if (f) f(); } else if (o) { DS.open[o.dataset.o] = !DS.open[o.dataset.o]; render2(); } });
+  pn.addEventListener('change', e => { const s = e.target.dataset && e.target.dataset.s; if (!s) return; DS[s] = e.target.value; if (s === 'wc') DS.w = ''; if (s === 'tp') DS.tp = +e.target.value; render2(); });
+  const open = () => { DBGV.hold = 1; render2(); pn.style.display = 'block'; };
+  bt.addEventListener('click', e => { e.preventDefault(); if (pn.style.display === 'block') close(); else open(); });
+  setInterval(() => { bt.style.display = (G.mode === 'play' || G.mode === 'fight' || pn.style.display === 'block') ? 'block' : 'none'; }, 400);
+  cv.addEventListener('pointerdown', e => { if (!DBGV.info || G.mode === 'title') return; const wx = cam.x + (e.clientX - W / 2) / S, wy = cam.y + (e.clientY - CY) / S; let bd = 60, bs = null; for (const q of enemies) { if (q.state === 'dead') continue; const d = Math.hypot(q.x - wx, q.y - wy) - (q.r || 12); if (d < bd) { bd = d; bs = q; } } if (bs) DBGV.sel = bs; });
+})();
 
 /* ---------- render ---------- */
 function drawTele() {
@@ -6931,7 +7132,7 @@ function render() {
     drawSpikesHigh(); drawSlashes(); drawShots(); drawLoots(1);
   } else {
     ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; drawMap();
-    drawStain(); drawXWorld(); drawProps(); drawTele(); drawHazardsLow(); drawLoots(0);
+    drawStain(); drawXWorld(); drawProps(); drawGuideWorld(); drawTele(); drawHazardsLow(); drawLoots(0);
     drawParts(1);
     for (const e of enemies) if (e.state === 'dead' && e.t < 1.6 && vis(e.x, e.y, 80) && visPt(e.x, e.y, 20)) drawFoe(e);
     for (const e of enemies) if (e.state !== 'dead' && e.y <= P.y && vis(e.x, e.y, 110) && visPt(e.x, e.y, 20)) drawFoe(e);
@@ -6942,6 +7143,7 @@ function render() {
     for (const a of arrows) if (a.on) { const n = 1 / 540; ctx.strokeStyle = '#e6dfc8'; ctx.lineWidth = 1.8; ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(a.x - a.vx * n * 22, a.y - a.vy * n * 22); ctx.stroke(); ctx.fillStyle = '#fff'; ctx.fillRect(a.x - 1.5, a.y - 1.5, 3, 3); }
     drawShots(); drawLoots(1); drawEnemyBars();
   }
+  if (DBG) dbgWorld();
   drawParts(2);
   ctx.globalCompositeOperation = 'lighter'; drawParts(0); ctx.globalCompositeOperation = 'source-over';
   if (G.critOk) { const x = G.ctx, y = G.cty - 46 - Math.sin(G.now * 6) * 4; ctx.fillStyle = '#ffe9a0'; ctx.strokeStyle = '#3a2c10'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, y + 12); ctx.lineTo(x - 9, y); ctx.lineTo(x, y - 12); ctx.lineTo(x + 9, y); ctx.closePath(); ctx.fill(); ctx.stroke(); ctx.font = '800 13px ' + FONT; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = 'rgba(0,0,0,.8)'; ctx.fillText('致命', x + 1, y - 22); ctx.fillStyle = '#ffe9a0'; ctx.fillText('致命', x, y - 23); }
@@ -6966,7 +7168,7 @@ function render() {
   if (G.mode === 'dead') { ctx.fillStyle = `rgba(0,0,0,${clamp(G.t / 2.2, 0, 0.45)})`; ctx.fillRect(0, 0, W, H); }
   if (G.fadeT > 0) { ctx.fillStyle = `rgba(0,0,0,${clamp(G.fadeT / 0.7, 0, 1)})`; ctx.fillRect(0, 0, W, H); }
   if (G.nightT > 0) { ctx.fillStyle = `rgba(2,3,10,${clamp((G.nightT - 0.4) / 2.6, 0, 1)})`; ctx.fillRect(0, 0, W, H); }
-  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; drawLootMarks(); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; drawHUD();
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; drawLootMarks(); drawGuideMarks(); if (DBG) dbgHud(); ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; drawHUD();
   if (G.edit) {
     ctx.fillStyle = 'rgba(4,3,2,.72)'; ctx.fillRect(0, 0, W, H); ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     for (const k of EDK) { const o = edObj(k), sel = k === ED.sel, r = Math.max(14, k === 'pause' ? o.r * 0.8 : o.r); ctx.fillStyle = sel ? 'rgba(150,118,52,.55)' : 'rgba(12,10,7,.6)'; ctx.beginPath(); ctx.arc(o.x, o.y, r, 0, TAU); ctx.fill(); ctx.strokeStyle = sel ? '#fff3c8' : 'rgba(190,160,90,.85)'; ctx.lineWidth = sel ? 3 : 1.6; if (k === 'joy') ctx.setLineDash([5, 6]); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = '#eadcae'; ctx.font = '800 ' + Math.round(Math.max(10, Math.min(15, r * 0.36))) + 'px ' + FONT; ctx.fillText(k === 'joy' ? '移動' : k === 'int' ? '調べる' : EDN[k], o.x, o.y + 1); }
@@ -6983,7 +7185,7 @@ function frame(ts) {
     if (window.innerWidth !== W || window.innerHeight !== H || Math.min(window.devicePixelRatio || 1, 2) !== DPR || st) resize(); fsSync();
   }
   const dt = Math.min(0.034, (ts - last) / 1000 || 0.016); last = ts;
-  try { if (!G.paused) update(dt); } catch (e) { reportErr(e, 'update'); }
+  try { if (!G.paused && !(DBG && DBGV.hold)) update(dt); } catch (e) { reportErr(e, 'update'); }
   try { render(); } catch (e) { reportErr(e, 'render'); try { ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.setTransform(DPR, 0, 0, DPR, 0, 0); drawHUD(); } catch (e2) {} }
   try { bgmTick(); } catch (e) {}
 }
