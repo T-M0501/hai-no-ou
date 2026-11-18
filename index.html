@@ -318,7 +318,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.9.9</div>
+  <div id="verTxt" class="ver">v1.9.10</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -729,7 +729,7 @@ function sanitize() {
   save.flaskFp = clamp(Math.floor(+save.flaskFp || 0), 0, save.flaskMax);
   save.bonfire = clamp(Math.floor(+save.bonfire || 0), 0, 99); if (!save.btn.p || typeof save.btn.p !== 'object') save.btn.p = {}; if (!save.btn.l || typeof save.btn.l !== 'object') save.btn.l = {}; save.time = +save.time || 0; save.deaths = Math.floor(+save.deaths || 0);
   save.tears = clamp(Math.floor(+save.tears || 0), 0, 9); save.cryptDeep = clamp(Math.floor(+save.cryptDeep || 0), 0, 30); save.night = !!save.night; save.nightOn = false; if (!save.rev || typeof save.rev !== 'object') save.rev = {}; if (!save.views || typeof save.views !== 'object') save.views = {}; if (typeof save.walk !== 'string') save.walk = ''; save.clk = clamp(+save.clk || 0, 0, 1319); save.steed = 1; migrate190(); migrate192(); migrate193();
-migrate194(); migrate195(); migrate196();
+migrate194(); migrate195(); migrate196(); migrate200();
   delete save.invS; if (save.cnt) delete save.cnt.inv; if (save.ach) delete save.ach.inv; if (save.hints) delete save.hints.invade;
   save.fxLow = !!save.fxLow; save.visMode = !!save.visMode; save.guide = save.guide !== false;
   armSanitize();
@@ -1408,7 +1408,7 @@ function armSanitize() {
 
 const MBLIST = [['l2_warden', '灰像の番人 ゴルドア'], ['l2_captain', '聖堂騎士長 ヴェスパル'], ['l2_priest', '灰の司祭 メルヒナ'], ['l2_lord', '灰燼の大主教 オルドヴァン'], ['knight', '鎧騎士'], ['mb_giant', '巨いなる亡者 ドゥーグ'], ['mb_assassin', '双刃の影 イズリル'], ['mb_beast', '灼喉の獣 ボルガ'], ['mb_mage', '禁書の魔術師 オルフェン'], ['n_giant', '夜の巨いなる亡者'], ['n_assassin', '夜の双刃の影'], ['hb', '灰喰らいの墓主 ザルヴァーン']];
 const CRYPT_PRE = 3, CRYPT_DEEP = 7, CRYPT_MAX = 30; /* v1.8.0: B8..B30 added; CRYPT_DEEP is still the hidden boss floor (B7) */
-const cryptCap = () => save.bossDead || !KING_OPEN ? CRYPT_MAX : CRYPT_PRE, cryptTop = () => Math.min(cryptCap(), save.cryptDeep + 1);
+const cryptCap = () => save.bossDead || !KING_OPEN ? CRYPT_MAX : CRYPT_PRE, cryptTop = () => Math.min(cryptCap(), (save.cryptAcc == null ? save.cryptDeep : Math.min(save.cryptAcc, save.cryptDeep)) + 1);
 const dmgAll = () => (1 + AB.atk) * (1 + 0.1 * tk('shard')) * (1 + 0.12 * tk('socket')) * (save.pwOn === 'hb' ? 1.08 : 1);
 sanitize();
 const STATS = [['vit', '体力'], ['end', '持久力'], ['str', '筋力'], ['dex', '技量'], ['int', '知力'], ['fth', '信仰']];
@@ -2953,6 +2953,7 @@ function spawnAt(g, keep, at) {
   cam.x = P.x; cam.y = P.y; G.room = -1; G.mode = 'play'; G.paused = false; G.soulShow = save.souls; hideAll(); setDrone(0.035, 120); if (L.ow) { owNight(true); owActivate(true); }
   if (G.afterSpawn) { const f = G.afterSpawn; G.afterSpawn = null; f(); }
   if (G.swCard) { const w = G.swCard; G.swCard = null; if (w === 'd') showCard('朝が来た', '── 城に、昼の光が戻る ──', 3); else showCard('灰の降る夜', '── 城は再び夜に沈む ──', 3); }
+  if (save.v200n) { save.v200n = 0; writeSave(); queueCard('祝福の記録の整理', '── 大地の作り直しに伴い、祝福の記録をリセットしました ──', 4.6); }
   if (G.nightCard) { G.nightCard = false; showCard('灰の降る夜', '── 王は斃れ、城に夜が降りる ──', 4.2); queueCard('地下墓の深層が開いた', '── B4〜B7。最奥に、墓主が眠る ──', 3.6); toast('亡者は数を増し、宝箱には新たな品が眠る'); }
 }
 function spawnCrypt(keep) {
@@ -3095,7 +3096,7 @@ function openChest(c) {
 }
 function plateShot(p, a, b) { const ang = Math.atan2(b[1] - a[1], b[0] - a[0]); trapArrow(a[0] + Math.cos(ang) * (T / 2 + 3), a[1] + Math.sin(ang) * (T / 2 + 3), ang, 0.55, 13 * (2.05 + 0.135 * (L.floor - 1)) * 0.85); SFX.arrow(); }
 function cryptCleared() {
-  const f = L.floor, bp = L.bossPos; L.bossDead = true; save.cryptDeep = Math.max(save.cryptDeep, f);
+  const f = L.floor, bp = L.bossPos; L.bossDead = true; save.cryptDeep = Math.max(save.cryptDeep, f); if (save.cryptAcc != null) save.cryptAcc = Math.max(save.cryptAcc, f);
   if (!save.cryptRw[f]) { save.cryptRw[f] = 1; for (const it of CRYPT_RW[f] || []) giveItem(it); } else giveItem({ s: 400 * f });
   giveItem({ m: f <= 3 ? { c: 2 } : { l: 2, e: 1 } }); if (f > CRYPT_DEEP && !save.cryptRw[f + 'x']) { save.cryptRw[f + 'x'] = 1; giveItem({ s: 800 * f }); }
   if (f % 10 === 0 && !save.cryptRw['a' + f]) { let cx = bp.x, cy = bp.y + 62; if (solid(Math.floor(cx / T), Math.floor(cy / T))) cy = bp.y - 62; L.chests.push({ id: 'k_a5', x: cx, y: cy, crypt: 1, a5: 1 }); queueCard('深淵の宝箱が現れた', '── ★5 の防具が眠っている ──', 3); }
@@ -5175,6 +5176,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.9.10', d: '2026-11-19', t: '大地の黒い領域と、祝福の記録', items: ['大地の黒い領域に入れてしまう問題を修正しました', '古いセーブデータの祝福の記録を整理しました'] },
   { v: '1.9.9', d: '2026-11-19', t: '祝福の導き', items: ['祝福の導きを追加しました', '実績を追加しました'] },
   { v: '1.9.8', d: '2026-11-19', t: '大きな敵と、ロールの違い', items: ['ボスの体を大きくしました', '回避しにくかった攻撃を調整しました', 'ローリングの重さによる違いをはっきりさせました', '防具の防御力と重さを見直しました'] },
   { v: '1.9.7', d: '2026-11-19', t: '限定の品と、補給箱', items: ['ボスを倒すと、そこでしか手に入らない限定の品が見つかるようになりました', '日ごとに中身が戻る補給箱を置きました', '中ボスは時間がたつと再び現れるようになりました'] },
@@ -5485,8 +5487,18 @@ function wAct(act, v) {
   return false;
 }
 /* v1.9.0 field terrain chunk renderer (tile art on a 40 grid, scaled by TQ; the castle district box uses the castle renderer) */
+/* v1.9.10: the castle box (164..260 x 0..80) is not chunk-aligned. A chunk fully inside is drawn by the castle renderer, a chunk that only overlaps it is drawn by BOTH (castle art inside the box, field art outside),
+   so the field terrain at x 260..271 no longer comes out as dark castle void. */
 function renderChunkF(cx, cy, c) {
-  if (cx >= FD.cb[0] / CH && cx < (FD.cb[0] + FD.cb[2]) / CH && cy >= FD.cb[1] / CH && cy < (FD.cb[1] + FD.cb[3]) / CH) { renderChunk(cx, cy, c); return; }
+  const [bx, by, bw, bh] = FD.cb, X0 = cx * CH, Y0 = cy * CH;
+  if (X0 >= bx + bw || X0 + CH <= bx || Y0 >= by + bh || Y0 + CH <= by) { renderChunkF0(cx, cy, c); return; }
+  renderChunk(cx, cy, c);
+  if (X0 >= bx && X0 + CH <= bx + bw && Y0 >= by && Y0 + CH <= by + bh) return;
+  const c2 = document.createElement('canvas'); c2.width = c.width; c2.height = c.height; renderChunkF0(cx, cy, c2);
+  const ps = c.width / CH, g = c.getContext('2d'), ix0 = Math.max(bx, X0) - X0, iy0 = Math.max(by, Y0) - Y0, ix1 = Math.min(bx + bw, X0 + CH) - X0, iy1 = Math.min(by + bh, Y0 + CH) - Y0;
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.beginPath(); g.rect(0, 0, c.width, c.height); g.rect(ix0 * ps, iy0 * ps, (ix1 - ix0) * ps, (iy1 - iy0) * ps); g.clip('evenodd'); g.drawImage(c2, 0, 0); g.restore();
+}
+function renderChunkF0(cx, cy, c) {
   const T = 40, tc = t => (t + 0.5) * T;
   const g = c.getContext('2d'), X0 = cx * CH, Y0 = cy * CH, X1 = X0 + CH, Y1 = Y0 + CH;
   g.setTransform(MK * TQ, 0, 0, MK * TQ, -X0 * T * TQ * MK, -Y0 * T * TQ * MK); g.globalAlpha = 1; g.globalCompositeOperation = 'source-over'; g.fillStyle = '#0a0907'; g.fillRect(X0 * T, Y0 * T, CH * T, CH * T);
@@ -5964,6 +5976,7 @@ function drawMountBtn() {
 /* ---------- save migration: v1.8.0 and earlier -> the field ---------- */
 function migrate190() {
   if (!save.started || save.v19) { save.v19 = 1; return; }
+  save.v200pre = 1; /* v1.10: marks a pre-field save for migrate200 */
   const lit = {}, old = save.lit || {}; for (let i = 0; i < 7; i++) if (old[i]) lit[i === 0 ? 7 : i] = 1; for (const k in old) if (+k >= 100) lit[k] = old[k]; lit[0] = 1; save.lit = lit;
   const bf = save.bonfire | 0; save.bonfire = bf < 7 ? (bf === 0 ? 7 : bf) : bf >= 100 ? bf : 0;
   const s = save.stain; if (s) { if (s.z === 'd' && (s.l || 1) === 1) { s.x += FD.cx * 50; s.y += FD.cy * 50; } else if (s.z === 'd') { save.souls = (save.souls | 0) + (s.s | 0); save.stain = null; } else if (s.z === 'c') { /* crypt stain stays */ } }
@@ -5980,6 +5993,18 @@ function migrate196() {
   if (save.chests) for (const k in save.chests) if (/^g\d+$/.test(k)) delete save.chests[k];
   save.walk = ''; const s = save.stain; if (s && s.z === 'd' && (s.l || 1) === 1) { save.souls = (save.souls | 0) + (s.s | 0); save.stain = null; }
   save.v196 = 1;
+}
+
+/* v1.9.10 migration: saves that come from before the field (v1.8.x layered castle) or whose castle-district blessings are lit without any field blessing carried old blessing history over, which let them warp
+   to the far-north castle district / crypt. Reset the blessing history (hub only); crypt rewards, flasks, items, levels, equipment and boss flags stay. The crypt floors they may pick at the entrance restart at B1 (cryptAcc), the record cryptDeep stays. */
+function migrate200() {
+  if (!save.started || save.v200) { save.v200 = 1; return; }
+  const lit = save.lit || {}; let fieldLit = 0, castleLit = 0; for (const k in lit) { if (!lit[k]) continue; const o = +k; if (o >= 8 && o < 100) fieldLit++; else if (o >= 1 && o < 8) castleLit++; }
+  const mc = save.mbC || {}, routeDone = !!(mc.fb_beast && mc.fb_giant && mc.fb_assassin);
+  if (save.v200pre || (castleLit && !fieldLit) || (castleLit && !routeDone)) {
+    save.lit = { 0: 1 }; save.bonfire = 0; save.fbf = 0; save.seenB = {}; save.cryptAcc = 0; save.v200n = 1;
+  }
+  delete save.v200pre; save.v200 = 1;
 }
 
 /* ---------- v1.9.2: small caves (single floor, built with the crypt generator) ---------- */
@@ -7254,7 +7279,7 @@ window.__debug = {
   tpRoom(name, ox, oy) { const r = ROOMS.find(r => r[4] === name); if (!r) return false; P.x = (r[0] + r[2] / 2 + (ox || 0)) * T; P.y = (r[1] + r[3] / 2 + (oy || 0)) * T; cam.x = P.x; cam.y = P.y; return true; },
   souls(n) { save.souls = n; }, give(w) { if (WPN[w] && !save.weapons.includes(w)) save.weapons.push(w); refreshBf(); }, equip(w) { this.give(w); save.weapon = w; recalc(); refreshBf(); },
   armor(a, r) { for (const sl of SLOTS) { let it = save.inv.find(x => x.b === a + '_' + sl && (!r || x.r === r)); if (!it) it = addArmor(mkArmor({ b: a + '_' + sl, r: r || 1, tier: 2 })); save.aeq[sl] = it.u; } recalc(); refreshBf(); },
-  ARMP, SUBS, SUBK, ARAR, RARW, DROPP, DROPN, DISM, ABMAX, tierWin, tierDef, ARM_PF, addFamily, lootQ, rarW, lootLuck, TIER_MAX, AB, AUI, ARM_CAP, SLOTS, loots, mkArmor, addArmor, armById, armEq, armSum, armCalc, armSanitize, armAct, armList, spawnLoot, dropLoot, dropArmor, dropGear, wAdd, wSwap, wstar, wstK, WSK, WX_CAP, WDISM, rollWStar, wdropKey, wAct, WUI, GEAR_P, migrate195, logDrops(on) { G.dropLog = on ? [] : null; }, get dropLog() { return G.dropLog; }, dropKing, pickLoot, lootSweep, lootTier, disGain, refreshEquip, eqClick, sv, dmgAll, stOf, fpOf, bleedMult, refreshBook, get eqTab() { return eqTab; }, set eqTab(v) { eqTab = v; },
+  chunkAt, CH, ARMP, SUBS, SUBK, ARAR, RARW, DROPP, DROPN, DISM, ABMAX, tierWin, tierDef, ARM_PF, addFamily, lootQ, rarW, lootLuck, TIER_MAX, AB, AUI, ARM_CAP, SLOTS, loots, mkArmor, addArmor, armById, armEq, armSum, armCalc, armSanitize, armAct, armList, spawnLoot, dropLoot, dropArmor, dropGear, wAdd, wSwap, wstar, wstK, WSK, WX_CAP, WDISM, rollWStar, wdropKey, wAct, WUI, GEAR_P, migrate195, logDrops(on) { G.dropLog = on ? [] : null; }, get dropLog() { return G.dropLog; }, dropKing, pickLoot, lootSweep, lootTier, disGain, refreshEquip, eqClick, sv, dmgAll, stOf, fpOf, bleedMult, refreshBook, get eqTab() { return eqTab; }, set eqTab(v) { eqTab = v; },
   get CY() { return CY; }, get S() { return S; }, get W() { return W; }, get H() { return H; }, mayAggro, nbLeash, tryAtk, ATKCAP, PZK, mechK, pzMax, bossPz, EATK, tierSub, glowK, softArrive, updEnemies, updAlly, get parts() { return parts; }, routeDist, bossRooms, get roomOf() { return roomOf; }, get MW() { return MW; },
   giveArmor(o) { const it = addArmor(mkArmor(o || {})); recalc(); return it; }, wear(u) { const it = armById(u); if (it) { save.aeq[ARMP[it.b].slot] = it.u; recalc(); } }, unwear(sl) { save.aeq[sl] = null; recalc(); },
   spell(s, slot) { if (!save.spells.includes(s)) save.spells.push(s); const k = save.slots.indexOf(s); if (k >= 0) save.slots[k] = null; save.slots[slot || 0] = s; P.slot = slot || 0; refreshBf(); },
