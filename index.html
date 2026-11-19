@@ -182,7 +182,7 @@ h1 .ii{font-size:.62em;letter-spacing:.06em;vertical-align:.12em}
 .ar5{color:#ffd24a;text-shadow:0 0 7px rgba(255,200,40,.75)}
 .ar1n{color:#d8d2c2}.ar2n{color:#cfe8cb}.ar3n{color:#bcd6ff}.ar4n{color:#d3b4ff;text-shadow:0 0 5px rgba(160,100,255,.5)}.ar5n{color:#ffe08a;text-shadow:0 0 6px rgba(255,200,40,.6)}
 .row.wp.wr4{border-color:#8f62d8;box-shadow:inset 0 0 14px rgba(150,95,240,.25)}.row.wp.wr5{border-color:#e2b53a;box-shadow:inset 0 0 16px rgba(255,200,50,.28)}
-.row.wp.tr2{border-color:#4f78b8;box-shadow:inset 0 0 12px rgba(110,160,255,.18)}.row.wp.tr3,.row.wp.tr4{border-color:#8f62d8;box-shadow:inset 0 0 14px rgba(150,95,240,.24)}.row.wp.tr4{box-shadow:inset 0 0 18px rgba(170,110,255,.36)}
+.row.wp.tr2{border-color:#5e9a5a;box-shadow:inset 0 0 12px rgba(130,210,125,.16)}.row.wp.tr3{border-color:#4f78b8;box-shadow:inset 0 0 12px rgba(110,160,255,.2)}.row.wp.tr4{border-color:#8f62d8;box-shadow:inset 0 0 16px rgba(150,95,240,.3)}
 .row.wcopy{margin-left:10px;align-items:center;flex-wrap:wrap;opacity:.95}
 @keyframes prism{to{background-position:200% 0}}
 @keyframes prismB{0%{border-color:#ff8ad0}25%{border-color:#ffd76a}50%{border-color:#8fe8a0}75%{border-color:#7fc4ff}100%{border-color:#ff8ad0}}
@@ -318,7 +318,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.9.10</div>
+  <div id="verTxt" class="ver">v1.9.11</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -1417,7 +1417,7 @@ const M = { cap: 30, wt: 7, load: 0.2, roll: 0, over: false, def: 0.04 };
 let IFR = 0.3, ROLL_T = 0.44;
 const has = t => save.teq.includes(t);
 /* talisman rarity: ★1 並 / ★2 良 / ★3 稀 / ★4 伝説. Effects scale by k; ★3 and ★4 also cut damage taken by 2% / 4%. */
-const RAR = [null, { n: '並', c: '#b8b2a4', k: 0.75 }, { n: '良', c: '#7fb4ff', k: 1 }, { n: '稀', c: '#b98cff', k: 1.3 }, { n: '伝説', c: '#d9b8ff', k: 1.7 }];
+const RAR = [null, { n: '並', c: '#b8b2a4', k: 0.75 }, { n: '良', c: '#8fd08a', k: 1 }, { n: '稀', c: '#7fb4ff', k: 1.3 }, { n: '伝説', c: '#b98cff', k: 1.7 }];
 const trar = t => save.trar[t] || 1, tk = t => { let k = has(t) ? RAR[trar(t)].k : 0; const u = t + '2'; if (TAL[u] && has(u)) k = Math.max(k, RAR[trar(u)].k * TAL[u].m); return k; }, starsOf = r => '★'.repeat(r);
 const secDef = () => { let v = (save.pwOn === 'king' ? 0.08 : 0) + 0.04 * tk('rat'); for (const t of save.teq) if (t && trar(t) >= 3) v += (trar(t) - 2) * 0.02; return v; };
 const pc = (b, k) => Math.round(b * k);
@@ -5176,6 +5176,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.9.11', d: '2026-11-19', t: '護符の色', items: ['護符のレア度の色を装備品とそろえました'] },
   { v: '1.9.10', d: '2026-11-19', t: '大地の黒い領域と、祝福の記録', items: ['大地の黒い領域に入れてしまう問題を修正しました', '古いセーブデータの祝福の記録を整理しました'] },
   { v: '1.9.9', d: '2026-11-19', t: '祝福の導き', items: ['祝福の導きを追加しました', '実績を追加しました'] },
   { v: '1.9.8', d: '2026-11-19', t: '大きな敵と、ロールの違い', items: ['ボスの体を大きくしました', '回避しにくかった攻撃を調整しました', 'ローリングの重さによる違いをはっきりさせました', '防具の防御力と重さを見直しました'] },
