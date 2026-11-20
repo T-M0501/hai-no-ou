@@ -290,6 +290,20 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
 .ccard .cb{font-size:10.5px;color:#ffb060}.clsInfo i{font-style:normal;color:#ffb060}
 #bless .ccard .cd{font-size:10.5px;color:#9a917c;line-height:1.3}
 #xfSlots .btn.cur{border-color:#f3e2ac;color:#f3e2ac}
+/* v1.9.14 title fits on one screen; saves are picked in a panel */
+.btn.off{opacity:.38;filter:grayscale(.6)}
+#slotPick{background:#060403;z-index:7;overflow-y:auto}
+#slotPick h2{margin-bottom:2px}
+.slot{position:relative}.slot .sd{display:block}
+.slot .sact{display:flex;gap:6px;justify-content:flex-end;margin-top:3px}
+.slot .sbt{appearance:none;font-family:inherit;border:1px solid #5d5238;background:rgba(40,30,16,.8);color:#b9af97;font-size:11px;padding:5px 10px;min-height:30px;cursor:pointer}
+.slot .sbt.dl{color:#d08070;border-color:#6a4038}
+#title .lead{margin:4px 0 8px}#title .about{margin:2px 0 8px}
+#title .tmain{margin-top:4px}
+#title .trow .btn{margin-top:5px;margin-bottom:0}
+#title .ver{margin-top:6px}#title #rotHint{margin-top:4px}#title #tStats{display:none}#title .help{display:none}
+@media (max-height:700px){#title .about{display:none}#title .crest{width:min(30vw,120px)}#title h1{font-size:clamp(38px,12vw,64px)}}
+.land #title .about{display:none}
 </style>
 </head>
 <body>
@@ -314,11 +328,9 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div class="rule"></div>
   <div class="lead">灰の降る大地の果てに、王は座す。<br>円卓の灯を背に、北へ歩め。</div>
   <div class="about">見下ろし型の死にゲー。回避と見切りで強敵を斃し、ルーンで己を鍛え、<br>砦と洞窟と地の裂け目が眠る、広い灰の大地を征く。</div>
-  <div id="slotBox" class="slots"></div>
-  <div class="trow slotAct"><button id="bCont" class="btn" style="display:none">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
-  <div class="trow slotAct"><button id="bNext" class="btn sub" style="display:none">次の周回へ</button><button id="bDel" class="btn sub" style="display:none">削除</button></div>
+  <div class="trow tmain"><button id="bCont" class="btn">つづきから</button><button id="bNew" class="btn">はじめから</button></div>
   <div class="trow"><button id="bNews" class="btn sub">お知らせ<span id="newsBadge" class="nb" style="display:none">NEW</span></button><button id="bGuide" class="btn sub">遊び方</button><button id="bOpts" class="btn sub">設定</button><button id="bAch" class="btn sub">実績</button><button id="bFs" class="btn sub" style="display:none">全画面・横向きで遊ぶ</button></div>
-  <div id="verTxt" class="ver">v1.9.13</div>
+  <div id="verTxt" class="ver">v1.9.14</div>
   <div id="rotHint" class="stats" style="margin-top:8px">📱 スマホを横にしても遊べます</div>
   <div id="tStats" class="stats"></div>
   <div class="help">左側をなぞって移動 ／ 右側のボタンで戦う<br>祝福・宝箱・扉は「調べる」／杖は強攻撃で魔法<span class="kb"><br>鍵盤：WASD 移動・J 攻撃・K 強攻撃（魔法）・L 戦技・Q 切替<br>Space 回避・H 回復・E 調べる・R 召喚</span></div>
@@ -426,7 +438,7 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
     <h3>実績・設定・引き継ぎ</h3>
     <ul><li><b>実績</b>は題名画面とメニューから見られる。「はじめから」でも失われない</li><li><b>設定</b>（題名画面・メニュー）で、音楽と効果音の大きさを別々に変えられる。<b>「エフェクト」</b>を「控えめ」にすると、光や火花がさらに抑えられる</li><li>設定の<b>「ボタン配置」</b>で、画面のボタンを引いて動かし、大きさを変えられる。縦持ちと横持ちで別々に覚え、初期化もできる</li><li>メニューの<b>「装備」</b>から、いつでも武器・防具・タリスマン・魔法・戦技・霊鈴を替えられる（レベルアップ・強化・振り直しは祝福で）</li><li><b>セーブを書き出す</b>と引き継ぎコードが出る（いま遊んでいるセーブが対象）。別の端末の<b>セーブを読み込む</b>に貼り付け、読み込み先のセーブ枠を選び、「確かめる」で中身を見てから上書きする。実績も一緒に移る</li></ul>
     <h3>セーブ枠</h3>
-    <ul><li>セーブは<b>3つ</b>まで。題名画面で枠を選び、「つづきから」「はじめから」「削除」ができる。枠には素性・レベル・プレイ時間・周回・いる場所・最後に遊んだ日が出る</li><li>「はじめから」と「削除」は、確かめてから実行される。ほかの枠には影響しない</li><li><b>実績</b>と、音・助言・エフェクト・ボタン配置の設定は、どの枠でも共通</li><li>以前の1つだけのセーブは、自動で<b>セーブ1</b>に引き継がれる</li></ul>
+    <ul><li>セーブは<b>3つ</b>まで。題名画面の「つづきから」「はじめから」で枠を選ぶ。枠ごとに「削除」もできる。枠には素性・レベル・プレイ時間・周回・いる場所・最後に遊んだ日が出る</li><li>「はじめから」と「削除」は、確かめてから実行される。ほかの枠には影響しない</li><li><b>実績</b>と、音・助言・エフェクト・ボタン配置の設定は、どの枠でも共通</li><li>以前の1つだけのセーブは、自動で<b>セーブ1</b>に引き継がれる</li></ul>
     <h3>周回（二周目以降）</h3>
     <ul><li>灰冠の騎士王を斃すと、<b>「次の周回へ」</b>が選べる（王を斃した枠なら、題名画面や最初の祝福からも）</li><li>周回では、レベル1の素性選びからやり直す。各能力は<b>素性の初期値＋前の旅の最終値の10%</b>（端数切り捨て）で始まる。素性の選択画面に引き継ぎ分が出る</li><li>始めるときに<b>周回の加護</b>をひとつ授かる（残火・灰歩き・刃の記憶・収穫・鉄の記憶）。周回のたびに選び直せる。祝福の画面で確かめられる</li><li>敵（王も）は周回ごとに強くなり、ルーンと防具の実りも少し増える</li><li>周回でだけ手に入る、タリスマンの上位版「〜・改」と防具「還り火の装束」がある（宝箱と王の遺品）。装束は★5になりうる</li><li>図鑑・実績・周回の数は引き継がれる。レベル・ルーン・素材・装備・世界の進み具合は引き継がれない</li></ul>
     <h3>助言</h3>
@@ -461,6 +473,13 @@ textarea{width:100%;height:110px;margin-top:10px;background:#0d0a07;color:#d8cfb
   <div id="achInfo" class="eqInfo" style="display:block"></div>
   <div id="achRows" class="book" style="width:min(100%,820px);flex:1"></div>
   <button id="bAchClose" class="btn sub">閉じる</button>
+</div>
+
+<div id="slotPick" class="ov">
+  <h2 id="spT">セーブを選ぶ</h2>
+  <div id="spSub" class="stats"></div>
+  <div id="slotBox" class="slots"></div>
+  <button id="bSpBack" class="btn sub">戻る</button>
 </div>
 
 <div id="news" class="ov">
@@ -3052,15 +3071,18 @@ function bfLoc(s) {
   }
   return ly.name + (ly.bl && ly.bl[g - ly.base] ? ' ─ ' + ly.bl[g - ly.base] : '');
 }
+let spMode = 'cont';
 function renderSlots() {
-  if (!tSel) tSel = SLOT; let h = '';
+  if (!tSel) tSel = SLOT; let h = '', any = false;
   for (let i = 1; i <= 3; i++) {
-    const s = slotInfo(i);
-    h += '<button class="slot' + (i === tSel ? ' cur' : '') + '" data-i="' + i + '"><span class="sn">セーブ' + i + '</span>' + (s ? '<span class="sm"><b>' + CLASS[s.cls].name + '</b>　Lv <b>' + level(s.st) + '</b>　<b class="cy">' + cycName(s.cyc | 0) + '</b></span><span class="sd">プレイ時間 ' + fmtPlay(s.time) + '<br>' + bfLoc(s) + '<br>最終 ' + fmtDate(s.last) + '</span>' : '<span class="sm dim">空き</span>') + '</button>';
+    const s = slotInfo(i); if (s) any = true;
+    h += '<div class="slot' + (i === tSel ? ' cur' : '') + '" data-i="' + i + '"><span class="sn">セーブ' + i + (i === SLOT && s ? '　（前回）' : '') + '</span>' + (s ? '<span class="sm"><b>' + CLASS[s.cls].name + '</b>　Lv <b>' + level(s.st) + '</b>　<b class="cy">' + cycName(s.cyc | 0) + '</b></span><span class="sd">プレイ時間 ' + fmtPlay(s.time) + '<br>' + bfLoc(s) + '<br>最終 ' + fmtDate(s.last) + '</span><span class="sact">' + (s.bossDead && ngOpen(s) ? '<button class="sbt nx" data-i="' + i + '">次の周回へ</button>' : '') + '<button class="sbt dl" data-i="' + i + '">削除</button></span>' : '<span class="sm dim">空き</span>') + '</div>';
   }
-  $('slotBox').innerHTML = h; const s = slotInfo(tSel);
-  $('bCont').style.display = s ? '' : 'none'; $('bDel').style.display = s ? '' : 'none'; $('bNext').style.display = s && s.bossDead && ngOpen(s) ? '' : 'none'; $('bNew').textContent = 'はじめから';
+  $('slotBox').innerHTML = h; $('bCont').classList.toggle('off', !any);
+  $('spT').textContent = spMode === 'new' ? 'どの枠で始めますか' : 'セーブを選ぶ';
+  $('spSub').textContent = spMode === 'new' ? '空きの枠はすぐに始まります。使用中の枠は上書きの確認が出ます' : '続ける枠を選んでください';
 }
+function openSlotPick(m) { spMode = m; if (!tSel) tSel = SLOT; renderSlots(); $('slotPick').classList.add('on'); }
 function loadSlot(i) { writeSave(); SLOT = i; fillSave(lsJ(SKEY(i)), null, pickG(save)); enterSaveWorld(); }
 function deleteSlot(i) { try { localStorage.removeItem(SKEY(i)); } catch (e) {} if (i === SLOT) { fillSave(null, null, pickG(save)); enterSaveWorld(); } tSel = i; renderSlots(); }
 let cfmAct = null;
@@ -3081,7 +3103,7 @@ function enterBoss() {
   G.mode = 'intro'; G.t = 0; G.tries++; cam.x = P.x; cam.y = P.y - 80; SFX.gate(); setDrone(0.05, 150); writeSave();
 }
 function toTitle() { lootSweep(); if (save.started) save.last = Date.now(); writeSave(); tSel = SLOT; if (L !== CASTLE) useLevel(CASTLE); if (save.stain && save.stain.z === 'c') save.stain = null; G.zone = 'a'; resetBoss(); G.mode = 'title'; G.paused = false; hideAll(); refreshTitle(); $('title').classList.add('on'); setDrone(0, 150); }
-function hideAll() { G.bfMenu = false; G.fieldEq = false; for (const id of ['title', 'dead', 'win', 'pause', 'bonfire', 'confirm', 'guide', 'cls', 'achv', 'opts', 'bless', 'cbSel']) $(id).classList.remove('on'); }
+function hideAll() { G.bfMenu = false; G.fieldEq = false; for (const id of ['title', 'dead', 'win', 'pause', 'bonfire', 'confirm', 'guide', 'cls', 'achv', 'opts', 'bless', 'cbSel', 'slotPick']) $(id).classList.remove('on'); }
 function refreshTitle() {
   refreshNews(); renderSlots();
   const si = slotInfo(tSel || SLOT); let s = '';
@@ -3556,12 +3578,22 @@ function readMove() {
 function setPause(v) { G.paused = v; $('pause').classList.toggle('on', v); if (v) { releaseInput(); writeSave(); } }
 document.addEventListener('visibilitychange', () => { if (document.hidden) { writeSave(); if ((G.mode === 'fight' || G.mode === 'play') && !G.paused) setPause(true); try { if (AC && AC.state === 'running') AC.suspend(); } catch (e) {} } else { try { if (AC && AC.state === 'suspended') AC.resume(); } catch (e) {} } }); window.addEventListener('pagehide', () => { try { if (AC) AC.suspend(); } catch (e) {} });
 function tap(id, fn) { $(id).addEventListener('click', e => { e.preventDefault(); initAudio(); SFX.ui(); fn(); }); }
-$('slotBox').addEventListener('click', e => { const b = e.target.closest && e.target.closest('.slot'); if (!b) return; initAudio(); SFX.ui(); tSel = +b.dataset.i; refreshTitle(); });
-tap('bCont', () => { if (!slotInfo(tSel)) return; if (tSel !== SLOT) loadSlot(tSel); continueGame(); });
-tap('bNew', () => { const go = () => { NEWSLOT = tSel; NGP = null; openClass(); }; if (slotInfo(tSel)) confirmAsk('はじめから', 'セーブ' + tSel + 'の旅の記録（ルーン・レベル・装備・図鑑）は<br>すべて灰に還ります。よろしいですか？', '灰に還す', go); else go(); });
-tap('bDel', () => { if (slotInfo(tSel)) confirmAsk('セーブを削除', 'セーブ' + tSel + 'を削除します。<br>この旅の記録は二度と戻りません。よろしいですか？', '削除する', () => { deleteSlot(tSel); refreshTitle(); }); });
+const spClose = () => $('slotPick').classList.remove('on');
+const spStart = i => { const go = () => { spClose(); NEWSLOT = i; NGP = null; openClass(); }; if (slotInfo(i)) confirmAsk('はじめから', 'セーブ' + i + 'の旅の記録（ルーン・レベル・装備・図鑑）は<br>すべて灰に還ります。<br>上書きして最初から始めますか？', '灰に還す', go); else go(); };
+$('slotBox').addEventListener('click', e => {
+  const t = e.target.closest && e.target.closest('.sbt'), b = e.target.closest && e.target.closest('.slot'); if (!b) return;
+  initAudio(); SFX.ui(); const i = +b.dataset.i; tSel = i;
+  if (t && t.classList.contains('dl')) { if (slotInfo(i)) confirmAsk('セーブを削除', 'セーブ' + i + 'を削除します。<br>この旅の記録は二度と戻りません。よろしいですか？', '削除する', () => { deleteSlot(i); refreshTitle(); }); return; }
+  if (t && t.classList.contains('nx')) { if (!slotInfo(i)) return; if (i !== SLOT) loadSlot(i); spClose(); startCycle(); return; }
+  if (spMode === 'new') { refreshTitle(); spStart(i); return; }
+  if (!slotInfo(i)) { refreshTitle(); return; }
+  if (i !== SLOT) loadSlot(i); spClose(); continueGame();
+});
+tap('bCont', () => { let any = false; for (let i = 1; i <= 3; i++) if (slotInfo(i)) any = true; if (any) openSlotPick('cont'); });
+tap('bNew', () => openSlotPick('new'));
+tap('bSpBack', spClose);
 setInterval(() => { const b = $('bNextWin'); if (b) b.style.display = ngOpen(save) ? '' : 'none'; }, 400);
-for (const id of ['bNext', 'bNextWin', 'bNextBf']) tap(id, () => { if (id === 'bNext') { if (!slotInfo(tSel)) return; if (tSel !== SLOT) loadSlot(tSel); } startCycle(); });
+for (const id of ['bNextWin', 'bNextBf']) tap(id, () => { startCycle(); });
 tap('bYes', () => { const f = cfmAct; cfmAct = null; $('confirm').classList.remove('on'); if (f) f(); });
 for (const b of $('xfSlots').querySelectorAll('button')) b.addEventListener('click', e => { e.preventDefault(); SFX.ui(); impSlot = +b.dataset.s; impMsg(); });
 $('clsCards').addEventListener('click', e => { const b = e.target.closest && e.target.closest('.ccard'); if (!b) return; initAudio(); SFX.ui(); clsSel = b.dataset.c; refreshClass(); });
@@ -5212,6 +5244,7 @@ function drawXProp(p) {
 /* ---------- title: description, version, 更新履歴 ---------- */
 /* Add new entries at the TOP. `v` is shown on the title; the NEW badge appears until the newest `v` has been opened once. */
 const CHANGELOG = [
+  { v: '1.9.14', d: '2026-11-21', t: 'タイトル画面の整理', items: ['タイトル画面を整理し、セーブは選んで始めるようにしました'] },
   { v: '1.9.13', d: '2026-11-21', t: '戦いと大地の手直し', items: ['モンスターが打たれ強くなり、武器で守るようになりました', '大地の地面に変化を付けました', '円卓のそばに道標を置きました'] },
   { v: '1.9.12', d: '2026-11-20', t: '円卓から西への道', items: ['円卓から西への道を作り直しました', '序盤に手強い相手が現れるようになりました', '馬に乗ったまま入れる場所があった問題を修正しました', 'タイトル画面と祝福の導きを調整しました'] },
   { v: '1.9.11', d: '2026-11-19', t: '護符の色', items: ['護符のレア度の色を装備品とそろえました'] },
